@@ -1,5 +1,6 @@
 #pragma once
 #include "ObjectBase.h"
+#include "DxLib.h"
 class EnemyBase :
     public ObjectBase
 {
