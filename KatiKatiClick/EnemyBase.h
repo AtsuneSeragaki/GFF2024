@@ -3,14 +3,14 @@
 class EnemyBase :
     public ObjectBase
 {
-private:
+protected:
     int hp;//体力
 	float speed;//速さ
 
 public:
-	void Update()override;
-	void Draw() const override;
-	void HitReaction(ObjectBase* character) override; //hitCheckがtrueだったらhitした後の処理をする
+	void Update()override = 0;
+	void Draw() const override=0;
+	void HitReaction(ObjectBase* character) override=0; //hitCheckがtrueだったらhitした後の処理をする
 
 };
 

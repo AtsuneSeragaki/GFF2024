@@ -2,7 +2,7 @@
 
 class ObjectBase
 {
-private:
+protected:
 	struct Location
 	{
 		float x;
