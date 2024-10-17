@@ -31,6 +31,12 @@
     <Filter Include="ソース ファイル\EnemyFile">
       <UniqueIdentifier>{36b33a79-6e0d-446d-b42b-777f581b9590}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\SkillFile">
+      <UniqueIdentifier>{70af33d2-2a80-4e27-8c03-b33e3a2eca2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\SkillFile">
+      <UniqueIdentifier>{bc9fddae-78f3-4b52-b0eb-0c5fbc621c9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -50,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="SquishEnemy.cpp">
       <Filter>ソース ファイル\EnemyFile</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackSkill.cpp">
+      <Filter>ソース ファイル\SkillFile</Filter>
+    </ClCompile>
+    <ClCompile Include="SlowDownSkill.cpp">
+      <Filter>ソース ファイル\SkillFile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="SquishEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackSkill.h">
+      <Filter>ヘッダー ファイル\SkillFile</Filter>
+    </ClInclude>
+    <ClInclude Include="SlowDownSkill.h">
+      <Filter>ヘッダー ファイル\SkillFile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
