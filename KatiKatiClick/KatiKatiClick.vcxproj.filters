@@ -13,32 +13,65 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ヘッダー ファイル\SceneFile">
+      <UniqueIdentifier>{3953ee9b-774b-4ae9-978c-510eb47d984a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\BaseFile">
+      <UniqueIdentifier>{baeb9374-fb94-41a8-bf2a-18864813da72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\FPSFile">
+      <UniqueIdentifier>{4bfad5b6-3575-4a4a-aa6e-8df996079041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\FPSFile">
+      <UniqueIdentifier>{9efb6b3f-06ad-483d-9ef2-98075bcee2ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\SceneFile">
+      <UniqueIdentifier>{57f14d94-3ae2-404c-9bd2-05009a37d939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\EnemyFile">
+      <UniqueIdentifier>{36b33a79-6e0d-446d-b42b-777f581b9590}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="FPS.cpp">
+      <Filter>ソース ファイル\FPSFile</Filter>
     </ClCompile>
     <ClCompile Include="GameMainScene.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\SceneFile</Filter>
     </ClCompile>
-    <ClCompile Include="FPS.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル\SceneFile</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>ソース ファイル\EnemyFile</Filter>
+    </ClCompile>
+    <ClCompile Include="SquishEnemy.cpp">
+      <Filter>ソース ファイル\EnemyFile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\SceneFile</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\SceneFile</Filter>
     </ClInclude>
     <ClInclude Include="GameMainScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\SceneFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBase.h">
+      <Filter>ヘッダー ファイル\BaseFile</Filter>
     </ClInclude>
     <ClInclude Include="FPS.h">
+      <Filter>ヘッダー ファイル\FPSFile</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>ヘッダー ファイル\BaseFile</Filter>
+    </ClInclude>
+    <ClInclude Include="SquishEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

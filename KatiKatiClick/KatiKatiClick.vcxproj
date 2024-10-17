@@ -151,6 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SquishEnemy.cpp" />
+    <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="GameMainScene.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -158,8 +160,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractScene.h" />
+    <ClInclude Include="SquishEnemy.h" />
+    <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="GameMainScene.h" />
+    <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
