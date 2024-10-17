@@ -151,6 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackSkill.cpp" />
+    <ClCompile Include="SlowDownSkill.cpp" />
     <ClCompile Include="SquishEnemy.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="FPS.cpp" />
@@ -160,6 +162,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractScene.h" />
+    <ClInclude Include="AttackSkill.h" />
+    <ClInclude Include="SlowDownSkill.h" />
     <ClInclude Include="SquishEnemy.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="FPS.h" />
