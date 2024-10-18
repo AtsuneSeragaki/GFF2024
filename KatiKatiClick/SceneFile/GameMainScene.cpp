@@ -2,7 +2,11 @@
 
 GameMainScene::GameMainScene()
 {
-    squishenemy = new SquishEnemy;
+    check_virtual = dynamic_cast<ObjectBase*>(new SquishEnemy);
+    if (check_virtual != nullptr)
+    {
+        objects.push_back(check_virtual);
+    }
 }
 
 GameMainScene::~GameMainScene()
@@ -11,20 +15,20 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
-    if (squishenemy != nullptr)
+    for (int i = 0; i < objects.size(); i++)
     {
-        squishenemy->Update();
+        objects[i]->Update();
     }
+
 }
 
 void GameMainScene::Draw() const
 {
     DrawFormatString(10, 10, 0xffffff, "GAMEMAIN");
-    if (squishenemy != nullptr)
+    for (int i = 0; i < objects.size(); i++)
     {
-        squishenemy->Draw();
+        objects[i]->Draw();
     }
-
 }
 
 AbstractScene* GameMainScene::Change()
