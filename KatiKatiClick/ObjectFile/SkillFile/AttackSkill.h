@@ -1,14 +1,15 @@
 #pragma once
-#include "ObjectBase.h"
+#include "SkillBase.h"
 
-class AttackSkill :
-	public ObjectBase
+class AttackSkill : public SkillBase
 {
 protected:
 
 public:
-	void Update()override = 0;
-	void Draw() const override = 0;
-	void HitReaction(ObjectBase* character) override = 0; //hitCheckがtrueだったらhitした後の処理をする
+	AttackSkill();
+	~AttackSkill();
 
+	void Update()override;
+	void Draw() const override;
+	void HitReaction(ObjectBase* character) override; //hitCheckがtrueだったらhitした後の処理をする
 };
