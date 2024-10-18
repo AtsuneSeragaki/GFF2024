@@ -1,8 +1,8 @@
 #include "DxLib.h"
-#include "AbstractScene.h"
-#include "SceneManager.h"
-#include "GameMainScene.h"
-#include "FPS.h"
+#include "SceneFile/AbstractScene.h"
+#include "SceneFile/SceneManager.h"
+#include "SceneFile/GameMainScene.h"
+#include "UtilityFile/FPS.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int

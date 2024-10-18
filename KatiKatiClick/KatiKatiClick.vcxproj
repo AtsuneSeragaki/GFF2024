@@ -151,25 +151,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AttackSkill.cpp" />
-    <ClCompile Include="SlowDownSkill.cpp" />
-    <ClCompile Include="SquishEnemy.cpp" />
-    <ClCompile Include="EnemyBase.cpp" />
-    <ClCompile Include="FPS.cpp" />
-    <ClCompile Include="GameMainScene.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp" />
+    <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp" />
+    <ClCompile Include="ObjectFile\EnemyFile\SquishEnemy.cpp" />
+    <ClCompile Include="ObjectFile\EnemyFile\EnemyBase.cpp" />
+    <ClCompile Include="UtilityFile\FPS.cpp" />
+    <ClCompile Include="SceneFile\GameMainScene.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneFile\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractScene.h" />
-    <ClInclude Include="AttackSkill.h" />
-    <ClInclude Include="SlowDownSkill.h" />
-    <ClInclude Include="SquishEnemy.h" />
-    <ClInclude Include="EnemyBase.h" />
-    <ClInclude Include="FPS.h" />
-    <ClInclude Include="GameMainScene.h" />
-    <ClInclude Include="ObjectBase.h" />
-    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneFile\AbstractScene.h" />
+    <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h" />
+    <ClInclude Include="ObjectFile\PlayerFile\Cursor.h" />
+    <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h" />
+    <ClInclude Include="ObjectFile\EnemyFile\SquishEnemy.h" />
+    <ClInclude Include="ObjectFile\EnemyFile\EnemyBase.h" />
+    <ClInclude Include="UtilityFile\FPS.h" />
+    <ClInclude Include="SceneFile\GameMainScene.h" />
+    <ClInclude Include="ObjectFile\ObjectBase.h" />
+    <ClInclude Include="SceneFile\SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

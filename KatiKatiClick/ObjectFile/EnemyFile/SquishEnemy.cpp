@@ -5,7 +5,7 @@ SquishEnemy::SquishEnemy()
 	location.x = 320.0f;
 	location.y = 0.0f;
 	hp = 0;
-	radius = 3.0f;
+	radius = 30.0f;
 	speed = 2.0f;
 	can_hit = true;
 	object_type = ObjectType::enemy;
@@ -21,11 +21,15 @@ void SquishEnemy::Update()
 	{
 		location.y += speed;
 	}
+	else {
+		location.y = 0.0f;
+	}
 }
 
 void SquishEnemy::Draw() const
 {
 	DrawCircleAA(location.x, location.y, radius, 32, 0xffffff, TRUE);
+
 }
 
 void SquishEnemy::HitReaction(ObjectBase* character)

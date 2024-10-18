@@ -37,60 +37,72 @@
     <Filter Include="ヘッダー ファイル\SkillFile">
       <UniqueIdentifier>{bc9fddae-78f3-4b52-b0eb-0c5fbc621c9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\MouseFile">
+      <UniqueIdentifier>{30deca1c-03d2-4aa3-ad7a-7bd14599de71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\MouseFile">
+      <UniqueIdentifier>{e05bb598-9900-4c25-8b84-20a7a755f729}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FPS.cpp">
+    <ClCompile Include="UtilityFile\FPS.cpp">
       <Filter>ソース ファイル\FPSFile</Filter>
     </ClCompile>
-    <ClCompile Include="GameMainScene.cpp">
+    <ClCompile Include="SceneFile\GameMainScene.cpp">
       <Filter>ソース ファイル\SceneFile</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
+    <ClCompile Include="SceneFile\SceneManager.cpp">
       <Filter>ソース ファイル\SceneFile</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBase.cpp">
+    <ClCompile Include="ObjectFile\EnemyFile\EnemyBase.cpp">
       <Filter>ソース ファイル\EnemyFile</Filter>
     </ClCompile>
-    <ClCompile Include="SquishEnemy.cpp">
+    <ClCompile Include="ObjectFile\EnemyFile\SquishEnemy.cpp">
       <Filter>ソース ファイル\EnemyFile</Filter>
     </ClCompile>
-    <ClCompile Include="AttackSkill.cpp">
+    <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp">
       <Filter>ソース ファイル\SkillFile</Filter>
     </ClCompile>
-    <ClCompile Include="SlowDownSkill.cpp">
+    <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp">
       <Filter>ソース ファイル\SkillFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp">
+      <Filter>ソース ファイル\MouseFile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractScene.h">
+    <ClInclude Include="SceneFile\AbstractScene.h">
       <Filter>ヘッダー ファイル\SceneFile</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
+    <ClInclude Include="SceneFile\SceneManager.h">
       <Filter>ヘッダー ファイル\SceneFile</Filter>
     </ClInclude>
-    <ClInclude Include="GameMainScene.h">
+    <ClInclude Include="SceneFile\GameMainScene.h">
       <Filter>ヘッダー ファイル\SceneFile</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectBase.h">
+    <ClInclude Include="ObjectFile\ObjectBase.h">
       <Filter>ヘッダー ファイル\BaseFile</Filter>
     </ClInclude>
-    <ClInclude Include="FPS.h">
+    <ClInclude Include="UtilityFile\FPS.h">
       <Filter>ヘッダー ファイル\FPSFile</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBase.h">
+    <ClInclude Include="ObjectFile\EnemyFile\EnemyBase.h">
       <Filter>ヘッダー ファイル\BaseFile</Filter>
     </ClInclude>
-    <ClInclude Include="SquishEnemy.h">
+    <ClInclude Include="ObjectFile\EnemyFile\SquishEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="AttackSkill.h">
+    <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h">
       <Filter>ヘッダー ファイル\SkillFile</Filter>
     </ClInclude>
-    <ClInclude Include="SlowDownSkill.h">
+    <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h">
       <Filter>ヘッダー ファイル\SkillFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\PlayerFile\Cursor.h">
+      <Filter>ヘッダー ファイル\MouseFile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
