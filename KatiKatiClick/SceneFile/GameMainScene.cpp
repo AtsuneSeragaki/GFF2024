@@ -24,15 +24,15 @@ void GameMainScene::Update()
 
     for (int i = 0; i < objects.size() - 1; i++)
     {
-        
         for (int j = i + 1; j <= objects.size() - 1; j++)
         {
+            if (objects[i]->GetCanHit() != true && objects[j]->GetCanHit() != true)continue;
+
             if (objects[i]->HitCheck(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
             {
                 objects[i]->HitReaction(objects[j]);
                 objects[j]->HitReaction(objects[i]);
             }
-
         }
     }
 }

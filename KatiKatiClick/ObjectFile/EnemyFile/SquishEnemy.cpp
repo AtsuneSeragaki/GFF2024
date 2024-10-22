@@ -24,6 +24,7 @@ void SquishEnemy::Update()
 	else {
 		location.y = 0.0f;
 	}
+	
 }
 
 void SquishEnemy::Draw() const
