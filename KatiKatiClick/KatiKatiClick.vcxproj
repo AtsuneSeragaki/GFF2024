@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\ObjectBase.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp" />
     <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp" />

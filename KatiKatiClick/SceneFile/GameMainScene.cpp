@@ -2,11 +2,13 @@
 
 GameMainScene::GameMainScene()
 {
-    check_virtual = dynamic_cast<ObjectBase*>(new SquishEnemy);
-    if (check_virtual != nullptr)
-    {
-        objects.push_back(check_virtual);
-    }
+    //check_virtual = dynamic_cast<ObjectBase*>(new SquishEnemy);
+    //if (check_virtual != nullptr)
+    //{
+    //    objects.push_back(check_virtual);
+    //}
+    CreateObject<SquishEnemy>();//エネミー生成
+    CreateObject<Cursor>();
 }
 
 GameMainScene::~GameMainScene()
@@ -20,6 +22,19 @@ void GameMainScene::Update()
         objects[i]->Update();
     }
 
+    for (int i = 0; i < objects.size() - 1; i++)
+    {
+        
+        for (int j = i + 1; j <= objects.size() - 1; j++)
+        {
+            if (objects[i]->HitCheck(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
+            {
+                objects[i]->HitReaction(objects[j]);
+                objects[j]->HitReaction(objects[i]);
+            }
+
+        }
+    }
 }
 
 void GameMainScene::Draw() const

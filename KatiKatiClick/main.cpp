@@ -15,6 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (DxLib_Init() == -1) return -1;	// DXライブラリの初期化処理
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先画面を裏にする
+	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 
 	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new GameMainScene()));
 	FPS fp;

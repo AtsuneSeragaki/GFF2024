@@ -29,9 +29,16 @@ void SquishEnemy::Update()
 void SquishEnemy::Draw() const
 {
 	DrawCircleAA(location.x, location.y, radius, 32, 0xffffff, TRUE);
-
 }
 
 void SquishEnemy::HitReaction(ObjectBase* character)
 {
+	
+	switch (character->GetObjectType())
+	{
+	case ObjectType::cursor:
+		break;
+	default:
+		break;
+	}
 }

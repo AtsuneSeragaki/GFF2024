@@ -1,21 +1,22 @@
 #pragma once
 
+struct Location
+{
+	float x;
+	float y;
+};
+
+enum class ObjectType
+{
+	null,//初期化
+	cursor,
+	enemy,
+	skill
+};
+
 class ObjectBase
 {
 protected:
-	struct Location
-	{
-		float x;
-		float y;
-	};
-
-	enum class ObjectType
-	{
-		null,//初期化
-		mouse,
-		enemy,
-		skill
-	};
 
 	float radius;//半径
 	bool can_hit;//当たり判定を行っていいか？
@@ -24,16 +25,8 @@ protected:
 
 
 public:
-	ObjectBase()
-	{
-		location = { 0.0f };
-		radius = 0.0f;
-		can_hit = false;
-		object_type = ObjectType::null;
-	}
-	~ObjectBase()
-	{
-	};
+	ObjectBase();
+	~ObjectBase();
 
 
 	virtual void Update() = 0;
@@ -41,12 +34,11 @@ public:
 	virtual void HitReaction(ObjectBase* character) = 0; //hitCheckがtrueだったらhitした後の処理をする
 
 	//丸と丸の当たり判定:何かに当たったかどうかだけ返す
-	bool HitCheck()
-	{
-	}
+	bool HitCheck(Location other_obj, float other_radius);
 
-	Location GetLocation() { return location; }//座標を返す
-	ObjectType GetObjectType() { return object_type; }//typeを返す
-	bool GetCanHit() { return can_hit; }
+	Location GetLocation();//座標を返す
+	ObjectType GetObjectType();//typeを返す
+	bool GetCanHit();//当たり判定をしてもいいかを返す
+	float GetRadius();//半径を返す
 
 };

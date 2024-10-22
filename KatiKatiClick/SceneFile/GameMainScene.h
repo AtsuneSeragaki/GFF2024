@@ -2,6 +2,7 @@
 #include "AbstractScene.h"
 #include "DxLib.h"
 #include "../ObjectFile/EnemyFile/SquishEnemy.h"
+#include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../ObjectFile/ObjectBase.h"
 #include "../UtilityFile/Define.h"
 #include <vector>
