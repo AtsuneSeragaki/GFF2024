@@ -1,9 +1,15 @@
 #pragma once
 #include "SkillBase.h"
 
+enum class SkillState
+{
+	standby,
+	active,
+};
+
 class AttackSkill : public SkillBase
 {
-protected:
+private:
 
 public:
 	AttackSkill();

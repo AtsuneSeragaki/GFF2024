@@ -6,9 +6,8 @@ class SkillBase : public ObjectBase
 {
 protected:
 
-
 public:
-	SkillBase(){};
+	SkillBase();
 	~SkillBase(){};
 
 	void Update()override = 0;

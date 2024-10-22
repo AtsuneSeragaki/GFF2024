@@ -3,7 +3,7 @@
 
 class SlowDownSkill : public SkillBase
 {
-protected:
+private:
 
 public:
 	SlowDownSkill();
