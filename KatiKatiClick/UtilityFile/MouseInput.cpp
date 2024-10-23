@@ -43,5 +43,5 @@ void MouseInput::Update()
 
 eMouseInputState MouseInput::GetMouseState()
 {
-	return eMouseInputState();
+	return mouse_input_state;
 }

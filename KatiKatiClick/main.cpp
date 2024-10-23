@@ -3,6 +3,7 @@
 #include "SceneFile/SceneManager.h"
 #include "SceneFile/GameMainScene.h"
 #include "UtilityFile/FPS.h"
+#include "UtilityFile/MouseInput.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int
@@ -27,7 +28,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		//fps固定
 		fp.FPSUpdate();
-
+		//入力更新処理
+		MouseInput::Update();
 		SceneManager.Update();
 		SceneManager.Draw();
 
