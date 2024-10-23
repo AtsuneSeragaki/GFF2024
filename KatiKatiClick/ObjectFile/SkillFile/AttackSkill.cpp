@@ -9,6 +9,13 @@ AttackSkill::AttackSkill()
 	object_type = ObjectType::skill;
 	radius = 10.0f;
 	can_hit = true;
+
+	for (int i = 0; i < BUTTON_IMG_NUM; i++)
+	{
+		button_img[i] = 0;
+	}
+
+
 }
 
 AttackSkill::~AttackSkill()
