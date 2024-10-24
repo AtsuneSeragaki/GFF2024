@@ -2,7 +2,7 @@
 
 #include "DxLib.h"
 
-AttackSkill::AttackSkill() : effect_img(),coin(0)
+AttackSkill::AttackSkill() : effect_img(),coin(20)
 {
 	location.x = 0.0f;
 	location.y = 0.0f;
@@ -26,6 +26,10 @@ AttackSkill::~AttackSkill()
 
 void AttackSkill::Update()
 {
+	if (coin >= 20 && skill_state == SkillState::close)
+	{
+		skill_state = SkillState::possible;
+	}
 }
 
 void AttackSkill::Draw() const
@@ -55,7 +59,14 @@ void AttackSkill::Draw() const
 
 	default:
 		break;
-	}	
+	}
+
+#ifdef _DEBUG
+	// コインの枚数（テスト用）
+	SetFontSize(20);
+	DrawFormatString(1200, 0, 0xffffff, "coin_test:%d", coin);
+
+#endif // _DEBUG
 }
 
 void AttackSkill::HitReaction(ObjectBase* character)

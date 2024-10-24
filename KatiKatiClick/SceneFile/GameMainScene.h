@@ -6,6 +6,8 @@
 #include "../ObjectFile/ObjectBase.h"
 #include "../UtilityFile/Define.h"
 #include <vector>
+#include "../ObjectFile/SkillFile/AttackSkill.h"
+#include "../ObjectFile/SkillFile/SlowDownSkill.h"
 
 class GameMainScene :
     public AbstractScene
