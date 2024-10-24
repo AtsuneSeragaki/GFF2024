@@ -23,11 +23,9 @@ protected:
 	Location location;//座標
 	ObjectType object_type;//自分のtypeを入れる
 
-
 public:
 	ObjectBase();
 	~ObjectBase();
-
 
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;

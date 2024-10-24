@@ -12,9 +12,11 @@ class MouseInput
 private:
 	//マウスが押されているか
 
-	static bool now_key;//現在の入力
-	static bool old_key;//昔の入力
+	static int now_key;//現在の入力
+	static int old_key;//昔の入力
+	static eMouseInputState mouse_input_state;
 
 public:
 	static void Update();
+	static eMouseInputState GetMouseState();
 };
