@@ -2,8 +2,8 @@
 
 #include "../ObjectBase.h"
 
-#define BUTTON_WIDTH  50  // ボタンの幅
-#define BUTTON_HEIGHT 50  // ボタンの高さ
+#define BUTTON_WIDTH  160  // ボタンの幅
+#define BUTTON_HEIGHT 100  // ボタンの高さ
 
 #define BUTTON_IMG_NUM 3  // ボタン画像の枚数
 

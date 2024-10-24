@@ -4,10 +4,10 @@
 
 AttackSkill::AttackSkill() : effect_img()
 {
-	location.x = 0.0f;
-	location.y = 0.0f;
+	location.x = 50.0f;
+	location.y = 600.0f;
 	object_type = ObjectType::skill;
-	radius = 10.0f;
+	radius = 80.0f;
 	can_hit = true;
 
 	for (int i = 0; i < BUTTON_IMG_NUM; i++)
@@ -15,11 +15,11 @@ AttackSkill::AttackSkill() : effect_img()
 		button_img[i] = 0;
 	}
 
-	button_x = 0;
-	button_y = 0;
+	button_x = 50;
+	button_y = 600;
 	skill_state = SkillState::close;
 
-	coin = 0;
+	coin = 20;
 }
 
 AttackSkill::~AttackSkill()
@@ -81,7 +81,7 @@ void AttackSkill::Draw() const
 #ifdef _DEBUG
 	// コインの枚数（テスト用）
 	SetFontSize(20);
-	DrawFormatString(1200, 0, 0xffffff, "coin_test:%d", coin);
+	DrawFormatString(1000, 0, 0xffffff, "coin_test:%d", coin);
 
 #endif // _DEBUG
 }
