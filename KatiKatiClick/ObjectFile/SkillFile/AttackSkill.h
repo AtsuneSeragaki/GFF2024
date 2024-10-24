@@ -15,4 +15,7 @@ public:
 	void Update()override;
 	void Draw() const override;
 	void HitReaction(ObjectBase* character) override; //hitCheckがtrueだったらhitした後の処理をする
+
+private:
+	int coin;  // コインの枚数（テスト用）
 };

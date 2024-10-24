@@ -2,7 +2,7 @@
 
 #include "DxLib.h"
 
-AttackSkill::AttackSkill()
+AttackSkill::AttackSkill() : effect_img(),coin(0)
 {
 	location.x = 0.0f;
 	location.y = 0.0f;
@@ -15,7 +15,9 @@ AttackSkill::AttackSkill()
 		button_img[i] = 0;
 	}
 
-
+	button_x = 0;
+	button_y = 0;
+	skill_state = SkillState::close;
 }
 
 AttackSkill::~AttackSkill()
@@ -28,7 +30,32 @@ void AttackSkill::Update()
 
 void AttackSkill::Draw() const
 {
-	DrawCircleAA(location.x, location.y, radius, 32, 0x00ffff, TRUE);
+	// 状態によって描画する内容を変える
+	switch (skill_state)
+	{
+	case SkillState::close:
+		DrawBox(button_x, button_y, button_x + BUTTON_WIDTH, button_y + BUTTON_HEIGHT, 0xffffff, TRUE);
+		DrawString(button_x + 10, button_y + 10, "AttackSkill\nclose", 0x000000);
+		break;
+
+	case SkillState::possible:
+		DrawBox(button_x, button_y, button_x + BUTTON_WIDTH, button_y + BUTTON_HEIGHT, 0xffff00, TRUE);
+		DrawString(button_x + 10, button_y + 10, "AttackSkill\npossible", 0x000000);
+		break;
+
+	case SkillState::standby:
+		DrawBox(button_x, button_y, button_x + BUTTON_WIDTH, button_y + BUTTON_HEIGHT, 0x0000ff, TRUE);
+		DrawString(button_x + 10, button_y + 10, "AttackSkill\nstanby", 0x000000);
+		break;
+
+	case SkillState::active:
+		DrawBox(button_x, button_y, button_x + BUTTON_WIDTH, button_y + BUTTON_HEIGHT, 0x00ff00, TRUE);
+		DrawString(button_x + 10, button_y + 10, "AttackSkill\nactive", 0x000000);
+		break;
+
+	default:
+		break;
+	}	
 }
 
 void AttackSkill::HitReaction(ObjectBase* character)
@@ -36,6 +63,16 @@ void AttackSkill::HitReaction(ObjectBase* character)
 	switch (character->GetObjectType())
 	{
 	case ObjectType::cursor:
+
+		if (skill_state == SkillState::possible)
+		{
+			skill_state = SkillState::standby;
+		}
+		else if(skill_state == SkillState::standby)
+		{
+			skill_state = SkillState::active;
+		}
+
 		break;
 	default:
 		break;
