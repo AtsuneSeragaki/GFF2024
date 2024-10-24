@@ -2,7 +2,7 @@
 
 #include "DxLib.h"
 
-AttackSkill::AttackSkill() : effect_img(),coin(20)
+AttackSkill::AttackSkill() : effect_img()
 {
 	location.x = 0.0f;
 	location.y = 0.0f;
@@ -18,10 +18,27 @@ AttackSkill::AttackSkill() : effect_img(),coin(20)
 	button_x = 0;
 	button_y = 0;
 	skill_state = SkillState::close;
+
+	coin = 0;
 }
 
 AttackSkill::~AttackSkill()
 {
+}
+
+void AttackSkill::Initialize()
+{
+	location.x = 0.0f;
+	location.y = 0.0f;
+	object_type = ObjectType::skill;
+	radius = 10.0f;
+	can_hit = true;
+
+	button_x = 50;
+	button_y = 600;
+	skill_state = SkillState::close;
+
+	coin = 20;
 }
 
 void AttackSkill::Update()

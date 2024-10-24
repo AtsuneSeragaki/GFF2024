@@ -4,6 +4,8 @@ GameMainScene::GameMainScene()
 {
     CreateObject<SquishEnemy>();//エネミー生成
     CreateObject<Cursor>();//カーソル生成
+    CreateObject<AttackSkill>(); // 範囲攻撃スキル生成
+    CreateObject<SlowDownSkill>(); // 足止めスキル生成
 }
 
 GameMainScene::~GameMainScene()
@@ -56,6 +58,14 @@ void GameMainScene::Draw() const
         if (objects[i]->GetObjectType() == ObjectType::enemy)
         {
             objects[i]->Draw();   
+        }
+    }
+
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::skill)
+        {
+            objects[i]->Draw();
         }
     }
 

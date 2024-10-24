@@ -2,8 +2,8 @@
 
 #include "../ObjectBase.h"
 
-#define BUTTON_WIDTH  20  // ボタンの幅
-#define BUTTON_HEIGHT 20  // ボタンの高さ
+#define BUTTON_WIDTH  50  // ボタンの幅
+#define BUTTON_HEIGHT 50  // ボタンの高さ
 
 #define BUTTON_IMG_NUM 3  // ボタン画像の枚数
 
@@ -25,9 +25,11 @@ protected:
 
 public:
 	SkillBase();
-	~SkillBase();
+	~SkillBase(){};
 
-	void Update()override = 0;
-	void Draw() const override = 0;
-	void HitReaction(ObjectBase* character) override = 0; //hitCheckがtrueだったらhitした後の処理をする
+	// ボタンの状態を返す
+	SkillState GetSkillState() { return skill_state; }
+
+protected:
+	int coin;  // コインの枚数（テスト用）
 };

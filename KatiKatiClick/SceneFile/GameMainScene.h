@@ -44,5 +44,9 @@ protected:
 		return new_instance;
 	}
 	
+private:
+	AttackSkill* attackskill;
+	SlowDownSkill* slowdownskill;
+
 };
 
