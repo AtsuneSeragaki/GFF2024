@@ -3,6 +3,7 @@
 GameMainScene::GameMainScene()
 {
     CreateObject<SquishEnemy>();//エネミー生成
+    CreateObject<BurstEnemy>();//円エネミー
     CreateObject<Cursor>();//カーソル生成
 }
 
@@ -18,6 +19,7 @@ void GameMainScene::Update()
     {
         objects[i]->Update();
 
+        //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
             objects.erase(objects.begin() + i);
@@ -78,5 +80,8 @@ void GameMainScene::EnemyGenerate()
     if (objects.size() <= 1)
     {
         CreateObject<SquishEnemy>();//エネミー生成
+        CreateObject<BurstEnemy>();//円エネミー
     }
+
+
 }
