@@ -60,7 +60,7 @@
     <ClCompile Include="ObjectFile\EnemyFile\EnemyBase.cpp">
       <Filter>ソース ファイル\EnemyFile</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFile\EnemyFile\SquishEnemy.cpp">
+    <ClCompile Include="ObjectFile\EnemyFile\CrackEnemy.cpp">
       <Filter>ソース ファイル\EnemyFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp">
@@ -101,7 +101,7 @@
     <ClInclude Include="ObjectFile\EnemyFile\EnemyBase.h">
       <Filter>ヘッダー ファイル\BaseFile</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectFile\EnemyFile\SquishEnemy.h">
+    <ClInclude Include="ObjectFile\EnemyFile\CrackEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h">

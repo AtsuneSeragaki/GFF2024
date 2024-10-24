@@ -2,7 +2,7 @@
 
 GameMainScene::GameMainScene()
 {
-    CreateObject<SquishEnemy>();//エネミー生成
+    CreateObject<CrackEnemy>();//エネミー生成
     CreateObject<BurstEnemy>();//円エネミー
     CreateObject<Cursor>();//カーソル生成
 }
@@ -83,9 +83,7 @@ void GameMainScene::EnemyGenerate()
 {
     if (objects.size() <= 1)
     {
-        CreateObject<SquishEnemy>();//エネミー生成
+        CreateObject<CrackEnemy>();//エネミー生成
         CreateObject<BurstEnemy>();//円エネミー
     }
-
-
 }
