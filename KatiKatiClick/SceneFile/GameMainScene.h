@@ -2,6 +2,7 @@
 #include "AbstractScene.h"
 #include "DxLib.h"
 #include "../ObjectFile/EnemyFile/SquishEnemy.h"
+#include "../ObjectFile/EnemyFile/BurstEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../UtilityFile/Define.h"
 #include <vector>
@@ -24,6 +25,7 @@ public:
 	AbstractScene* Change() override;
 
 private:
+	void Initialize();
 	void EnemyGenerate();
 
 protected:
