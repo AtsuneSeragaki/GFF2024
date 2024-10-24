@@ -15,6 +15,10 @@ Cursor::~Cursor()
 {
 }
 
+void Cursor::initialize()
+{
+}
+
 void Cursor::Update()
 {
 	int x, y;

@@ -17,6 +17,11 @@ void GameMainScene::Update()
     for (int i = 0; i < objects.size(); i++)
     {
         objects[i]->Update();
+
+        if (objects[i]->GetIsDelete() == true)
+        {
+            objects.erase(objects.begin() + i);
+        }
     }
 
     //当たり判定
@@ -33,6 +38,8 @@ void GameMainScene::Update()
             }
         }
     }
+
+    EnemyGenerate();
 }
 
 void GameMainScene::Draw() const
@@ -48,4 +55,9 @@ void GameMainScene::Draw() const
 AbstractScene* GameMainScene::Change()
 {
     return this;
+}
+
+void GameMainScene::EnemyGenerate()
+{
+
 }

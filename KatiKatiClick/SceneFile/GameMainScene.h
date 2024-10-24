@@ -22,6 +22,9 @@ public:
 	void Draw() const override;
 	AbstractScene* Change() override;
 
+private:
+	void EnemyGenerate();
+
 protected:
 	template <class T>
 	T* CreateObject()
