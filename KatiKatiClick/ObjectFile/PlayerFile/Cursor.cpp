@@ -15,7 +15,7 @@ Cursor::~Cursor()
 {
 }
 
-void Cursor::initialize()
+void Cursor::Initialize()
 {
 }
 
