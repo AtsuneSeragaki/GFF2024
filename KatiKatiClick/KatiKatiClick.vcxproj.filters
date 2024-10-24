@@ -1,138 +1,137 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\SceneFile">
-      <UniqueIdentifier>{3953ee9b-774b-4ae9-978c-510eb47d984a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\BaseFile">
-      <UniqueIdentifier>{baeb9374-fb94-41a8-bf2a-18864813da72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\FPSFile">
-      <UniqueIdentifier>{4bfad5b6-3575-4a4a-aa6e-8df996079041}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\FPSFile">
-      <UniqueIdentifier>{9efb6b3f-06ad-483d-9ef2-98075bcee2ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\SceneFile">
-      <UniqueIdentifier>{57f14d94-3ae2-404c-9bd2-05009a37d939}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\EnemyFile">
-      <UniqueIdentifier>{36b33a79-6e0d-446d-b42b-777f581b9590}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\SkillFile">
-      <UniqueIdentifier>{70af33d2-2a80-4e27-8c03-b33e3a2eca2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\SkillFile">
-      <UniqueIdentifier>{bc9fddae-78f3-4b52-b0eb-0c5fbc621c9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\MouseFile">
-      <UniqueIdentifier>{30deca1c-03d2-4aa3-ad7a-7bd14599de71}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\MouseFile">
-      <UniqueIdentifier>{e05bb598-9900-4c25-8b84-20a7a755f729}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Coin">
-      <UniqueIdentifier>{105acc85-9c1b-4e23-81ce-114ee79fbc74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Coin">
-      <UniqueIdentifier>{35d68335-4da0-4e60-a292-71a3e5e75fb1}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="UtilityFile\FPS.cpp">
-      <Filter>ソース ファイル\FPSFile</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneFile\GameMainScene.cpp">
-      <Filter>ソース ファイル\SceneFile</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneFile\SceneManager.cpp">
-      <Filter>ソース ファイル\SceneFile</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectFile\EnemyFile\EnemyBase.cpp">
-      <Filter>ソース ファイル\EnemyFile</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectFile\EnemyFile\SquishEnemy.cpp">
-      <Filter>ソース ファイル\EnemyFile</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp">
-      <Filter>ソース ファイル\SkillFile</Filter>
+      <Filter>ソースファイル\SkillFile</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp">
-      <Filter>ソース ファイル\SkillFile</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp">
-      <Filter>ソース ファイル\MouseFile</Filter>
-    </ClCompile>
-    <ClCompile Include="UtilityFile\MouseInput.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectFile\ObjectBase.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp">
+      <Filter>ソースファイル\EnemyFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFile\CoinFile\Coin.cpp">
-      <Filter>ソース ファイル\Coin</Filter>
-    <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソースファイル\CoinFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp">
+      <Filter>ソースファイル\MouseFile</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilityFile\FPS.cpp">
+      <Filter>ソースファイル\FPSFile</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneFile\GameMainScene.cpp">
+      <Filter>ソースファイル\SceneFile</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneFile\SceneManager.cpp">
+      <Filter>ソースファイル\SceneFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp">
+      <Filter>ソースファイル\SkillFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFile\EnemyFile\SquishEnemy.cpp">
+      <Filter>ソースファイル\EnemyFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFile\ObjectBase.cpp">
+      <Filter>ソースファイル\BaseFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFile\EnemyFile\EnemyBase.cpp">
+      <Filter>ソースファイル\BaseFile</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilityFile\MouseInput.cpp">
+      <Filter>ソースファイル\MouseFile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SceneFile\AbstractScene.h">
-      <Filter>ヘッダー ファイル\SceneFile</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneFile\SceneManager.h">
-      <Filter>ヘッダー ファイル\SceneFile</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneFile\GameMainScene.h">
-      <Filter>ヘッダー ファイル\SceneFile</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectFile\ObjectBase.h">
-      <Filter>ヘッダー ファイル\BaseFile</Filter>
-    </ClInclude>
-    <ClInclude Include="UtilityFile\FPS.h">
-      <Filter>ヘッダー ファイル\FPSFile</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectFile\EnemyFile\EnemyBase.h">
-      <Filter>ヘッダー ファイル\BaseFile</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectFile\EnemyFile\SquishEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
+    <ClInclude Include="UtilityFile\Define.h" />
+    <ClInclude Include="UtilityFile\Geometry.h" />
     <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h">
-      <Filter>ヘッダー ファイル\SkillFile</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h">
-      <Filter>ヘッダー ファイル\SkillFile</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectFile\PlayerFile\Cursor.h">
-      <Filter>ヘッダー ファイル\MouseFile</Filter>
-    </ClInclude>
-    <ClInclude Include="UtilityFile\MouseInput.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="UtilityFile\Define.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダーファイル\SkillFile</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFile\CoinFile\Coin.h">
-      <Filter>ヘッダー ファイル\Coin</Filter>
+      <Filter>ヘッダーファイル\CoinFile</Filter>
     </ClInclude>
-    <ClInclude Include="UtilityFile\Geometry.h">
+    <ClInclude Include="ObjectFile\PlayerFile\Cursor.h">
+      <Filter>ヘッダーファイル\MouseFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\EnemyFile\EnemyBase.h">
+      <Filter>ヘッダーファイル\BaseFile</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityFile\FPS.h">
+      <Filter>ヘッダーファイル\FPSFile</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneFile\GameMainScene.h">
+      <Filter>ヘッダーファイル\SceneFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\ObjectBase.h">
+      <Filter>ヘッダーファイル\BaseFile</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneFile\SceneManager.h">
+      <Filter>ヘッダーファイル\SceneFile</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneFile\AbstractScene.h">
+      <Filter>ヘッダーファイル\SceneFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\EnemyFile\SquishEnemy.h">
+      <Filter>ヘッダーファイル\EnemyFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h">
+      <Filter>ヘッダーファイル\SkillFile</Filter>
+    </ClInclude>
     <ClInclude Include="ObjectFile\EnemyFile\BurstEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダーファイル\EnemyFile</Filter>
     </ClInclude>
+    <ClInclude Include="UtilityFile\MouseInput.h">
+      <Filter>ヘッダーファイル\MouseFile</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ソースファイル">
+      <UniqueIdentifier>{247c2d88-877f-495d-af1d-16cabd0f2cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\EnemyFile">
+      <UniqueIdentifier>{6ef2b660-8a9c-4ec0-b702-086428c7da20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\FPSFile">
+      <UniqueIdentifier>{8a6fa0ad-eca6-47f9-b164-8fe16d92f29f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\MouseFile">
+      <UniqueIdentifier>{c016ef0a-a7e2-426f-8f6e-ab834fb764e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\SceneFile">
+      <UniqueIdentifier>{aee37eab-066b-4a8c-b7e3-93cd0df893b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\SkillFile">
+      <UniqueIdentifier>{66b4d421-6cbe-4d31-acce-aa981fba0c08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\CoinFile">
+      <UniqueIdentifier>{503713ef-f440-468c-af3a-996b19db1512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル">
+      <UniqueIdentifier>{d1ce10c4-f9ce-449b-84c3-a885202452da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\BaseFile">
+      <UniqueIdentifier>{8c7efb70-70cb-4e8f-8745-cb761c1923ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\FPSFile">
+      <UniqueIdentifier>{802045ef-974c-4229-a6e0-1929fa31c7e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\MouseFile">
+      <UniqueIdentifier>{42a83590-1891-46e0-b616-56abd67d6211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\SceneFile">
+      <UniqueIdentifier>{93f84783-2d13-4282-8b81-42b775471c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\SkillFile">
+      <UniqueIdentifier>{0d6694a4-76d3-469b-bdb6-8942c856ad0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\CoinFile">
+      <UniqueIdentifier>{5aab1a94-af24-45e7-90e8-82fa4c865b9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\EnemyFile">
+      <UniqueIdentifier>{615202f4-d18f-4562-90ab-e5e85f90ac8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\BaseFile">
+      <UniqueIdentifier>{62d4631e-b676-4025-b9a0-08c7f75a1531}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
