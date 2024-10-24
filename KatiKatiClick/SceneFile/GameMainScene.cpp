@@ -75,6 +75,10 @@ AbstractScene* GameMainScene::Change()
     return this;
 }
 
+void GameMainScene::Initialize()
+{
+}
+
 void GameMainScene::EnemyGenerate()
 {
     if (objects.size() <= 1)

@@ -23,6 +23,7 @@ public:
 	AbstractScene* Change() override;
 
 private:
+	void Initialize();
 	void EnemyGenerate();
 
 protected:
