@@ -15,7 +15,7 @@ SquishEnemy::~SquishEnemy()
 {
 }
 
-void SquishEnemy::initialize()
+void SquishEnemy::Initialize()
 {
 }
 
@@ -32,7 +32,7 @@ void SquishEnemy::Update()
 	//hpが0以下になったら消す
 	if (hp <= 0)
 	{
-		is_delete = true;
+		can_delete = true;
 	}
 }
 
