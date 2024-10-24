@@ -43,6 +43,12 @@
     <Filter Include="ヘッダー ファイル\MouseFile">
       <UniqueIdentifier>{e05bb598-9900-4c25-8b84-20a7a755f729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Coin">
+      <UniqueIdentifier>{35d68335-4da0-4e60-a292-71a3e5e75fb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Coin">
+      <UniqueIdentifier>{105acc85-9c1b-4e23-81ce-114ee79fbc74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -77,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="ObjectFile\ObjectBase.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFile\CoinFile\Coin.cpp">
+      <Filter>Coin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="UtilityFile\Define.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\CoinFile\Coin.h">
+      <Filter>ヘッダー ファイル\Coin</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
