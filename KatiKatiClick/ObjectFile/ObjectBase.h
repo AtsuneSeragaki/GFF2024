@@ -22,11 +22,13 @@ protected:
 	bool can_hit;//当たり判定を行っていいか？
 	Location location;//座標
 	ObjectType object_type;//自分のtypeを入れる
+	bool is_delete;//消していいか
 
 public:
 	ObjectBase();
 	~ObjectBase();
 
+	virtual void initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
 	virtual void HitReaction(ObjectBase* character) = 0; //hitCheckがtrueだったらhitした後の処理をする
@@ -38,5 +40,5 @@ public:
 	ObjectType GetObjectType();//typeを返す
 	bool GetCanHit();//当たり判定をしてもいいかを返す
 	float GetRadius();//半径を返す
-
+	bool GetIsDelete();//is_deleteを返す
 };

@@ -7,6 +7,7 @@ ObjectBase::ObjectBase()
 	radius = 0.0f;
 	can_hit = false;
 	object_type = ObjectType::null;
+	is_delete = false;
 }
 
 ObjectBase::~ObjectBase()
@@ -50,4 +51,9 @@ bool ObjectBase::GetCanHit()
 float ObjectBase::GetRadius()
 {
 	return radius;
+}
+
+bool ObjectBase::GetIsDelete()
+{
+	return is_delete;
 }

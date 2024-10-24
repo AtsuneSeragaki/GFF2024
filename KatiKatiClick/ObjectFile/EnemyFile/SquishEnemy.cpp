@@ -15,6 +15,10 @@ SquishEnemy::~SquishEnemy()
 {
 }
 
+void SquishEnemy::initialize()
+{
+}
+
 void SquishEnemy::Update()
 {
 	if (location.y < 720)
@@ -25,6 +29,11 @@ void SquishEnemy::Update()
 		location.y = 0.0f;
 	}
 	
+	//hpが0以下になったら消す
+	if (hp <= 0)
+	{
+		is_delete = true;
+	}
 }
 
 void SquishEnemy::Draw() const
