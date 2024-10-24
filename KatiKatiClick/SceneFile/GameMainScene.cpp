@@ -33,7 +33,9 @@ void GameMainScene::Update()
         for (int j = i + 1; j <= objects.size() - 1; j++)
         {
             if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
-
+            //同じタイプだったら次へ
+            if (objects[i]->GetObjectType() == objects[j]->GetObjectType())continue;
+            //ヒットチェック
             if (objects[i]->HitCheck(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
             {
                 objects[i]->HitReaction(objects[j]);
