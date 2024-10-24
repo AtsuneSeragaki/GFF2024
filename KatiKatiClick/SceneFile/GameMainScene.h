@@ -5,6 +5,8 @@
 #include "../ObjectFile/EnemyFile/BurstEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../UtilityFile/Define.h"
+#include "../ObjectFile/CoinFile/Coin.h"
+#include "../UtilityFile/Geometry.h"
 #include <vector>
 
 class GameMainScene :
@@ -14,6 +16,7 @@ private:
 	CrackEnemy* crackenemy;
 	ObjectBase* check_virtual;
 	std::vector<ObjectBase*> objects;
+	std::vector<Coin*> coins;
 public:
 	GameMainScene();
 	~GameMainScene();

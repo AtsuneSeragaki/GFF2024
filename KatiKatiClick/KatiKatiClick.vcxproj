@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\CoinFile\Coin.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp" />
     <ClCompile Include="ObjectFile\ObjectBase.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
@@ -165,8 +166,10 @@
     <ClCompile Include="SceneFile\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectFile\CoinFile\Coin.h" />
     <ClInclude Include="ObjectFile\EnemyFile\BurstEnemy.h" />
     <ClInclude Include="UtilityFile\Define.h" />
+    <ClInclude Include="UtilityFile\Geometry.h" />
     <ClInclude Include="UtilityFile\MouseInput.h" />
     <ClInclude Include="SceneFile\AbstractScene.h" />
     <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h" />
