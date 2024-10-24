@@ -7,7 +7,7 @@ ObjectBase::ObjectBase()
 	radius = 0.0f;
 	can_hit = false;
 	object_type = ObjectType::null;
-	is_delete = false;
+	can_delete = false;
 }
 
 ObjectBase::~ObjectBase()
@@ -50,7 +50,7 @@ float ObjectBase::GetRadius()
 
 bool ObjectBase::GetIsDelete()
 {
-	return is_delete;
+	return can_delete;
 }
 
 const Vector2D& ObjectBase::GetLocation() const

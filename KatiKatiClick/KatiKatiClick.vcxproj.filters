@@ -86,6 +86,8 @@
     </ClCompile>
     <ClCompile Include="ObjectFile\CoinFile\Coin.cpp">
       <Filter>ソース ファイル\Coin</Filter>
+    <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +131,7 @@
       <Filter>ヘッダー ファイル\Coin</Filter>
     </ClInclude>
     <ClInclude Include="UtilityFile\Geometry.h">
+    <ClInclude Include="ObjectFile\EnemyFile\BurstEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

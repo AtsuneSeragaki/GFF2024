@@ -4,9 +4,9 @@
 enum class ObjectType
 {
 	null,//初期化
-	cursor,
 	enemy,
-	skill
+	skill,
+	cursor,
 };
 
 class ObjectBase
@@ -17,14 +17,14 @@ protected:
 	bool can_hit;//当たり判定を行っていいか？
 	Vector2D location;		// 座標
 	ObjectType object_type;//自分のtypeを入れる
-	bool is_delete;//消していいか
+	bool can_delete;//消していいか
 
 
 public:
 	ObjectBase();
 	~ObjectBase();
 
-	virtual void initialize() = 0;
+	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
 	virtual void HitReaction(ObjectBase* character) = 0; //hitCheckがtrueだったらhitした後の処理をする
