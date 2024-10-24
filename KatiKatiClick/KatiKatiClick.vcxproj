@@ -167,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="ObjectFile\CoinFile\Coin.h" />
     <ClInclude Include="UtilityFile\Define.h" />
+    <ClInclude Include="UtilityFile\Geometry.h" />
     <ClInclude Include="UtilityFile\MouseInput.h" />
     <ClInclude Include="SceneFile\AbstractScene.h" />
     <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h" />

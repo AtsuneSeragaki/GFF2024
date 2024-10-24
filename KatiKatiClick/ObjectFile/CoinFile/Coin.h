@@ -1,18 +1,12 @@
 #pragma once
 #include "DxLib.h"
-
-struct Location
-{
-	float x;
-	float y;
-};
+#include "../../UtilityFile/Geometry.h"
 
 class Coin
 {
 private:
-	Location location;
-
-	bool can_delete;
+	Vector2D location;			// 座標
+	bool can_delete;			// 削除してもいいか
 
 public:
 	Coin();
@@ -22,4 +16,5 @@ public:
 	void Draw() const;
 
 	bool GetCanDeleteFlg() const;
+	void SetLocation(const Vector2D& location);		// 生成座標の設定
 };

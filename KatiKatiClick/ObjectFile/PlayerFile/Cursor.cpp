@@ -26,8 +26,6 @@ void Cursor::Update()
 	location.x = (float)x;
 	location.y = (float)y;
 
-
-
 	if (MouseInput::GetMouseState() == eMouseInputState::eClick)
 	{
 		can_hit = true;

@@ -2,9 +2,7 @@
 
 Coin::Coin()
 {
-	location.x = 100.0f;
-	location.y = 100.0f;
-
+	location = 0.0f;
 	can_delete = false;
 }
 
@@ -20,10 +18,17 @@ void Coin::Update()
 
 void Coin::Draw() const
 {
-	DrawCircleAA(location.x, location.y, 10.0f, 32, 0x00ffff, TRUE);
+	// 円の描画
+	DrawCircleAA(location.x, location.y, 5.0f, 32, 0xffff00, FALSE);
 }
 
 bool Coin::GetCanDeleteFlg() const
 {
 	return can_delete;
+}
+
+// 生成座標の設定
+void Coin::SetLocation(const Vector2D& location)
+{
+	this->location = location;
 }

@@ -4,6 +4,7 @@ GameMainScene::GameMainScene()
 {
     CreateObject<SquishEnemy>();//エネミー生成
     CreateObject<Cursor>();//カーソル生成
+    
 }
 
 GameMainScene::~GameMainScene()
@@ -35,6 +36,20 @@ void GameMainScene::Update()
             {
                 objects[i]->HitReaction(objects[j]);
                 objects[j]->HitReaction(objects[i]);
+
+                // コインの生成
+                coins.push_back(new Coin);
+                if (objects[i]->GetObjectType() == ObjectType::enemy)
+                {
+                    // 生成座標の設定
+                    coins.back()->SetLocation(objects[i]->GetLocation());
+                }
+                
+                if (objects[j]->GetObjectType() == ObjectType::enemy)
+                {
+                    // 生成座標の設定
+                    coins.back()->SetLocation(objects[j]->GetLocation());
+                }
             }
         }
     }
@@ -49,6 +64,12 @@ void GameMainScene::Draw() const
     for (int i = 0; i < objects.size(); i++)
     {
         objects[i]->Draw();
+    }
+
+    // コイン描画
+    for (int i = 0; i < coins.size(); i++)
+    {
+        coins[i]->Draw();
     }
 }
 
