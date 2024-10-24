@@ -5,8 +5,7 @@ GameMainScene::GameMainScene()
     CreateObject<SquishEnemy>();//エネミー生成
     CreateObject<BurstEnemy>();//円エネミー
     CreateObject<Cursor>();//カーソル生成
-    CreateObject<AttackSkill>(); // 範囲攻撃スキル生成
-    CreateObject<SlowDownSkill>(); // 足止めスキル生成
+    
 }
 
 GameMainScene::~GameMainScene()
@@ -39,6 +38,20 @@ void GameMainScene::Update()
             {
                 objects[i]->HitReaction(objects[j]);
                 objects[j]->HitReaction(objects[i]);
+
+                // コインの生成
+                coins.push_back(new Coin);
+                if (objects[i]->GetObjectType() == ObjectType::enemy)
+                {
+                    // 生成座標の設定
+                    coins.back()->SetLocation(objects[i]->GetLocation());
+                }
+                
+                if (objects[j]->GetObjectType() == ObjectType::enemy)
+                {
+                    // 生成座標の設定
+                    coins.back()->SetLocation(objects[j]->GetLocation());
+                }
             }
         }
     }
@@ -65,18 +78,16 @@ void GameMainScene::Draw() const
 
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::skill)
+        if (objects[i]->GetObjectType() == ObjectType::cursor)
         {
             objects[i]->Draw();
         }
     }
 
-    for (int i = 0; i < objects.size(); i++)
+    // コイン描画
+    for (int i = 0; i < coins.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::cursor)
-        {
-            objects[i]->Draw();
-        }
+        coins[i]->Draw();
     }
 }
 

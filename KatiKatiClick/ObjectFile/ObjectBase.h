@@ -1,10 +1,5 @@
 #pragma once
-
-struct Location
-{
-	float x;
-	float y;
-};
+#include "../UtilityFile//Geometry.h"
 
 enum class ObjectType
 {
@@ -20,9 +15,10 @@ protected:
 
 	float radius;//半径
 	bool can_hit;//当たり判定を行っていいか？
-	Location location;//座標
+	Vector2D location;		// 座標
 	ObjectType object_type;//自分のtypeを入れる
 	bool can_delete;//消していいか
+
 
 public:
 	ObjectBase();
@@ -34,11 +30,13 @@ public:
 	virtual void HitReaction(ObjectBase* character) = 0; //hitCheckがtrueだったらhitした後の処理をする
 
 	//丸と丸の当たり判定:何かに当たったかどうかだけ返す
-	bool HitCheck(Location other_obj, float other_radius);
+	bool HitCheck(Vector2D other_obj, float other_radius);
 
-	Location GetLocation();//座標を返す
 	ObjectType GetObjectType();//typeを返す
 	bool GetCanHit();//当たり判定をしてもいいかを返す
 	float GetRadius();//半径を返す
 	bool GetIsDelete();//is_deleteを返す
+
+	const Vector2D& GetLocation() const;			// 座標を返す
+	void SetLocation(const Vector2D& location);		// 生成座標の設定
 };

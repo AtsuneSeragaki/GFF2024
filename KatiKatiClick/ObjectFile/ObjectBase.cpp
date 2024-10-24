@@ -12,9 +12,10 @@ ObjectBase::ObjectBase()
 
 ObjectBase::~ObjectBase()
 {
+
 }
 
-bool ObjectBase::HitCheck(Location other_obj, float other_radius)
+bool ObjectBase::HitCheck(Vector2D other_obj, float other_radius)
 {
 	float a = location.x - other_obj.x;
 	float b = location.y - other_obj.y;
@@ -30,12 +31,6 @@ bool ObjectBase::HitCheck(Location other_obj, float other_radius)
 		//当たっていない
 		return false;
 	}
-
-}
-
-Location ObjectBase::GetLocation()
-{
-	return location;
 }
 
 ObjectType ObjectBase::GetObjectType()
@@ -56,4 +51,14 @@ float ObjectBase::GetRadius()
 bool ObjectBase::GetIsDelete()
 {
 	return can_delete;
+}
+
+const Vector2D& ObjectBase::GetLocation() const
+{
+	return location;
+}
+
+void ObjectBase::SetLocation(const Vector2D& location)
+{
+	this->location = location;
 }

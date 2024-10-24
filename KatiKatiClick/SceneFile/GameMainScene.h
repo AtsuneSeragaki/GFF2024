@@ -5,6 +5,8 @@
 #include "../ObjectFile/EnemyFile/BurstEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../UtilityFile/Define.h"
+#include "../ObjectFile/CoinFile/Coin.h"
+#include "../UtilityFile/Geometry.h"
 #include <vector>
 #include "../ObjectFile/SkillFile/AttackSkill.h"
 #include "../ObjectFile/SkillFile/SlowDownSkill.h"
@@ -16,6 +18,7 @@ private:
 	SquishEnemy* squishenemy;
 	ObjectBase* check_virtual;
 	std::vector<ObjectBase*> objects;
+	std::vector<Coin*> coins;
 public:
 	GameMainScene();
 	~GameMainScene();
