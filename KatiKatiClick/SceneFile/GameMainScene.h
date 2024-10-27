@@ -28,6 +28,7 @@ public:
 private:
 	void Initialize();
 	void EnemyGenerate();
+	void CoinGenerate(int i, int j);
 
 protected:
 	template <class T>

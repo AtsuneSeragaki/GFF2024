@@ -49,6 +49,7 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 	{
 	case ObjectType::cursor:
 		hp -= 10;
+		hit_cursor = true;
 		break;
 	default:
 		break;

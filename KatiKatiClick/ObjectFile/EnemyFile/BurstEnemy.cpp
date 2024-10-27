@@ -49,6 +49,7 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 	{
 	case ObjectType::cursor:
 		hp -= 10;
+		hit_cursor = true;
 		radius += 10.0f;
 		break;
 	default:
