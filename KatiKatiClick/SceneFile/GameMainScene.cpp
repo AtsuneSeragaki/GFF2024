@@ -10,6 +10,7 @@ GameMainScene::GameMainScene()
 
 GameMainScene::~GameMainScene()
 {
+
 }
 
 void GameMainScene::Update()

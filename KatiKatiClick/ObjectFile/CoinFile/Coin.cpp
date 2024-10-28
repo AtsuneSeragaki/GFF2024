@@ -3,6 +3,7 @@
 Coin::Coin()
 {
 	location = 0.0f;
+	ui_coins_location = 0.0f;
 	can_delete = false;
 }
 
@@ -31,4 +32,10 @@ bool Coin::GetCanDeleteFlg() const
 void Coin::SetLocation(const Vector2D& location)
 {
 	this->location = location;
+}
+
+// コインUI座標の設定
+void Coin::SetUICoinsLocation(const Vector2D& ui_coins_location)
+{
+	this->ui_coins_location = ui_coins_location;
 }
