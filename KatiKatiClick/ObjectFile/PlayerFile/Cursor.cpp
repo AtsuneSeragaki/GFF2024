@@ -7,6 +7,7 @@ Cursor::Cursor()
 	location.x = 0.0f;
 	location.y = 0.0f;
 	object_type = ObjectType::cursor;
+	shape = Shape::circle;
 	radius = 10.0f;
 	can_hit = false;
 }

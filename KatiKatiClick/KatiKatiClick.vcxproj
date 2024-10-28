@@ -160,7 +160,7 @@
     <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp" />
     <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp" />
-    <ClCompile Include="ObjectFile\EnemyFile\SquishEnemy.cpp" />
+    <ClCompile Include="ObjectFile\EnemyFile\CrackEnemy.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\EnemyBase.cpp" />
     <ClCompile Include="UtilityFile\FPS.cpp" />
     <ClCompile Include="SceneFile\GameMainScene.cpp" />
@@ -179,7 +179,7 @@
     <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h" />
     <ClInclude Include="ObjectFile\PlayerFile\Cursor.h" />
     <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h" />
-    <ClInclude Include="ObjectFile\EnemyFile\SquishEnemy.h" />
+    <ClInclude Include="ObjectFile\EnemyFile\CrackEnemy.h" />
     <ClInclude Include="ObjectFile\EnemyFile\EnemyBase.h" />
     <ClInclude Include="UtilityFile\FPS.h" />
     <ClInclude Include="SceneFile\GameMainScene.h" />

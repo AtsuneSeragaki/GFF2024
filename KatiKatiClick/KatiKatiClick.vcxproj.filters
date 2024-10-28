@@ -28,8 +28,8 @@
     <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp">
       <Filter>ソースファイル\SkillFile</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFile\EnemyFile\SquishEnemy.cpp">
-      <Filter>ソースファイル\EnemyFile</Filter>
+    <ClCompile Include="ObjectFile\EnemyFile\CrackEnemy.cpp">
+      <Filter>ソース ファイル\EnemyFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFile\ObjectBase.cpp">
       <Filter>ソースファイル\BaseFile</Filter>
@@ -77,8 +77,11 @@
     <ClInclude Include="SceneFile\AbstractScene.h">
       <Filter>ヘッダーファイル\SceneFile</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectFile\EnemyFile\SquishEnemy.h">
-      <Filter>ヘッダーファイル\EnemyFile</Filter>
+    <ClInclude Include="ObjectFile\EnemyFile\CrackEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h">
+      <Filter>ヘッダー ファイル\SkillFile</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h">
       <Filter>ヘッダーファイル\SkillFile</Filter>

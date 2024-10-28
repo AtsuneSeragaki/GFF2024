@@ -7,7 +7,10 @@ ObjectBase::ObjectBase()
 	radius = 0.0f;
 	can_hit = false;
 	object_type = ObjectType::null;
+	shape = Shape::null;
 	can_delete = false;
+	width = 0.0f;
+	height = 0.0f;
 }
 
 ObjectBase::~ObjectBase()
@@ -15,7 +18,7 @@ ObjectBase::~ObjectBase()
 
 }
 
-bool ObjectBase::HitCheck(Vector2D other_obj, float other_radius)
+bool ObjectBase::HitCircle(Vector2D other_obj, float other_radius)
 {
 	float a = location.x - other_obj.x;
 	float b = location.y - other_obj.y;
@@ -33,9 +36,123 @@ bool ObjectBase::HitCheck(Vector2D other_obj, float other_radius)
 	}
 }
 
+bool ObjectBase::HitBoxCircle(ObjectBase* object)
+{
+	float box_left, box_right, box_top, box_bottom;
+	float circle_x, circle_y;
+	float rad;//半径
+	bool hit_result = false;//当たったか
+
+	//自分が円形だったら
+	if (shape == Shape::circle)
+	{
+		circle_x = location.x;
+		circle_y = location.y;
+		rad = radius;
+
+		box_left = object->GetLocation().x - object->GetWidth()/2;
+		box_top = object->GetLocation().y - object->GetHeight()/2;
+		box_right = object->GetLocation().x + object->GetWidth()/2;
+		box_bottom = object->GetLocation().y + object->GetHeight()/2;
+	}
+	else
+	{
+		//自分が四角だったら
+		box_left = location.x - width / 2;
+		box_top = location.y - height / 2;
+		box_right = location.x + width / 2;
+		box_bottom = location.y + height / 2;
+
+		circle_x = object->GetLocation().x;
+		circle_y = object->GetLocation().y;
+		rad = object->GetRadius();
+	}
+
+
+	//circleの端がボックスの上下左右に入っているか
+	if ((circle_x > box_left - rad) &&
+		(circle_x < box_right + rad) &&
+		(circle_y > box_top - rad) &&
+		(circle_y < box_bottom + rad))
+	{
+		hit_result = true;
+		float r = rad * rad;//半径＊半径
+
+		//circleのｘが左より小さかったら
+		if (circle_x < box_left)
+		{
+			//左上の座標より上にいたら
+			if (circle_y < box_top)
+			{
+				//左上の頂点との判定
+				if ((DistanceSqrf(box_left, box_top, circle_x, circle_y)) >= r)
+				{
+					//二乗より大きいので当たってない
+					hit_result = false;
+				}
+			}
+			else
+			{
+				//circleのｘが左下の座標より下にいたら
+				if (circle_y > box_bottom)
+				{
+					//左下の頂点との判定
+					if (DistanceSqrf(box_left, box_bottom, circle_x, circle_y) >= r)
+					{
+						hit_result = false;
+					}
+				}
+			}
+		}
+		else
+		{
+			//右
+			if(circle_x > box_right)
+			{
+				//右上
+				if (circle_y < box_top)
+				{
+					if ((DistanceSqrf(box_right, box_top, circle_x, circle_y)) >= r)
+					{
+						hit_result = false;
+					}
+				}
+				else
+				{
+					//右下
+					if (circle_y > box_bottom)
+					{
+						if (DistanceSqrf(box_right, box_bottom, circle_x, circle_y) >= r)
+						{
+							hit_result = false;
+						}
+					}
+				}
+
+			}
+		}
+
+
+	}
+	return hit_result;
+}
+
+float ObjectBase::DistanceSqrf(float box_x, float box_y, float circle_x, float circle_y)
+{
+	float dx = circle_x - box_x;
+	float dy = circle_y - box_y;
+
+	return (dx * dx) + (dy * dy);
+}
+
 ObjectType ObjectBase::GetObjectType()
 {
 	return object_type;
+}
+
+Shape ObjectBase::GetShape()
+{
+	return shape;
 }
 
 bool ObjectBase::GetCanHit()
@@ -46,6 +163,16 @@ bool ObjectBase::GetCanHit()
 float ObjectBase::GetRadius()
 {
 	return radius;
+}
+
+float ObjectBase::GetWidth()
+{
+	return width;
+}
+
+float ObjectBase::GetHeight()
+{
+	return height;
 }
 
 bool ObjectBase::GetIsDelete()

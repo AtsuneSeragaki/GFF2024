@@ -1,12 +1,12 @@
 #pragma once
 #include "EnemyBase.h"
-class SquishEnemy :
+class CrackEnemy :
     public EnemyBase
 {
 private:
 public:
-    SquishEnemy();
-    ~SquishEnemy();
+    CrackEnemy();
+    ~CrackEnemy();
     void Initialize() override;
     void Update()override;
     void Draw()const override;

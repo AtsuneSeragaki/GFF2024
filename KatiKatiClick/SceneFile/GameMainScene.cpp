@@ -2,7 +2,7 @@
 
 GameMainScene::GameMainScene()
 {
-    CreateObject<SquishEnemy>();//エネミー生成
+    CreateObject<CrackEnemy>();//エネミー生成
     CreateObject<BurstEnemy>();//円エネミー
     CreateObject<Cursor>();//カーソル生成
     ui_coins = new UICoins;     // コインUI生成
@@ -32,31 +32,36 @@ void GameMainScene::Update()
     {
         for (int j = i + 1; j <= objects.size() - 1; j++)
         {
+
             if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
-            if (objects[i]->HitCheck(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
+            //もしshapeが違かったら
+            if(objects[i]->GetShape()!=objects[j]->GetShape())
             {
-                objects[i]->HitReaction(objects[j]);
-                objects[j]->HitReaction(objects[i]);
+                //ヒットチェック
+                if (objects[i]->HitBoxCircle(objects[j]) == true)
+                {
+                    objects[i]->HitReaction(objects[j]);
+                    objects[j]->HitReaction(objects[i]);
 
-                // コインの生成
-                coins.push_back(new Coin);
-                if (objects[i]->GetObjectType() == ObjectType::enemy)
-                {
-                    // 生成座標の設定
-                    coins.back()->SetLocation(objects[i]->GetLocation());
-                    // コインの加算
-                    ui_coins->IncreaseCoins();
-                }
-                
-                if (objects[j]->GetObjectType() == ObjectType::enemy)
-                {
-                    // 生成座標の設定
-                    coins.back()->SetLocation(objects[j]->GetLocation());
-                    // コインの加算
-                    ui_coins->IncreaseCoins();
+                    CoinGenerate(i, j);
                 }
             }
+            else
+            {
+                //shapeが同じ時
+                //ヒットチェック
+                if (objects[i]->HitCircle(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
+                {
+                    objects[i]->HitReaction(objects[j]);
+                    objects[j]->HitReaction(objects[i]);
+
+                    CoinGenerate(i, j);
+
+
+                }
+            }
+
         }
     }
 
@@ -114,9 +119,46 @@ void GameMainScene::EnemyGenerate()
 {
     if (objects.size() <= 1)
     {
-        CreateObject<SquishEnemy>();//エネミー生成
+        CreateObject<CrackEnemy>();//エネミー生成
         CreateObject<BurstEnemy>();//円エネミー
     }
 
+
+}
+
+void GameMainScene::CoinGenerate(int i, int j)
+{
+    //objects[i]がエネミーだったら判定
+    EnemyBase* enemy_i = dynamic_cast<EnemyBase*>(objects[i]);
+    if (enemy_i != nullptr && enemy_i->GetHitCursor() == true)
+    {
+        // コインの生成
+        coins.push_back(new Coin);
+
+        // 生成座標の設定
+        coins.back()->SetLocation(objects[i]->GetLocation());
+        // コインの加算
+        ui_coins->IncreaseCoins();
+
+
+        enemy_i->SetFalseHitCursor();
+    }
+
+    //objects[j]がエネミーだったら判定
+    EnemyBase* enemy_j = dynamic_cast<EnemyBase*>(objects[j]);
+    if (enemy_j != nullptr && enemy_j->GetHitCursor() == true)
+    {
+        // コインの生成
+        coins.push_back(new Coin);
+        if (objects[j]->GetObjectType() == ObjectType::enemy)
+        {
+            // 生成座標の設定
+            coins.back()->SetLocation(objects[j]->GetLocation());
+            // コインの加算
+            ui_coins->IncreaseCoins();
+        }
+
+        enemy_j->SetFalseHitCursor();
+    }
 
 }
