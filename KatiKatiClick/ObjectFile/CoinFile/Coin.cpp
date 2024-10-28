@@ -5,6 +5,8 @@ Coin::Coin()
 	location = 0.0f;
 	ui_coins_location = 0.0f;
 	can_delete = false;
+
+	delete_count = 0;
 }
 
 Coin::~Coin()
@@ -14,7 +16,13 @@ Coin::~Coin()
 
 void Coin::Update()
 {
+	delete_count++;
 
+	if (delete_count >= 60)
+	{
+		// 60カウント以上になったらコインを削除
+		can_delete = true;
+	}
 }
 
 void Coin::Draw() const

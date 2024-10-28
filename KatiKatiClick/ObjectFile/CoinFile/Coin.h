@@ -9,6 +9,8 @@ private:
 	Vector2D ui_coins_location;		// コインUIの座標
 	bool can_delete;				// 削除してもいいか
 
+	int delete_count;				// 消えるまでのカウント（テスト用）
+
 public:
 	Coin();
 	~Coin();
