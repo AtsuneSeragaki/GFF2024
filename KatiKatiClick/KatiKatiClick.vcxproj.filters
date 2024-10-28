@@ -40,6 +40,9 @@
     <ClCompile Include="UtilityFile\MouseInput.cpp">
       <Filter>ソースファイル\MouseFile</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectFile\UIFile\UIBase.cpp">
+      <Filter>ソースファイル\BaseFile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="UtilityFile\MouseInput.h">
       <Filter>ヘッダーファイル\MouseFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\UIFile\UIBase.h">
+      <Filter>ヘッダーファイル\BaseFile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
