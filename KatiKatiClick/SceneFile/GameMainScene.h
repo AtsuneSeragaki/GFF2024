@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractScene.h"
 #include "DxLib.h"
-#include "../ObjectFile/EnemyFile/SquishEnemy.h"
+#include "../ObjectFile/EnemyFile/CrackEnemy.h"
 #include "../ObjectFile/EnemyFile/BurstEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../UtilityFile/Define.h"
@@ -14,7 +14,7 @@ class GameMainScene :
     public AbstractScene
 {
 private:
-	SquishEnemy* squishenemy;
+	CrackEnemy* crackenemy;
 	ObjectBase* check_virtual;
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
@@ -30,6 +30,7 @@ public:
 private:
 	void Initialize();
 	void EnemyGenerate();
+	void CoinGenerate(int i, int j);
 
 protected:
 	template <class T>
