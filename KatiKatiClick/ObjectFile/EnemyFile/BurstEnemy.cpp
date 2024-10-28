@@ -9,6 +9,7 @@ BurstEnemy::BurstEnemy()
 	speed = 2.0f;
 	can_hit = true;
 	object_type = ObjectType::enemy;
+	shape = Shape::circle;
 
 }
 
