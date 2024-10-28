@@ -28,7 +28,8 @@ void BurstEnemy::Update()
 		location.y += speed;
 	}
 	else {
-		location.y = 0.0f;
+		//720より下に行ったら削除
+		can_delete = true;
 	}
 
 	//hpが0以下になったら消す
