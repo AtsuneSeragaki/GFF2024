@@ -154,13 +154,13 @@
     <ClCompile Include="ObjectFile\CoinFile\Coin.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp" />
     <ClCompile Include="ObjectFile\ObjectBase.cpp" />
-    <ClCompile Include="ObjectFile\SkillFile\SkillBase.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\BSkillBase.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UIBase.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UICoin.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
-    <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\BAttackSkill.cpp" />
     <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp" />
-    <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\BSlowDownSkill.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\CrackEnemy.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\EnemyBase.cpp" />
     <ClCompile Include="UtilityFile\FPS.cpp" />
@@ -171,22 +171,25 @@
   <ItemGroup>
     <ClInclude Include="ObjectFile\CoinFile\Coin.h" />
     <ClInclude Include="ObjectFile\EnemyFile\BurstEnemy.h" />
-    <ClInclude Include="ObjectFile\SkillFile\SkillBase.h" />
+    <ClInclude Include="ObjectFile\SkillFile\BSkillBase.h" />
     <ClInclude Include="ObjectFile\UIFile\UIBase.h" />
     <ClInclude Include="ObjectFile\UIFile\UICoins.h" />
     <ClInclude Include="UtilityFile\Define.h" />
     <ClInclude Include="UtilityFile\Geometry.h" />
     <ClInclude Include="UtilityFile\MouseInput.h" />
     <ClInclude Include="SceneFile\AbstractScene.h" />
-    <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h" />
+    <ClInclude Include="ObjectFile\SkillFile\BAttackSkill.h" />
     <ClInclude Include="ObjectFile\PlayerFile\Cursor.h" />
-    <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h" />
+    <ClInclude Include="ObjectFile\SkillFile\BSlowDownSkill.h" />
     <ClInclude Include="ObjectFile\EnemyFile\CrackEnemy.h" />
     <ClInclude Include="ObjectFile\EnemyFile\EnemyBase.h" />
     <ClInclude Include="UtilityFile\FPS.h" />
     <ClInclude Include="SceneFile\GameMainScene.h" />
     <ClInclude Include="ObjectFile\ObjectBase.h" />
     <ClInclude Include="SceneFile\SceneManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,8 @@ GameMainScene::GameMainScene()
     CreateObject<BurstEnemy>();//円エネミー
     CreateObject<Cursor>();//カーソル生成
     ui_coins = new UICoins;     // コインUI生成
+    CreateObject<BAttackSkill>(); // 範囲攻撃スキル生成
+    CreateObject<BSlowDownSkill>(); // 足止めスキル生成
 }
 
 GameMainScene::~GameMainScene()
@@ -18,14 +20,33 @@ void GameMainScene::Update()
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
-        objects[i]->Update();
-
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        {
+            if (ui_coins->GetCoinsNum() >= 20)
+            {
+                objects[i]->Update();
+            }
+        }
+        else if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {
+            if (ui_coins->GetCoinsNum() >= 40)
+            {
+                objects[i]->Update();
+            }
+        }
+        else
+        {
+            objects[i]->Update();
+        }
+        
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
             objects.erase(objects.begin() + i);
         }
     }
+
+   
 
     //当たり判定
     for (int i = 0; i < objects.size() - 1; i++)
@@ -76,6 +97,23 @@ void GameMainScene::Draw() const
     //{
     //        objects[i]->Draw();   
     //}
+
+    // スキル描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {
+            objects[i]->Draw();
+        }
+    }
 
     for (int i = 0; i < objects.size(); i++)
     {

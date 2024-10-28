@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp">
+    <ClCompile Include="ObjectFile\SkillFile\BAttackSkill.cpp">
       <Filter>ソースファイル\SkillFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp">
@@ -25,7 +25,7 @@
     <ClCompile Include="SceneFile\SceneManager.cpp">
       <Filter>ソースファイル\SceneFile</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp">
+    <ClCompile Include="ObjectFile\SkillFile\BSlowDownSkill.cpp">
       <Filter>ソースファイル\SkillFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFile\ObjectBase.cpp">
@@ -44,12 +44,12 @@
       <Filter>ソースファイル\UIFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFile\EnemyFile\CrackEnemy.cpp" />
-    <ClCompile Include="ObjectFile\SkillFile\SkillBase.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\BSkillBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
     <ClInclude Include="UtilityFile\Geometry.h" />
-    <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h">
+    <ClInclude Include="ObjectFile\SkillFile\BAttackSkill.h">
       <Filter>ヘッダーファイル\SkillFile</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFile\CoinFile\Coin.h">
@@ -79,7 +79,7 @@
     <ClInclude Include="ObjectFile\SkillFile\AttackSkill.h">
       <Filter>ヘッダー ファイル\SkillFile</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h">
+    <ClInclude Include="ObjectFile\SkillFile\BSlowDownSkill.h">
       <Filter>ヘッダーファイル\SkillFile</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFile\EnemyFile\BurstEnemy.h">
@@ -95,7 +95,7 @@
       <Filter>ヘッダーファイル\UIFile</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFile\EnemyFile\CrackEnemy.h" />
-    <ClInclude Include="ObjectFile\SkillFile\SkillBase.h" />
+    <ClInclude Include="ObjectFile\SkillFile\BSkillBase.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">
@@ -152,5 +152,8 @@
     <Filter Include="ヘッダーファイル\UIFile">
       <UniqueIdentifier>{b7b86ddf-a460-493f-a853-b1e701b956a1}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Log.txt" />
   </ItemGroup>
 </Project>

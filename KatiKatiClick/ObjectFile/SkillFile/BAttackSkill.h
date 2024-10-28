@@ -1,16 +1,15 @@
 #pragma once
-#include "SkillBase.h"
+#include "BSkillBase.h"
 
 #define SKILL_IMG_NUM 3 // スキルエフェクト画像枚数
 
-class SlowDownSkill : public SkillBase
+class BAttackSkill : public BSkillBase
 {
 private:
-	int effect_img[SKILL_IMG_NUM];  // スキルエフェクト画像
 
 public:
-	SlowDownSkill();
-	~SlowDownSkill();
+	BAttackSkill();
+	~BAttackSkill();
 
 	void Initialize() override;
 	void Update()override;

@@ -9,8 +9,8 @@
 #include "../UtilityFile/Geometry.h"
 #include "../ObjectFile/UIFile/UICoins.h"
 #include <vector>
-#include "../ObjectFile/SkillFile/AttackSkill.h"
-#include "../ObjectFile/SkillFile/SlowDownSkill.h"
+#include "../ObjectFile/SkillFile/BAttackSkill.h"
+#include "../ObjectFile/SkillFile/BSlowDownSkill.h"
 
 class GameMainScene :
     public AbstractScene
@@ -21,6 +21,9 @@ private:
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
 	UICoins* ui_coins;
+	BAttackSkill* b_attackskill;
+	BSlowDownSkill* b_slowdownskill;
+
 public:
 	GameMainScene();
 	~GameMainScene();
@@ -51,10 +54,6 @@ protected:
 		objects.push_back(new_object);
 		return new_instance;
 	}
-	
-private:
-	AttackSkill* attackskill;
-	SlowDownSkill* slowdownskill;
 
 };
 
