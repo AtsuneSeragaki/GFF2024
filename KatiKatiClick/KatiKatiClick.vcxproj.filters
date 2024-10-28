@@ -40,8 +40,11 @@
     <ClCompile Include="UtilityFile\MouseInput.cpp">
       <Filter>ソースファイル\MouseFile</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFile\SkillFile\SkillBase.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="ObjectFile\UIFile\UIBase.cpp">
+      <Filter>ソースファイル\BaseFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFile\UIFile\UICoin.cpp">
+      <Filter>ソースファイル\UIFile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,8 +89,11 @@
     <ClInclude Include="UtilityFile\MouseInput.h">
       <Filter>ヘッダーファイル\MouseFile</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectFile\SkillFile\SkillBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="ObjectFile\UIFile\UIBase.h">
+      <Filter>ヘッダーファイル\BaseFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile\UIFile\UICoins.h">
+      <Filter>ヘッダーファイル\UIFile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +144,12 @@
     </Filter>
     <Filter Include="ソースファイル\BaseFile">
       <UniqueIdentifier>{62d4631e-b676-4025-b9a0-08c7f75a1531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\UIFile">
+      <UniqueIdentifier>{d933b2a7-0db1-41bf-a67a-745cce6a1b8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\UIFile">
+      <UniqueIdentifier>{b7b86ddf-a460-493f-a853-b1e701b956a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
