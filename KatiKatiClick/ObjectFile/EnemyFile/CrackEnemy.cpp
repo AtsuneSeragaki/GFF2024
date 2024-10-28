@@ -7,7 +7,7 @@ CrackEnemy::CrackEnemy()
 	hp = 30;
 	width = 60.0f;
 	height = 60.0f;
-	speed = 2.0f;
+	speed = 1.5f;
 	can_hit = true;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
@@ -52,6 +52,8 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 	{
 	case ObjectType::cursor:
 		hp -= 10;
+		width -= 10.0f;
+		height -= 10.0f;
 		hit_cursor = true;
 		break;
 	default:

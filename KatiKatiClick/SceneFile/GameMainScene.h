@@ -19,6 +19,9 @@ private:
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
 	UICoins* ui_coins;
+
+	int enm_generate_cnt;//エネミー生成カウント
+
 public:
 	GameMainScene();
 	~GameMainScene();
@@ -34,7 +37,7 @@ private:
 
 protected:
 	template <class T>
-	T* CreateObject()
+	T* CreateObject(Vector2D set_location)
 	{
 		T* new_instance = new T();
 
@@ -47,6 +50,7 @@ protected:
 		}
 
 		objects.push_back(new_object);
+		objects.back()->SetLocation(set_location);
 		return new_instance;
 	}
 	
