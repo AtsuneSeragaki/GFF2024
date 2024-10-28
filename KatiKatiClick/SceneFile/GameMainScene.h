@@ -9,8 +9,6 @@
 #include "../UtilityFile/Geometry.h"
 #include "../ObjectFile/UIFile/UICoins.h"
 #include <vector>
-#include "../ObjectFile/SkillFile/BAttackSkill.h"
-#include "../ObjectFile/SkillFile/BSlowDownSkill.h"
 
 class GameMainScene :
     public AbstractScene
@@ -21,8 +19,8 @@ private:
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
 	UICoins* ui_coins;
-	BAttackSkill* b_attackskill;
-	BSlowDownSkill* b_slowdownskill;
+
+	int enm_generate_cnt;//エネミー生成カウント
 
 public:
 	GameMainScene();
@@ -39,7 +37,7 @@ private:
 
 protected:
 	template <class T>
-	T* CreateObject()
+	T* CreateObject(Vector2D set_location)
 	{
 		T* new_instance = new T();
 
@@ -52,8 +50,9 @@ protected:
 		}
 
 		objects.push_back(new_object);
+		objects.back()->SetLocation(set_location);
 		return new_instance;
 	}
-
+	
 };
 

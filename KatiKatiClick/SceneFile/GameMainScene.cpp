@@ -2,12 +2,12 @@
 
 GameMainScene::GameMainScene()
 {
-    CreateObject<CrackEnemy>();//エネミー生成
-    CreateObject<BurstEnemy>();//円エネミー
-    CreateObject<Cursor>();//カーソル生成
+    CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
+    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
+    CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
     ui_coins = new UICoins;     // コインUI生成
-    CreateObject<BAttackSkill>(); // 範囲攻撃スキル生成
-    CreateObject<BSlowDownSkill>(); // 足止めスキル生成
+
+    enm_generate_cnt = 200;
 }
 
 GameMainScene::~GameMainScene()
@@ -20,33 +20,14 @@ void GameMainScene::Update()
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
-        {
-            if (ui_coins->GetCoinsNum() >= 20)
-            {
-                objects[i]->Update();
-            }
-        }
-        else if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-        {
-            if (ui_coins->GetCoinsNum() >= 40)
-            {
-                objects[i]->Update();
-            }
-        }
-        else
-        {
-            objects[i]->Update();
-        }
-        
+        objects[i]->Update();
+
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
             objects.erase(objects.begin() + i);
         }
     }
-
-   
 
     //当たり判定
     for (int i = 0; i < objects.size() - 1; i++)
@@ -93,27 +74,6 @@ void GameMainScene::Draw() const
 {
     DrawFormatString(10, 10, 0xffffff, "GAMEMAIN");
     //キャラクター描画
-    //for (int i = 0; i < objects.size(); i++)
-    //{
-    //        objects[i]->Draw();   
-    //}
-
-    // スキル描画
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
-        {
-            objects[i]->Draw();
-        }
-    }
-
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-        {
-            objects[i]->Draw();
-        }
-    }
 
     for (int i = 0; i < objects.size(); i++)
     {
@@ -155,13 +115,17 @@ void GameMainScene::Initialize()
 
 void GameMainScene::EnemyGenerate()
 {
-    if (objects.size() <= 1)
+    if (enm_generate_cnt > 500)
     {
-        CreateObject<CrackEnemy>();//エネミー生成
-        CreateObject<BurstEnemy>();//円エネミー
+        enm_generate_cnt = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            CreateObject<CrackEnemy>(Vector2D(220.0f + (i * 80), 0.0f));//エネミー生成
+            CreateObject<BurstEnemy>(Vector2D(420.0f + (i * 120), 0.0f));//円エネミー
+        }
     }
 
-
+    enm_generate_cnt++;
 }
 
 void GameMainScene::CoinGenerate(int i, int j)
@@ -177,8 +141,7 @@ void GameMainScene::CoinGenerate(int i, int j)
         coins.back()->SetLocation(objects[i]->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
-
-
+        //hitflgをオフにする
         enemy_i->SetFalseHitCursor();
     }
 
@@ -188,14 +151,11 @@ void GameMainScene::CoinGenerate(int i, int j)
     {
         // コインの生成
         coins.push_back(new Coin);
-        if (objects[j]->GetObjectType() == ObjectType::enemy)
-        {
-            // 生成座標の設定
-            coins.back()->SetLocation(objects[j]->GetLocation());
-            // コインの加算
-            ui_coins->IncreaseCoins();
-        }
-
+        // 生成座標の設定
+        coins.back()->SetLocation(objects[j]->GetLocation());
+        // コインの加算
+        ui_coins->IncreaseCoins();
+        //hitflgをオフにする
         enemy_j->SetFalseHitCursor();
     }
 
