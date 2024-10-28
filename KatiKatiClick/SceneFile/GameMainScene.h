@@ -7,6 +7,7 @@
 #include "../UtilityFile/Define.h"
 #include "../ObjectFile/CoinFile/Coin.h"
 #include "../UtilityFile/Geometry.h"
+#include "../ObjectFile/UIFile/UICoins.h"
 #include <vector>
 
 class GameMainScene :
@@ -17,6 +18,7 @@ private:
 	ObjectBase* check_virtual;
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
+	UICoins* ui_coins;
 public:
 	GameMainScene();
 	~GameMainScene();
