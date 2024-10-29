@@ -2,6 +2,8 @@
 
 UICoins::UICoins()
 {
+	location.x = 100.0f;
+	location.y = 600.0f;
 	coins_num = 0;
 }
 
@@ -18,7 +20,7 @@ void UICoins::Update()
 
 void UICoins::Draw() const
 {
-	DrawFormatString(100, 600, 0xffffff, "coins : %d", coins_num);
+	DrawFormatString((int)location.x, (int)location.y, 0xffffff, "coins : %d", coins_num);
 }
 
 // コインを1増やす
@@ -31,6 +33,12 @@ void UICoins::IncreaseCoins()
 void UICoins::ReduceCoins(int coins_num)
 {
 	this->coins_num -= coins_num;
+}
+
+// 座標の取得
+Vector2D UICoins::GetLocation() const
+{
+	return location;
 }
 
 // コインの枚数を取得
