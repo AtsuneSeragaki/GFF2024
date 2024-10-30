@@ -6,6 +6,7 @@ GameMainScene::GameMainScene()
     CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
     ui_coins = new UICoins;     // コインUI生成
+    ui_timer = new UITimer;     // タイマー生成
 
     enm_generate_cnt = 200;
 }
@@ -78,6 +79,12 @@ void GameMainScene::Update()
         }
     }
 
+    if (ui_timer != nullptr)
+    {
+        // タイマー更新処理
+        ui_timer->Update();
+    }
+
 }
 
 void GameMainScene::Draw() const
@@ -106,11 +113,6 @@ void GameMainScene::Draw() const
         coins[i]->Draw();
     }
 
-    // コインUIの描画
-    if (ui_coins != nullptr)
-    {
-        ui_coins->Draw();
-    }
 
 
     //UI設置仮現場
@@ -119,6 +121,20 @@ void GameMainScene::Draw() const
 
     //ゴール仮幅
     DrawBox(0, 645, 360, 650, 0xffff00, TRUE);
+
+
+    if (ui_coins != nullptr)
+    {
+        // コインUIの描画
+        ui_coins->Draw();
+    }
+
+    if (ui_timer != nullptr)
+    {
+        // タイマー描画処理
+        ui_timer->Draw();
+    }
+
 }
 
 AbstractScene* GameMainScene::Change()
