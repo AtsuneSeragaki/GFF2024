@@ -92,17 +92,15 @@ void ResourceManager::UnloadResourcesAll()
 		value.second.clear();
 	}
 
-	// 全ての画像を削除
+	// 全ての音源を削除
 	for (std::pair<std::string, int> value : sounds_container)
 	{
-		DeleteSharingGraph(value.second);
-		
+		InitSoundMem(value.second);
 	}
 
 	// コンテナを解散
 	images_container.clear();
 	sounds_container.clear();
-
 }
 
 void ResourceManager::CreateImagesResource(std::string file_name)
@@ -145,5 +143,15 @@ void ResourceManager::CreateImagesResource(std::string file_name, int all_num, i
 
 void ResourceManager::CreateSoundsResource(std::string file_name)
 {
+	// 指定されたファイルを読み込む
+	int handle = LoadSoundMem(file_name.c_str());
 
+	// エラーチェック
+	if (handle == -1)
+	{
+		throw(file_name + "がありません\n");
+	}
+
+	// コンテナに読み込んだ音源を追加する
+	sounds_container[file_name] = handle;
 }
