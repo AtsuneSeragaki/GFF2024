@@ -13,4 +13,6 @@ public:
 
     void Update() override;
     void Draw() const override;
+
+    int GetSeconds() const;     // 秒数の取得
 };

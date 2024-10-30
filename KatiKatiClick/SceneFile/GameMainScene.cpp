@@ -9,6 +9,8 @@ GameMainScene::GameMainScene()
     ui_timer = new UITimer;     // タイマー生成
 
     enm_generate_cnt = 200;
+
+    is_game_clear = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -18,6 +20,19 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
+    if (ui_timer != nullptr)
+    {
+        if (ui_timer->GetSeconds() == 0)
+        {
+            // 制限時間が0ならゲームクリア
+            is_game_clear = true;
+            return;
+        }
+
+        // タイマー更新処理
+        ui_timer->Update();
+    }
+
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
@@ -78,13 +93,6 @@ void GameMainScene::Update()
             coins.erase(coins.begin() + i);
         }
     }
-
-    if (ui_timer != nullptr)
-    {
-        // タイマー更新処理
-        ui_timer->Update();
-    }
-
 }
 
 void GameMainScene::Draw() const
@@ -133,6 +141,11 @@ void GameMainScene::Draw() const
     {
         // タイマー描画処理
         ui_timer->Draw();
+    }
+
+    if (is_game_clear)
+    {
+        DrawString(30, 350, "GAME CLEAE", 0xffffff);
     }
 
 }

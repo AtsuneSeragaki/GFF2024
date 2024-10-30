@@ -24,6 +24,8 @@ private:
 
 	int enm_generate_cnt;//エネミー生成カウント
 
+	bool is_game_clear;			// ゲームクリアか？
+
 public:
 	GameMainScene();
 	~GameMainScene();

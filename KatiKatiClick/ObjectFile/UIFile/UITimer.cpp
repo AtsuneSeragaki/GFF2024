@@ -33,3 +33,9 @@ void UITimer::Draw() const
 {
 	DrawFormatString(20, 20, 0xcc0000, "timer : %d", seconds);
 }
+
+// 秒数の取得
+int UITimer::GetSeconds() const
+{
+	return seconds;
+}
