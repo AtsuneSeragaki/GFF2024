@@ -12,6 +12,7 @@ GameMainScene::GameMainScene()
 
 GameMainScene::~GameMainScene()
 {
+
 }
 
 void GameMainScene::Update()
@@ -45,8 +46,6 @@ void GameMainScene::Update()
                 {
                     objects[i]->HitReaction(objects[j]);
                     objects[j]->HitReaction(objects[i]);
-
-                    CoinGenerate(i, j);
                 }
             }
             else
@@ -57,17 +56,28 @@ void GameMainScene::Update()
                 {
                     objects[i]->HitReaction(objects[j]);
                     objects[j]->HitReaction(objects[i]);
-
-                    CoinGenerate(i, j);
-
-
                 }
             }
 
+            // コインの生成
+            CoinGenerate(i, j);
         }
     }
 
     EnemyGenerate();
+
+    for (int i = 0; i < coins.size(); i++)
+    {
+        // コイン更新
+        coins[i]->Update();
+
+        //消してもOKだったらcoinsを削除
+        if (coins[i]->GetCanDeleteFlg() == true)
+        {
+            coins.erase(coins.begin() + i);
+        }
+    }
+
 }
 
 void GameMainScene::Draw() const

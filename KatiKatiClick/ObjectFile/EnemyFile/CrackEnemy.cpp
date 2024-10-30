@@ -4,7 +4,7 @@ CrackEnemy::CrackEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 30;
+	hp = 20;
 	width = 60.0f;
 	height = 60.0f;
 	speed = 1.5f;
@@ -28,7 +28,8 @@ void CrackEnemy::Update()
 		location.y += speed;
 	}
 	else {
-		location.y = 0.0f;
+		//720より下に行ったら削除
+		can_delete = true;
 	}
 	
 	//hpが0以下になったら消す

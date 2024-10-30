@@ -3,7 +3,10 @@
 Coin::Coin()
 {
 	location = 0.0f;
+	ui_coins_location = 0.0f;
 	can_delete = false;
+
+	delete_count = 0;
 }
 
 Coin::~Coin()
@@ -13,7 +16,13 @@ Coin::~Coin()
 
 void Coin::Update()
 {
+	delete_count++;
 
+	if (delete_count >= 60)
+	{
+		// 60カウント以上になったらコインを削除
+		can_delete = true;
+	}
 }
 
 void Coin::Draw() const
@@ -31,4 +40,10 @@ bool Coin::GetCanDeleteFlg() const
 void Coin::SetLocation(const Vector2D& location)
 {
 	this->location = location;
+}
+
+// コインUI座標の設定
+void Coin::SetUICoinsLocation(const Vector2D& ui_coins_location)
+{
+	this->ui_coins_location = ui_coins_location;
 }
