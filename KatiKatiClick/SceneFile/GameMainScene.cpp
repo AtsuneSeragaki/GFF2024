@@ -82,7 +82,6 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-    DrawFormatString(10, 10, 0xffffff, "GAMEMAIN");
     //キャラクター描画
 
     for (int i = 0; i < objects.size(); i++)
@@ -112,6 +111,14 @@ void GameMainScene::Draw() const
     {
         ui_coins->Draw();
     }
+
+
+    //UI設置仮現場
+    DrawBox(0, 0, 360, 70, 0x999999, TRUE);
+    DrawBox(0, 650, 360, 800, 0x999999, TRUE);
+
+    //ゴール仮幅
+    DrawBox(0, 645, 360, 650, 0xffff00, TRUE);
 }
 
 AbstractScene* GameMainScene::Change()
