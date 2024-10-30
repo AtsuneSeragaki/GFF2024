@@ -4,9 +4,9 @@ CrackEnemy::CrackEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 20;
-	width = 60.0f;
-	height = 60.0f;
+	hp = 30;
+	width = 70.0f;
+	height = 70.0f;
 	speed = 1.5f;
 	can_hit = true;
 	object_type = ObjectType::enemy;

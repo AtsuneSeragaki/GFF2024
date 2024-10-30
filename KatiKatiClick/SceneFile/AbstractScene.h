@@ -3,7 +3,6 @@ class AbstractScene
 {
 public:
 	virtual ~AbstractScene() {};
-	int change;
 	virtual void Finalize() {}
 
 	virtual void Update() = 0;

@@ -2,8 +2,8 @@
 
 GameMainScene::GameMainScene()
 {
-    CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
-    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
+    //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
+    //CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
     ui_coins = new UICoins;     // コインUI生成
 
@@ -82,21 +82,12 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-    //キャラクター描画
-
+    //敵の描画
     for (int i = 0; i < objects.size(); i++)
     {
         if (objects[i]->GetObjectType() == ObjectType::enemy)
         {
             objects[i]->Draw();   
-        }
-    }
-
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::cursor)
-        {
-            objects[i]->Draw();
         }
     }
 
@@ -112,13 +103,28 @@ void GameMainScene::Draw() const
         ui_coins->Draw();
     }
 
-
     //UI設置仮現場
-    DrawBox(0, 0, 360, 70, 0x999999, TRUE);
-    DrawBox(0, 650, 360, 800, 0x999999, TRUE);
+    //70+150+5=225
+    //800 225
+
+
+    //int lane_height = SCREEN_HEIGHT / 10;
+    //int under_height = SCREEN_HEIGHT - (lane_height + lane_height);
+    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
 
     //ゴール仮幅
-    DrawBox(0, 645, 360, 650, 0xffff00, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT - GET_LANE_HEIGHT(2) + 5, 0xffff00, TRUE);
+
+    //カーソル描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::cursor)
+        {
+            objects[i]->Draw();
+        }
+    }
+
 }
 
 AbstractScene* GameMainScene::Change()
@@ -135,10 +141,18 @@ void GameMainScene::EnemyGenerate()
     if (enm_generate_cnt > 500)
     {
         enm_generate_cnt = 0;
-        for (int i = 0; i < 3; i++)
+
+        //レーンの数
+        float lane_num = 3.0f;
+
+        //１レーンの幅をもらう
+        float lane_width = (float)SCREEN_WIDTH / lane_num;
+        float lane_half_width = lane_width / 2;
+
+        for (int i = 1; i < 4; i++)
         {
-            CreateObject<CrackEnemy>(Vector2D(220.0f + (i * 80), 0.0f));//エネミー生成
-            CreateObject<BurstEnemy>(Vector2D(420.0f + (i * 120), 0.0f));//円エネミー
+            CreateObject<CrackEnemy>(Vector2D((lane_width * i) - lane_half_width,0.0f));//エネミー生成
+            CreateObject<BurstEnemy>(Vector2D((lane_width * i) - lane_half_width, -100.0f));//円エネミー
         }
     }
 

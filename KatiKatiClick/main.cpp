@@ -4,6 +4,7 @@
 #include "SceneFile/GameMainScene.h"
 #include "UtilityFile/FPS.h"
 #include "UtilityFile/MouseInput.h"
+#include "UtilityFile/Define.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int
@@ -11,7 +12,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	ChangeWindowMode(TRUE);
 
-	SetGraphMode(360, 800, 32);	//画面サイズ指定
+	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);	//画面サイズ指定
 
 	if (DxLib_Init() == -1) return -1;	// DXライブラリの初期化処理
 
