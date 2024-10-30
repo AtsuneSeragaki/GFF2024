@@ -45,7 +45,9 @@
     </ClCompile>
     <ClCompile Include="ObjectFile\EnemyFile\CrackEnemy.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\BSkillBase.cpp" />
-    <ClCompile Include="UtilityFile\ResourceManager.cpp" />
+    <ClCompile Include="ObjectFile\UIFile\UITimer.cpp">
+      <Filter>ソースファイル\UIFile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -94,7 +96,9 @@
     </ClInclude>
     <ClInclude Include="ObjectFile\EnemyFile\CrackEnemy.h" />
     <ClInclude Include="ObjectFile\SkillFile\BSkillBase.h" />
-    <ClInclude Include="UtilityFile\ResourceManager.h" />
+    <ClInclude Include="ObjectFile\UIFile\UITimer.h">
+      <Filter>ヘッダーファイル\UIFile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">

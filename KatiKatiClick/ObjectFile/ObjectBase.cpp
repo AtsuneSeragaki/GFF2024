@@ -22,7 +22,7 @@ bool ObjectBase::HitCircle(Vector2D other_obj, float other_radius)
 {
 	float a = location.x - other_obj.x;
 	float b = location.y - other_obj.y;
-	float check_range = sqrt(a * a + b * b);
+	float check_range = sqrtf(a * a + b * b);
 
 	if (check_range <= radius + other_radius)
 	{
