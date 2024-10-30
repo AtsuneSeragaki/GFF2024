@@ -5,7 +5,10 @@ enum class ObjectType
 {
 	null,//初期化
 	enemy,
-	skill,
+	b_attackskill,
+	b_slowdownskill,
+	attackskill,
+	slowdownskill,
 	cursor,
 };
 
