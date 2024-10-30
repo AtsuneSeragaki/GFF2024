@@ -50,12 +50,13 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 	switch (character->GetObjectType())
 	{
 	case ObjectType::cursor:
+		//カーソルに当たったらスピードを下げ半径を大きくする
 		hp -= 10;
-		if (speed > 0.3) {
-			speed -= 0.3;
+		if (speed > 0.3f) {
+			speed -= 0.3f;
 		}
-		hit_cursor = true;
 		radius += 10.0f;
+		hit_cursor = true;
 		break;
 	default:
 		break;
