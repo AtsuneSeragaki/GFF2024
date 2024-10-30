@@ -1,4 +1,5 @@
 #include "BurstEnemy.h"
+#include "../../UtilityFile/Define.h"
 
 BurstEnemy::BurstEnemy()
 {
@@ -32,6 +33,16 @@ void BurstEnemy::Update()
 		can_delete = true;
 	}
 
+	//UIより上か下だったら当たり判定をしない
+	if (location.y < ONE_LANE_HEIGHT || location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
+	{
+		can_hit = false;
+	}
+	else
+	{
+		can_hit = true;
+	}
+
 	//hpが0以下になったら消す
 	if (hp <= 0)
 	{
@@ -43,6 +54,15 @@ void BurstEnemy::Draw() const
 {
 	DrawCircleAA(location.x, location.y, radius, 32, 0xffffff, TRUE);
 	DrawFormatString((int)location.x, (int)location.y, 0xe9967a, "hp:%d", hp);
+
+	if (can_hit == true)
+	{
+		DrawFormatString((int)location.x, (int)location.y-20, 0xe9967a, "true");
+	}
+	else
+	{
+		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
+	}
 }
 
 void BurstEnemy::HitReaction(ObjectBase* character)

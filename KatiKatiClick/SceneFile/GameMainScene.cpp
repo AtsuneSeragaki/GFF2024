@@ -82,6 +82,10 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
+    //UI設置仮
+    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+
     //敵の描画
     for (int i = 0; i < objects.size(); i++)
     {
@@ -104,8 +108,8 @@ void GameMainScene::Draw() const
     }
 
     //UI設置仮
-    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+    //DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
+    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
 
     //ゴール仮幅
     DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT - GET_LANE_HEIGHT(2) + 5, 0xffff00, TRUE);
@@ -135,8 +139,6 @@ void GameMainScene::EnemyGenerate()
     if (enm_generate_cnt > 500)
     {
         enm_generate_cnt = 0;
-
-
 
         for (int i = 1; i < 4; i++)
         {

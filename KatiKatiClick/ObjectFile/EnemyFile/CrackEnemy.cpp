@@ -1,4 +1,5 @@
 #include "CrackEnemy.h"
+#include "../../UtilityFile/Define.h"
 
 CrackEnemy::CrackEnemy()
 {
@@ -31,6 +32,16 @@ void CrackEnemy::Update()
 		//720より下に行ったら削除
 		can_delete = true;
 	}
+
+	//UIより上か下だったら当たり判定をしない
+	if (location.y < ONE_LANE_HEIGHT || location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
+	{
+		can_hit = false;
+	}
+	else
+	{
+		can_hit = true;
+	}
 	
 	//hpが0以下になったら消す
 	if (hp <= 0)
@@ -44,6 +55,15 @@ void CrackEnemy::Draw() const
 
 	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, TRUE);
 	DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
+
+	if (can_hit == true)
+	{
+		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
+	}
+	else
+	{
+		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
+	}
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
