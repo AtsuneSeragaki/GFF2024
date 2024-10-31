@@ -1,9 +1,10 @@
 #include "UICoins.h"
+#include "DxLib.h"
 
 UICoins::UICoins()
 {
-	location.x = 100.0f;
-	location.y = 600.0f;
+	location.x = 150.0f;
+	location.y = 20.0f;
 	coins_num = 0;
 }
 
@@ -20,7 +21,8 @@ void UICoins::Update()
 
 void UICoins::Draw() const
 {
-	DrawFormatString((int)location.x, (int)location.y, 0xffffff, "coins : %d", coins_num);
+	DrawBox(140, 10, 260, 50, 0xc0c0c0, TRUE);
+	DrawFormatString((int)location.x, (int)location.y, 0x000000, "coins : %d", coins_num);
 }
 
 // コインを1増やす

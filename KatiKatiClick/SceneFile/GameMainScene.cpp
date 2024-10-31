@@ -1,15 +1,26 @@
 #include "GameMainScene.h"
 
+#include "../ObjectFile/SkillFile/BAttackSkill.h"
+#include "../ObjectFile/SkillFile/BSlowDownSkill.h"
 
 GameMainScene::GameMainScene()
 {
+    CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
+    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));            //円エネミー
+    CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
+    CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
+    CreateObject<PauseButton>(Vector2D(289.0f, 20.0f));         // ポーズボタン生成
     //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
     //CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
-    CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
     CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));
     ui_coins = new UICoins;     // コインUI生成
+    ui_timer = new UITimer;     // タイマー生成
 
-    enm_generate_cnt = 500;
+    enm_generate_cnt = 200;
+
+    is_game_clear = false;
+    change_wait_time = 300;
 }
 
 GameMainScene::~GameMainScene()
@@ -19,6 +30,39 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
+    if (ui_timer != nullptr)
+    {
+        if (ui_timer->GetSeconds() == 0)
+        {
+            // 制限時間が0ならゲームクリア
+            is_game_clear = true;
+
+            // シーン切り替え待ちカウントを減らす
+            change_wait_time--;
+
+            for (int i = 0; i < objects.size(); i++)
+            {
+                // カーソルのみ更新処理を行う
+                Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
+
+                if (cursor != nullptr)
+                {
+                    objects[i]->Update();
+
+                    //消してもOKだったらobjectを削除
+                    if (objects[i]->GetIsDelete() == true)
+                    {
+                        objects.erase(objects.begin() + i);
+                    }
+                    return;
+                }
+            }
+        }
+
+        // タイマー更新処理
+        ui_timer->Update();
+    }
+
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
@@ -92,7 +136,6 @@ void GameMainScene::Update()
             coins.erase(coins.begin() + i);
         }
     }
-
 }
 
 void GameMainScene::Draw() const
@@ -103,9 +146,40 @@ void GameMainScene::Draw() const
     {
         if (objects[i]->GetObjectType() == ObjectType::enemy)
         {
-            objects[i]->Draw();   
+            objects[i]->Draw();
         }
     }
+
+    //UI設置仮
+    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
+    // 足止めスキルボタン描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
+    // ポーズボタン描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
+        {
+            objects[i]->Draw();
+        }
+    }
+
 
     // コイン描画
     for (int i = 0; i < coins.size(); i++)
@@ -113,18 +187,13 @@ void GameMainScene::Draw() const
         coins[i]->Draw();
     }
 
-    // コインUIの描画
+
+
     if (ui_coins != nullptr)
     {
+        // コインUIの描画
         ui_coins->Draw();
     }
-
-    //UI設置仮
-    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
-
-    //ゴール仮幅
-   // DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT - GET_LANE_HEIGHT(2) + 5, 0xffff00, TRUE);
 
     //ゴール描画
     for (int i = 0; i < objects.size(); i++)
@@ -143,12 +212,28 @@ void GameMainScene::Draw() const
             objects[i]->Draw();
         }
     }
+    if (ui_timer != nullptr)
+    {
+        // タイマー描画処理
+        ui_timer->Draw();
+    }
 
+    if (is_game_clear)
+    {
+        DrawString(30, 350, "GAME CLEAE", 0xffffff);
+        DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
+    }
 
+    
 }
 
 AbstractScene* GameMainScene::Change()
 {
+    if (change_wait_time <= 0)
+    {
+        return new GameMainScene;
+    }
+
     return this;
 }
 
