@@ -4,6 +4,7 @@
 
 Goal::Goal()
 {
+	location.x = (float)SCREEN_WIDTH / 2.0f;
 	width = (float)SCREEN_WIDTH;
 	height = (float)ONE_LANE_HEIGHT/10.0f;
 	shape = Shape::square;
@@ -26,8 +27,9 @@ void Goal::Update()
 
 void Goal::Draw() const
 {
-	DrawBox(location.x, location.y, location.x + width, location.y + height, 0xffff00, TRUE);
-	DrawFormatString(location.x, location.y, 0xe000000, "goal_cnt:%d", goal_cnt);
+	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffff00, TRUE);
+	DrawFormatString((int)location.x, (int)location.y, 0xe000000, "goal_cnt:%d", goal_cnt);
+	DrawFormatString((int)location.x, (int)location.y+20, 0xe000000, "posx:%f", location.x);
 
 	//ゴール仮幅
 	//DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT - GET_LANE_HEIGHT(2) + 5, 0xffff00, TRUE);

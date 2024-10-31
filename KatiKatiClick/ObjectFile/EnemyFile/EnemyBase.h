@@ -1,13 +1,23 @@
 #pragma once
 #include "../ObjectBase.h"
 #include "DxLib.h"
+
+enum class State
+{
+	move,
+	goal,
+	death,
+};
+
 class EnemyBase :
     public ObjectBase
 {
 protected:
+	State state;
     int hp;//体力
 	float speed;//速さ
 	bool hit_cursor;//カーソルに当たった
+
 
 public:
 	EnemyBase()
@@ -15,6 +25,7 @@ public:
 		hp = 0;
 		speed = 0.0f;
 		hit_cursor = false;
+		state = State::move;
 	}
 	~EnemyBase(){};
 

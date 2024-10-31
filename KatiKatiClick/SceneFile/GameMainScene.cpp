@@ -6,10 +6,10 @@ GameMainScene::GameMainScene()
     //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
     //CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
-    CreateObject<Goal>(Vector2D(0.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));
+    CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));
     ui_coins = new UICoins;     // コインUI生成
 
-    enm_generate_cnt = 200;
+    enm_generate_cnt = 500;
 }
 
 GameMainScene::~GameMainScene()
@@ -35,7 +35,7 @@ void GameMainScene::Update()
     //当たり判定
     for (int i = 0; i < objects.size() - 1; i++)
     {
-        for (int j = i + 1; j <= objects.size() - 1; j++)
+        for (int j = i + 1; j < objects.size(); j++)
         {
 
             if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
@@ -164,8 +164,8 @@ void GameMainScene::EnemyGenerate()
 
         for (int i = 1; i < 4; i++)
         {
-            CreateObject<CrackEnemy>(Vector2D((LANE_WIDTH * i) - LANE_WIDTH_HALF,0.0f));//エネミー生成
-            CreateObject<BurstEnemy>(Vector2D((LANE_WIDTH * i) - LANE_WIDTH_HALF, -100.0f));//円エネミー
+            CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * (float)i) - (float)LANE_WIDTH_HALF,0.0f));//エネミー生成
+            CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)i) - (float)LANE_WIDTH_HALF, -100.0f));//円エネミー
         }
     }
 

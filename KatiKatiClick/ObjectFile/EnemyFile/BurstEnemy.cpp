@@ -11,7 +11,7 @@ BurstEnemy::BurstEnemy()
 	can_hit = true;
 	object_type = ObjectType::enemy;
 	shape = Shape::circle;
-
+	state = State::move;
 }
 
 BurstEnemy::~BurstEnemy()
@@ -24,30 +24,46 @@ void BurstEnemy::Initialize()
 
 void BurstEnemy::Update()
 {
-	if (location.y < 720)
+	switch (state)
 	{
+	case State::move:
 		location.y += speed;
-	}
-	else {
-		//720より下に行ったら削除
+
+		//UIより上か下だったら当たり判定をしない
+		if (location.y < ONE_LANE_HEIGHT || location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
+		{
+			can_hit = false;
+		}
+		else
+		{
+			can_hit = true;
+		}
+
+		//hpが0以下になったら消す
+		if (hp <= 0)
+		{
+			state = State::death;
+		}
+
+		break;
+	case State::goal:
+		if (location.y < 720)
+		{
+			location.y += speed;
+		}
+		else {
+			//720より下に行ったら削除
+			can_delete = true;
+		}
+		break;
+	case State::death:
 		can_delete = true;
+		break;
+	default:
+		break;
 	}
 
-	//UIより上か下だったら当たり判定をしない
-	if (location.y < ONE_LANE_HEIGHT || location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
-	{
-		can_hit = false;
-	}
-	else
-	{
-		can_hit = true;
-	}
 
-	//hpが0以下になったら消す
-	if (hp <= 0)
-	{
-		can_delete = true;
-	}
 }
 
 void BurstEnemy::Draw() const
@@ -80,6 +96,8 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		break;
 	case ObjectType::goal:
 		can_hit = false;
+		state = State::goal;
+		speed = 3;
 		break;
 	default:
 		break;
