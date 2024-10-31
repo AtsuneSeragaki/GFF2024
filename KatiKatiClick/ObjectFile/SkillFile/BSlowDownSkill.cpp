@@ -1,5 +1,6 @@
 #include "BSlowDownSkill.h"
 
+#include "../../UtilityFile/ResourceManager.h"
 #include "DxLib.h"
 
 BSlowDownSkill::BSlowDownSkill()
@@ -12,17 +13,19 @@ BSlowDownSkill::BSlowDownSkill()
 	can_hit = true;
 	shape = Shape::square;
 	can_delete = false;
-
-	for (int i = 0; i < BUTTON_IMG_NUM; i++)
-	{
-		button_img[i] = 0;
-	}
-
 	bskill_state = BSkillState::close;
+
+	// ボタン画像の読み込み
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+	tmp = rm->GetImages("Resource/Images/TestSkill.png");
+	button_img.push_back(tmp[0]);
+	image = button_img[0];
 }
 
 BSlowDownSkill::~BSlowDownSkill()
 {
+
 }
 
 void BSlowDownSkill::Initialize()
@@ -36,6 +39,13 @@ void BSlowDownSkill::Initialize()
 	shape = Shape::square;
 	can_delete = false;
 	bskill_state = BSkillState::close;
+
+	// ボタン画像の読み込み
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+	tmp = rm->GetImages("Resource/Images/TestSkill.png");
+	button_img.push_back(tmp[0]);
+	image = button_img[0];
 }
 
 void BSlowDownSkill::Update()

@@ -1,11 +1,11 @@
 #pragma once
 #include "BSkillBase.h"
-
-#define SKILL_IMG_NUM 3 // スキルエフェクト画像枚数
+#include <vector>
 
 class BSlowDownSkill : public BSkillBase
 {
 private:
+	std::vector<int> button_img; // ボタン画像
 
 public:
 	BSlowDownSkill();

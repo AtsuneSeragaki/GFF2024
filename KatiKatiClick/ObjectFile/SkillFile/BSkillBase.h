@@ -2,10 +2,9 @@
 
 #include "../ObjectBase.h"
 
-#define BUTTON_WIDTH  160.0f  // ボタンの幅
-#define BUTTON_HEIGHT 100.0f  // ボタンの高さ
 
-#define BUTTON_IMG_NUM 3  // ボタン画像の枚数
+#define BUTTON_WIDTH  130.0f  // ボタンの幅
+#define BUTTON_HEIGHT 100.0f  // ボタンの高さ
 
 enum class BSkillState
 {
@@ -18,7 +17,7 @@ enum class BSkillState
 class BSkillBase : public ObjectBase
 {
 protected:
-	int button_img[BUTTON_IMG_NUM]; // ボタン画像
+	int image;
 	BSkillState bskill_state; // ボタンの状態
 
 public:

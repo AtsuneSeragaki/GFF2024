@@ -36,6 +36,10 @@ bool ObjectBase::HitCircle(Vector2D other_obj, float other_radius)
 	}
 }
 
+void ObjectBase::Finalize()
+{
+}
+
 bool ObjectBase::HitBoxCircle(ObjectBase* object)
 {
 	float box_left, box_right, box_top, box_bottom;
