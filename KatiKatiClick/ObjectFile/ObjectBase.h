@@ -9,6 +9,7 @@ enum class ObjectType
 	b_slowdownskill,
 	attackskill,
 	slowdownskill,
+	pausebutton,
 	cursor,
 };
 

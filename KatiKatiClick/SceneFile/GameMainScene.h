@@ -8,6 +8,8 @@
 #include "../ObjectFile/CoinFile/Coin.h"
 #include "../UtilityFile/Geometry.h"
 #include "../ObjectFile/UIFile/UICoins.h"
+#include "../ObjectFile/UIFile/UITimer.h"
+#include "../ObjectFile/PauseButton/PauseButton.h"
 #include <vector>
 
 class GameMainScene :
@@ -19,8 +21,12 @@ private:
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
 	UICoins* ui_coins;
+	UITimer* ui_timer;
 
 	int enm_generate_cnt;//エネミー生成カウント
+
+	bool is_game_clear;			// ゲームクリアか？
+	int change_wait_time;		// シーン切り替え待ち時間
 
 public:
 	GameMainScene();

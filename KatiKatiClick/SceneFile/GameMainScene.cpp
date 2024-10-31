@@ -5,14 +5,19 @@
 
 GameMainScene::GameMainScene()
 {
-    CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
-    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
-    CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
-    CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f)); // アタックスキルボタン生成
-    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f)); // 足止めスキルボタン生成
+    CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
+    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));            //円エネミー
+    CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
+    CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
+    CreateObject<PauseButton>(Vector2D(289.0f, 20.0f));         // ポーズボタン生成
     ui_coins = new UICoins;     // コインUI生成
+    ui_timer = new UITimer;     // タイマー生成
 
     enm_generate_cnt = 200;
+
+    is_game_clear = false;
+    change_wait_time = 300;
 }
 
 GameMainScene::~GameMainScene()
@@ -22,27 +27,45 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
-    // ゲームメインBGM再生
- 
+    if (ui_timer != nullptr)
+    {
+        if (ui_timer->GetSeconds() == 0)
+        {
+            // 制限時間が0ならゲームクリア
+            is_game_clear = true;
+
+            // シーン切り替え待ちカウントを減らす
+            change_wait_time--;
+
+            for (int i = 0; i < objects.size(); i++)
+            {
+                // カーソルのみ更新処理を行う
+                Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
+
+                if (cursor != nullptr)
+                {
+                    objects[i]->Update();
+
+                    //消してもOKだったらobjectを削除
+                    if (objects[i]->GetIsDelete() == true)
+                    {
+                        objects.erase(objects.begin() + i);
+                    }
+                    return;
+                }
+            }
+        }
+
+        // タイマー更新処理
+        ui_timer->Update();
+    }
+
+
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
-        {// オブジェクトタイプがアタックスキルボタンだったら
+        objects[i]->Update();
 
-            SkillCoinUse(i,20);
-        }
-        else if(objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-        {// オブジェクトタイプが足止めスキルボタンだったら
-
-            SkillCoinUse(i,40);
-        }
-        else
-        {// 上記以外の場合
-
-            objects[i]->Update();
-        }
-        
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
@@ -97,7 +120,6 @@ void GameMainScene::Update()
             coins.erase(coins.begin() + i);
         }
     }
-
 }
 
 void GameMainScene::Draw() const
@@ -118,11 +140,6 @@ void GameMainScene::Draw() const
         coins[i]->Draw();
     }
 
-    // コインUIの描画
-    if (ui_coins != nullptr)
-    {
-        ui_coins->Draw();
-    }
 
     //UI設置仮現場
     DrawBox(0, 0, 360, 70, 0x999999, TRUE);
@@ -149,6 +166,15 @@ void GameMainScene::Draw() const
         }
     }
 
+    // ポーズボタン描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
+        {
+            objects[i]->Draw();
+        }
+    }
+
     // カーソル描画
     for (int i = 0; i < objects.size(); i++)
     {
@@ -158,10 +184,35 @@ void GameMainScene::Draw() const
         }
     }
 
+
+
+    if (ui_coins != nullptr)
+    {
+        // コインUIの描画
+        ui_coins->Draw();
+    }
+
+    if (ui_timer != nullptr)
+    {
+        // タイマー描画処理
+        ui_timer->Draw();
+    }
+
+    if (is_game_clear)
+    {
+        DrawString(30, 350, "GAME CLEAE", 0xffffff);
+        DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
+    }
+
 }
 
 AbstractScene* GameMainScene::Change()
 {
+    if (change_wait_time <= 0)
+    {
+        return new GameMainScene;
+    }
+
     return this;
 }
 
@@ -215,29 +266,4 @@ void GameMainScene::CoinGenerate(int i, int j)
         enemy_j->SetFalseHitCursor();
     }
 
-}
-
-void GameMainScene::SkillCoinUse(int i,int coin_num)
-{
-    BSkillBase* skill = dynamic_cast<BSkillBase*>(objects[i]);
-
-    if (ui_coins->GetCoinsNum() >= coin_num)
-    {
-        skill->Update();
-
-        // スキル解放したらコイン減らす
-        if (skill->GetUseCoinFlg() == true)
-        {
-            ui_coins->ReduceCoins(coin_num);
-            skill->SetUseCoinFlg();
-        }
-    }
-    else
-    {
-        // possibleの状態でコインがcoin_numより少なくなったら、closeの状態にする
-        if (skill->GetSkillState() == BSkillState::possible)
-        {
-            skill->SetSkillStateClose();
-        }
-    }
 }

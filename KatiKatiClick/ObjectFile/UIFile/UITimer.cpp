@@ -1,4 +1,5 @@
 #include "UITimer.h"
+#include "DxLib.h"
 
 UITimer::UITimer()
 {
@@ -8,15 +9,35 @@ UITimer::UITimer()
 
 UITimer::~UITimer()
 {
-	GetRefreshRate();
+
 }
 
 void UITimer::Update()
 {
+	if (fps_count < 60)
+	{
+		fps_count++;
+	}
+	else
+	{
+		seconds--;
+		fps_count = 0;
+	}
 
+	if (seconds < 0)
+	{
+		seconds = 0;
+	}
 }
 
 void UITimer::Draw() const
 {
-	DrawFormatString(20, 20, 0xff0000, "timer : %d", seconds);
+	DrawBox(10, 10, 130, 50, 0xc0c0c0, TRUE);
+	DrawFormatString(20, 20, 0x000000, "timer : %d", seconds);
+}
+
+// 秒数の取得
+int UITimer::GetSeconds() const
+{
+	return seconds;
 }
