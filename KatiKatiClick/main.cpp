@@ -9,6 +9,8 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int
 	nCmdShow)
 {
+	// ウィンドウのタイトルを"KatiKatiDefense"に変更
+	SetMainWindowText("KatiKatiDefense");
 	ChangeWindowMode(TRUE);
 
 	SetGraphMode(360, 800, 32);	//画面サイズ指定
