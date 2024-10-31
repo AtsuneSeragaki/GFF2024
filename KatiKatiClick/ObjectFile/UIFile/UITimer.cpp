@@ -31,7 +31,8 @@ void UITimer::Update()
 
 void UITimer::Draw() const
 {
-	DrawFormatString(20, 20, 0xcc0000, "timer : %d", seconds);
+	DrawBox(10, 10, 130, 50, 0xc0c0c0, TRUE);
+	DrawFormatString(20, 20, 0x000000, "timer : %d", seconds);
 }
 
 // 秒数の取得
