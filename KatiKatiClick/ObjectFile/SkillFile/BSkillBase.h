@@ -19,6 +19,7 @@ class BSkillBase : public ObjectBase
 protected:
 	int image;
 	BSkillState bskill_state; // ボタンの状態
+	bool use_coin; // コイン false:使ってない true:使った
 
 public:
 	BSkillBase();
@@ -26,4 +27,18 @@ public:
 
 	// ボタンの状態を返す
 	BSkillState GetSkillState() { return bskill_state; }
+
+	// ボタンの状態をCloseにする
+	void SetSkillStateClose() { bskill_state = BSkillState::close; }
+
+	// ボタンの状態をpossibleにする
+	void SetSkillStatePossible() { bskill_state = BSkillState::possible; }
+
+	// コインを使ったかフラグの値を返す
+	bool GetUseCoinFlg() { return use_coin; }
+
+	// コインを使ったかフラグの値をfalseにする
+	void SetUseCoinFlg() { use_coin = false; }
+
+
 };

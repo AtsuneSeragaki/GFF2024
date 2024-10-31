@@ -39,6 +39,7 @@ void BAttackSkill::Initialize()
 	shape = Shape::square;
 	can_delete = false;
 	bskill_state = BSkillState::close;
+	use_coin = false;
 
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
@@ -50,10 +51,6 @@ void BAttackSkill::Initialize()
 
 void BAttackSkill::Update()
 {
-	if (bskill_state == BSkillState::close)
-	{
-		bskill_state = BSkillState::possible;
-	}
 }
 
 void BAttackSkill::Draw() const
@@ -103,10 +100,15 @@ void BAttackSkill::HitReaction(ObjectBase* character)
 
 		if (bskill_state == BSkillState::possible)
 		{
+			// 解放前SE再生
+
 			bskill_state = BSkillState::standby;
+			use_coin = true;
 		}
 		else if(bskill_state == BSkillState::standby)
 		{
+			// 解放後SE再生
+
 			bskill_state = BSkillState::active;
 		}
 
