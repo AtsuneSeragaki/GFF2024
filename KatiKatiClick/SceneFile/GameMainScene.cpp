@@ -1,10 +1,12 @@
 #include "GameMainScene.h"
 
+
 GameMainScene::GameMainScene()
 {
     //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
     //CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
+    CreateObject<Goal>(Vector2D(0.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));
     ui_coins = new UICoins;     // コインUI生成
 
     enm_generate_cnt = 200;
@@ -51,11 +53,24 @@ void GameMainScene::Update()
             else
             {
                 //shapeが同じ時
-                //ヒットチェック
-                if (objects[i]->HitCircle(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
+                if (objects[i]->GetShape() == Shape::circle && objects[j]->GetShape() == Shape::circle)
                 {
-                    objects[i]->HitReaction(objects[j]);
-                    objects[j]->HitReaction(objects[i]);
+                    //ヒットチェック
+                    if (objects[i]->HitCircle(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
+                    {
+                        objects[i]->HitReaction(objects[j]);
+                        objects[j]->HitReaction(objects[i]);
+                    }
+                }
+
+                if (objects[i]->GetShape() == Shape::square && objects[j]->GetShape() == Shape::square)
+                {
+                    //ヒットチェック
+                    if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()))
+                    {
+                        objects[i]->HitReaction(objects[j]);
+                        objects[j]->HitReaction(objects[i]);
+                    }
                 }
             }
 
@@ -82,9 +97,6 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-    //UI設置仮
-    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
 
     //敵の描画
     for (int i = 0; i < objects.size(); i++)
@@ -108,11 +120,20 @@ void GameMainScene::Draw() const
     }
 
     //UI設置仮
-    //DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
-    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
 
     //ゴール仮幅
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT - GET_LANE_HEIGHT(2) + 5, 0xffff00, TRUE);
+   // DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT - GET_LANE_HEIGHT(2) + 5, 0xffff00, TRUE);
+
+    //ゴール描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::goal)
+        {
+            objects[i]->Draw();
+        }
+    }
 
     //カーソル描画
     for (int i = 0; i < objects.size(); i++)
@@ -122,6 +143,7 @@ void GameMainScene::Draw() const
             objects[i]->Draw();
         }
     }
+
 
 }
 

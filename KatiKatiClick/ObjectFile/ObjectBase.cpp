@@ -36,6 +36,26 @@ bool ObjectBase::HitCircle(Vector2D other_obj, float other_radius)
 	}
 }
 
+bool ObjectBase::HitBox(Vector2D other_obj, float other_height, float other_width)
+{
+	//x座標の相手と自分の距離を絶対値で測る
+	float distance_x = fabsf(location.x - other_obj.x);
+	float distance_y = fabsf(location.y - other_obj.y);
+	//幅をたした値を2で割る
+	float width_size = (width + other_width) / 2.0f;
+	float height_size = (height + other_height) / 2.0f;
+
+	//サイズの和と距離を比較する
+	if (distance_x < width_size && distance_y < height_size)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool ObjectBase::HitBoxCircle(ObjectBase* object)
 {
 	float box_left, box_right, box_top, box_bottom;

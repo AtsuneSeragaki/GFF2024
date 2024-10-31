@@ -78,6 +78,9 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		radius += 5.0f;
 		hit_cursor = true;
 		break;
+	case ObjectType::goal:
+		can_hit = false;
+		break;
 	default:
 		break;
 	}

@@ -9,7 +9,7 @@ CrackEnemy::CrackEnemy()
 	width = 70.0f;
 	height = 70.0f;
 	speed = 1.5f;
-	can_hit = true;
+	can_hit = false;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
 }
@@ -34,7 +34,7 @@ void CrackEnemy::Update()
 	}
 
 	//UIより上か下だったら当たり判定をしない
-	if (location.y < ONE_LANE_HEIGHT || location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
+	if (location.y < ONE_LANE_HEIGHT || location.y+height/2 > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
 	{
 		can_hit = false;
 	}
@@ -64,6 +64,10 @@ void CrackEnemy::Draw() const
 	{
 		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
 	}
+
+
+	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
+
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
@@ -76,6 +80,9 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		width -= 10.0f;
 		height -= 10.0f;
 		hit_cursor = true;
+		break;
+	case ObjectType::goal:
+		can_hit = false;
 		break;
 	default:
 		break;

@@ -10,6 +10,7 @@ enum class ObjectType
 	attackskill,
 	slowdownskill,
 	cursor,
+	goal,
 };
 
 enum class Shape
@@ -40,9 +41,10 @@ public:
 	virtual void Draw() const = 0;
 	virtual void HitReaction(ObjectBase* character) = 0; //hitCheckがtrueだったらhitした後の処理をする
 
-	//丸と丸の当たり判定:何かに当たったかどうかだけ返す
-	bool HitCircle(Vector2D other_obj, float other_radius);
-	bool HitBoxCircle(ObjectBase* object);
+	/*当たり判定:何かに当たったかどうかだけ返す*/
+	bool HitCircle(Vector2D other_obj, float other_radius);//円と円の当たり判定
+	bool HitBox(Vector2D other_obj, float other_height, float other_width);//四角と四角の当たり判定
+	bool HitBoxCircle(ObjectBase* object);//四角と円の当たり判定
 	float DistanceSqrf(float box_x, float box_y, float circle_x, float circle_y);
 
 	ObjectType GetObjectType();//typeを返す

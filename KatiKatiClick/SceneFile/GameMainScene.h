@@ -4,6 +4,7 @@
 #include "../ObjectFile/EnemyFile/CrackEnemy.h"
 #include "../ObjectFile/EnemyFile/BurstEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
+#include "../ObjectFile/GoalFile/Goal.h"
 #include "../UtilityFile/Define.h"
 #include "../ObjectFile/CoinFile/Coin.h"
 #include "../UtilityFile/Geometry.h"
@@ -14,7 +15,6 @@ class GameMainScene :
     public AbstractScene
 {
 private:
-	CrackEnemy* crackenemy;
 	ObjectBase* check_virtual;
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
@@ -29,6 +29,7 @@ public:
 	void Update() override;
 	void Draw() const override;
 	AbstractScene* Change() override;
+
 
 private:
 	void Initialize();
