@@ -25,6 +25,7 @@ private:
 	int enm_generate_cnt;//エネミー生成カウント
 
 	bool is_game_clear;			// ゲームクリアか？
+	int change_wait_time;		// シーン切り替え待ち時間
 
 public:
 	GameMainScene();

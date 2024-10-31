@@ -16,6 +16,7 @@ GameMainScene::GameMainScene()
     enm_generate_cnt = 200;
 
     is_game_clear = false;
+    change_wait_time = 300;
 }
 
 GameMainScene::~GameMainScene()
@@ -31,6 +32,9 @@ void GameMainScene::Update()
         {
             // 制限時間が0ならゲームクリア
             is_game_clear = true;
+
+            // シーン切り替え待ちカウントを減らす
+            change_wait_time--;
 
             for (int i = 0; i < objects.size(); i++)
             {
@@ -187,12 +191,18 @@ void GameMainScene::Draw() const
     if (is_game_clear)
     {
         DrawString(30, 350, "GAME CLEAE", 0xffffff);
+        DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
     }
 
 }
 
 AbstractScene* GameMainScene::Change()
 {
+    if (change_wait_time <= 0)
+    {
+        return new GameMainScene;
+    }
+
     return this;
 }
 
