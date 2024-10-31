@@ -51,10 +51,6 @@ void BSlowDownSkill::Initialize()
 
 void BSlowDownSkill::Update()
 {
-	if (bskill_state == BSkillState::close)
-	{
-		bskill_state = BSkillState::possible;
-	}
 }
 
 void BSlowDownSkill::Draw() const

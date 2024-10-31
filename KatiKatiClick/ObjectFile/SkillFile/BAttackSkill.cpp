@@ -51,10 +51,6 @@ void BAttackSkill::Initialize()
 
 void BAttackSkill::Update()
 {
-	if (bskill_state == BSkillState::close)
-	{
-		bskill_state = BSkillState::possible;
-	}
 }
 
 void BAttackSkill::Draw() const
