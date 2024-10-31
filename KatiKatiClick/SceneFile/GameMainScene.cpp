@@ -26,7 +26,24 @@ void GameMainScene::Update()
         {
             // 制限時間が0ならゲームクリア
             is_game_clear = true;
-            return;
+
+            for (int i = 0; i < objects.size(); i++)
+            {
+                // カーソルのみ更新処理を行う
+                Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
+
+                if (cursor != nullptr)
+                {
+                    objects[i]->Update();
+
+                    //消してもOKだったらobjectを削除
+                    if (objects[i]->GetIsDelete() == true)
+                    {
+                        objects.erase(objects.begin() + i);
+                    }
+                    return;
+                }
+            }
         }
 
         // タイマー更新処理
