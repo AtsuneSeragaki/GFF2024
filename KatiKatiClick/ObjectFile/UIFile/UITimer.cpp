@@ -1,4 +1,5 @@
 #include "UITimer.h"
+#include "DxLib.h"
 
 UITimer::UITimer()
 {

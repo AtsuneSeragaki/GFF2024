@@ -5,11 +5,12 @@
 
 GameMainScene::GameMainScene()
 {
-    CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
-    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
-    CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
-    CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f)); // アタックスキルボタン生成
-    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f)); // 足止めスキルボタン生成
+    CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
+    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));            //円エネミー
+    CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
+    CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
+    CreateObject<PauseButton>(Vector2D(289.0f, 20.0f));         // ポーズボタン生成
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
 
@@ -160,6 +161,15 @@ void GameMainScene::Draw() const
     for (int i = 0; i < objects.size(); i++)
     {
         if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
+    // ポーズボタン描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
         {
             objects[i]->Draw();
         }

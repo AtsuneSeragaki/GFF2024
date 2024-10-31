@@ -1,4 +1,5 @@
 #include "UICoins.h"
+#include "DxLib.h"
 
 UICoins::UICoins()
 {

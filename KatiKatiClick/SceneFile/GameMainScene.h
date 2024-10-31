@@ -9,6 +9,7 @@
 #include "../UtilityFile/Geometry.h"
 #include "../ObjectFile/UIFile/UICoins.h"
 #include "../ObjectFile/UIFile/UITimer.h"
+#include "../ObjectFile/PauseButton/PauseButton.h"
 #include <vector>
 
 class GameMainScene :
