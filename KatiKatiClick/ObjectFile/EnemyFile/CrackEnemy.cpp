@@ -35,6 +35,8 @@ void CrackEnemy::Update()
 	//hpが0以下になったら消す
 	if (hp <= 0)
 	{
+		// 敵がつぶれるSE再生
+
 		can_delete = true;
 	}
 }
@@ -52,6 +54,9 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 	switch (character->GetObjectType())
 	{
 	case ObjectType::cursor:
+
+		// 敵が押された時SE再生
+
 		hp -= 10;
 		width -= 10.0f;
 		height -= 10.0f;

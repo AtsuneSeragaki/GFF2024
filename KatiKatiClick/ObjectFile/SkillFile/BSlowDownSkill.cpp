@@ -14,6 +14,7 @@ BSlowDownSkill::BSlowDownSkill()
 	shape = Shape::square;
 	can_delete = false;
 	bskill_state = BSkillState::close;
+	use_coin = false;
 
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
@@ -90,6 +91,10 @@ void BSlowDownSkill::Draw() const
 #endif // _DEBUG
 }
 
+void BSlowDownSkill::Finalize()
+{
+}
+
 void BSlowDownSkill::HitReaction(ObjectBase* character)
 {
 	switch (character->GetObjectType())
@@ -98,10 +103,15 @@ void BSlowDownSkill::HitReaction(ObjectBase* character)
 
 		if (bskill_state == BSkillState::possible)
 		{
+			// 解放前SE再生
+
 			bskill_state = BSkillState::standby;
+			use_coin = true;
 		}
 		else if (bskill_state == BSkillState::standby)
 		{
+			// 解放後SE再生
+
 			bskill_state = BSkillState::active;
 		}
 		break;

@@ -34,6 +34,8 @@ private:
 	void Initialize();
 	void EnemyGenerate();
 	void CoinGenerate(int i, int j);
+	// スキルボタンの解放でコインを使った時の処理
+	void SkillCoinUse(int i,int coin_num); 
 
 protected:
 	template <class T>

@@ -26,6 +26,8 @@ void UICoins::Draw() const
 // コインを1増やす
 void UICoins::IncreaseCoins()
 {
+	// コインがカウントアップする時のSE再生
+
 	coins_num++;
 }
 

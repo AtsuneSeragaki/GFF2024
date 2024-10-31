@@ -22,12 +22,27 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
-
+    // ゲームメインBGM再生
+ 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
-        objects[i]->Update();
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        {// オブジェクトタイプがアタックスキルボタンだったら
 
+            SkillCoinUse(i,20);
+        }
+        else if(objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {// オブジェクトタイプが足止めスキルボタンだったら
+
+            SkillCoinUse(i,40);
+        }
+        else
+        {// 上記以外の場合
+
+            objects[i]->Update();
+        }
+        
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
@@ -200,4 +215,29 @@ void GameMainScene::CoinGenerate(int i, int j)
         enemy_j->SetFalseHitCursor();
     }
 
+}
+
+void GameMainScene::SkillCoinUse(int i,int coin_num)
+{
+    BSkillBase* skill = dynamic_cast<BSkillBase*>(objects[i]);
+
+    if (ui_coins->GetCoinsNum() >= coin_num)
+    {
+        skill->Update();
+
+        // スキル解放したらコイン減らす
+        if (skill->GetUseCoinFlg() == true)
+        {
+            ui_coins->ReduceCoins(coin_num);
+            skill->SetUseCoinFlg();
+        }
+    }
+    else
+    {
+        // possibleの状態でコインがcoin_numより少なくなったら、closeの状態にする
+        if (skill->GetSkillState() == BSkillState::possible)
+        {
+            skill->SetSkillStateClose();
+        }
+    }
 }
