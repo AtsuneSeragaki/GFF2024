@@ -38,6 +38,7 @@ public:
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
+	virtual void Finalize();
 	virtual void HitReaction(ObjectBase* character) = 0; //hitCheckがtrueだったらhitした後の処理をする
 
 	//丸と丸の当たり判定:何かに当たったかどうかだけ返す

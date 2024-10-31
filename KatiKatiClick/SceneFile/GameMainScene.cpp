@@ -1,10 +1,15 @@
 #include "GameMainScene.h"
 
+#include "../ObjectFile/SkillFile/BAttackSkill.h"
+#include "../ObjectFile/SkillFile/BSlowDownSkill.h"
+
 GameMainScene::GameMainScene()
 {
     CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
     CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));//カーソル生成
+    CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f)); // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f)); // 足止めスキルボタン生成
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
 
@@ -114,21 +119,13 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-    //キャラクター描画
 
+    //キャラクター描画
     for (int i = 0; i < objects.size(); i++)
     {
         if (objects[i]->GetObjectType() == ObjectType::enemy)
         {
             objects[i]->Draw();   
-        }
-    }
-
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::cursor)
-        {
-            objects[i]->Draw();
         }
     }
 
@@ -139,13 +136,40 @@ void GameMainScene::Draw() const
     }
 
 
-
     //UI設置仮現場
     DrawBox(0, 0, 360, 70, 0x999999, TRUE);
     DrawBox(0, 650, 360, 800, 0x999999, TRUE);
 
     //ゴール仮幅
     DrawBox(0, 645, 360, 650, 0xffff00, TRUE);
+
+    // アタックスキルボタン描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
+    // 足止めスキルボタン描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
+    // カーソル描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::cursor)
+        {
+            objects[i]->Draw();
+        }
+    }
+
 
 
     if (ui_coins != nullptr)
