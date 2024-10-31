@@ -16,5 +16,6 @@ public:
     void HitReaction(ObjectBase* character) override;
 
     void EnemyGoal() { goal_cnt--; }
+    int GetGoalCnt() { return goal_cnt; }
 };
 

@@ -13,13 +13,15 @@ GameMainScene::GameMainScene()
     CreateObject<PauseButton>(Vector2D(289.0f, 20.0f));         // ポーズボタン生成
     //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
     //CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
-    CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));
+    goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
+
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
 
     enm_generate_cnt = 200;
 
     is_game_clear = false;
+    is_game_over = false;
     change_wait_time = 300;
 }
 
@@ -30,7 +32,7 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
-    if (ui_timer != nullptr)
+    if (ui_timer != nullptr && is_game_over == false)
     {
         if (ui_timer->GetSeconds() == 0)
         {
@@ -63,6 +65,17 @@ void GameMainScene::Update()
         ui_timer->Update();
     }
 
+    //ゲームオーバーかチェック
+    if (goal != nullptr)
+    {
+        if (goal->GetGoalCnt() <= 0)
+        {
+            // シーン切り替え待ちカウントを減らす
+            change_wait_time--;
+            is_game_over = true;
+            return;            //この行より下の処理はしない
+        }
+    }
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
@@ -232,6 +245,12 @@ void GameMainScene::Draw() const
     if (is_game_clear)
     {
         DrawString(30, 350, "GAME CLEAE", 0xffffff);
+        DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
+    }
+
+    if (is_game_over)
+    {
+        DrawString(30, 350, "GAME OVER", 0xffffff);
         DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
     }
 
