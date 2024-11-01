@@ -13,6 +13,6 @@ public:
 	void Update() override;
 	void Initialize() override;
 	void Draw()const override;
-	void Finalize() override;
+	void Finalize();
 
 };
