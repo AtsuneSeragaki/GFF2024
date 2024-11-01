@@ -156,7 +156,10 @@
     <ClCompile Include="ObjectFile\CoinFile\Coin.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp" />
     <ClCompile Include="ObjectFile\ObjectBase.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\BSkillBase.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\SkillBase.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UIBase.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UICoin.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UITimer.cpp" />
@@ -177,7 +180,10 @@
     <ClInclude Include="ObjectFile\GoalFile\Goal.h" />
     <ClInclude Include="ObjectFile\CoinFile\Coin.h" />
     <ClInclude Include="ObjectFile\EnemyFile\BurstEnemy.h" />
+    <ClInclude Include="ObjectFile\SkillFile\AttackSKill.h" />
     <ClInclude Include="ObjectFile\SkillFile\BSkillBase.h" />
+    <ClInclude Include="ObjectFile\SkillFile\SkillBase.h" />
+    <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h" />
     <ClInclude Include="ObjectFile\UIFile\UIBase.h" />
     <ClInclude Include="ObjectFile\UIFile\UICoins.h" />
     <ClInclude Include="ObjectFile\UIFile\UITimer.h" />

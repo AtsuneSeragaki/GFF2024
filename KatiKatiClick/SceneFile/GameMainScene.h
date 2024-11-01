@@ -45,6 +45,8 @@ private:
 	void CoinGenerate(int i, int j);
 	// スキルボタンの解放でコインを使った時の処理
 	void SkillCoinUse(int i,int coin_num); 
+	// スキル位置選択ポーズ処理
+	void SkillPause(int i);
 
 protected:
 	template <class T>

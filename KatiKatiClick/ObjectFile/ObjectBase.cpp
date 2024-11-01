@@ -36,10 +36,6 @@ bool ObjectBase::HitCircle(Vector2D other_obj, float other_radius)
 	}
 }
 
-void ObjectBase::Finalize()
-{
-}
-
 bool ObjectBase::HitBox(Vector2D other_obj, float other_height, float other_width)
 {
 	//x座標の相手と自分の距離を絶対値で測る

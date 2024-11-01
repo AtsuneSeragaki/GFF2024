@@ -51,6 +51,9 @@
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
     <ClCompile Include="ObjectFile\PauseButton\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Goal.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\SkillBase.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp" />
+    <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -105,6 +108,9 @@
     <ClInclude Include="UtilityFile\ResourceManager.h" />
     <ClInclude Include="ObjectFile\PauseButton\PauseButton.h" />
     <ClInclude Include="ObjectFile\GoalFile\Goal.h" />
+    <ClInclude Include="ObjectFile\SkillFile\SkillBase.h" />
+    <ClInclude Include="ObjectFile\SkillFile\AttackSKill.h" />
+    <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">

@@ -2,7 +2,6 @@
 
 #include "../ObjectBase.h"
 
-
 #define BUTTON_WIDTH  130.0f  // ボタンの幅
 #define BUTTON_HEIGHT 100.0f  // ボタンの高さ
 
@@ -39,6 +38,4 @@ public:
 
 	// コインを使ったかフラグの値をfalseにする
 	void SetUseCoinFlg() { use_coin = false; }
-
-
 };

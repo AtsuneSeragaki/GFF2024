@@ -2,6 +2,8 @@
 
 #include "../ObjectFile/SkillFile/BAttackSkill.h"
 #include "../ObjectFile/SkillFile/BSlowDownSkill.h"
+#include "../ObjectFile/SkillFile/AttackSKill.h"
+#include "../ObjectFile/SkillFile/SlowDownSkill.h"
 
 GameMainScene::GameMainScene()
 {
@@ -83,10 +85,12 @@ void GameMainScene::Update()
         if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
         {
             SkillCoinUse(i, 20);
+            SkillPause(i);
         }
         else if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
             SkillCoinUse(i, 40);
+            SkillPause(i);
         }
         else
         {
@@ -322,29 +326,39 @@ void GameMainScene::CoinGenerate(int i, int j)
 
 void GameMainScene::SkillCoinUse(int i, int coin_num)
 {
-    BSkillBase* skill = dynamic_cast<BSkillBase*>(objects[i]);
+    BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
 
     if (ui_coins->GetCoinsNum() >= coin_num)
     {
         // closeの状態でコインがcoin_num以上だったら、possibleの状態にする
-        if (skill->GetSkillState() == BSkillState::close)
+        if (b_skill->GetSkillState() == BSkillState::close)
         {
-            skill->SetSkillStatePossible();
+            b_skill->SetSkillStatePossible();
         }
     }
     else
     {
         // possibleの状態でコインがcoin_num未満、closeの状態にする
-        if (skill->GetSkillState() == BSkillState::possible)
+        if (b_skill->GetSkillState() == BSkillState::possible)
         {
-            skill->SetSkillStateClose();
+            b_skill->SetSkillStateClose();
         }
     }
 
     // スキル解放したらコイン減らす
-    if (skill->GetUseCoinFlg() == TRUE)
+    if (b_skill->GetUseCoinFlg() == TRUE)
     {
         ui_coins->ReduceCoins(coin_num);
-        skill->SetUseCoinFlg();
+        b_skill->SetUseCoinFlg();
+    }
+}
+
+void GameMainScene::SkillPause(int i)
+{
+    BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+
+    if (b_skill->GetSkillState() == BSkillState::active)
+    {
+        // ポーズ状態にする
     }
 }
