@@ -23,6 +23,7 @@ GameMainScene::GameMainScene()
     is_game_over = false;
     change_wait_time = 300;
     is_enm_generate = true;
+    is_pause = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -32,6 +33,12 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
+    //if (is_pause == true)
+    //{
+    //    // ゲームの更新を一時停止
+    //    return;
+    //}
+
     if (ui_timer != nullptr && is_game_over == false)
     {
         if (ui_timer->GetSeconds() == 0)
@@ -167,7 +174,6 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-
     //敵の描画
     for (int i = 0; i < objects.size(); i++)
     {

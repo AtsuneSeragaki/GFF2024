@@ -32,6 +32,8 @@ private:
 	bool is_game_over;			// ゲームオーバーか？
 	int change_wait_time;		// シーン切り替え待ち時間
 
+	bool is_pause;				// 一時停止か？
+
 public:
 	GameMainScene();
 	~GameMainScene();
