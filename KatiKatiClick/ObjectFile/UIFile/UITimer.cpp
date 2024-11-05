@@ -62,6 +62,11 @@ void UITimer::Update()
 		image_num[1] = 0;
 	}
 
+	if (seconds == 0)
+	{
+		image_num[0] = 0;
+	}
+
 }
 
 void UITimer::Draw() const
