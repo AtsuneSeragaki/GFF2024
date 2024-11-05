@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include "../ObjectFile/EnemyFile/CrackEnemy.h"
 #include "../ObjectFile/EnemyFile/BurstEnemy.h"
+#include "../ObjectFile/EnemyFile/SnakeEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../ObjectFile/GoalFile/Goal.h"
 #include "../UtilityFile/Define.h"

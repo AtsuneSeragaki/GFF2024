@@ -7,7 +7,8 @@
 
 GameMainScene::GameMainScene()
 {
-    CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
+    //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
+    CreateObject<SnakeEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
