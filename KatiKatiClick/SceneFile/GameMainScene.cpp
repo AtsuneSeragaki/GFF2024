@@ -6,13 +6,10 @@
 GameMainScene::GameMainScene()
 {
     CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
-    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));            //円エネミー
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
     CreateObject<PauseButton>(Vector2D(289.0f, 20.0f));         // ポーズボタン生成
-    //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
-    //CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
     goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -23,6 +20,7 @@ GameMainScene::GameMainScene()
     is_game_clear = false;
     is_game_over = false;
     change_wait_time = 300;
+    is_enm_generate = true;
 }
 
 GameMainScene::~GameMainScene()
@@ -147,8 +145,6 @@ void GameMainScene::Update()
         }
     }
 
-    EnemyGenerate();
-
     for (int i = 0; i < coins.size(); i++)
     {
         // コイン更新
@@ -160,6 +156,9 @@ void GameMainScene::Update()
             coins.erase(coins.begin() + i);
         }
     }
+
+    //エネミーを生成
+    EnmGenerateTimeCheck();
 }
 
 void GameMainScene::Draw() const
@@ -271,8 +270,31 @@ void GameMainScene::Initialize()
 {
 }
 
-void GameMainScene::EnemyGenerate()
+void GameMainScene::EnemyGenerate(int num)
 {
+    if (is_enm_generate == true)
+    {
+        is_enm_generate = false;
+        for (int i = 0; i < num; i++)
+        {
+            //ランダムで出てくる位置を決める
+            int max = 3;
+            int min = 1;
+            int random_num = min+rand() * (max - min + 1) / (1 + RAND_MAX);
+            EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
+            //i*60待ってから出てくる
+            crack_enemy->SetWaitTime(i * 60);
+
+            //crack_enemyと出てくるレーンが被らないようにずらす
+            if (random_num == max) { random_num--; }           
+            else if (random_num == min) { random_num++; }
+            else { random_num++; }
+            EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
+            burst_enemy->SetWaitTime(i * 60);
+
+        }
+    }
+    /*
     if (enm_generate_cnt > 500)
     {
         enm_generate_cnt = 0;
@@ -285,6 +307,38 @@ void GameMainScene::EnemyGenerate()
     }
 
     enm_generate_cnt++;
+    */
+}
+
+void GameMainScene::EnmGenerateTimeCheck()
+{
+    //10秒ごとに敵を生成
+//残り時間が少なくなっていくほど敵を多く生成
+    switch (ui_timer->GetSeconds())
+    {
+    case 60:
+        EnemyGenerate(3);
+        break;
+    case 50:
+        EnemyGenerate(6);
+        break;
+    case 40:
+        EnemyGenerate(7);
+        break;
+    case 30:
+        EnemyGenerate(8);
+        break;
+    case 20:
+        EnemyGenerate(10);
+        break;
+    case 10:
+        EnemyGenerate(3);
+        break;
+    default:
+        is_enm_generate = true;
+        break;
+    }
+
 }
 
 void GameMainScene::CoinGenerate(int i, int j)

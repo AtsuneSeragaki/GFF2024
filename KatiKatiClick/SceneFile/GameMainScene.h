@@ -25,6 +25,8 @@ private:
 	Goal* goal;
 
 	int enm_generate_cnt;//エネミー生成カウント
+	
+	bool is_enm_generate;//エネミーを生成するか？
 
 	bool is_game_clear;			// ゲームクリアか？
 	bool is_game_over;			// ゲームオーバーか？
@@ -41,7 +43,8 @@ public:
 
 private:
 	void Initialize();
-	void EnemyGenerate();
+	void EnemyGenerate(int num);
+	void EnmGenerateTimeCheck();
 	void CoinGenerate(int i, int j);
 	// スキルボタンの解放でコインを使った時の処理
 	void SkillCoinUse(int i,int coin_num); 

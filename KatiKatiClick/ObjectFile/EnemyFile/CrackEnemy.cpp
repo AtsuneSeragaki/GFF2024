@@ -12,7 +12,6 @@ CrackEnemy::CrackEnemy()
 	can_hit = false;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
-	state = State::move;
 }
 
 CrackEnemy::~CrackEnemy()
@@ -27,6 +26,14 @@ void CrackEnemy::Update()
 {
 	switch (state)
 	{
+	case State::wait:
+
+		if (wait_time-- < 0)
+		{
+			state = State::move;
+		}
+
+		break;
 	case State::move:
 		location.y += speed;
 
