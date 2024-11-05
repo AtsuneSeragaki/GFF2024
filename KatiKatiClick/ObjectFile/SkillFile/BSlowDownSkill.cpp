@@ -84,6 +84,8 @@ void BSlowDownSkill::Draw() const
 
 #ifdef _DEBUG
 
+	DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 50, "coin:40", 0x000000);
+
 #endif // _DEBUG
 }
 
