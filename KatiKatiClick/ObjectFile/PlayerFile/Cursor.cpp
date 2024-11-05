@@ -1,8 +1,9 @@
 #include "Cursor.h"
 #include "../../UtilityFile/MouseInput.h"
+#include "../../UtilityFile/ResourceManager.h"
 #include "DxLib.h"
 
-Cursor::Cursor()
+Cursor::Cursor():se()
 {
 	location.x = 0.0f;
 	location.y = 0.0f;
@@ -10,6 +11,14 @@ Cursor::Cursor()
 	shape = Shape::circle;
 	radius = 10.0f;
 	can_hit = false;
+
+	ResourceManager* rm = ResourceManager::GetInstance();
+	int tmp;
+	tmp = rm->GetSounds("Resource/Sounds/Tmouseclick.mp3");
+	se[0] = tmp;
+
+	tmp = rm->GetSounds("Resource/Sounds/Thitenemy.mp3");
+	se[1] = tmp;
 }
 
 Cursor::~Cursor()
@@ -18,6 +27,13 @@ Cursor::~Cursor()
 
 void Cursor::Initialize()
 {
+	ResourceManager* rm = ResourceManager::GetInstance();
+	int tmp;
+	tmp = rm->GetSounds("Resource/Sounds/Tmouseclick.mp3");
+	se[0] = tmp;
+
+	tmp = rm->GetSounds("Resource/Sounds/Thitenemy.mp3");
+	se[1] = tmp;
 }
 
 void Cursor::Update()
@@ -27,8 +43,12 @@ void Cursor::Update()
 	location.x = (float)x;
 	location.y = (float)y;
 
+	
+
 	if (MouseInput::GetMouseState() == eMouseInputState::eClick)
 	{
+		// クリックSE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 		can_hit = true;
 	}
 	else
@@ -44,5 +64,18 @@ void Cursor::Draw() const
 
 void Cursor::HitReaction(ObjectBase* character)
 {
-	// クリックSE再生
+	switch (character->GetObjectType())
+	{
+	case ObjectType::enemy:
+		// se[0]の再生を止める
+		StopSoundMem(se[0]);
+		// クリックSE再生
+		PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
+		break;
+
+	default:
+		// se[0]の再生を止める
+		StopSoundMem(se[0]);
+		break;
+	}
 }
