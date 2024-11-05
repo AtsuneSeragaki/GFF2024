@@ -10,10 +10,12 @@ UITimer::UITimer()
 	// 数字画像を読み込む
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = rm->GetImages("Resource/Images/num.png", 10, 10, 1, 32, 32);
+	tmp = rm->GetImages("Resource/Images/Timer/Timer.png");
+	timer_image.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Timer/Num.png", 10, 10, 1, 32, 32);
 	for (int i = 0; i < 10; i++)
 	{
-		images_data.push_back(tmp[i]);
+		num_image.push_back(tmp[i]);
 	}
 
 	for (int i = 0; i < 2; i++)
@@ -71,12 +73,14 @@ void UITimer::Update()
 
 void UITimer::Draw() const
 {
-	DrawBox(10, 10, 130, 50, 0x000000, TRUE);
-	DrawFormatString(20, 20, 0xffffff, "timer:");
+	DrawBox(10, 5, 130, 55, 0x000000, TRUE);
+	//DrawFormatString(20, 20, 0xffffff, "timer:");
+
+	DrawRotaGraph(40, 30, 1.0, 0.0, timer_image[0], TRUE);
 
 	for (int i = 0; i < 2; i++)
 	{
-		DrawRotaGraph(110 - i * 20, 30, 1.0, 0.0, images_data[image_num[i]], TRUE);
+		DrawRotaGraph(110 - i * 20, 30, 1.0, 0.0, num_image[image_num[i]], TRUE);
 	}
 
 }
@@ -85,9 +89,4 @@ void UITimer::Draw() const
 int UITimer::GetSeconds() const
 {
 	return seconds;
-}
-
-int UITimer::GetSecondsImage() const
-{
-	return image_num[0];
 }
