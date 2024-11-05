@@ -57,6 +57,11 @@ void UITimer::Update()
 		}
 	}
 
+	if (seconds <= 9)
+	{
+		image_num[1] = 0;
+	}
+
 }
 
 void UITimer::Draw() const
@@ -75,4 +80,9 @@ void UITimer::Draw() const
 int UITimer::GetSeconds() const
 {
 	return seconds;
+}
+
+int UITimer::GetSecondsImage() const
+{
+	return image_num[0];
 }

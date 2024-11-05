@@ -18,4 +18,5 @@ public:
     void Draw() const override;
 
     int GetSeconds() const;     // 秒数の取得
+    int GetSecondsImage() const;    // 
 };
