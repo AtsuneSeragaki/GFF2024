@@ -16,7 +16,8 @@ enum class BSkillState
 class BSkillBase : public ObjectBase
 {
 protected:
-	int image;
+	int image; // 画像データ
+	int se[2]; // 効果音データ
 	BSkillState bskill_state; // ボタンの状態
 	bool use_coin; // コイン false:使ってない true:使った
 

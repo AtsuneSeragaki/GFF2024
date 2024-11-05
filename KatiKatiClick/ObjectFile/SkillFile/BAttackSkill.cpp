@@ -21,6 +21,14 @@ BAttackSkill::BAttackSkill()
 	tmp = rm->GetImages("Resource/Images/TestSkill.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
+
+	// 効果音の読み込み
+	/*int tmp2;
+	tmp2 = rm->GetSounds("");
+	se[0] = tmp2;
+
+	tmp2 = rm->GetSounds("");
+	se[0] = tmp2;*/
 }
 
 BAttackSkill::~BAttackSkill()
@@ -82,9 +90,11 @@ void BAttackSkill::Draw() const
 		break;
 	}
 
-#ifdef _DEBUG
-	//DrawGraphF(20.0f, 100.0f,image, TRUE);
+	// 解放に必要なコインの数を描画
 	DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 50, "coin:20", 0x000000);
+
+#ifdef _DEBUG
+
 #endif // _DEBUG
 }
 
@@ -102,14 +112,14 @@ void BAttackSkill::HitReaction(ObjectBase* character)
 		if (bskill_state == BSkillState::possible)
 		{
 			// 解放前SE再生
-
+			//PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 			bskill_state = BSkillState::standby;
 			use_coin = true;
 		}
 		else if(bskill_state == BSkillState::standby)
 		{
 			// 解放後SE再生
-
+			//PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
 			bskill_state = BSkillState::active;
 		}
 
