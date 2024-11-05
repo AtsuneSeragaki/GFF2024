@@ -84,6 +84,7 @@ void BAttackSkill::Draw() const
 
 #ifdef _DEBUG
 	//DrawGraphF(20.0f, 100.0f,image, TRUE);
+	DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 50, "coin:20", 0x000000);
 #endif // _DEBUG
 }
 

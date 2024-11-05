@@ -2,17 +2,16 @@
 
 #include "../ObjectFile/SkillFile/BAttackSkill.h"
 #include "../ObjectFile/SkillFile/BSlowDownSkill.h"
+#include "../ObjectFile/SkillFile/AttackSKill.h"
+#include "../ObjectFile/SkillFile/SlowDownSkill.h"
 
 GameMainScene::GameMainScene()
 {
     CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
-    CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));            //円エネミー
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
     CreateObject<PauseButton>(Vector2D(289.0f, 20.0f));         // ポーズボタン生成
-    //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));//エネミー生成
-    //CreateObject<BurstEnemy>(Vector2D(420.0f,0.0f));//円エネミー
     goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -23,6 +22,7 @@ GameMainScene::GameMainScene()
     is_game_clear = false;
     is_game_over = false;
     change_wait_time = 300;
+    is_enm_generate = true;
 }
 
 GameMainScene::~GameMainScene()
@@ -83,10 +83,12 @@ void GameMainScene::Update()
         if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
         {
             SkillCoinUse(i, 20);
+            SkillPause(i);
         }
         else if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
             SkillCoinUse(i, 40);
+            SkillPause(i);
         }
         else
         {
@@ -147,8 +149,6 @@ void GameMainScene::Update()
         }
     }
 
-    EnemyGenerate();
-
     for (int i = 0; i < coins.size(); i++)
     {
         // コイン更新
@@ -160,6 +160,9 @@ void GameMainScene::Update()
             coins.erase(coins.begin() + i);
         }
     }
+
+    //エネミーを生成
+    EnmGenerateTimeCheck();
 }
 
 void GameMainScene::Draw() const
@@ -271,8 +274,31 @@ void GameMainScene::Initialize()
 {
 }
 
-void GameMainScene::EnemyGenerate()
+void GameMainScene::EnemyGenerate(int num)
 {
+    if (is_enm_generate == true)
+    {
+        is_enm_generate = false;
+        for (int i = 0; i < num; i++)
+        {
+            //ランダムで出てくる位置を決める
+            int max = 3;
+            int min = 1;
+            int random_num = min+rand() * (max - min + 1) / (1 + RAND_MAX);
+            EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
+            //i*60待ってから出てくる
+            crack_enemy->SetWaitTime(i * 60);
+
+            //crack_enemyと出てくるレーンが被らないようにずらす
+            if (random_num == max) { random_num--; }           
+            else if (random_num == min) { random_num++; }
+            else { random_num++; }
+            EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
+            burst_enemy->SetWaitTime(i * 60);
+
+        }
+    }
+    /*
     if (enm_generate_cnt > 500)
     {
         enm_generate_cnt = 0;
@@ -285,6 +311,38 @@ void GameMainScene::EnemyGenerate()
     }
 
     enm_generate_cnt++;
+    */
+}
+
+void GameMainScene::EnmGenerateTimeCheck()
+{
+    //10秒ごとに敵を生成
+//残り時間が少なくなっていくほど敵を多く生成
+    switch (ui_timer->GetSeconds())
+    {
+    case 60:
+        EnemyGenerate(3);
+        break;
+    case 50:
+        EnemyGenerate(6);
+        break;
+    case 40:
+        EnemyGenerate(7);
+        break;
+    case 30:
+        EnemyGenerate(8);
+        break;
+    case 20:
+        EnemyGenerate(10);
+        break;
+    case 10:
+        EnemyGenerate(3);
+        break;
+    default:
+        is_enm_generate = true;
+        break;
+    }
+
 }
 
 void GameMainScene::CoinGenerate(int i, int j)
@@ -322,29 +380,39 @@ void GameMainScene::CoinGenerate(int i, int j)
 
 void GameMainScene::SkillCoinUse(int i, int coin_num)
 {
-    BSkillBase* skill = dynamic_cast<BSkillBase*>(objects[i]);
+    BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
 
     if (ui_coins->GetCoinsNum() >= coin_num)
     {
         // closeの状態でコインがcoin_num以上だったら、possibleの状態にする
-        if (skill->GetSkillState() == BSkillState::close)
+        if (b_skill->GetSkillState() == BSkillState::close)
         {
-            skill->SetSkillStatePossible();
+            b_skill->SetSkillStatePossible();
         }
     }
     else
     {
         // possibleの状態でコインがcoin_num未満、closeの状態にする
-        if (skill->GetSkillState() == BSkillState::possible)
+        if (b_skill->GetSkillState() == BSkillState::possible)
         {
-            skill->SetSkillStateClose();
+            b_skill->SetSkillStateClose();
         }
     }
 
     // スキル解放したらコイン減らす
-    if (skill->GetUseCoinFlg() == TRUE)
+    if (b_skill->GetUseCoinFlg() == TRUE)
     {
         ui_coins->ReduceCoins(coin_num);
-        skill->SetUseCoinFlg();
+        b_skill->SetUseCoinFlg();
+    }
+}
+
+void GameMainScene::SkillPause(int i)
+{
+    BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+
+    if (b_skill->GetSkillState() == BSkillState::active)
+    {
+        // ポーズ状態にする
     }
 }

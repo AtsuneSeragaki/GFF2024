@@ -26,6 +26,14 @@ void BurstEnemy::Update()
 {
 	switch (state)
 	{
+	case State::wait:
+
+		if (wait_time-- < 0)
+		{
+			state = State::move;
+		}
+
+		break;
 	case State::move:
 		location.y += speed;
 

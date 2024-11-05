@@ -28,7 +28,7 @@ void Goal::Update()
 void Goal::Draw() const
 {
 	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffff00, TRUE);
-	DrawFormatString((int)location.x, (int)location.y, 0xe000000, "goal_cnt:%d", goal_cnt);
+	DrawFormatString((int)location.x, (int)location.y, 0x000000, "goal_HP:%d", goal_cnt);
 
 	//ゴール仮幅
 	//DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT - GET_LANE_HEIGHT(2) + 5, 0xffff00, TRUE);
