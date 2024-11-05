@@ -3,6 +3,9 @@
 class Cursor :
     public ObjectBase
 {
+private:
+    int se[2]; // 効果音
+
 public:
     Cursor();
     ~Cursor();
