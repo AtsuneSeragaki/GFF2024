@@ -52,6 +52,12 @@ private:
 	void SkillCoinUse(int i,int coin_num); 
 	// スキル位置選択ポーズ処理
 	void SkillPause(int i);
+	// カーソルのみの更新処理
+	void CursorUpdate();
+	// 一時停止か調べる処理
+	void PauseCheck();
+	// 一時停止時のポーズボタンとカーソルの当たり判定
+	void PausedHitCheck();
 
 protected:
 	template <class T>

@@ -6,6 +6,9 @@ class PauseButton : public ObjectBase
 private:
     bool is_pause;          // 一時停止か？
 
+    float cursor_x;         // カーソルx座標
+    float cursor_y;         // カーソルy座標
+
 public:
     PauseButton();
     ~PauseButton();
