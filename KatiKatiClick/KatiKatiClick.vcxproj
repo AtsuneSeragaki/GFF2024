@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\EnemyFile\FrogEnemy.cpp" />
     <ClCompile Include="ObjectFile\PauseButton\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Goal.cpp" />
     <ClCompile Include="ObjectFile\CoinFile\Coin.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="ObjectFile\UIFile\UIBase.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UICoin.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UITimer.cpp" />
+    <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\BAttackSkill.cpp" />
     <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp" />
@@ -176,6 +178,7 @@
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectFile\EnemyFile\FrogEnemy.h" />
     <ClInclude Include="ObjectFile\PauseButton\PauseButton.h" />
     <ClInclude Include="ObjectFile\GoalFile\Goal.h" />
     <ClInclude Include="ObjectFile\CoinFile\Coin.h" />
@@ -187,6 +190,7 @@
     <ClInclude Include="ObjectFile\UIFile\UIBase.h" />
     <ClInclude Include="ObjectFile\UIFile\UICoins.h" />
     <ClInclude Include="ObjectFile\UIFile\UITimer.h" />
+    <ClInclude Include="ObjectFile\EnemyFile\SnakeEnemy.h" />
     <ClInclude Include="UtilityFile\Define.h" />
     <ClInclude Include="UtilityFile\Geometry.h" />
     <ClInclude Include="UtilityFile\MouseInput.h" />

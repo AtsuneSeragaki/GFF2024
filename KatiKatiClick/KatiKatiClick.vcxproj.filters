@@ -54,6 +54,8 @@
     <ClCompile Include="ObjectFile\SkillFile\SkillBase.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp" />
+    <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
+    <ClCompile Include="ObjectFile\EnemyFile\FrogEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -111,6 +113,8 @@
     <ClInclude Include="ObjectFile\SkillFile\SkillBase.h" />
     <ClInclude Include="ObjectFile\SkillFile\AttackSKill.h" />
     <ClInclude Include="ObjectFile\SkillFile\SlowDownSkill.h" />
+    <ClInclude Include="ObjectFile\EnemyFile\SnakeEnemy.h" />
+    <ClInclude Include="ObjectFile\EnemyFile\FrogEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">
