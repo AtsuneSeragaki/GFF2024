@@ -49,16 +49,40 @@ void Cursor::Update()
 	{
 		// クリックSE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+
+		// クリックエフェクト生成
+		click_effect.push_back(new ClickEffect);
+		click_effect.back()->SetLocation(location);
+
 		can_hit = true;
 	}
 	else
 	{
 		can_hit = false;
 	}
+
+	for (int i = 0; i < click_effect.size(); i++)
+	{
+		// クリックエフェクト更新処理
+		click_effect[i]->Update();
+
+		if (click_effect[i]->GetDeleteFlg() == true)
+		{
+			// 削除
+			click_effect.erase(click_effect.begin() + i);
+		}
+	}
 }
 
 void Cursor::Draw() const
 {
+	for (int i = 0; i < click_effect.size(); i++)
+	{
+		// クリックエフェクト描画処理
+		click_effect[i]->Draw();
+	}
+
+
 	DrawCircleAA(location.x, location.y, radius, 32, 0x00ffff, TRUE);
 }
 
