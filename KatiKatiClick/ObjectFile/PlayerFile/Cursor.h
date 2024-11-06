@@ -7,7 +7,7 @@ class Cursor :
     public ObjectBase
 {
 private:
-    int se[2]; // 効果音
+    int se; // 効果音
     std::vector<ClickEffect*> click_effect;     // クリックエフェクト
 
 public:
