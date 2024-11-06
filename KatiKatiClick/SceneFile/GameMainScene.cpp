@@ -7,8 +7,6 @@
 
 GameMainScene::GameMainScene()
 {
-    //CreateObject<CrackEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
-    CreateObject<SnakeEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
@@ -298,6 +296,13 @@ void GameMainScene::EnemyGenerate(int num)
             burst_enemy->SetWaitTime(i * 60);
 
         }
+
+        for (int i = 0; i < 3; i++) {
+            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
+                        //i*60待ってから出てくる
+            snake_enemy->SetWaitTime(i * 40);
+        }
+        CreateObject<FrogEnemy>(Vector2D(110.0f, 0.0f));           //エネミー生成
     }
     /*
     if (enm_generate_cnt > 500)

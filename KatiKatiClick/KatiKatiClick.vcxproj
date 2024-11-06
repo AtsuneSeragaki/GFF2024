@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\EnemyFile\FrogEnemy.cpp" />
     <ClCompile Include="ObjectFile\PauseButton\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Goal.cpp" />
     <ClCompile Include="ObjectFile\CoinFile\Coin.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectFile\EnemyFile\FrogEnemy.h" />
     <ClInclude Include="ObjectFile\PauseButton\PauseButton.h" />
     <ClInclude Include="ObjectFile\GoalFile\Goal.h" />
     <ClInclude Include="ObjectFile\CoinFile\Coin.h" />

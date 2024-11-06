@@ -1,9 +1,9 @@
-#include "SnakeEnemy.h"
+#include "FrogEnemy.h"
 #include "../../UtilityFile/Define.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-SnakeEnemy::SnakeEnemy()
+FrogEnemy::FrogEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
@@ -19,15 +19,15 @@ SnakeEnemy::SnakeEnemy()
 	result = 0.0f;
 }
 
-SnakeEnemy::~SnakeEnemy()
+FrogEnemy::~FrogEnemy()
 {
 }
 
-void SnakeEnemy::Initialize()
+void FrogEnemy::Initialize()
 {
 }
 
-void SnakeEnemy::Update()
+void FrogEnemy::Update()
 {
 	switch (state)
 	{
@@ -41,16 +41,16 @@ void SnakeEnemy::Update()
 		break;
 	case State::move:
 		location.y += speed;
-		
-		//cos動き
-		angle+=2;
+
+		//sin動き
+		angle += 2;
 		if (angle > 360)
 		{
 			angle = 0;
 		}
 		radian = angle * M_PI / 180.0f;
-		result = cosf(radian);
-		location.x += result;
+		result = sinf(radian);
+		location.y += result;
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y < ONE_LANE_HEIGHT)
@@ -87,11 +87,12 @@ void SnakeEnemy::Update()
 	default:
 		break;
 	}
+
 }
 
-void SnakeEnemy::Draw() const
+void FrogEnemy::Draw() const
 {
-	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x9932cc, TRUE);
+	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x3cb371, TRUE);
 	DrawFormatString((int)location.x, (int)location.y - 40, 0xe9967a, "hp:%d", hp);
 
 	if (can_hit == true)
@@ -107,7 +108,7 @@ void SnakeEnemy::Draw() const
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 }
 
-void SnakeEnemy::HitReaction(ObjectBase* character)
+void FrogEnemy::HitReaction(ObjectBase* character)
 {
 	switch (character->GetObjectType())
 	{
