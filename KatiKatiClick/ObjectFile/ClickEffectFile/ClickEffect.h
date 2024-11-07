@@ -6,6 +6,7 @@ class ClickEffect
 private:
 	Vector2D location;		// 座標
 	float radius;			// 半径
+	//float max_radius;		// 最大半径
 	int count;				// エフェクト再生カウント
 	bool can_delete;		// 削除しても良いか？
 
