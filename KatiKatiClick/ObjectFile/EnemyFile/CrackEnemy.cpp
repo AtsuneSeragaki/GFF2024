@@ -12,6 +12,12 @@ CrackEnemy::CrackEnemy()
 	can_hit = false;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
+	//画像の読込
+	handle = LoadSoftImage("Resource/Images/characters/enemy/square.png");
+	if (handle == -1) {}
+	//画像のサイズを取得
+	GetSoftImageSize(handle, &image_width, &image_height);
+
 }
 
 CrackEnemy::~CrackEnemy()
@@ -24,6 +30,8 @@ void CrackEnemy::Initialize()
 
 void CrackEnemy::Update()
 {
+
+
 	switch (state)
 	{
 	case State::wait:
@@ -79,16 +87,42 @@ void CrackEnemy::Update()
 void CrackEnemy::Draw() const
 {
 
-	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, TRUE);
-	DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
+	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, TRUE);
+	//DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
 
-	if (can_hit == true)
+	//if (can_hit == true)
+	//{
+	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
+	//}
+	//else
+	//{
+	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
+	//}
+	int r, g, b, a;
+
+	// パレットの一覧を描画
+	for (int i = 0; i < 16; i++)
 	{
-		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
+		for (int j = 0; j < 16; j++)
+		{
+			// パレットの色を取得する
+			GetPaletteSoftImage(handle, j + i * 16, &r, &g, &b, 0);
+
+			// DrawBox を使って描画
+			DrawBox(j * 16, i * 16, j * 16 + 16, i * 16 + 16, GetColor(r, g, b), TRUE);
+		}
 	}
-	else
+
+	for (int i = 0; i < image_height; i++)
 	{
-		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
+		for (int j = 0; j < image_width; j++)
+		{
+			//1ドットの色を取得
+			GetPixelSoftImage(handle, j, i, &r, &g, &b, &a);
+
+			//DrawBoxで描画
+			DrawBox((j * 3)+ (int)location.x - (int)width / 2, (i * 3)+ (int)location.y - (int)height / 2, (j * 3 + 3)+ (int)location.x + (int)width / 2, (i * 3 + 3)+ (int)location.y + (int)height / 2, GetColor(r, g, b), TRUE);
+		}
 	}
 
 

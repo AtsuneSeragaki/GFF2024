@@ -4,6 +4,11 @@ class CrackEnemy :
     public EnemyBase
 {
 private:
+    int handle;//画像読込
+    int image_width;
+    int image_height;
+    int red, green, blue;//RGB
+    int alpha;//透明度
 public:
     CrackEnemy();
     ~CrackEnemy();

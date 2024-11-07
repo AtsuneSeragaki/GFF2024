@@ -48,7 +48,7 @@ void SnakeEnemy::Update()
 		{
 			angle = 0;
 		}
-		radian = angle * M_PI / 180.0f;
+		radian = (float)angle * (float)M_PI / 180.0f;
 		result = cosf(radian);
 		location.x += result;
 
