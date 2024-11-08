@@ -59,13 +59,14 @@ void UITimer::Draw() const
 	DrawBox(10, 5, 130, 55, 0x000000, TRUE);
 	//DrawFormatString(20, 20, 0xffffff, "timer:");
 
+	// タイマー画像の描画
 	DrawRotaGraph(40, 30, 1.0, 0.0, timer_image[0], TRUE);
 
 	for (int i = 0; i < 2; i++)
 	{
+		// 数字画像の描画
 		DrawRotaGraph(110 - i * 20, 30, 1.0, 0.0, num_image[image_num[i]], TRUE);
 	}
-
 }
 
 // 秒数の取得

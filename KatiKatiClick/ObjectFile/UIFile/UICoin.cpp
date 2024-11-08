@@ -1,11 +1,32 @@
 #include "UICoins.h"
+#include "../../UtilityFile/ResourceManager.h"
 #include "DxLib.h"
 
 UICoins::UICoins()
 {
-	location.x = 150.0f;
-	location.y = 20.0f;
+	location.x = 240.0f;
+	location.y = 30.0f;
 	coins_num = 0;
+
+	// ResourceManagerのインスタンスを取得
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+
+	// コイン画像の読み込み
+	tmp = rm->GetImages("Resource/Images/Coin/Coin.png");
+	coin_image.push_back(tmp[0]);
+
+	// 数字画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Timer/Num.png", 10, 10, 1, 32, 32);
+	for (int i = 0; i < 10; i++)
+	{
+		num_image.push_back(tmp[i]);
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		image_num[i] = 0;
+	}
 }
 
 UICoins::~UICoins()
@@ -16,13 +37,40 @@ UICoins::~UICoins()
 void UICoins::Update()
 {
 	// 数字画像の切り替え
+	int tmp_coins_num = coins_num;
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (tmp_coins_num > 0)
+		{
+			// 小さい位の数字から求める
+			image_num[i] = tmp_coins_num % 10;
+			// 上の位
+			tmp_coins_num /= 10;
+		}
+		else
+		{
+			image_num[i] = 0;
+		}
+	}
 
 }
 
 void UICoins::Draw() const
 {
-	DrawBox(140, 10, 260, 50, 0xc0c0c0, TRUE);
-	DrawFormatString((int)location.x, (int)location.y, 0x000000, "coins : %d", coins_num);
+	DrawBox(140, 5, 260, 55, 0x000000, TRUE);
+
+	// DrawFormatString(150, 30, 0x000000, "coins : %d", coins_num);
+
+	// コイン画像の描画
+	DrawRotaGraphF(location.x - 80.0f, location.y, 1.0, 0.0, coin_image[0], TRUE);
+
+	for (int i = 0; i < 3; i++)
+	{
+		// 数字画像の描画
+		DrawRotaGraphF(location.x - i * 20.0f, location.y, 1.0, 0.0, num_image[image_num[i]], TRUE);
+	}
+
 }
 
 // コインを1増やす

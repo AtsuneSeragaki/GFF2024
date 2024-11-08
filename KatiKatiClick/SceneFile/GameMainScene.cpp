@@ -50,7 +50,6 @@ void GameMainScene::Update()
 
             // カーソルのみ更新
             CursorUpdate();
-
         }
 
         // タイマー更新処理
@@ -155,6 +154,9 @@ void GameMainScene::Update()
             coins.erase(coins.begin() + i);
         }
     }
+
+    // UIコインの更新処理
+    ui_coins->Update();
 
     //エネミーを生成
     EnmGenerateTimeCheck();
