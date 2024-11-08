@@ -19,6 +19,7 @@ protected:
 	float speed;//速さ
 	bool hit_cursor;//カーソルに当たった
 	int wait_time;//動くまでの時間
+	int se[2]; // 効果音
 
 public:
 	EnemyBase()
@@ -28,6 +29,8 @@ public:
 		speed = 0.0f;
 		hit_cursor = false;
 		state = State::wait;
+		se[0] = 0;
+		se[1] = 0;
 	}
 	~EnemyBase(){};
 

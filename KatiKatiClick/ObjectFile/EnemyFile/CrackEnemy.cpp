@@ -1,5 +1,6 @@
 #include "CrackEnemy.h"
 #include "../../UtilityFile/Define.h"
+#include "../../UtilityFile/ResourceManager.h"
 #include <cassert>
 
 CrackEnemy::CrackEnemy()
@@ -23,6 +24,14 @@ CrackEnemy::CrackEnemy()
 	//handle2 = CreateGraphFromSoftImage(sh);
 	//DeleteSoftImage(sh);
 	//handle =  CreateGraphFromSoftImage(LoadSoftImage("Resource/Images/characters/enemy/square.png"));
+
+	ResourceManager* rm = ResourceManager::GetInstance();
+	int tmp;
+	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
+	se[0] = tmp;
+
+	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
+	se[1] = tmp;
 }
 
 CrackEnemy::~CrackEnemy()
@@ -64,7 +73,12 @@ void CrackEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
+			// 効果音の再生を止める
+			StopSoundMem(se[0]);
+
 			// 敵がつぶれるSE再生
+			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
+
 			state = State::death;
 		}
 
@@ -145,6 +159,7 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 	case ObjectType::cursor:
 
 		// 敵が押された時SE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
 		hp -= 10;
 		width -= 10.0f;

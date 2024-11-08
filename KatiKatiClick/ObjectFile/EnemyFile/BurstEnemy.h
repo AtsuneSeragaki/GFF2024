@@ -4,6 +4,7 @@ class BurstEnemy :
     public EnemyBase
 {
 private:
+
 public:
     BurstEnemy();
     ~BurstEnemy();

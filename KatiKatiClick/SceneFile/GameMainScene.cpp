@@ -11,7 +11,7 @@ GameMainScene::GameMainScene()
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
-    CreateObject<PauseButton>(Vector2D(289.0f, 20.0f));         // ポーズボタン生成
+    CreateObject<PauseButton>(Vector2D(310.0f, 30.0f));         // ポーズボタン生成
     goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -23,6 +23,7 @@ GameMainScene::GameMainScene()
     is_game_over = false;
     change_wait_time = 300;
     is_enm_generate = true;
+    is_pause = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -32,6 +33,12 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
+    //if (is_pause == true)
+    //{
+    //    // ゲームの更新を一時停止
+    //    return;
+    //}
+
     if (ui_timer != nullptr && is_game_over == false)
     {
         if (ui_timer->GetSeconds() == 0)
@@ -42,23 +49,9 @@ void GameMainScene::Update()
             // シーン切り替え待ちカウントを減らす
             change_wait_time--;
 
-            for (int i = 0; i < objects.size(); i++)
-            {
-                // カーソルのみ更新処理を行う
-                Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
+            // カーソルのみ更新
+            CursorUpdate();
 
-                if (cursor != nullptr)
-                {
-                    objects[i]->Update();
-
-                    //消してもOKだったらobjectを削除
-                    if (objects[i]->GetIsDelete() == true)
-                    {
-                        objects.erase(objects.begin() + i);
-                    }
-                    return;
-                }
-            }
         }
 
         // タイマー更新処理
@@ -146,6 +139,9 @@ void GameMainScene::Update()
 
             // コインの生成
             CoinGenerate(i, j);
+
+            // 一時停止か調べる
+            //PauseCheck();
         }
     }
 
@@ -167,7 +163,6 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-
     //敵の描画
     for (int i = 0; i < objects.size(); i++)
     {
@@ -231,6 +226,12 @@ void GameMainScene::Draw() const
         }
     }
 
+    if (ui_timer != nullptr)
+    {
+        // タイマー描画処理
+        ui_timer->Draw();
+    }
+
     //カーソル描画
     for (int i = 0; i < objects.size(); i++)
     {
@@ -239,15 +240,10 @@ void GameMainScene::Draw() const
             objects[i]->Draw();
         }
     }
-    if (ui_timer != nullptr)
-    {
-        // タイマー描画処理
-        ui_timer->Draw();
-    }
 
     if (is_game_clear)
     {
-        DrawString(30, 350, "GAME CLEAE", 0xffffff);
+        DrawString(30, 350, "GAME CLEAR", 0xffffff);
         DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
     }
 
@@ -255,6 +251,11 @@ void GameMainScene::Draw() const
     {
         DrawString(30, 350, "GAME OVER", 0xffffff);
         DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
+    }
+
+    if (is_pause)
+    {
+        DrawString(30, 350, "PAUSE", 0xffffff);
     }
 
     
@@ -399,7 +400,7 @@ void GameMainScene::SkillCoinUse(int i, int coin_num)
     }
     else
     {
-        // possibleの状態でコインがcoin_num未満、closeの状態にする
+        // possibleの状態でコインがcoin_num未満だったら、closeの状態にする
         if (b_skill->GetSkillState() == BSkillState::possible)
         {
             b_skill->SetSkillStateClose();
@@ -422,4 +423,44 @@ void GameMainScene::SkillPause(int i)
     {
         // ポーズ状態にする
     }
+}
+
+// カーソルのみの更新処理
+void GameMainScene::CursorUpdate()
+{
+    for (int i = 0; i < objects.size(); i++)
+    {
+        // objects[i]がカーソルかチェック
+        Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
+
+        if (cursor != nullptr)
+        {
+            // 更新処理
+            objects[i]->Update();
+            return;
+        }
+    }
+}
+
+// 一時停止か調べる処理
+void GameMainScene::PauseCheck()
+{
+    for (int i = 0; i < objects.size(); i++)
+    {
+        // objects[i]がポーズボタンかチェック
+        PauseButton* pause_button = dynamic_cast<PauseButton*>(objects[i]);
+
+        if (pause_button != nullptr)
+        {
+            // ポーズフラグの取得
+            is_pause = pause_button->GetPauseFlg();
+            return;
+        }
+    }
+}
+
+// 一時停止時のポーズボタンとカーソルの当たり判定
+void GameMainScene::PausedHitCheck()
+{
+
 }

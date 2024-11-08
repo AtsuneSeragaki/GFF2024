@@ -1,5 +1,6 @@
 #include "BurstEnemy.h"
 #include "../../UtilityFile/Define.h"
+#include "../../UtilityFile/ResourceManager.h"
 
 BurstEnemy::BurstEnemy()
 {
@@ -12,6 +13,14 @@ BurstEnemy::BurstEnemy()
 	object_type = ObjectType::enemy;
 	shape = Shape::circle;
 	state = State::move;
+
+	ResourceManager* rm = ResourceManager::GetInstance();
+	int tmp;
+	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_b.mp3");
+	se[0] = tmp;
+
+	tmp = rm->GetSounds("Resource/Sounds/Click/enemy_b.mp3");
+	se[1] = tmp;
 }
 
 BurstEnemy::~BurstEnemy()
@@ -50,7 +59,12 @@ void BurstEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
+			// 効果音の再生を止める
+			StopSoundMem(se[0]);
+
 			// 敵が破裂するSE再生
+			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
+
 			state = State::death;
 		}
 
@@ -98,6 +112,7 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 	case ObjectType::cursor:
 
 		// 敵が押された時SE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
 		//カーソルに当たったらスピードを下げ半径を大きくする
 		hp -= 10;
