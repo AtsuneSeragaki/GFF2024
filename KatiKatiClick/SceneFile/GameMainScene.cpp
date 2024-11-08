@@ -399,7 +399,7 @@ void GameMainScene::SkillCoinUse(int i, int coin_num)
     }
     else
     {
-        // possibleの状態でコインがcoin_num未満、closeの状態にする
+        // possibleの状態でコインがcoin_num未満だったら、closeの状態にする
         if (b_skill->GetSkillState() == BSkillState::possible)
         {
             b_skill->SetSkillStateClose();

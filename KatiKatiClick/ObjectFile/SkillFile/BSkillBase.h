@@ -7,10 +7,9 @@
 
 enum class BSkillState
 {
-	close,   // 解放前
-	possible,// 解放できる
-	standby, // 解放後
-	active   // 解放中
+	close,       // 解放できない状態
+	possible,    // 解放できる状態
+	active       // スキル使用中
 };
 
 class BSkillBase : public ObjectBase
