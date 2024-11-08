@@ -1,5 +1,6 @@
 #include "FrogEnemy.h"
 #include "../../UtilityFile/Define.h"
+#include "../../UtilityFile/ResourceManager.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -17,6 +18,11 @@ FrogEnemy::FrogEnemy()
 	angle = 0;
 	radian = 0.0f;
 	result = 0.0f;
+
+	ResourceManager* rm = ResourceManager::GetInstance();
+	int tmp;
+	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
+	se[0] = tmp;
 }
 
 FrogEnemy::~FrogEnemy()
@@ -25,6 +31,13 @@ FrogEnemy::~FrogEnemy()
 
 void FrogEnemy::Initialize()
 {
+	/*ResourceManager* rm = ResourceManager::GetInstance();
+	int tmp;
+	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_b.mp3");
+	se[0] = tmp;
+
+	tmp = rm->GetSounds("Resource/Sounds/Click/enemy_b.mp3");
+	se[1] = tmp;*/
 }
 
 void FrogEnemy::Update()
@@ -65,7 +78,6 @@ void FrogEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
-			// 敵がつぶれるSE再生
 			state = State::death;
 		}
 
@@ -114,6 +126,8 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 	{
 	case ObjectType::cursor:
 		// 敵が押された時SE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+
 		hp -= 10;
 		width -= 10.0f;
 		height -= 10.0f;

@@ -24,12 +24,12 @@ BSlowDownSkill::BSlowDownSkill()
 	image = button_img[0];
 
 	// 効果音の読み込み
-	/*int tmp2;
-	tmp2 = rm->GetSounds("");
+	int tmp2;
+	tmp2 = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
 	se[0] = tmp2;
 
-	tmp2 = rm->GetSounds("");
-	se[0] = tmp2;*/
+	tmp2 = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
+	se[1] = tmp2;
 }
 
 BSlowDownSkill::~BSlowDownSkill()
@@ -110,17 +110,15 @@ void BSlowDownSkill::HitReaction(ObjectBase* character)
 			bskill_state = BSkillState::active;
 			use_coin = true;
 		}
-		//else if (bskill_state == BSkillState::standby)
-		//{
-		//	// 解放後SE再生
-		//	//PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
-		//	bskill_state = BSkillState::active;
-		//}
+		else
+		{
+			// 何も起きない時のSE再生
+			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
+		}
+
 		break;
 
 	default:
-		// 何も起きない時のSE再生
-		//PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
 		break;
 	}
 }
