@@ -1,18 +1,29 @@
 #include "CrackEnemy.h"
 #include "../../UtilityFile/Define.h"
 #include "../../UtilityFile/ResourceManager.h"
+#include <cassert>
 
 CrackEnemy::CrackEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 30;
+	hp = 20;
 	width = 70.0f;
 	height = 70.0f;
 	speed = 1.5f;
 	can_hit = false;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
+
+	////画像の読込
+	//int sh = LoadSoftImage("Resource/Images/characters/enemy/square.png");
+	//if (sh == -1) {
+	//	assert(0 && "aaaaaa");
+	//}
+	//SetPaletteSoftImage(sh, 2, 255, 0, 0, 255);
+	//handle2 = CreateGraphFromSoftImage(sh);
+	//DeleteSoftImage(sh);
+	//handle =  CreateGraphFromSoftImage(LoadSoftImage("Resource/Images/characters/enemy/square.png"));
 
 	ResourceManager* rm = ResourceManager::GetInstance();
 	int tmp;
@@ -25,6 +36,7 @@ CrackEnemy::CrackEnemy()
 
 CrackEnemy::~CrackEnemy()
 {
+	//DeleteSoftImage(handle);
 }
 
 void CrackEnemy::Initialize()
@@ -33,6 +45,8 @@ void CrackEnemy::Initialize()
 
 void CrackEnemy::Update()
 {
+
+
 	switch (state)
 	{
 	case State::wait:
@@ -95,7 +109,6 @@ void CrackEnemy::Draw() const
 
 	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, TRUE);
 	DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
-
 	if (can_hit == true)
 	{
 		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
@@ -104,9 +117,37 @@ void CrackEnemy::Draw() const
 	{
 		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
 	}
+	/*
+	//int r, g, b, a;
+	// パレットの一覧を描画
+	//for (int i = 0; i < 8; i++)
+	//{
+	//	for (int j = 0; j < 8; j++)
+	//	{
+	//		// パレットの色を取得する
+	//		GetPaletteSoftImage(handle, j + i * 16, &r, &g, &b, 0);
 
+	//		// DrawBox を使って描画
+	//		DrawBox(j * 16, i * 16+200, j * 16 + 16, i * 16 + 16+200, GetColor(r, g, b), TRUE);
+	//	}
+	//}
 
-	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
+	//for (int i = 0; i < image_height; i++)
+	//{
+	//	for (int j = 0; j < image_width; j++)
+	//	{
+	//		//1ドットの色を取得
+	//		GetPixelSoftImage(handle, j, i, &r, &g, &b, &a);
+	//		//DrawBoxで描画
+	//		DrawBox((j * 3)+ (int)location.x - (int)width / 2, (i * 3)+ (int)location.y - (int)height / 2, (j * 3 + 3)+ (int)location.x + (int)width / 2, (i * 3 + 3)+ (int)location.y + (int)height / 2, GetColor(r, g, b), TRUE);
+	//	}
+	//}
+	*/
+	//DrawSoftImage(location.x, location.y, handle);
+
+	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
+	//DrawGraph(0, 300, handle2, TRUE);
+	//DrawGraph(0,332, handle, TRUE);
 
 }
 

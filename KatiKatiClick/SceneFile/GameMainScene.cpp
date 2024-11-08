@@ -7,6 +7,7 @@
 
 GameMainScene::GameMainScene()
 {
+    //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
@@ -276,49 +277,49 @@ void GameMainScene::Initialize()
 
 void GameMainScene::EnemyGenerate(int num)
 {
+    
     if (is_enm_generate == true)
     {
         is_enm_generate = false;
+
         for (int i = 0; i < num; i++)
         {
             //ランダムで出てくる位置を決める
             int max = 3;
             int min = 1;
-            int random_num = min+rand() * (max - min + 1) / (1 + RAND_MAX);
-            EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            //i*60待ってから出てくる
-            crack_enemy->SetWaitTime(i * 60);
-
-            //crack_enemyと出てくるレーンが被らないようにずらす
-            if (random_num == max) { random_num--; }           
-            else if (random_num == min) { random_num++; }
-            else { random_num++; }
-            EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
-            burst_enemy->SetWaitTime(i * 60);
+            int random_num = min + rand() * (max - min + 1) / (1 + RAND_MAX);
+            EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 1.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
+            crack_enemy->SetWaitTime(i * 60 * random_num);
+            EnemyBase* crack_enemy2 = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 2.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
+            crack_enemy2->SetWaitTime(i * 60 * random_num);
+            EnemyBase* crack_enemy3 = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 3.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
+            crack_enemy3->SetWaitTime(i * 60 * random_num);
 
         }
+
+        //ランダムで出てくる位置を決める
+        int max = 3;
+        int min = 1;
+        int random_num = min + rand() * (max - min + 1) / (1 + RAND_MAX);
+
+        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
+        burst_enemy->SetWaitTime(random_num*60);
+        if (random_num == max) { random_num--; }
+        else if (random_num == min) { random_num++; }
+        else { random_num++; }
+        EnemyBase* burst_enemy2 = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
+        burst_enemy2->SetWaitTime(random_num * 60);
+
 
         for (int i = 0; i < 3; i++) {
-            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(220.0f, 0.0f));           //エネミー生成
-                        //i*60待ってから出てくる
+            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(((float)LANE_WIDTH * 2.0f) - (float)LANE_WIDTH_HALF, -600.0f));//エネミー生成
+            //i*60待ってから出てくる
             snake_enemy->SetWaitTime(i * 40);
         }
-        CreateObject<FrogEnemy>(Vector2D(110.0f, 0.0f));           //エネミー生成
+        CreateObject<FrogEnemy>(Vector2D(((float)LANE_WIDTH * 1.0f) - (float)LANE_WIDTH_HALF, -500.0f));//エネミー生成
+        CreateObject<FrogEnemy>(Vector2D(((float)LANE_WIDTH * 3.0f) - (float)LANE_WIDTH_HALF, -500.0f));//エネミー生成
     }
-    /*
-    if (enm_generate_cnt > 500)
-    {
-        enm_generate_cnt = 0;
-
-        for (int i = 1; i < 4; i++)
-        {
-            CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * (float)i) - (float)LANE_WIDTH_HALF,0.0f));//エネミー生成
-            CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)i) - (float)LANE_WIDTH_HALF, -100.0f));//円エネミー
-        }
-    }
-
-    enm_generate_cnt++;
-    */
+    
 }
 
 void GameMainScene::EnmGenerateTimeCheck()
@@ -328,19 +329,19 @@ void GameMainScene::EnmGenerateTimeCheck()
     switch (ui_timer->GetSeconds())
     {
     case 60:
-        EnemyGenerate(3);
+        EnemyGenerate(1);
         break;
     case 50:
-        EnemyGenerate(6);
+        EnemyGenerate(2);
         break;
     case 40:
-        EnemyGenerate(7);
+        EnemyGenerate(3);
         break;
     case 30:
-        EnemyGenerate(8);
+        EnemyGenerate(4);
         break;
     case 20:
-        EnemyGenerate(10);
+        EnemyGenerate(4);
         break;
     case 10:
         EnemyGenerate(3);

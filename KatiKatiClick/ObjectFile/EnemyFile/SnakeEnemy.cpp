@@ -8,7 +8,7 @@ SnakeEnemy::SnakeEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 30;
+	hp = 10;
 	width = 70.0f;
 	height = 70.0f;
 	speed = 1.5f;
@@ -61,7 +61,7 @@ void SnakeEnemy::Update()
 		{
 			angle = 0;
 		}
-		radian = angle * M_PI / 180.0f;
+		radian = (float)angle * (float)M_PI / 180.0f;
 		result = cosf(radian);
 		location.x += result;
 
