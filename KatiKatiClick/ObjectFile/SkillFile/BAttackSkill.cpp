@@ -24,7 +24,7 @@ BAttackSkill::BAttackSkill()
 
 	// 効果音の読み込み
 	int tmp2;
-	tmp2 = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
+	tmp2 = rm->GetSounds("Resource/Sounds/Click/skill.mp3");
 	se[0] = tmp2;
 
 	tmp2 = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
@@ -107,7 +107,7 @@ void BAttackSkill::HitReaction(ObjectBase* character)
 		if (bskill_state == BSkillState::possible)
 		{
 			// 解放前SE再生
-			//PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+			PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 			bskill_state = BSkillState::active;
 			use_coin = true;
 		}
