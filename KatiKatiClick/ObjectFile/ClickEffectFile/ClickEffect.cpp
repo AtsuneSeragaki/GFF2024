@@ -17,10 +17,10 @@ ClickEffect::~ClickEffect()
 
 void ClickEffect::Update()
 {
-	count -= 4;
+	count -= 3;
 
 	// 半径を大きくする
-	radius += 0.5f;
+	radius += 1.0f;
 
 	if (count <= 0)
 	{
@@ -34,7 +34,7 @@ void ClickEffect::Draw() const
 	// 描画ブレンドモードをアルファブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, count);
 
-	DrawCircleAA(location.x, location.y, radius, 32, 0x00cccc, FALSE);
+	DrawCircleAA(location.x, location.y, radius, 32, 0x00cccc, FALSE, 3.0f);
 	//DrawCircleAA(location.x, location.y, max_radius, 32, 0x00aaaa, FALSE);
 
 	// 描画ブレンドモードをノーブレンドにする
