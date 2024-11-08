@@ -7,7 +7,7 @@ SnakeEnemy::SnakeEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 30;
+	hp = 10;
 	width = 70.0f;
 	height = 70.0f;
 	speed = 1.5f;
