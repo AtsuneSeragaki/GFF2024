@@ -89,6 +89,14 @@ void GameMainScene::Update()
             objects[i]->Update();
         }
 
+        //flgがtrueだったらcircleの当たり判定だけのclassを生成する
+        if (objects[i]->GetCanCreateZone() == true)
+        {
+            HitCircleZone* circle_zone = CreateObject<HitCircleZone>(objects[i]->GetLocation());
+            circle_zone->SetRadius(objects[i]->GetRadius()+20);
+        }
+
+
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
@@ -163,6 +171,15 @@ void GameMainScene::Update()
 
     //エネミーを生成
     EnmGenerateTimeCheck();
+
+    //for (int i = 0; i < objects.size(); i++)
+    //{
+    //    if (objects[i]->GetObjectType() == ObjectType::circlezone)
+    //    {
+    //        objects[i]
+    //    }
+    //}
+    
 }
 
 void GameMainScene::Draw() const
@@ -170,7 +187,7 @@ void GameMainScene::Draw() const
     //敵の描画
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::enemy)
+        if (objects[i]->GetObjectType() == ObjectType::enemy || objects[i]->GetObjectType() == ObjectType::circlezone)
         {
             objects[i]->Draw();
         }

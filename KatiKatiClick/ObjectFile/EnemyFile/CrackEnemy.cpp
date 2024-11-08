@@ -171,6 +171,14 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		state = State::goal;
 		speed = 3;
 		break;
+	case ObjectType::circlezone:
+		// 敵が押された時SE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+
+		hp -= 10;
+		width -= 10.0f;
+		height -= 10.0f;
+		break;
 	default:
 		break;
 	}

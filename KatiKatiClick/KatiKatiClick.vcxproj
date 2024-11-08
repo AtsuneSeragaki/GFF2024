@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\ShapeZoneFile\HitCircleZone.cpp" />
     <ClCompile Include="ObjectFile\ClickEffectFile\ClickEffect.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\FrogEnemy.cpp" />
     <ClCompile Include="ObjectFile\PauseButton\PauseButton.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectFile\ShapeZoneFile\HitCircleZone.h" />
     <ClInclude Include="ObjectFile\ClickEffectFile\ClickEffect.h" />
     <ClInclude Include="ObjectFile\EnemyFile\FrogEnemy.h" />
     <ClInclude Include="ObjectFile\PauseButton\PauseButton.h" />

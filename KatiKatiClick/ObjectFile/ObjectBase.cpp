@@ -11,6 +11,7 @@ ObjectBase::ObjectBase()
 	can_delete = false;
 	width = 0.0f;
 	height = 0.0f;
+	can_create_zone = false;
 }
 
 ObjectBase::~ObjectBase()
@@ -208,4 +209,9 @@ const Vector2D& ObjectBase::GetLocation() const
 void ObjectBase::SetLocation(const Vector2D& location)
 {
 	this->location = location;
+}
+
+bool ObjectBase::GetCanCreateZone()
+{
+	return can_create_zone;
 }
