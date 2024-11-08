@@ -19,4 +19,8 @@ public:
     void Draw() const override;
 
     int GetSeconds() const;     // 秒数の取得
+
+private:
+    // 表示する数字画像を調べる
+    void CheckDisplayNumImage();
 };

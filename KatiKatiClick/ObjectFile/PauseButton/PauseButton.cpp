@@ -42,7 +42,7 @@ void PauseButton::Update()
 void PauseButton::Draw() const
 {
 	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
-	DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+	// DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
 
 	//if (is_pause)
 	//{
