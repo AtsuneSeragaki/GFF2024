@@ -50,6 +50,8 @@ void GameMainScene::Update()
 
             // カーソルのみ更新
             CursorUpdate();
+
+            return;
         }
 
         // タイマー更新処理

@@ -17,7 +17,7 @@ ClickEffect::~ClickEffect()
 
 void ClickEffect::Update()
 {
-	count -= 2;
+	count -= 4;
 
 	// 半径を大きくする
 	radius += 0.5f;

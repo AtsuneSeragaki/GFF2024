@@ -13,7 +13,7 @@ UICoins::UICoins()
 	std::vector<int> tmp;
 
 	// コイン画像の読み込み
-	tmp = rm->GetImages("Resource/Images/Coin/Coin.png");
+	tmp = rm->GetImages("Resource/Images/Coin/Coin02.png");
 	coin_image.push_back(tmp[0]);
 
 	// 数字画像を読み込む
