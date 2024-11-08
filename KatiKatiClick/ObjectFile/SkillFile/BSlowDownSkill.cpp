@@ -76,11 +76,6 @@ void BSlowDownSkill::Draw() const
 		DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "SlowDownSkill\npossible", 0x000000);
 		break;
 
-	case BSkillState::standby:
-		DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0x0000ff, TRUE);
-		DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "SlowDownSkill\nstanby", 0x000000);
-		break;
-
 	case BSkillState::active:
 		DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
 		DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "SlowDownSkill\nactive", 0x000000);
@@ -112,18 +107,20 @@ void BSlowDownSkill::HitReaction(ObjectBase* character)
 		{
 			// 解放前SE再生
 			//PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
-			bskill_state = BSkillState::standby;
+			bskill_state = BSkillState::active;
 			use_coin = true;
 		}
-		else if (bskill_state == BSkillState::standby)
-		{
-			// 解放後SE再生
-			//PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
-			bskill_state = BSkillState::active;
-		}
+		//else if (bskill_state == BSkillState::standby)
+		//{
+		//	// 解放後SE再生
+		//	//PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
+		//	bskill_state = BSkillState::active;
+		//}
 		break;
 
 	default:
+		// 何も起きない時のSE再生
+		//PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
 		break;
 	}
 }
