@@ -24,6 +24,7 @@
     <ProjectGuid>{c9f7a62b-6962-4237-986c-4c069a374357}</ProjectGuid>
     <RootNamespace>KatiKatiClick</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>KatiKatiDefense</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
