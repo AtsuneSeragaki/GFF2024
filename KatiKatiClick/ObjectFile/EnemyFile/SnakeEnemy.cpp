@@ -1,5 +1,6 @@
 #include "SnakeEnemy.h"
 #include "../../UtilityFile/Define.h"
+#include "../../UtilityFile/ResourceManager.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -7,7 +8,7 @@ SnakeEnemy::SnakeEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 30;
+	hp = 10;
 	width = 70.0f;
 	height = 70.0f;
 	speed = 1.5f;
@@ -17,6 +18,11 @@ SnakeEnemy::SnakeEnemy()
 	angle = 0;
 	radian = 0.0f;
 	result = 0.0f;
+
+	ResourceManager* rm = ResourceManager::GetInstance();
+	int tmp;
+	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
+	se[0] = tmp;
 }
 
 SnakeEnemy::~SnakeEnemy()
@@ -25,6 +31,13 @@ SnakeEnemy::~SnakeEnemy()
 
 void SnakeEnemy::Initialize()
 {
+	/*ResourceManager* rm = ResourceManager::GetInstance();
+	int tmp;
+	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_b.mp3");
+	se[0] = tmp;
+
+	tmp = rm->GetSounds("Resource/Sounds/Click/enemy_b.mp3");
+	se[1] = tmp;*/
 }
 
 void SnakeEnemy::Update()
@@ -48,7 +61,7 @@ void SnakeEnemy::Update()
 		{
 			angle = 0;
 		}
-		radian = angle * M_PI / 180.0f;
+		radian = (float)angle * (float)M_PI / 180.0f;
 		result = cosf(radian);
 		location.x += result;
 
@@ -65,7 +78,6 @@ void SnakeEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
-			// 敵がつぶれるSE再生
 			state = State::death;
 		}
 
@@ -113,6 +125,8 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 	{
 	case ObjectType::cursor:
 		// 敵が押された時SE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+
 		hp -= 10;
 		width -= 10.0f;
 		height -= 10.0f;

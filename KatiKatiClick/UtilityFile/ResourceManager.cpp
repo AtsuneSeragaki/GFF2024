@@ -58,7 +58,7 @@ const std::vector<int>& ResourceManager::GetImages(MaterialParam element)
 const int ResourceManager::GetSounds(std::string file_name)
 {
 	// コンテナ内に指定ファイルが無ければ、生成する
-	if (images_container.count(file_name) == NULL)
+	if (sounds_container.count(file_name) == NULL)
 	{
 		CreateSoundsResource(file_name);
 	}
