@@ -25,7 +25,14 @@ CrackEnemy::CrackEnemy()
 	//DeleteSoftImage(sh);
 	//handle =  CreateGraphFromSoftImage(LoadSoftImage("Resource/Images/characters/enemy/square.png"));
 
+		// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp_img;
+
+	//敵画像の読み込み
+	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
+	enemy_image.push_back(tmp_img[2]);
+
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
 	se[0] = tmp;
@@ -109,7 +116,7 @@ void CrackEnemy::Update()
 void CrackEnemy::Draw() const
 {
 
-	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, TRUE);
+	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, TRUE);
 	DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
 	if (can_hit == true)
 	{
@@ -150,6 +157,7 @@ void CrackEnemy::Draw() const
 	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 	//DrawGraph(0, 300, handle2, TRUE);
 	//DrawGraph(0,332, handle, TRUE);
+	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
 
 }
 

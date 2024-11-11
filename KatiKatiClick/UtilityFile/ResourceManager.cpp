@@ -55,6 +55,21 @@ const std::vector<int>& ResourceManager::GetImages(MaterialParam element)
 	return GetImages(element.file_path, element.all_num, element.num_x, element.num_y, element.size_x, element.size_y);
 }
 
+const std::vector<int>& ResourceManager::GetSoftImages(const char* file_name, int all_num, int num_x, int num_y, int size_x, int size_y)
+{
+	// コンテナ内に指定ファイルが無ければ、生成する
+	if (images_container.count(file_name) == NULL)
+	{
+		if (all_num == 1)
+		{
+			CreateSoftImagesResource(file_name);
+		}
+	}
+
+	return images_container[file_name];
+
+}
+
 const int ResourceManager::GetSounds(std::string file_name)
 {
 	// コンテナ内に指定ファイルが無ければ、生成する
@@ -116,6 +131,51 @@ void ResourceManager::CreateImagesResource(std::string file_name)
 
 	// コンテナに読み込んだ画像を追加する
 	images_container[file_name].push_back(handle);
+}
+
+void ResourceManager::CreateSoftImagesResource(std::string file_name)
+{
+	int img[4] = {};
+	// 指定されたファイルを読み込み元となるソフトイメージを取得
+	int soft_img = LoadSoftImage(file_name.c_str());
+
+	// エラーチェック
+	if (soft_img == -1)
+	{
+		throw(file_name + "がありません\n");
+	}
+
+	//画像データとして作成する
+	img[0] = CreateGraphFromSoftImage(soft_img);
+
+	//ソフトイメージの改造:青
+	SetPaletteSoftImage(soft_img, 2, 77, 141, 166,255);
+	SetPaletteSoftImage(soft_img, 3, 97, 192, 206,255);
+
+	//改造したデータを画像データとして作成する
+	img[1]=CreateGraphFromSoftImage(soft_img);
+
+	//ソフトイメージの改造:紫
+	SetPaletteSoftImage(soft_img, 2, 127, 77, 166, 255);
+	SetPaletteSoftImage(soft_img, 3, 179, 97, 206, 255);
+
+	//改造したデータを画像データとして作成する
+	img[2] = CreateGraphFromSoftImage(soft_img);
+
+	//ソフトイメージの改造:緑
+	SetPaletteSoftImage(soft_img, 2, 77, 166, 108, 255);
+	SetPaletteSoftImage(soft_img, 3, 97, 206, 134, 255);
+
+	//改造したデータを画像データとして作成する
+	img[3] = CreateGraphFromSoftImage(soft_img);
+
+	for (int i = 1; i <= 3; i++) {
+		// コンテナに読み込んだ画像を追加する
+		images_container[file_name].push_back(img[i]);
+	}
+
+	//ソフトイメージの解放
+	DeleteSoftImage(soft_img);
 }
 
 void ResourceManager::CreateImagesResource(std::string file_name, int all_num, int num_x, int num_y, int size_x, int size_y)

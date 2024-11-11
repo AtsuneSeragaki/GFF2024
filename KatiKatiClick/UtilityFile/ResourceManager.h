@@ -61,6 +61,8 @@ public:
 	const std::vector<int>& GetImages(const char* file_name, int all_num = 1, int num_x = 1, int num_y = 1, int size_x = 0, int size_y = 0);
 	const std::vector<int>& GetImages(MaterialParam element);
 
+	const std::vector<int>& GetSoftImages(const char* file_name, int all_num = 1, int num_x = 1, int num_y = 1, int size_x = 0, int size_y = 0);
+
 	/*
 	* 音源を取得する
 	* @param  file_name  ファイルパス
@@ -78,6 +80,9 @@ private:
 	* @param  file_name  ファイルパス
 	*/
 	void CreateImagesResource(std::string file_name);
+
+	//元のデータが読み込まれてなかったら画像ハンドルを読み込みリソースを作成
+	void CreateSoftImagesResource(std::string file_name);
 
 	/*
 	* 画像ハンドルを読み込みリソースを作成する
