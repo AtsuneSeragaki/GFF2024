@@ -163,10 +163,10 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		if (hp >= 20){can_create_mini = true;}
-		hp -= 10;
-		width -= 40.0f;
-		height -= 40.0f;
+		if (hp >= 20) { can_create_mini = true; }
+		hp -= 20;
+		width -= 30.0f;
+		height -= 30.0f;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
