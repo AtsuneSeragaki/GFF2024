@@ -20,6 +20,7 @@ protected:
 	bool hit_cursor;//カーソルに当たった
 	int wait_time;//動くまでの時間
 	int se[2]; // 効果音
+	bool can_create_mini;//小さいのを作る
 
 public:
 	EnemyBase()
@@ -29,6 +30,7 @@ public:
 		speed = 0.0f;
 		hit_cursor = false;
 		state = State::wait;
+		can_create_mini = false;
 		se[0] = 0;
 		se[1] = 0;
 	}
@@ -41,5 +43,13 @@ public:
 	bool GetHitCursor() { return hit_cursor; }
 	void SetFalseHitCursor() { hit_cursor = false; }
 	void SetWaitTime(int set_time) { wait_time = set_time; }
+	bool GetCanCreateMini() { return can_create_mini; }
+	void SetSize(float set_width, float set_height)
+	{
+		width = set_width;
+		height = set_height;
+	}
+	void SetHp(int set_hp) { hp = set_hp; }
+	void StopCreateMini() { can_create_mini = false; }
 };
 

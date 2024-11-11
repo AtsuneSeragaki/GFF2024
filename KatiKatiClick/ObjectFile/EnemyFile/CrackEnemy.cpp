@@ -82,6 +82,8 @@ void CrackEnemy::Update()
 			state = State::death;
 		}
 
+		
+
 		break;
 	case State::goal:
 		if (location.y < 720)
@@ -161,9 +163,10 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
+		if (hp >= 20){can_create_mini = true;}
 		hp -= 10;
-		width -= 10.0f;
-		height -= 10.0f;
+		width -= 40.0f;
+		height -= 40.0f;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
@@ -178,6 +181,7 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		hp -= 10;
 		width -= 10.0f;
 		height -= 10.0f;
+
 		break;
 	default:
 		break;

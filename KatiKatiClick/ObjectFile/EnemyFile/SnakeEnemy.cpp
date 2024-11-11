@@ -9,8 +9,8 @@ SnakeEnemy::SnakeEnemy()
 	location.x = 320.0f;
 	location.y = 0.0f;
 	hp = 10;
-	width = 70.0f;
-	height = 70.0f;
+	width = 50.0f;
+	height = 50.0f;
 	speed = 1.5f;
 	can_hit = false;
 	object_type = ObjectType::enemy;
