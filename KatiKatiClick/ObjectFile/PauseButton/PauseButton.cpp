@@ -10,7 +10,7 @@ PauseButton::PauseButton()
 	object_type = ObjectType::pausebutton;
 	shape = Shape::square;
 	width = 50.0f;
-	height = 40.0f;
+	height = 50.0f;
 
 	is_pause = false;
 	cursor_x = 0.0f;
@@ -50,8 +50,17 @@ void PauseButton::Update()
 
 void PauseButton::Draw() const
 {
-	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
-	// DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+
+	if (is_pause)
+	{
+		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
+	}
+	else
+	{
+		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+	}
+
 
 	// はてな画像の描画
 	//DrawRotaGraphF(location.x, location.y, 1.0, 0.0, question_image[0], TRUE);
