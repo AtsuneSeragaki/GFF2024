@@ -50,15 +50,37 @@ void PauseButton::Update()
 
 void PauseButton::Draw() const
 {
-	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+	//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
 
-	if (is_pause)
+	if (is_pause == false)
 	{
-		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
+		DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
 	}
 	else
 	{
-		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x666666, "PAUSE");
+
+		//// ボックス
+		//DrawBoxAA(location.x - width / 2, location.y + height / 2, location.x + width / 2, location.y + height / 2 + 60.0f, 0xc0c0c0, TRUE);
+		//DrawBoxAA(location.x - width / 2, location.y + height / 2, location.x + width / 2, location.y + height / 2 + 30.0f, 0xaa0000, FALSE);
+
+		//DrawFormatStringF(300.0f, 65.0f, 0xaa0000, "HELP");
+
+		//// ボックス
+		//DrawBoxAA(location.x - width / 2, location.y + height / 2 + 60.0f, location.x + width / 2, location.y + height / 2 + 120.0f, 0xc0c0c0, TRUE);
+		//DrawBoxAA(location.x - width / 2, location.y + height / 2 + 60.0f, location.x + width / 2, location.y + height / 2 + 120.0f, 0x0000aa, FALSE);
+
+		//DrawFormatStringF(300.0f, 125.0f, 0x0000aa, "TITLE");
+
+		 DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0xaaaaaa, TRUE);
+
+		DrawFormatStringF(150.0f, location.y - 10.0f, 0x000000, "HELP");
+		DrawFormatStringF(150.0f, 700.0f, 0x000000, "TITLE");
+
+		DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
 	}
 
 

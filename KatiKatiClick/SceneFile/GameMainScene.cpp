@@ -120,6 +120,8 @@ void GameMainScene::Update()
             // シーン切り替え待ちカウントを減らす
             change_wait_time--;
             is_game_over = true;
+            // カーソルのみ更新
+            CursorUpdate();
             return;            //この行より下の処理はしない
         }
     }
@@ -267,15 +269,6 @@ void GameMainScene::Draw() const
         }
     }
 
-    // ポーズボタン描画
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
-        {
-            objects[i]->Draw();
-        }
-    }
-
     if (ui_coins != nullptr)
     {
         // コインUIの描画
@@ -303,6 +296,15 @@ void GameMainScene::Draw() const
         ui_timer->Draw();
     }
 
+    // ポーズボタン描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
+        {
+            objects[i]->Draw();
+        }
+    }
+
     //カーソル描画
     for (int i = 0; i < objects.size(); i++)
     {
@@ -326,7 +328,7 @@ void GameMainScene::Draw() const
 
     if (is_pause)
     {
-        DrawString(30, 350, "PAUSE", 0xffffff);
+       //DrawString(30, 350, "PAUSE", 0xffffff);
     }
 }
 
