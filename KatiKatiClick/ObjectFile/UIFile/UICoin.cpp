@@ -4,7 +4,7 @@
 
 UICoins::UICoins()
 {
-	location.x = 240.0f;
+	location.x = 260.0f;
 	location.y = 30.0f;
 	coins_num = 0;
 
@@ -58,18 +58,18 @@ void UICoins::Update()
 
 void UICoins::Draw() const
 {
-	//DrawBox(140, 5, 260, 55, 0x000000, TRUE);
+	DrawBox(170, 5, 280, 55, 0x000000, TRUE);
 
-	//// DrawFormatString(150, 30, 0x000000, "coins : %d", coins_num);
+	// DrawFormatString(150, 30, 0x000000, "coins : %d", coins_num);
 
-	//// コイン画像の描画
-	//DrawRotaGraphF(location.x - 80.0f, location.y, 1.0, 0.0, coin_image[0], TRUE);
+	// コイン画像の描画
+	DrawRotaGraphF(location.x - 70.0f, location.y, 1.0, 0.0, coin_image[0], TRUE);
 
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	// 数字画像の描画
-	//	DrawRotaGraphF(location.x - i * 20.0f, location.y, 1.0, 0.0, num_image[image_num[i]], TRUE);
-	//}
+	for (int i = 0; i < 3; i++)
+	{
+		// 数字画像の描画
+		DrawRotaGraphF(location.x - i * 20.0f, location.y, 1.0, 0.0, num_image[image_num[i]], TRUE);
+	}
 
 }
 
