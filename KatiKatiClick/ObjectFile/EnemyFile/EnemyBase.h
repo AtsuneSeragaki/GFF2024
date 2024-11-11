@@ -1,6 +1,7 @@
 #pragma once
 #include "../ObjectBase.h"
 #include "DxLib.h"
+#include <vector>
 
 enum class State
 {
@@ -21,6 +22,7 @@ protected:
 	int wait_time;//動くまでの時間
 	int se[2]; // 効果音
 	bool can_create_mini;//小さいのを作る
+	std::vector<int> enemy_image;   //エネミー画像
 
 public:
 	EnemyBase()

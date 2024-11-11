@@ -5,7 +5,6 @@ class CrackEnemy :
     public EnemyBase
 {
 private:
-    std::vector<int> enemy_image;   // コロン画像
 
 public:
     CrackEnemy();

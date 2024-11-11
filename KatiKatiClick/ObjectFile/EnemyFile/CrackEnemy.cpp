@@ -31,7 +31,7 @@ CrackEnemy::CrackEnemy()
 
 	//敵画像の読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
-	enemy_image.push_back(tmp_img[2]);
+	enemy_image.push_back(tmp_img[0]);
 
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
@@ -43,7 +43,7 @@ CrackEnemy::CrackEnemy()
 
 CrackEnemy::~CrackEnemy()
 {
-	//DeleteSoftImage(handle);
+	
 }
 
 void CrackEnemy::Initialize()
