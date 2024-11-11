@@ -5,7 +5,8 @@ class CrackEnemy :
     public EnemyBase
 {
 private:
-
+    int count_img;
+    int chenge_img;
 public:
     CrackEnemy();
     ~CrackEnemy();

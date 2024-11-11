@@ -64,10 +64,13 @@ const std::vector<int>& ResourceManager::GetSoftImages(const char* file_name, in
 		{
 			CreateSoftImagesResource(file_name);
 		}
+		else
+		{
+			CreateSoftImagesResource(file_name, all_num, num_x, num_y, size_x, size_y);
+		}
 	}
 
 	return images_container[file_name];
-
 }
 
 const int ResourceManager::GetSounds(std::string file_name)
@@ -174,8 +177,8 @@ void ResourceManager::CreateSoftImagesResource(std::string file_name)
 		images_container[file_name].push_back(img[i]);
 	}
 
-	//ソフトイメージの解放
 	DeleteSoftImage(soft_img);
+
 }
 
 void ResourceManager::CreateImagesResource(std::string file_name, int all_num, int num_x, int num_y, int size_x, int size_y)
@@ -199,6 +202,70 @@ void ResourceManager::CreateImagesResource(std::string file_name, int all_num, i
 
 	// 動的メモリの解放
 	delete[] handle;
+}
+
+void ResourceManager::CreateSoftImagesResource(std::string file_name, int all_num, int num_x, int num_y, int size_x, int size_y)
+{
+	// 指定されたファイルを読み込む
+	int* img =  new int[all_num];
+	int soft_img = LoadSoftImage(file_name.c_str());
+
+
+	// エラーチェック
+	if (soft_img == -1)
+	{
+		throw(file_name + "がありません\n");
+	}
+
+	//変更前の画像を保存
+	//DxLib::CreateDivGraphFromSoftImage(soft_img, all_num, num_x, num_y, size_x, size_y, img);
+
+	//ソフトイメージの改造:青
+	DxLib::SetPaletteSoftImage(soft_img, 2, 77, 141, 166, 255);
+	DxLib::SetPaletteSoftImage(soft_img, 3, 97, 192, 206, 255);
+
+	//分割読込
+	DxLib::CreateDivGraphFromSoftImage(soft_img, all_num, num_x, num_y, size_x, size_y, img);
+	// コンテナに読み込んだ画像を追加する
+	for (int i = 0; i < all_num; i++)
+	{
+		images_container[file_name].push_back(img[i]);
+	}
+
+	if(false)
+	{
+
+
+		//ソフトイメージの改造:紫
+		DxLib::SetPaletteSoftImage(soft_img, 1, 77, 141, 166, 255);
+		DxLib::SetPaletteSoftImage(soft_img, 2, 127, 77, 166, 255);
+		DxLib::SetPaletteSoftImage(soft_img, 3, 179, 97, 206, 255);
+		//分割読込
+		DxLib::CreateDivGraphFromSoftImage(soft_img, all_num, num_x, num_y, size_x, size_y, img);
+		// コンテナに読み込んだ画像を追加する
+		for (int i = 0; i < all_num; i++)
+		{
+			images_container[file_name].push_back(img[i]);
+		}
+
+		//ソフトイメージの改造:緑
+		DxLib::SetPaletteSoftImage(soft_img, 1, 77, 141, 166, 255);
+		DxLib::SetPaletteSoftImage(soft_img, 2, 77, 166, 108, 255);
+		DxLib::SetPaletteSoftImage(soft_img, 3, 97, 206, 134, 255);
+		//分割読込
+		DxLib::CreateDivGraphFromSoftImage(soft_img, all_num, num_x, num_y, size_x, size_y, img);
+		// コンテナに読み込んだ画像を追加する
+		for (int i = 0; i < all_num; i++)
+		{
+			images_container[file_name].push_back(img[i]);
+		}
+	}
+
+	// 動的メモリの解放
+	if (img != nullptr) {
+		delete[] img;
+	}
+	DeleteSoftImage(soft_img);
 }
 
 void ResourceManager::CreateSoundsResource(std::string file_name)

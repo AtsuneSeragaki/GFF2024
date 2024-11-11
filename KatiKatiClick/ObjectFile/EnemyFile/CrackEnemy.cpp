@@ -15,8 +15,11 @@ CrackEnemy::CrackEnemy()
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
 
+	count_img = 0;
+	chenge_img = 0;
+
 	////画像の読込
-	//int sh = LoadSoftImage("Resource/Images/characters/enemy/square.png");
+	//int handle = LoadSoftImage("Resource/Images/characters/enemy/square.png");
 	//if (sh == -1) {
 	//	assert(0 && "aaaaaa");
 	//}
@@ -33,6 +36,12 @@ CrackEnemy::CrackEnemy()
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
 	enemy_image.push_back(tmp_img[0]);
 
+	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png",4,4,1,64,32);
+	//0~3
+	for (int i = 0; i <= 3; i++)
+	{
+		enemy_image.push_back(tmp_img[i]);
+	}
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
 	se[0] = tmp;
@@ -66,6 +75,13 @@ void CrackEnemy::Update()
 		break;
 	case State::move:
 		location.y += speed;
+
+		if (count_img++ > 30)
+		{
+			count_img = 0;
+			chenge_img++;
+			if (chenge_img > 4) { chenge_img = 0; }
+		}
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y < ONE_LANE_HEIGHT)
@@ -128,7 +144,7 @@ void CrackEnemy::Draw() const
 	}
 	/*
 	//int r, g, b, a;
-	// パレットの一覧を描画
+	// //パレットの一覧を描画
 	//for (int i = 0; i < 8; i++)
 	//{
 	//	for (int j = 0; j < 8; j++)
@@ -152,12 +168,13 @@ void CrackEnemy::Draw() const
 	//	}
 	//}
 	*/
+	
 	//DrawSoftImage(location.x, location.y, handle);
 
 	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 	//DrawGraph(0, 300, handle2, TRUE);
 	//DrawGraph(0,332, handle, TRUE);
-	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
+	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
 
 }
 

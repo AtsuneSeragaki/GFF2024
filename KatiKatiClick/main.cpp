@@ -17,6 +17,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);	//画面サイズ指定
 
 	if (DxLib_Init() == -1) return -1;	// DXライブラリの初期化処理
+	SetBackgroundColor(255, 0, 0);
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先画面を裏にする
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
