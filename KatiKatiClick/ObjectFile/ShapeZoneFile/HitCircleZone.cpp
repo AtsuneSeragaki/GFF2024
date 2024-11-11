@@ -32,6 +32,5 @@ void HitCircleZone::Draw() const
 
 void HitCircleZone::HitReaction(ObjectBase* character)
 {
-	can_hit = false;
 	can_delete = true;
 }
