@@ -206,19 +206,16 @@ void GameMainScene::Draw() const
         }
     }
 
+    if (ui_coins != nullptr)
+    {
+        // コインUIの描画
+        ui_coins->Draw();
+    }
 
     // コイン描画
     for (int i = 0; i < coins.size(); i++)
     {
         coins[i]->Draw();
-    }
-
-
-
-    if (ui_coins != nullptr)
-    {
-        // コインUIの描画
-        ui_coins->Draw();
     }
 
     //ゴール描画
@@ -368,6 +365,8 @@ void GameMainScene::CoinGenerate(int i, int j)
 
         // 生成座標の設定
         coins.back()->SetLocation(objects[i]->GetLocation());
+        // コインUIの座標を渡す
+        coins.back()->SetUICoinsLocation(ui_coins->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
         //hitflgをオフにする
@@ -382,6 +381,8 @@ void GameMainScene::CoinGenerate(int i, int j)
         coins.push_back(new Coin);
         // 生成座標の設定
         coins.back()->SetLocation(objects[j]->GetLocation());
+        // コインUIの座標を渡す
+        coins.back()->SetUICoinsLocation(ui_coins->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
         //hitflgをオフにする
