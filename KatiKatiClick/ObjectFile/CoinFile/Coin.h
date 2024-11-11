@@ -1,5 +1,4 @@
 #pragma once
-#include "DxLib.h"
 #include "../../UtilityFile/Geometry.h"
 #include <vector>
 
@@ -18,6 +17,13 @@ private:
 	std::vector<int> effect_image;  // エフェクト画像
 	int image_num;					// 画像番号
 	int anim_count;					// アニメーションカウント
+
+	float radius;					// エフェクトの半径
+	int effect_count;				// エフェクトカウント
+
+	double angle;        // 画像の角度
+	double degree;       // 角度計算用
+
 
 public:
 	Coin();

@@ -1,5 +1,7 @@
+#include "DxLib.h"
 #include "Coin.h"
 #include "../../UtilityFile/ResourceManager.h"
+#include "../../UtilityFile/Define.h"
 
 Coin::Coin()
 {
@@ -31,6 +33,11 @@ Coin::Coin()
 
 	image_num = 0;
 	anim_count = 0;
+	radius = 10.0f;
+	effect_count = 150;
+
+	angle = 0.0;
+	degree = 0.0;
 }
 
 Coin::~Coin()
@@ -59,7 +66,10 @@ void Coin::Update()
 	}
 	else
 	{
-		// エフェクト更新
+		effect_count -= 3;
+		radius += 0.5f;
+
+		// エフェクトアニメーション更新
 		anim_count++;
 
 		if (anim_count >= 5)
@@ -76,6 +86,19 @@ void Coin::Update()
 
 			anim_count = 0;
 		}
+
+		//// 回転
+		//if (degree < 360.0)
+		//{
+		//	degree += 2.0;
+		//}
+		//else
+		//{
+		//	degree = 0.0;
+		//}
+
+		//// 画像の角度
+		//angle = DEGREE_RADIAN(degree);
 	}
 }
 
@@ -88,11 +111,23 @@ void Coin::Draw() const
 	}
 	else
 	{
-		// エフェクト描画
-		//DrawCircleAA(location.x, location.y, 5.0f, 32, 0xff4400, TRUE);
+		// 描画輝度のセット
+		SetDrawBright(255, 255, 150);
+		// エフェクト画像の描画
+		DrawRotaGraphF(location.x, location.y, 2.0, angle, effect_image[image_num], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+
+
+		//// 描画ブレンドモードをアルファブレンドにする
+		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, effect_count);
+		//// 円のエフェクトの描画
+		//DrawCircleAA(location.x, location.y, radius, 32, GetColor(255, 255, 150), FALSE, 1.0f);
+		//// 描画ブレンドモードをノーブレンドにする
+		//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 		// エフェクト画像の描画
-		DrawRotaGraphF(location.x, location.y, 2.0, 0.0, effect_image[image_num], TRUE);
+		//DrawRotaGraphF(location.x, location.y, 2.0, 0.0, effect_image[image_num], TRUE);
 	}
 }
 
