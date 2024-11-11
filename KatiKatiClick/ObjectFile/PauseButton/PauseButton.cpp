@@ -1,5 +1,6 @@
 #include "PauseButton.h"
 #include "DxLib.h"
+#include "../../UtilityFile/ResourceManager.h"
 
 PauseButton::PauseButton()
 {
@@ -14,6 +15,14 @@ PauseButton::PauseButton()
 	is_pause = false;
 	cursor_x = 0.0f;
 	cursor_y = 0.0f;
+
+	// ResourceManagerのインスタンスを取得
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+
+	// はてな画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Question.png");
+	question_image.push_back(tmp[0]);
 }
 
 PauseButton::~PauseButton()
@@ -41,8 +50,11 @@ void PauseButton::Update()
 
 void PauseButton::Draw() const
 {
-	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
 	// DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+
+	// はてな画像の描画
+	//DrawRotaGraphF(location.x, location.y, 1.0, 0.0, question_image[0], TRUE);
 
 	//if (is_pause)
 	//{
