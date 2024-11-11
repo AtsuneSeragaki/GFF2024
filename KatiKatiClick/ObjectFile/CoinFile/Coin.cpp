@@ -8,6 +8,7 @@ Coin::Coin()
 	distance = 0.0f;
 	hypotenuse = 0.0f;
 	speed = 5.0f;
+	effect_flg = false;
 	can_delete = false;
 
 	// ResourceManagerのインスタンスを取得
@@ -21,10 +22,15 @@ Coin::Coin()
 		coin_image.push_back(tmp[i]);
 	}
 
+	// エフェクト画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Coin/Effect.png", 6, 6, 1, 16, 16);
+	for (int i = 0; i < 6; i++)
+	{
+		effect_image.push_back(tmp[i]);
+	}
+
 	image_num = 0;
 	anim_count = 0;
-
-	delete_count = 0;
 }
 
 Coin::~Coin()
@@ -33,6 +39,83 @@ Coin::~Coin()
 }
 
 void Coin::Update()
+{
+	if (effect_flg == false)
+	{
+		// コイン回収の動き
+		CoinMove();
+
+		// コインのアニメーション
+		CoinAnimation();
+
+		if (hypotenuse < speed)
+		{
+			// エフェクトが出現
+			effect_flg = true;
+
+			anim_count = 0;
+			image_num = 0;
+		}
+	}
+	else
+	{
+		// エフェクト更新
+		anim_count++;
+
+		if (anim_count >= 5)
+		{
+			if (image_num < 5)
+			{
+				image_num++;
+			}
+			else
+			{
+				// アニメーションが一周したらコインを削除
+				can_delete = true;
+			}
+
+			anim_count = 0;
+		}
+	}
+}
+
+void Coin::Draw() const
+{
+	if (effect_flg == false)
+	{
+		// コイン画像の描画
+		DrawRotaGraphF(location.x, location.y, 1.5, 0.0, coin_image[image_num], TRUE);
+	}
+	else
+	{
+		// エフェクト描画
+		//DrawCircleAA(location.x, location.y, 5.0f, 32, 0xff4400, TRUE);
+
+		// エフェクト画像の描画
+		DrawRotaGraphF(location.x, location.y, 2.0, 0.0, effect_image[image_num], TRUE);
+	}
+}
+
+// コイン回収の動き
+void Coin::CoinMove()
+{
+	// コインUIとコインのx座標、y座標のそれぞれの距離
+	distance.x = ui_coins_location.x - location.x;
+	distance.y = ui_coins_location.y - location.y;
+
+	// 平方根を使ってコインUIとコインの斜辺の距離を求める
+	hypotenuse = sqrtf(distance.x * distance.x + distance.y * distance.y);
+
+	// speed分ずつコインがUIに向かって動く
+	location.x += distance.x / hypotenuse * speed;
+	location.y += distance.y / hypotenuse * speed;
+
+	// 加速
+	speed += 0.5f;
+}
+
+// コインのアニメーション
+void Coin::CoinAnimation()
 {
 	anim_count++;
 
@@ -49,42 +132,6 @@ void Coin::Update()
 
 		anim_count = 0;
 	}
-
-	//delete_count++;
-
-	//if (delete_count >= 180)
-	//{
-	//	// 60カウント以上になったらコインを削除
-	//	//can_delete = true;
-	//}
-
-	// コインUIとコインのx座標、y座標のそれぞれの距離
-	distance.x = ui_coins_location.x - location.x;
-	distance.y = ui_coins_location.y - location.y;
-
-	// 平方根を使ってコインUIとコインの斜辺の距離を求める
-	hypotenuse = sqrtf(distance.x * distance.x + distance.y * distance.y);
-
-	location.x += distance.x / hypotenuse * speed;
-	location.y += distance.y / hypotenuse * speed;
-
-	if (hypotenuse < speed)
-	{
-		// コインを削除
-		can_delete = true;
-	}
-
-	// 加速
-	speed += 0.5f;
-}
-
-void Coin::Draw() const
-{
-	// コイン画像の描画
-	DrawRotaGraphF(location.x, location.y, 1.5, 0.0, coin_image[image_num], TRUE);
-
-	// 円の描画
-	//DrawCircleAA(location.x, location.y, 5.0f, 32, 0xffff00, FALSE);
 }
 
 bool Coin::GetCanDeleteFlg() const
