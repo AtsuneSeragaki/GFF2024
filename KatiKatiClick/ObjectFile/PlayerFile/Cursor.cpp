@@ -33,11 +33,8 @@ void Cursor::Initialize()
 
 void Cursor::Update()
 {
-	int x, y;
-	GetMousePoint(&x,&y);
-	location.x = (float)x;
-	location.y = (float)y;
 
+	location = MouseInput::GetMouseLocation();
 	
 
 	if (MouseInput::GetMouseState() == eMouseInputState::eClick)

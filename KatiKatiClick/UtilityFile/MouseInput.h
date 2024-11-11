@@ -1,4 +1,5 @@
 #pragma once
+#include "../UtilityFile//Geometry.h"
 
 enum class eMouseInputState
 {
@@ -16,7 +17,10 @@ private:
 	static int old_key;//昔の入力
 	static eMouseInputState mouse_input_state;
 
+	static Vector2D location;		// 座標
+
 public:
 	static void Update();
 	static eMouseInputState GetMouseState();
+	static Vector2D GetMouseLocation();
 };

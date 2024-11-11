@@ -4,9 +4,17 @@
 int MouseInput::now_key = 0;
 int MouseInput::old_key = 0;
 eMouseInputState MouseInput::mouse_input_state = eMouseInputState::eNone;
+Vector2D MouseInput::location = 0;
 
 void MouseInput::Update()
 {
+
+	int x, y;
+	GetMousePoint(&x, &y);
+	location.x = (float)x;
+	location.y = (float)y;
+
+
 	old_key = now_key;
 
 	//マウスの左ボタンが押されているかチェック
@@ -44,4 +52,9 @@ void MouseInput::Update()
 eMouseInputState MouseInput::GetMouseState()
 {
 	return mouse_input_state;
+}
+
+Vector2D MouseInput::GetMouseLocation()
+{
+	return location;
 }
