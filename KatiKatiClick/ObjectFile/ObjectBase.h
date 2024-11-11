@@ -12,6 +12,7 @@ enum class ObjectType
 	pausebutton,
 	cursor,
 	goal,
+	circlezone,
 };
 
 enum class Shape
@@ -32,6 +33,7 @@ protected:
 	Shape shape;
 	bool can_delete;//消していいか
 	float height,width;//高さと幅
+	bool can_create_zone;//判定だけの作るか
 
 public:
 	ObjectBase();
@@ -58,4 +60,5 @@ public:
 
 	const Vector2D& GetLocation() const;			// 座標を返す
 	void SetLocation(const Vector2D& location);		// 生成座標の設定
+	bool GetCanCreateZone();
 };

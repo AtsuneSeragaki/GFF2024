@@ -87,7 +87,7 @@ void BurstEnemy::Update()
 		}
 		break;
 	case State::death:
-
+		can_create_zone = true;
 		can_delete = true;
 		break;
 	default:

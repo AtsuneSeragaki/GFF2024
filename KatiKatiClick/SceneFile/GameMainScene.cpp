@@ -89,6 +89,14 @@ void GameMainScene::Update()
             objects[i]->Update();
         }
 
+        //flgがtrueだったらcircleの当たり判定だけのclassを生成する
+        if (objects[i]->GetCanCreateZone() == true)
+        {
+            HitCircleZone* circle_zone = CreateObject<HitCircleZone>(objects[i]->GetLocation());
+            circle_zone->SetRadius(objects[i]->GetRadius()+20);
+        }
+
+
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
@@ -163,6 +171,30 @@ void GameMainScene::Update()
 
     //エネミーを生成
     EnmGenerateTimeCheck();
+
+    //小さいCrackEnemyを生成
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::enemy)
+        {
+            EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+
+            if (enemy->GetCanCreateMini() == true)
+            {
+                enemy->StopCreateMini();
+
+                //小さいエネミーを作る
+                EnemyBase* crack_enemy_mini = CreateObject<CrackEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f,objects[i]->GetLocation().y + 40.0f));
+                crack_enemy_mini->SetHp(10);
+                crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                EnemyBase* crack_enemy_mini2 = CreateObject<CrackEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f,objects[i]->GetLocation().y + 40.0f));
+                crack_enemy_mini2->SetHp(10);
+                crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+
+            }
+        }
+    }
+    
 }
 
 void GameMainScene::Draw() const
@@ -170,7 +202,7 @@ void GameMainScene::Draw() const
     //敵の描画
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::enemy)
+        if (objects[i]->GetObjectType() == ObjectType::enemy || objects[i]->GetObjectType() == ObjectType::circlezone)
         {
             objects[i]->Draw();
         }
