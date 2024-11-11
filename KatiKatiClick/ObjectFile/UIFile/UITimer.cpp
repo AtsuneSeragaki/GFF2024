@@ -15,6 +15,10 @@ UITimer::UITimer()
 	tmp = rm->GetImages("Resource/Images/Timer/Timer.png");
 	timer_image.push_back(tmp[0]);
 
+	// コロン画像の読み込み
+	tmp = rm->GetImages("Resource/Images/Timer/Colon.png");
+	colon_image.push_back(tmp[0]);
+
 	// 数字画像を読み込む
 	tmp = rm->GetImages("Resource/Images/Timer/Num.png", 10, 10, 1, 32, 32);
 	for (int i = 0; i < 10; i++)
@@ -24,8 +28,9 @@ UITimer::UITimer()
 
 	for (int i = 0; i < 2; i++)
 	{
-		image_num[i] = 0;
+		image_seconds_num[i] = 0;
 	}
+	image_minutes_num = 1;
 }
 
 UITimer::~UITimer()
@@ -56,16 +61,20 @@ void UITimer::Update()
 
 void UITimer::Draw() const
 {
-	DrawBox(10, 5, 130, 55, 0x000000, TRUE);
+	DrawBox(10, 5, 160, 55, 0x000000, TRUE);
 	//DrawFormatString(20, 20, 0xffffff, "timer:");
 
 	// タイマー画像の描画
 	DrawRotaGraph(40, 30, 1.0, 0.0, timer_image[0], TRUE);
+	// 分の数字画像の描画
+	DrawRotaGraph(80, 30, 1.0, 0.0, num_image[image_minutes_num], TRUE);
+	// コロン画像の描画
+	DrawRotaGraph(100, 30, 1.0, 0.0, colon_image[0], TRUE);
 
 	for (int i = 0; i < 2; i++)
 	{
 		// 数字画像の描画
-		DrawRotaGraph(110 - i * 20, 30, 1.0, 0.0, num_image[image_num[i]], TRUE);
+		DrawRotaGraph(140 - i * 20, 30, 1.0, 0.0, num_image[image_seconds_num[i]], TRUE);
 	}
 }
 
@@ -82,16 +91,20 @@ void UITimer::CheckDisplayNumImage()
 
 	for (int i = 0; i < 2; i++)
 	{
-		if (tmp_seconds > 0)
+		if (tmp_seconds < 60 && tmp_seconds > 0)
 		{
+			// 分の画像
+			image_minutes_num = 0;
+
+			// 秒の画像
 			// 小さい位の数字から求める
-			image_num[i] = tmp_seconds % 10;
+			image_seconds_num[i] = tmp_seconds % 10;
 			// 上の位
 			tmp_seconds /= 10;
 		}
 		else
 		{
-			image_num[i] = 0;
+			image_seconds_num[i] = 0;
 		}
 	}
 }

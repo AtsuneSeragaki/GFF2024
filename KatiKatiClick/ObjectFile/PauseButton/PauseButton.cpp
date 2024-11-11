@@ -8,7 +8,7 @@ PauseButton::PauseButton()
 	can_hit = true;
 	object_type = ObjectType::pausebutton;
 	shape = Shape::square;
-	width = 60.0f;
+	width = 50.0f;
 	height = 40.0f;
 
 	is_pause = false;
