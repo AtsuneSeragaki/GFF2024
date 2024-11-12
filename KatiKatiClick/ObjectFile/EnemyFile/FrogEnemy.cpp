@@ -125,7 +125,7 @@ void FrogEnemy::Draw() const
 
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 	//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
-	DrawExtendGraph(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, enemy_image[0], TRUE);
+	DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[0], TRUE);
 
 }
 
