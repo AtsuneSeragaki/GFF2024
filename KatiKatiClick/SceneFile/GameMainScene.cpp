@@ -82,6 +82,7 @@ void GameMainScene::Update()
                         b_skill->SetSkillStateClose();
                     }
                 }
+                is_attack_active = false;
             }
             else
             {
