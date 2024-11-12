@@ -5,7 +5,7 @@
 UICoins::UICoins()
 {
 	location.x = 260.0f;
-	location.y = 30.0f;
+	location.y = 35.0f;
 	coins_num = 0;
 
 	// ResourceManagerのインスタンスを取得
@@ -58,7 +58,7 @@ void UICoins::Update()
 
 void UICoins::Draw() const
 {
-	DrawBox(170, 5, 280, 55, 0x000000, TRUE);
+	DrawBox(170, 10, 280, 60, 0x000000, TRUE);
 
 	// DrawFormatString(150, 30, 0x000000, "coins : %d", coins_num);
 

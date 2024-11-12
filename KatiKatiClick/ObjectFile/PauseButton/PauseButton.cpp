@@ -1,5 +1,6 @@
 #include "PauseButton.h"
 #include "DxLib.h"
+#include "../../UtilityFile/ResourceManager.h"
 
 PauseButton::PauseButton()
 {
@@ -9,11 +10,19 @@ PauseButton::PauseButton()
 	object_type = ObjectType::pausebutton;
 	shape = Shape::square;
 	width = 50.0f;
-	height = 40.0f;
+	height = 50.0f;
 
 	is_pause = false;
 	cursor_x = 0.0f;
 	cursor_y = 0.0f;
+
+	// ResourceManagerのインスタンスを取得
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+
+	// はてな画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Question.png");
+	question_image.push_back(tmp[0]);
 }
 
 PauseButton::~PauseButton()
@@ -41,8 +50,42 @@ void PauseButton::Update()
 
 void PauseButton::Draw() const
 {
-	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
-	// DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+	//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+
+	if (is_pause == false)
+	{
+		DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+	}
+	else
+	{
+		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x666666, "PAUSE");
+
+		//// ボックス
+		//DrawBoxAA(location.x - width / 2, location.y + height / 2, location.x + width / 2, location.y + height / 2 + 60.0f, 0xc0c0c0, TRUE);
+		//DrawBoxAA(location.x - width / 2, location.y + height / 2, location.x + width / 2, location.y + height / 2 + 30.0f, 0xaa0000, FALSE);
+
+		//DrawFormatStringF(300.0f, 65.0f, 0xaa0000, "HELP");
+
+		//// ボックス
+		//DrawBoxAA(location.x - width / 2, location.y + height / 2 + 60.0f, location.x + width / 2, location.y + height / 2 + 120.0f, 0xc0c0c0, TRUE);
+		//DrawBoxAA(location.x - width / 2, location.y + height / 2 + 60.0f, location.x + width / 2, location.y + height / 2 + 120.0f, 0x0000aa, FALSE);
+
+		//DrawFormatStringF(300.0f, 125.0f, 0x0000aa, "TITLE");
+
+		 DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0xaaaaaa, TRUE);
+
+		DrawFormatStringF(150.0f, location.y - 10.0f, 0x000000, "HELP");
+		DrawFormatStringF(150.0f, 700.0f, 0x000000, "TITLE");
+
+		DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
+	}
+
+
+	// はてな画像の描画
+	//DrawRotaGraphF(location.x, location.y, 1.0, 0.0, question_image[0], TRUE);
 
 	//if (is_pause)
 	//{

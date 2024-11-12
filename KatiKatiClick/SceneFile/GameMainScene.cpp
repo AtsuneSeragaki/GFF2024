@@ -11,7 +11,7 @@ GameMainScene::GameMainScene()
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
-    CreateObject<PauseButton>(Vector2D(320.0f, 30.0f));         // ポーズボタン生成
+    CreateObject<PauseButton>(Vector2D(320.0f, 35.0f));         // ポーズボタン生成
     goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -33,11 +33,64 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
-    //if (is_pause == true)
-    //{
-    //    // ゲームの更新を一時停止
-    //    return;
-    //}
+    for (int i = 0; i < coins.size(); i++)
+    {
+        // コイン更新
+        coins[i]->Update();
+
+        //消してもOKだったらcoinsを削除
+        if (coins[i]->GetCanDeleteFlg() == true)
+        {
+            coins.erase(coins.begin() + i);
+        }
+    }
+
+    // UIコインの更新処理
+    ui_coins->Update();
+
+    // 一時停止中の処理
+    if (is_pause == true && is_game_over == false)
+    {
+        // 更新処理
+        for (int i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::cursor || objects[i]->GetObjectType() == ObjectType::pausebutton)
+            {
+                // カーソルとポーズボタンのみ更新する
+                objects[i]->Update();
+            }
+        }
+
+        //当たり判定
+        for (int i = 0; i < objects.size() - 1; i++)
+        {
+            for (int j = i + 1; j < objects.size(); j++)
+            {
+                // objects[i]がcursor、object[j]がpausebuttonなら当たり判定処理
+                if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::pausebutton)
+                {
+                    if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
+
+                    //もしshapeが違かったら
+                    if (objects[i]->GetShape() != objects[j]->GetShape())
+                    {
+                        //ヒットチェック
+                        if (objects[i]->HitBoxCircle(objects[j]) == true)
+                        {
+                            objects[i]->HitReaction(objects[j]);
+                            objects[j]->HitReaction(objects[i]);
+                        }
+                    }
+                }
+            }
+        }
+
+        // 一時停止中か調べる
+        PauseCheck();
+
+        // ゲームの更新を一時停止
+        return;
+    }
 
     if (ui_timer != nullptr && is_game_over == false)
     {
@@ -67,6 +120,8 @@ void GameMainScene::Update()
             // シーン切り替え待ちカウントを減らす
             change_wait_time--;
             is_game_over = true;
+            // カーソルのみ更新
+            CursorUpdate();
             return;            //この行より下の処理はしない
         }
     }
@@ -150,24 +205,9 @@ void GameMainScene::Update()
             CoinGenerate(i, j);
 
             // 一時停止か調べる
-            //PauseCheck();
+            PauseCheck();
         }
     }
-
-    for (int i = 0; i < coins.size(); i++)
-    {
-        // コイン更新
-        coins[i]->Update();
-
-        //消してもOKだったらcoinsを削除
-        if (coins[i]->GetCanDeleteFlg() == true)
-        {
-            coins.erase(coins.begin() + i);
-        }
-    }
-
-    // UIコインの更新処理
-    ui_coins->Update();
 
     //エネミーを生成
     EnmGenerateTimeCheck();
@@ -231,28 +271,16 @@ void GameMainScene::Draw() const
         }
     }
 
-    // ポーズボタン描画
-    for (int i = 0; i < objects.size(); i++)
+    if (ui_coins != nullptr)
     {
-        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
-        {
-            objects[i]->Draw();
-        }
+        // コインUIの描画
+        ui_coins->Draw();
     }
-
 
     // コイン描画
     for (int i = 0; i < coins.size(); i++)
     {
         coins[i]->Draw();
-    }
-
-
-
-    if (ui_coins != nullptr)
-    {
-        // コインUIの描画
-        ui_coins->Draw();
     }
 
     //ゴール描画
@@ -268,6 +296,15 @@ void GameMainScene::Draw() const
     {
         // タイマー描画処理
         ui_timer->Draw();
+    }
+
+    // ポーズボタン描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
+        {
+            objects[i]->Draw();
+        }
     }
 
     //カーソル描画
@@ -293,10 +330,8 @@ void GameMainScene::Draw() const
 
     if (is_pause)
     {
-        DrawString(30, 350, "PAUSE", 0xffffff);
+       //DrawString(30, 350, "PAUSE", 0xffffff);
     }
-
-    
 }
 
 AbstractScene* GameMainScene::Change()
@@ -402,6 +437,8 @@ void GameMainScene::CoinGenerate(int i, int j)
 
         // 生成座標の設定
         coins.back()->SetLocation(objects[i]->GetLocation());
+        // コインUIの座標を渡す
+        coins.back()->SetUICoinsLocation(ui_coins->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
         //hitflgをオフにする
@@ -416,6 +453,8 @@ void GameMainScene::CoinGenerate(int i, int j)
         coins.push_back(new Coin);
         // 生成座標の設定
         coins.back()->SetLocation(objects[j]->GetLocation());
+        // コインUIの座標を渡す
+        coins.back()->SetUICoinsLocation(ui_coins->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
         //hitflgをオフにする

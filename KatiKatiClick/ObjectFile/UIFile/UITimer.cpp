@@ -61,20 +61,20 @@ void UITimer::Update()
 
 void UITimer::Draw() const
 {
-	DrawBox(10, 5, 160, 55, 0x000000, TRUE);
+	DrawBox(10, 10, 160, 60, 0x000000, TRUE);
 	//DrawFormatString(20, 20, 0xffffff, "timer:");
 
 	// タイマー画像の描画
-	DrawRotaGraph(40, 30, 1.0, 0.0, timer_image[0], TRUE);
+	DrawRotaGraph(40, 35, 1.0, 0.0, timer_image[0], TRUE);
 	// 分の数字画像の描画
-	DrawRotaGraph(80, 30, 1.0, 0.0, num_image[image_minutes_num], TRUE);
+	DrawRotaGraph(80, 35, 1.0, 0.0, num_image[image_minutes_num], TRUE);
 	// コロン画像の描画
-	DrawRotaGraph(100, 30, 1.0, 0.0, colon_image[0], TRUE);
+	DrawRotaGraph(100, 35, 1.0, 0.0, colon_image[0], TRUE);
 
 	for (int i = 0; i < 2; i++)
 	{
 		// 数字画像の描画
-		DrawRotaGraph(140 - i * 20, 30, 1.0, 0.0, num_image[image_seconds_num[i]], TRUE);
+		DrawRotaGraph(140 - i * 20, 35, 1.0, 0.0, num_image[image_seconds_num[i]], TRUE);
 	}
 }
 

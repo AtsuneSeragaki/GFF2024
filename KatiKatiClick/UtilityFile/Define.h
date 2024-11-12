@@ -1,4 +1,6 @@
 #pragma once
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 #define OBJECT_MAX_NUM 100
 
@@ -17,3 +19,6 @@
 #define LANE_WIDTH (SCREEN_WIDTH / LANE_WIDTH_NUM)//１レーンの幅をもらう
 
 #define LANE_WIDTH_HALF (LANE_WIDTH / 2)
+
+//デグリーからラジアンに変換
+#define DEGREE_RADIAN(_deg) (M_PI*(_deg)/180.0)
