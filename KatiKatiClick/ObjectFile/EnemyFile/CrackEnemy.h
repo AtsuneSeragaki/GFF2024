@@ -5,13 +5,7 @@ class CrackEnemy :
     public EnemyBase
 {
 private:
-    int count_img;
-    int chenge_img;
     bool check_hp;
-
-    int shape_change_x;//歩く画像を変更する数字で
-    int shape_change_y;
-    int shape_change_cnt;//カウント
 
 public:
     CrackEnemy();

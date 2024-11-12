@@ -19,12 +19,26 @@ FrogEnemy::FrogEnemy()
 	radian = 0.0f;
 	result = 0.0f;
 
+	img_cnt = 0;
+	img_num = 0;
+	old_location = { 0 };
+	old_height = 0.0f;
+	old_width = 0.0f;
+	hit_damage = false;
+
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp_img;
 
 	//敵画像の読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
 	enemy_image.push_back(tmp_img[2]);
+	//敵画像死ぬアニメーション読み込み
+	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png", 4, 4, 1, 64, 32);
+	//8~11
+	for (int i = 8; i <= 11; i++)
+	{
+		enemy_image.push_back(tmp_img[i]);
+	}
 
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
@@ -100,10 +114,35 @@ void FrogEnemy::Update()
 
 		break;
 	case State::death:
-		can_delete = true;
+		if (count_img++ > 2)
+		{
+			count_img = 0;
+			chenge_img++;
+
+			if (chenge_img > 4)
+			{
+				//アニメーションが終わったら
+				can_delete = true;
+			}
+		}
 		break;
 	default:
 		break;
+	}
+
+
+	if (hit_damage == true)
+	{
+		if (img_cnt++ > 2)
+		{
+			img_cnt = 0;
+			img_num++;
+
+			if (img_num > 4)
+			{
+				hit_damage = false;
+			}
+		}
 	}
 
 }
@@ -124,22 +163,43 @@ void FrogEnemy::Draw() const
 
 
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
-	//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
-	DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[0], TRUE);
+
+	
+	DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[chenge_img], TRUE);
+
+	if (hit_damage == true)
+	{
+		DrawExtendGraph((int)old_location.x - (int)old_width / 2, (int)old_location.y - (int)old_height / 2, (int)old_location.x + (int)old_width / 2, (int)old_location.y + (int)old_height / 2, enemy_image[img_num], TRUE);
+	}
 
 }
 
 void FrogEnemy::HitReaction(ObjectBase* character)
 {
+	if (hit_damage == false&&hp>=20)
+	{
+		old_location = location;
+	}
 	switch (character->GetObjectType())
 	{
 	case ObjectType::cursor:
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
+		if (hit_damage == false && hp >= 20)
+		{
+			hit_damage = true;
+			old_width = width+10.0f;
+			old_height = height+10.0f;
+
+		}
+
 		hp -= 10;
-		width -= 10.0f;
-		height -= 10.0f;
+		if (hp >= 10)
+		{
+			width -= 20.0f;
+			height -= 20.0f;
+		}
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
@@ -150,9 +210,18 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+		if (hit_damage == false && hp >= 20)
+		{
+			hit_damage = true;
+			old_width = width + 10.0f;
+			old_height = height + 10.0f;
+		}
+
 		hp -= 10;
-		width -= 10.0f;
-		height -= 10.0f;
+		width -= 20.0f;
+		height -= 20.0f;
+
+
 		break;
 	case ObjectType::attackskill:
 		hp -= 20;

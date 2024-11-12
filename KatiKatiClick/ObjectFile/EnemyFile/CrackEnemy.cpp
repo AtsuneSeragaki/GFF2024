@@ -40,7 +40,7 @@ CrackEnemy::CrackEnemy()
 	//敵画像の読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
 	enemy_image.push_back(tmp_img[0]);
-
+	//敵画像死ぬアニメーション読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png",4,4,1,64,32);
 	//0~3
 	for (int i = 0; i <= 3; i++)
@@ -258,7 +258,11 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		hp -= 10;
+		if (hp >= 10) {
+			width -= 10;
+			height -= 10;
+			hp -= 10;
+		}
 
 		break;
 	case ObjectType::attackskill:

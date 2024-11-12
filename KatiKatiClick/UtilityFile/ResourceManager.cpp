@@ -232,35 +232,28 @@ void ResourceManager::CreateSoftImagesResource(std::string file_name, int all_nu
 		images_container[file_name].push_back(img[i]);
 	}
 
-	if(false)
+	//ソフトイメージの改造:紫
+	DxLib::SetPaletteSoftImage(soft_img, 2, 127, 77, 166, 255);
+	DxLib::SetPaletteSoftImage(soft_img, 3, 179, 97, 206, 255);
+	//分割読込
+	DxLib::CreateDivGraphFromSoftImage(soft_img, all_num, num_x, num_y, size_x, size_y, img);
+	// コンテナに読み込んだ画像を追加する
+	for (int i = 0; i < all_num; i++)
 	{
-
-
-		//ソフトイメージの改造:紫
-		DxLib::SetPaletteSoftImage(soft_img, 1, 77, 141, 166, 255);
-		DxLib::SetPaletteSoftImage(soft_img, 2, 127, 77, 166, 255);
-		DxLib::SetPaletteSoftImage(soft_img, 3, 179, 97, 206, 255);
-		//分割読込
-		DxLib::CreateDivGraphFromSoftImage(soft_img, all_num, num_x, num_y, size_x, size_y, img);
-		// コンテナに読み込んだ画像を追加する
-		for (int i = 0; i < all_num; i++)
-		{
-			images_container[file_name].push_back(img[i]);
-		}
-
-		//ソフトイメージの改造:緑
-		DxLib::SetPaletteSoftImage(soft_img, 1, 77, 141, 166, 255);
-		DxLib::SetPaletteSoftImage(soft_img, 2, 77, 166, 108, 255);
-		DxLib::SetPaletteSoftImage(soft_img, 3, 97, 206, 134, 255);
-		//分割読込
-		DxLib::CreateDivGraphFromSoftImage(soft_img, all_num, num_x, num_y, size_x, size_y, img);
-		// コンテナに読み込んだ画像を追加する
-		for (int i = 0; i < all_num; i++)
-		{
-			images_container[file_name].push_back(img[i]);
-		}
+		images_container[file_name].push_back(img[i]);
 	}
 
+	//ソフトイメージの改造:緑
+	DxLib::SetPaletteSoftImage(soft_img, 2, 77, 166, 108, 255);
+	DxLib::SetPaletteSoftImage(soft_img, 3, 97, 206, 134, 255);
+	//分割読込
+	DxLib::CreateDivGraphFromSoftImage(soft_img, all_num, num_x, num_y, size_x, size_y, img);
+	// コンテナに読み込んだ画像を追加する
+	for (int i = 0; i < all_num; i++)
+	{
+		images_container[file_name].push_back(img[i]);
+	}
+	
 	// 動的メモリの解放
 	if (img != nullptr) {
 		delete[] img;

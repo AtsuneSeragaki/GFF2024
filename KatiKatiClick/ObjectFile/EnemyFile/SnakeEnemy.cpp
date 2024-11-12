@@ -26,6 +26,13 @@ SnakeEnemy::SnakeEnemy()
 	//敵画像の読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
 	enemy_image.push_back(tmp_img[1]);
+	//敵画像死ぬアニメーション読み込み
+	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png", 4, 4, 1, 64, 32);
+	//4~7
+	for (int i = 4; i <= 7; i++)
+	{
+		enemy_image.push_back(tmp_img[i]);
+	}
 
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
@@ -72,6 +79,8 @@ void SnakeEnemy::Update()
 		result = cosf(radian);
 		location.x += result;
 
+
+
 		//UIより上か下だったら当たり判定をしない
 		if (location.y < ONE_LANE_HEIGHT)
 		{
@@ -101,7 +110,17 @@ void SnakeEnemy::Update()
 
 		break;
 	case State::death:
-		can_delete = true;
+		if (count_img++ > 2)
+		{
+			count_img = 0;
+			chenge_img++;
+
+			if (chenge_img > 4)
+			{
+				//アニメーションが終わったら
+				can_delete = true;
+			}
+		}
 		break;
 	default:
 		break;
@@ -124,7 +143,7 @@ void SnakeEnemy::Draw() const
 
 
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
-	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
+	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
 
 
 }
