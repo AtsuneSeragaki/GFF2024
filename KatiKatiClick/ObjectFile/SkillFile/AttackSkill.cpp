@@ -33,7 +33,7 @@ void AttackSkill::Initialize()
 
 void AttackSkill::Draw() const
 {
-	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xffffff,FALSE);
+	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xffffff,TRUE);
 }
 
 void AttackSkill::Finalize()
