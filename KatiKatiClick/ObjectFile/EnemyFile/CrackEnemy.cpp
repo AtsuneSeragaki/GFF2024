@@ -15,8 +15,13 @@ CrackEnemy::CrackEnemy()
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
 
+	check_hp = false;
+
+	count_img = 0;
+	chenge_img = 0;
+
 	////画像の読込
-	//int sh = LoadSoftImage("Resource/Images/characters/enemy/square.png");
+	//int handle = LoadSoftImage("Resource/Images/characters/enemy/square.png");
 	//if (sh == -1) {
 	//	assert(0 && "aaaaaa");
 	//}
@@ -25,7 +30,20 @@ CrackEnemy::CrackEnemy()
 	//DeleteSoftImage(sh);
 	//handle =  CreateGraphFromSoftImage(LoadSoftImage("Resource/Images/characters/enemy/square.png"));
 
+		// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp_img;
+
+	//敵画像の読み込み
+	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
+	enemy_image.push_back(tmp_img[0]);
+
+	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png",4,4,1,64,32);
+	//0~3
+	for (int i = 0; i <= 3; i++)
+	{
+		enemy_image.push_back(tmp_img[i]);
+	}
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
 	se[0] = tmp;
@@ -36,7 +54,7 @@ CrackEnemy::CrackEnemy()
 
 CrackEnemy::~CrackEnemy()
 {
-	//DeleteSoftImage(handle);
+	
 }
 
 void CrackEnemy::Initialize()
@@ -59,6 +77,8 @@ void CrackEnemy::Update()
 		break;
 	case State::move:
 		location.y += speed;
+
+
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y < ONE_LANE_HEIGHT)
@@ -97,7 +117,26 @@ void CrackEnemy::Update()
 
 		break;
 	case State::death:
-		can_delete = true;
+		if (count_img++ > 2)
+		{
+			count_img = 0;
+			chenge_img++;
+
+			if (chenge_img > 4)
+			{
+				//アニメーションが終わったら
+				can_delete = true;
+			}
+			else if (chenge_img > 3)
+			{
+				if (check_hp == true)
+				{
+					check_hp = false;
+					can_create_mini = true;
+				}
+			}
+		}
+
 		break;
 	default:
 		break;
@@ -109,7 +148,6 @@ void CrackEnemy::Update()
 void CrackEnemy::Draw() const
 {
 
-	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, TRUE);
 	DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
 	if (can_hit == true)
 	{
@@ -121,7 +159,7 @@ void CrackEnemy::Draw() const
 	}
 	/*
 	//int r, g, b, a;
-	// パレットの一覧を描画
+	// //パレットの一覧を描画
 	//for (int i = 0; i < 8; i++)
 	//{
 	//	for (int j = 0; j < 8; j++)
@@ -145,12 +183,24 @@ void CrackEnemy::Draw() const
 	//	}
 	//}
 	*/
+	
 	//DrawSoftImage(location.x, location.y, handle);
 
 	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 	//DrawGraph(0, 300, handle2, TRUE);
 	//DrawGraph(0,332, handle, TRUE);
+	if (state == State::wait)
+	{
+		//DrawExtendGraph(int x1, int y1, int x2, int y2,int GrHandle, int TransFlag);
+		DrawExtendGraph(location.x - width / 2, location.y - height / 4, location.x + width / 2, location.y + height / 2, enemy_image[chenge_img], TRUE);
+	}
+	else
+	{
+		DrawExtendGraph(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, enemy_image[chenge_img], TRUE);
 
+		//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
+	}
+	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, FALSE);
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
@@ -163,10 +213,13 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		if (hp >= 20){can_create_mini = true;}
-		hp -= 10;
-		width -= 40.0f;
-		height -= 40.0f;
+		if (hp >= 20)
+		{
+			check_hp = true;
+			width -= 30.0f;
+			height -= 30.0f;
+		}
+		hp -= 20;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:

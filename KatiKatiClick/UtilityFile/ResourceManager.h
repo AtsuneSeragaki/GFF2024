@@ -24,6 +24,8 @@ private:
 	// 画像コンテナ
 	std::map < std::string, std::vector<int>> images_container;
 
+	std::map < std::string, std::vector<int>> enemy_img_container;
+
 	// 音源コンテナ
 	std::map < std::string, int> sounds_container;
 
@@ -61,6 +63,8 @@ public:
 	const std::vector<int>& GetImages(const char* file_name, int all_num = 1, int num_x = 1, int num_y = 1, int size_x = 0, int size_y = 0);
 	const std::vector<int>& GetImages(MaterialParam element);
 
+	const std::vector<int>& GetSoftImages(const char* file_name,int all_num = 1, int num_x = 1, int num_y = 1, int size_x = 0, int size_y = 0);
+
 	/*
 	* 音源を取得する
 	* @param  file_name  ファイルパス
@@ -79,6 +83,9 @@ private:
 	*/
 	void CreateImagesResource(std::string file_name);
 
+	//元のデータが読み込まれてなかったら画像ハンドルを読み込みリソースを作成
+	void CreateSoftImagesResource(std::string file_name);
+
 	/*
 	* 画像ハンドルを読み込みリソースを作成する
 	* @param  file_name  ファイルパス
@@ -89,6 +96,7 @@ private:
 	* @param  size_y     縦のサイズ（px）
 	*/
 	void CreateImagesResource(std::string file_name, int all_num, int num_x, int num_y, int size_x, int size_y);
+	void CreateSoftImagesResource(std::string file_name, int all_num, int num_x, int num_y, int size_x, int size_y);
 
 	/*
 	* 音源ハンドルを読み込みリソースを作成する

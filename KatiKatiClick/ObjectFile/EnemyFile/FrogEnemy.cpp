@@ -20,6 +20,12 @@ FrogEnemy::FrogEnemy()
 	result = 0.0f;
 
 	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp_img;
+
+	//敵画像の読み込み
+	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
+	enemy_image.push_back(tmp_img[2]);
+
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
 	se[0] = tmp;
@@ -104,7 +110,7 @@ void FrogEnemy::Update()
 
 void FrogEnemy::Draw() const
 {
-	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x3cb371, TRUE);
+	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x3cb371, FALSE);
 	DrawFormatString((int)location.x, (int)location.y - 40, 0xe9967a, "hp:%d", hp);
 
 	if (can_hit == true)
@@ -118,6 +124,8 @@ void FrogEnemy::Draw() const
 
 
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
+	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
+
 }
 
 void FrogEnemy::HitReaction(ObjectBase* character)
