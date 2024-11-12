@@ -200,7 +200,7 @@ void CrackEnemy::Draw() const
 
 		//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
 	}
-	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, FALSE);
+	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, FALSE);
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
@@ -213,10 +213,13 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		if (hp >= 20) { check_hp = true; }
+		if (hp >= 20)
+		{
+			check_hp = true;
+			width -= 30.0f;
+			height -= 30.0f;
+		}
 		hp -= 20;
-		width -= 30.0f;
-		height -= 30.0f;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
