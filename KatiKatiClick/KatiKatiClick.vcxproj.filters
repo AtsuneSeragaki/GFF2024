@@ -59,6 +59,7 @@
     <ClCompile Include="ObjectFile\ClickEffectFile\ClickEffect.cpp" />
     <ClCompile Include="ObjectFile\ShapeZoneFile\HitCircleZone.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\MiniCrackEnemy.cpp" />
+    <ClCompile Include="ObjectFile\UIFile\UIGoal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -121,6 +122,7 @@
     <ClInclude Include="ObjectFile\ClickEffectFile\ClickEffect.h" />
     <ClInclude Include="ObjectFile\ShapeZoneFile\HitCircleZone.h" />
     <ClInclude Include="ObjectFile\EnemyFile\MiniCrackEnemy.h" />
+    <ClInclude Include="ObjectFile\UIFile\UIGoal.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">

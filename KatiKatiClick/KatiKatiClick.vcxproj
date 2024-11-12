@@ -169,6 +169,7 @@
     <ClCompile Include="ObjectFile\UIFile\UICoin.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UITimer.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
+    <ClCompile Include="ObjectFile\UIFile\UIGoal.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\BAttackSkill.cpp" />
     <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="ObjectFile\UIFile\UICoins.h" />
     <ClInclude Include="ObjectFile\UIFile\UITimer.h" />
     <ClInclude Include="ObjectFile\EnemyFile\SnakeEnemy.h" />
+    <ClInclude Include="ObjectFile\UIFile\UIGoal.h" />
     <ClInclude Include="UtilityFile\Define.h" />
     <ClInclude Include="UtilityFile\Geometry.h" />
     <ClInclude Include="UtilityFile\MouseInput.h" />

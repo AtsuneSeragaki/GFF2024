@@ -17,6 +17,7 @@ GameMainScene::GameMainScene()
 
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
+    ui_goal = new UIGoal;       //ゴールUI生成
 
     enm_generate_cnt = 200;
 
@@ -55,6 +56,7 @@ void GameMainScene::Update()
 
     // UIコインの更新処理
     ui_coins->Update();
+    ui_goal->SetGoalHp(goal->GetGoalCnt());
 
     // スキル置く場所選択中の処理
     if (is_spos_select == true)
@@ -350,6 +352,11 @@ void GameMainScene::Draw() const
     {
         // コインUIの描画
         ui_coins->Draw();
+    }
+
+    if (ui_goal != nullptr)
+    {
+        ui_goal->Draw();
     }
 
     // コイン描画

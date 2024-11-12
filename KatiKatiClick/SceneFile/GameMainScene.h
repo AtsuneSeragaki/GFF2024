@@ -12,6 +12,7 @@
 #include "../UtilityFile/Geometry.h"
 #include "../ObjectFile/UIFile/UICoins.h"
 #include "../ObjectFile/UIFile/UITimer.h"
+#include "../ObjectFile/UIFile/UIGoal.h"
 #include "../ObjectFile/PauseButton/PauseButton.h"
 #include "../ObjectFile/ShapeZoneFile/HitCircleZone.h"
 #include <vector>
@@ -25,6 +26,7 @@ private:
 	std::vector<Coin*> coins;
 	UICoins* ui_coins;
 	UITimer* ui_timer;
+	UIGoal* ui_goal;
 	Goal* goal;
 
 	int enm_generate_cnt;//エネミー生成カウント
