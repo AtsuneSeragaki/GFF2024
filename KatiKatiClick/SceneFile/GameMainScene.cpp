@@ -31,7 +31,12 @@ GameMainScene::GameMainScene()
 
 GameMainScene::~GameMainScene()
 {
-
+    delete ui_coins;
+    for (ObjectBase* obj : objects)
+    {
+        delete obj;
+    }
+    objects.clear();
 }
 
 void GameMainScene::Update()
@@ -430,16 +435,12 @@ void GameMainScene::EnemyGenerate(int num)
         for (int i = 0; i < num; i++)
         {
             //ランダムで出てくる位置を決める
-            int max = 3;
-            int min = 1;
-            int random_num = min + rand() * (max - min + 1) / (1 + RAND_MAX);
             EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 1.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy->SetWaitTime(i * 60 * random_num);
+            crack_enemy->SetWaitTime(i * 60 * num);
             EnemyBase* crack_enemy2 = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 2.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy2->SetWaitTime(i * 60 * random_num);
+            crack_enemy2->SetWaitTime(i * 60 * num);
             EnemyBase* crack_enemy3 = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 3.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy3->SetWaitTime(i * 60 * random_num);
-
+            crack_enemy3->SetWaitTime(i * 60 * num);
         }
 
         //ランダムで出てくる位置を決める
