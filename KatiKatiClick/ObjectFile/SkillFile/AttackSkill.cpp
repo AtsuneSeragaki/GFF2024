@@ -5,14 +5,12 @@
 AttackSkill::AttackSkill()
 {
 	can_hit = true;
-	location.x = 0.0f;
-	location.y = 0.0f;
 	object_type = ObjectType::attackskill;
 	shape = Shape::square;
 	can_delete = false;
-	height = 30.0f;
-	width = 15.0f;
-	disp_flg = false;
+	height = 100.0f;
+	width = 100.0f;
+	disp_flg = true;
 }
 
 AttackSkill::~AttackSkill()
@@ -21,6 +19,12 @@ AttackSkill::~AttackSkill()
 
 void AttackSkill::Update()
 {
+	cnt++;
+	if (cnt >= 60)
+	{
+		can_delete = true;
+		cnt = 0;
+	}
 }
 
 void AttackSkill::Initialize()
@@ -29,9 +33,13 @@ void AttackSkill::Initialize()
 
 void AttackSkill::Draw() const
 {
-	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xffffff,FALSE);
+	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xffffff,TRUE);
 }
 
 void AttackSkill::Finalize()
+{
+}
+
+void AttackSkill::HitReaction(ObjectBase* character)
 {
 }

@@ -37,6 +37,10 @@ private:
 
 	bool is_pause;				// 一時停止か？
 
+	bool is_spos_select;        // スキル置く場所選択中か？
+
+	bool is_attack_active;      // アタックスキルが有効か？
+
 public:
 	GameMainScene();
 	~GameMainScene();
