@@ -124,7 +124,8 @@ void FrogEnemy::Draw() const
 
 
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
-	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
+	//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
+	DrawExtendGraph(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, enemy_image[0], TRUE);
 
 }
 
@@ -145,6 +146,13 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 		can_hit = false;
 		state = State::goal;
 		speed = 3;
+		break;
+	case ObjectType::circlezone:
+		// 敵が押された時SE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+		hp -= 10;
+		width -= 10.0f;
+		height -= 10.0f;
 		break;
 	default:
 		break;

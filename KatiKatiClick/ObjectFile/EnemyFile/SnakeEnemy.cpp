@@ -125,6 +125,8 @@ void SnakeEnemy::Draw() const
 
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[0], 0);
+
+
 }
 
 void SnakeEnemy::HitReaction(ObjectBase* character)
@@ -144,6 +146,11 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		can_hit = false;
 		state = State::goal;
 		speed = 3;
+		break;
+	case ObjectType::circlezone:
+		// 敵が押された時SE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+		hp -= 10;
 		break;
 	default:
 		break;
