@@ -14,5 +14,5 @@ public:
 	void Initialize() override;
 	void Draw()const override;
 	void Finalize();
-
+	void HitReaction(ObjectBase* character) override; //hitCheckがtrueだったらhitした後の処理をする
 };

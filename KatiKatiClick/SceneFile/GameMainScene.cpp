@@ -4,6 +4,7 @@
 #include "../ObjectFile/SkillFile/BSlowDownSkill.h"
 #include "../ObjectFile/SkillFile/AttackSKill.h"
 #include "../ObjectFile/SkillFile/SlowDownSkill.h"
+#include "../UtilityFile/MouseInput.h"
 
 GameMainScene::GameMainScene()
 {
@@ -24,6 +25,8 @@ GameMainScene::GameMainScene()
     change_wait_time = 300;
     is_enm_generate = true;
     is_pause = false;
+    is_spos_select = false;
+    is_attack_active = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -48,9 +51,61 @@ void GameMainScene::Update()
     // UIコインの更新処理
     ui_coins->Update();
 
+    // スキル置く場所選択中の処理
+    if (is_spos_select == true)
+    {
+        int i;
+        float x,y;
+
+        // 更新処理
+        for (i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::cursor)
+            {
+                // カーソルのみ更新する
+                objects[i]->Update();
+                x = objects[i]->GetLocation().x;
+                y = objects[i]->GetLocation().y;
+            }
+        }
+
+        if (MouseInput::GetMouseState() == eMouseInputState::eClick)
+        {
+            if (is_attack_active == true)
+            {
+                CreateObject<AttackSkill>(Vector2D(x, y));
+                for (i = 0; i < objects.size(); i++)
+                {
+                    if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+                    {
+                        BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+                        b_skill->SetSkillStateClose();
+                    }
+                }
+            }
+            else
+            {
+                CreateObject<SlowDownSkill>(Vector2D(x, y));
+                for (i = 0; i < objects.size(); i++)
+                {
+                    if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+                    {
+                        BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+                        b_skill->SetSkillStateClose();
+                    }
+                }
+            }
+
+            is_spos_select = false;
+        }
+
+        return;            //この行より下の処理はしない
+    }
+
     // 一時停止中の処理
     if (is_pause == true && is_game_over == false)
     {
+        
         // 更新処理
         for (int i = 0; i < objects.size(); i++)
         {
@@ -91,7 +146,7 @@ void GameMainScene::Update()
         // ゲームの更新を一時停止
         return;
     }
-
+   
     if (ui_timer != nullptr && is_game_over == false)
     {
         if (ui_timer->GetSeconds() == 0)
@@ -233,12 +288,27 @@ void GameMainScene::Update()
 
             }
         }
-    }
-    
+    } 
 }
 
 void GameMainScene::Draw() const
 {
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::attackskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::slowdownskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
     //敵の描画
     for (int i = 0; i < objects.size(); i++)
     {
@@ -330,6 +400,8 @@ void GameMainScene::Draw() const
     {
        //DrawString(30, 350, "PAUSE", 0xffffff);
     }
+
+    //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
 }
 
 AbstractScene* GameMainScene::Change()
@@ -496,7 +568,13 @@ void GameMainScene::SkillPause(int i)
 
     if (b_skill->GetSkillState() == BSkillState::active)
     {
+        is_spos_select = true;
+
         // ポーズ状態にする
+        if (b_skill->GetObjectType() == ObjectType::b_attackskill)
+        {
+            is_attack_active = true;
+        }
     }
 }
 
