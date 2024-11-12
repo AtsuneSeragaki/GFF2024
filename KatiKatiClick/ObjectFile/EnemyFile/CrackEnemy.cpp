@@ -236,6 +236,9 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		height -= 10.0f;
 
 		break;
+	case ObjectType::attackskill:
+		hp -= 20;
+		break;
 	default:
 		break;
 	}

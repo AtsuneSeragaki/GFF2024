@@ -154,6 +154,9 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 		width -= 10.0f;
 		height -= 10.0f;
 		break;
+	case ObjectType::attackskill:
+		hp -= 20;
+		break;
 	default:
 		break;
 	}

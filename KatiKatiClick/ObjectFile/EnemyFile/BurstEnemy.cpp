@@ -134,6 +134,9 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		state = State::goal;
 		speed = 3;
 		break;
+	case ObjectType::attackskill:
+		hp -= 30;
+		break;
 	default:
 		break;
 	}

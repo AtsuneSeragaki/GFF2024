@@ -152,6 +152,9 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 		hp -= 10;
 		break;
+	case ObjectType::attackskill:
+		hp -= 20;
+		break;
 	default:
 		break;
 	}
