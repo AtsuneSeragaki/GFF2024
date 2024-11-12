@@ -15,6 +15,8 @@ CrackEnemy::CrackEnemy()
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
 
+	check_hp = false;
+
 	count_img = 0;
 	chenge_img = 0;
 
@@ -76,12 +78,7 @@ void CrackEnemy::Update()
 	case State::move:
 		location.y += speed;
 
-		if (count_img++ > 30)
-		{
-			count_img = 0;
-			chenge_img++;
-			if (chenge_img > 4) { chenge_img = 0; }
-		}
+
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y < ONE_LANE_HEIGHT)
@@ -120,7 +117,26 @@ void CrackEnemy::Update()
 
 		break;
 	case State::death:
-		can_delete = true;
+		if (count_img++ > 2)
+		{
+			count_img = 0;
+			chenge_img++;
+
+			if (chenge_img > 4)
+			{
+				//アニメーションが終わったら
+				can_delete = true;
+			}
+			else if (chenge_img > 3)
+			{
+				if (check_hp == true)
+				{
+					check_hp = false;
+					can_create_mini = true;
+				}
+			}
+		}
+
 		break;
 	default:
 		break;
@@ -132,7 +148,6 @@ void CrackEnemy::Update()
 void CrackEnemy::Draw() const
 {
 
-	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, TRUE);
 	DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
 	if (can_hit == true)
 	{
@@ -174,8 +189,18 @@ void CrackEnemy::Draw() const
 	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 	//DrawGraph(0, 300, handle2, TRUE);
 	//DrawGraph(0,332, handle, TRUE);
-	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
+	if (state == State::wait)
+	{
+		//DrawExtendGraph(int x1, int y1, int x2, int y2,int GrHandle, int TransFlag);
+		DrawExtendGraph(location.x - width / 2, location.y - height / 4, location.x + width / 2, location.y + height / 2, enemy_image[chenge_img], TRUE);
+	}
+	else
+	{
+		DrawExtendGraph(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, enemy_image[chenge_img], TRUE);
 
+		//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
+	}
+	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, FALSE);
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
@@ -188,7 +213,7 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		if (hp >= 20) { can_create_mini = true; }
+		if (hp >= 20) { check_hp = true; }
 		hp -= 20;
 		width -= 30.0f;
 		height -= 30.0f;

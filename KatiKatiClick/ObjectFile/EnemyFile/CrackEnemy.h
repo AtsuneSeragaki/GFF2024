@@ -7,6 +7,7 @@ class CrackEnemy :
 private:
     int count_img;
     int chenge_img;
+    bool check_hp;
 public:
     CrackEnemy();
     ~CrackEnemy();

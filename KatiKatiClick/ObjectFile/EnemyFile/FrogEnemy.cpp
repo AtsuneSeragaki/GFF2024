@@ -110,7 +110,7 @@ void FrogEnemy::Update()
 
 void FrogEnemy::Draw() const
 {
-	DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x3cb371, FALSE);
+	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x3cb371, FALSE);
 	DrawFormatString((int)location.x, (int)location.y - 40, 0xe9967a, "hp:%d", hp);
 
 	if (can_hit == true)
