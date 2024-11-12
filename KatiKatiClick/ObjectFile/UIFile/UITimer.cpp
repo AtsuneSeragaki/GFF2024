@@ -12,7 +12,7 @@ UITimer::UITimer()
 	std::vector<int> tmp;
 
 	// タイマー画像の読み込み
-	tmp = rm->GetImages("Resource/Images/Timer/Timer.png");
+	tmp = rm->GetImages("Resource/Images/Timer/Timer02.png");
 	timer_image.push_back(tmp[0]);
 
 	// コロン画像の読み込み

@@ -10,8 +10,8 @@ private:
     float cursor_x;         // カーソルx座標
     float cursor_y;         // カーソルy座標
 
-    std::vector<int> question_image;  // はてな画像
-
+    std::vector<int> button_image;    // ボタン画像
+    int image_num;                      // 画像番号
 
 public:
     PauseButton();

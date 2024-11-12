@@ -20,9 +20,18 @@ PauseButton::PauseButton()
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
 
-	// はてな画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Question.png");
-	question_image.push_back(tmp[0]);
+	//// はてな画像を読み込む
+	//tmp = rm->GetImages("Resource/Images/Question3.png");
+	//question_image.push_back(tmp[0]);
+
+	// ポーズボタン画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Pause/Pause.png", 2, 2, 1, 50, 50);
+	for (int i = 0; i < 2; i++)
+	{
+		button_image.push_back(tmp[i]);
+	}
+
+	image_num = 0;
 }
 
 PauseButton::~PauseButton()
@@ -37,15 +46,16 @@ void PauseButton::Initialize()
 
 void PauseButton::Update()
 {
-	//if (is_pause)
-	//{
-	//	// カーソル位置の更新
-	//	int x, y;
-	//	GetMousePoint(&x, &y);
-	//	cursor_x = (float)x;
-	//	cursor_y = (float)y;
-
-	//}
+	if (is_pause == false)
+	{
+		// 画像を停止ボタンにする
+		image_num = 0;
+	}
+	else
+	{
+		// 画像を再生ボタンにする
+		image_num = 1;
+	}
 }
 
 void PauseButton::Draw() const
@@ -55,8 +65,8 @@ void PauseButton::Draw() const
 
 	if (is_pause == false)
 	{
-		DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
-		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+		//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
 	}
 	else
 	{
@@ -79,19 +89,15 @@ void PauseButton::Draw() const
 		DrawFormatStringF(150.0f, location.y - 10.0f, 0x000000, "HELP");
 		DrawFormatStringF(150.0f, 700.0f, 0x000000, "TITLE");
 
-		DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
-		DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
+		//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
+		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
 	}
 
+	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0x000000, FALSE, 2.0f);
 
-	// はてな画像の描画
-	//DrawRotaGraphF(location.x, location.y, 1.0, 0.0, question_image[0], TRUE);
 
-	//if (is_pause)
-	//{
-	//	// カーソル仮表示
-	//	DrawCircleAA(location.x, location.y, radius, 32, 0x00ffff, TRUE);
-	//}
+	// ポーズボタン画像の描画
+	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[image_num], TRUE);
 }
 
 void PauseButton::HitReaction(ObjectBase* character)
