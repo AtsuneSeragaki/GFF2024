@@ -4,8 +4,8 @@
 
 UICoins::UICoins()
 {
-	location.x = 200.0f;
-	location.y = 700.0f;
+	location.x = 230.0f;
+	location.y = 640.0f;
 	coins_num = 0;
 
 	// ResourceManagerのインスタンスを取得
@@ -62,7 +62,7 @@ void UICoins::Draw() const
 	//DrawBoxAA(170.0f, 10.0f, 280.0f, 60.0f, 0x000000, FALSE, 2.0f);
 
 	// コイン画像の描画
-	DrawRotaGraphF(location.x - 70.0f, location.y, 1.0, 0.0, coin_image[0], TRUE);
+	DrawRotaGraphF(location.x - 80.0f, location.y, 1.0, 0.0, coin_image[0], TRUE);
 
 	for (int i = 0; i < 3; i++)
 	{

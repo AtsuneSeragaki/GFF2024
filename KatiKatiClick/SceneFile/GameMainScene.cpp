@@ -350,30 +350,32 @@ void GameMainScene::Draw() const
         }
     }
 
+
+    //if (ui_goal != nullptr)
+    //{
+    //    ui_goal->Draw();
+    //}
+
+
+    ////ゴール描画
+    //for (int i = 0; i < objects.size(); i++)
+    //{
+    //    if (objects[i]->GetObjectType() == ObjectType::goal)
+    //    {
+    //        objects[i]->Draw();
+    //    }
+    //}
+
     if (ui_coins != nullptr)
     {
         // コインUIの描画
         ui_coins->Draw();
     }
 
-    if (ui_goal != nullptr)
-    {
-        ui_goal->Draw();
-    }
-
     // コイン描画
     for (int i = 0; i < coins.size(); i++)
     {
         coins[i]->Draw();
-    }
-
-    //ゴール描画
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::goal)
-        {
-            objects[i]->Draw();
-        }
     }
 
     if (ui_timer != nullptr)
