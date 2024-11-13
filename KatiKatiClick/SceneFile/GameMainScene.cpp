@@ -451,18 +451,11 @@ void GameMainScene::EnemyGenerate(int num)
             crack_enemy3->SetWaitTime(i * 60 * num);
         }
 
-        //ランダムで出てくる位置を決める
-        int max = 3;
-        int min = 1;
-        int random_num = min + rand() * (max - min + 1) / (1 + RAND_MAX);
-
-        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
-        burst_enemy->SetWaitTime(random_num*60);
-        if (random_num == max) { random_num--; }
-        else if (random_num == min) { random_num++; }
-        else { random_num++; }
-        EnemyBase* burst_enemy2 = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
-        burst_enemy2->SetWaitTime(random_num * 60);
+        float generate_lane = (float)SCREEN_WIDTH / 6.0f;
+        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(generate_lane * 2.0f, 0.0f));//円エネミー
+        burst_enemy->SetWaitTime(60);
+        EnemyBase* burst_enemy2 = CreateObject<BurstEnemy>(Vector2D(generate_lane * 4.0f, 0.0f));//円エネミー
+        burst_enemy2->SetWaitTime(60);
 
 
         for (int i = 0; i < 3; i++) {
