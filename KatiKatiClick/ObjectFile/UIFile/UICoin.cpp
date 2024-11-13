@@ -4,8 +4,8 @@
 
 UICoins::UICoins()
 {
-	location.x = 260.0f;
-	location.y = 35.0f;
+	location.x = 200.0f;
+	location.y = 700.0f;
 	coins_num = 0;
 
 	// ResourceManagerのインスタンスを取得
@@ -13,7 +13,7 @@ UICoins::UICoins()
 	std::vector<int> tmp;
 
 	// コイン画像の読み込み
-	tmp = rm->GetImages("Resource/Images/Coin/Coin02.png");
+	tmp = rm->GetImages("Resource/Images/Coin/Wallet.png");
 	coin_image.push_back(tmp[0]);
 
 	// 数字画像を読み込む
@@ -58,9 +58,8 @@ void UICoins::Update()
 
 void UICoins::Draw() const
 {
-	DrawBox(170, 10, 280, 60, 0x000000, TRUE);
-
-	// DrawFormatString(150, 30, 0x000000, "coins : %d", coins_num);
+	//DrawBox(170, 10, 280, 60, 0xfff4b3, TRUE);
+	//DrawBoxAA(170.0f, 10.0f, 280.0f, 60.0f, 0x000000, FALSE, 2.0f);
 
 	// コイン画像の描画
 	DrawRotaGraphF(location.x - 70.0f, location.y, 1.0, 0.0, coin_image[0], TRUE);

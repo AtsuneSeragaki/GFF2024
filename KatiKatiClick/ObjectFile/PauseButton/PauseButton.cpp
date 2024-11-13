@@ -84,10 +84,14 @@ void PauseButton::Draw() const
 
 		//DrawFormatStringF(300.0f, 125.0f, 0x0000aa, "TITLE");
 
-		 DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0xaaaaaa, TRUE);
 
-		DrawFormatStringF(150.0f, location.y - 10.0f, 0x000000, "HELP");
-		DrawFormatStringF(150.0f, 700.0f, 0x000000, "TITLE");
+
+
+
+		// DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0xaaaaaa, TRUE);
+
+		//DrawFormatStringF(150.0f, location.y - 10.0f, 0x000000, "HELP");
+		//DrawFormatStringF(150.0f, 700.0f, 0x000000, "TITLE");
 
 		//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
 		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
@@ -97,7 +101,7 @@ void PauseButton::Draw() const
 
 
 	// ポーズボタン画像の描画
-	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[image_num], TRUE);
+	//DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[image_num], TRUE);
 }
 
 void PauseButton::HitReaction(ObjectBase* character)
