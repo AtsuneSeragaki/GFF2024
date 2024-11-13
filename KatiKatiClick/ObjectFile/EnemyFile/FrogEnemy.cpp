@@ -226,6 +226,12 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 	case ObjectType::attackskill:
 		hp -= 20;
 		break;
+	case ObjectType::slowdownskill:
+		if (speed >= 1.5f)
+		{
+			speed -= 0.7f;
+		}
+		break;
 	default:
 		break;
 	}
