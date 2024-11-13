@@ -17,6 +17,7 @@ GameMainScene::GameMainScene()
 
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
+    ui_goal = new UIGoal;       //ゴールUI生成
 
     enm_generate_cnt = 200;
 
@@ -31,7 +32,12 @@ GameMainScene::GameMainScene()
 
 GameMainScene::~GameMainScene()
 {
-
+    delete ui_coins;
+    for (ObjectBase* obj : objects)
+    {
+        delete obj;
+    }
+    objects.clear();
 }
 
 void GameMainScene::Update()
@@ -50,6 +56,7 @@ void GameMainScene::Update()
 
     // UIコインの更新処理
     ui_coins->Update();
+    ui_goal->SetGoalHp(goal->GetGoalCnt());
 
     // スキル置く場所選択中の処理
     if (is_spos_select == true)
@@ -349,6 +356,11 @@ void GameMainScene::Draw() const
         ui_coins->Draw();
     }
 
+    if (ui_goal != nullptr)
+    {
+        ui_goal->Draw();
+    }
+
     // コイン描画
     for (int i = 0; i < coins.size(); i++)
     {
@@ -432,30 +444,19 @@ void GameMainScene::EnemyGenerate(int num)
         for (int i = 0; i < num; i++)
         {
             //ランダムで出てくる位置を決める
-            int max = 3;
-            int min = 1;
-            int random_num = min + rand() * (max - min + 1) / (1 + RAND_MAX);
             EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 1.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy->SetWaitTime(i * 60 * random_num);
+            crack_enemy->SetWaitTime(i * 60 * num);
             EnemyBase* crack_enemy2 = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 2.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy2->SetWaitTime(i * 60 * random_num);
+            crack_enemy2->SetWaitTime(i * 60 * num);
             EnemyBase* crack_enemy3 = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 3.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy3->SetWaitTime(i * 60 * random_num);
-
+            crack_enemy3->SetWaitTime(i * 60 * num);
         }
 
-        //ランダムで出てくる位置を決める
-        int max = 3;
-        int min = 1;
-        int random_num = min + rand() * (max - min + 1) / (1 + RAND_MAX);
-
-        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
-        burst_enemy->SetWaitTime(random_num*60);
-        if (random_num == max) { random_num--; }
-        else if (random_num == min) { random_num++; }
-        else { random_num++; }
-        EnemyBase* burst_enemy2 = CreateObject<BurstEnemy>(Vector2D(((float)LANE_WIDTH * (float)random_num) - (float)LANE_WIDTH_HALF, 0.0f));//円エネミー
-        burst_enemy2->SetWaitTime(random_num * 60);
+        float generate_lane = (float)SCREEN_WIDTH / 6.0f;
+        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(generate_lane * 2.0f, 0.0f));//円エネミー
+        burst_enemy->SetWaitTime(60);
+        EnemyBase* burst_enemy2 = CreateObject<BurstEnemy>(Vector2D(generate_lane * 4.0f, 0.0f));//円エネミー
+        burst_enemy2->SetWaitTime(60);
 
 
         for (int i = 0; i < 3; i++) {

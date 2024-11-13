@@ -4,7 +4,7 @@
 
 BurstEnemy::BurstEnemy()
 {
-	location.x = 400.0f;
+	location.x =0.0f;
 	location.y = 0.0f;
 	hp = 30;
 	radius = 10.0f;
@@ -126,7 +126,7 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		if (speed > 0.3f) {
 			speed -= 0.3f;
 		}
-		radius += 10.0f;
+		radius += 15.0f;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
@@ -136,6 +136,12 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		break;
 	case ObjectType::attackskill:
 		hp -= 30;
+		break;
+	case ObjectType::slowdownskill:
+		if (speed >= 1.5f)
+		{
+			speed -= 0.7f;
+		}
 		break;
 	default:
 		break;

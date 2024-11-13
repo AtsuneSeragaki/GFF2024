@@ -19,6 +19,9 @@ CrackEnemy::CrackEnemy()
 
 	count_img = 0;
 	chenge_img = 0;
+	shape_change_x = 0;
+	shape_change_y = 0;
+	shape_change_cnt = 0;
 
 	////画像の読込
 	//int handle = LoadSoftImage("Resource/Images/characters/enemy/square.png");
@@ -37,7 +40,7 @@ CrackEnemy::CrackEnemy()
 	//敵画像の読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
 	enemy_image.push_back(tmp_img[0]);
-
+	//敵画像死ぬアニメーション読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png",4,4,1,64,32);
 	//0~3
 	for (int i = 0; i <= 3; i++)
@@ -77,8 +80,26 @@ void CrackEnemy::Update()
 		break;
 	case State::move:
 		location.y += speed;
-
-
+		
+		//５カウントずつ幅の大きさを変えて歩いているように
+		if (shape_change_cnt++ > 5)
+		{
+			shape_change_cnt = 0;
+			if (shape_change_x == 0)
+			{
+				shape_change_x = 3;
+				shape_change_y = 2;
+			}
+			else if(shape_change_y==2)
+			{
+				shape_change_y = 5;
+			}
+			else
+			{
+				shape_change_x = 0;
+				shape_change_y = 0;
+			}
+		}
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y < ONE_LANE_HEIGHT)
@@ -106,6 +127,7 @@ void CrackEnemy::Update()
 
 		break;
 	case State::goal:
+
 		if (location.y < 720)
 		{
 			location.y += speed;
@@ -117,6 +139,7 @@ void CrackEnemy::Update()
 
 		break;
 	case State::death:
+
 		if (count_img++ > 2)
 		{
 			count_img = 0;
@@ -192,11 +215,15 @@ void CrackEnemy::Draw() const
 	if (state == State::wait)
 	{
 		//DrawExtendGraph(int x1, int y1, int x2, int y2,int GrHandle, int TransFlag);
-		DrawExtendGraph(location.x - width / 2, location.y - height / 4, location.x + width / 2, location.y + height / 2, enemy_image[chenge_img], TRUE);
+		DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 4, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[chenge_img], TRUE);
 	}
 	else
 	{
-		DrawExtendGraph(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, enemy_image[chenge_img], TRUE);
+		int left_top_x = (int)location.x - (int)width / 2;
+		int left_top_y = (int)location.y - (int)height / 2;
+		int right_bottom_x = (int)location.x + (int)width / 2;
+		int right_bottom_y = (int)location.y + (int)height / 2;
+		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[chenge_img], TRUE);
 
 		//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
 	}
@@ -231,13 +258,21 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		hp -= 10;
-		width -= 10.0f;
-		height -= 10.0f;
+		if (hp >= 10) {
+			width -= 10;
+			height -= 10;
+			hp -= 10;
+		}
 
 		break;
 	case ObjectType::attackskill:
 		hp -= 20;
+		break;
+	case ObjectType::slowdownskill:
+		if (speed >= 1.5f)
+		{
+			speed -= 0.7f;
+		}
 		break;
 	default:
 		break;

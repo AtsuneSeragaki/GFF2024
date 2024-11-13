@@ -5,9 +5,8 @@ class CrackEnemy :
     public EnemyBase
 {
 private:
-    int count_img;
-    int chenge_img;
     bool check_hp;
+
 public:
     CrackEnemy();
     ~CrackEnemy();
@@ -16,6 +15,5 @@ public:
     void Draw()const override;
     void HitReaction(ObjectBase* character) override;
 
-    
 };
 

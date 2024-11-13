@@ -7,6 +7,11 @@ private:
     int angle;
     float radian, result;
 
+    Vector2D old_location;//被ダメージ画像表示用
+    bool hit_damage;//ダメージを食らったか
+    float old_width, old_height;
+    int img_cnt;
+    int img_num;
 public:
     FrogEnemy();
     ~FrogEnemy();
