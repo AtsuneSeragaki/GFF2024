@@ -18,7 +18,11 @@ BAttackSkill::BAttackSkill()
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = rm->GetImages("Resource/Images/TestSkill.png");
+	tmp = rm->GetImages("Resource/Images/Skill/battack_close.png",1);
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png",1);
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png",1);
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
 
