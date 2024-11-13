@@ -5,7 +5,6 @@ class CrackEnemy :
     public EnemyBase
 {
 private:
-    bool check_hp;
 
 public:
     CrackEnemy();

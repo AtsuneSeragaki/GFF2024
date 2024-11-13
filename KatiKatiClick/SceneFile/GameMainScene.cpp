@@ -5,6 +5,7 @@
 #include "../ObjectFile/SkillFile/AttackSKill.h"
 #include "../ObjectFile/SkillFile/SlowDownSkill.h"
 #include "../UtilityFile/MouseInput.h"
+#include "../ObjectFile/EnemyFile/EnemyArray.h"
 
 GameMainScene::GameMainScene()
 {
@@ -476,23 +477,60 @@ void GameMainScene::EnmGenerateTimeCheck()
     switch (ui_timer->GetSeconds())
     {
     case 60:
-        EnemyGenerate(1);
+        if (is_enm_generate == true)
+        {
+            is_enm_generate = false;
+
+            for (int i = 0; i < enemy_array.size(); i++)
+            {
+                for (int j = 0; j < enemy_array[i].size(); j++)
+                {
+
+                    if (enemy_array[i][j] == 0) { continue; }
+
+                    float lane = ((float)SCREEN_WIDTH / 6) * (float)j + 60.0f;
+
+                    if (enemy_array[i][j] == 1)
+                    {
+                        EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        crack_enemy->SetWaitTime(i * 60);
+                    }
+
+                    if (enemy_array[i][j] == 4)
+                    {
+                        EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        frog_enemy->SetWaitTime(i * 60);
+                    }
+
+                    if (enemy_array[i][j] == 5)
+                    {
+                        for (int k = 0; k < 3; k++)
+                        {
+                            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                            //i*60待ってから出てくる
+                            snake_enemy->SetWaitTime((i * 60)+(k*40));
+                        }
+                    }
+                }
+            }
+        }
+
         break;
-    case 50:
-        EnemyGenerate(2);
-        break;
-    case 40:
-        EnemyGenerate(3);
-        break;
-    case 30:
-        EnemyGenerate(4);
-        break;
-    case 20:
-        EnemyGenerate(4);
-        break;
-    case 10:
-        EnemyGenerate(3);
-        break;
+    //case 50:
+    //    EnemyGenerate(2);
+    //    break;
+    //case 40:
+    //    EnemyGenerate(3);
+    //    break;
+    //case 30:
+    //    EnemyGenerate(4);
+    //    break;
+    //case 20:
+    //    EnemyGenerate(4);
+    //    break;
+    //case 10:
+    //    EnemyGenerate(3);
+    //    break;
     default:
         is_enm_generate = true;
         break;

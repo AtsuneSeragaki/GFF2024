@@ -1,12 +1,12 @@
-#include "CrackEnemy.h"
+#include "SplitEnemy.h"
 #include "../../UtilityFile/Define.h"
 #include "../../UtilityFile/ResourceManager.h"
 
-CrackEnemy::CrackEnemy()
+SplitEnemy::SplitEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 10;
+	hp = 20;
 	width = 70.0f;
 	height = 70.0f;
 	speed = 1.5f;
@@ -14,6 +14,7 @@ CrackEnemy::CrackEnemy()
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
 
+	check_hp = false;
 
 	count_img = 0;
 	chenge_img = 0;
@@ -21,17 +22,7 @@ CrackEnemy::CrackEnemy()
 	shape_change_y = 0;
 	shape_change_cnt = 0;
 
-	////画像の読込
-	//int handle = LoadSoftImage("Resource/Images/characters/enemy/square.png");
-	//if (sh == -1) {
-	//	assert(0 && "aaaaaa");
-	//}
-	//SetPaletteSoftImage(sh, 2, 255, 0, 0, 255);
-	//handle2 = CreateGraphFromSoftImage(sh);
-	//DeleteSoftImage(sh);
-	//handle =  CreateGraphFromSoftImage(LoadSoftImage("Resource/Images/characters/enemy/square.png"));
-
-		// ResourceManagerのインスタンスを取得
+	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp_img;
 
@@ -39,7 +30,7 @@ CrackEnemy::CrackEnemy()
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
 	enemy_image.push_back(tmp_img[0]);
 	//敵画像死ぬアニメーション読み込み
-	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png",4,4,1,64,32);
+	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png", 4, 4, 1, 64, 32);
 	//0~3
 	for (int i = 0; i <= 3; i++)
 	{
@@ -51,20 +42,19 @@ CrackEnemy::CrackEnemy()
 
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
 	se[1] = tmp;
+
 }
 
-CrackEnemy::~CrackEnemy()
-{
-	
-}
-
-void CrackEnemy::Initialize()
+SplitEnemy::~SplitEnemy()
 {
 }
 
-void CrackEnemy::Update()
+void SplitEnemy::Initialize()
 {
+}
 
+void SplitEnemy::Update()
+{
 
 	switch (state)
 	{
@@ -78,7 +68,7 @@ void CrackEnemy::Update()
 		break;
 	case State::move:
 		location.y += speed;
-		
+
 		//５カウントずつ幅の大きさを変えて歩いているように
 		if (shape_change_cnt++ > 5)
 		{
@@ -88,7 +78,7 @@ void CrackEnemy::Update()
 				shape_change_x = 3;
 				shape_change_y = 2;
 			}
-			else if(shape_change_y==2)
+			else if (shape_change_y == 2)
 			{
 				shape_change_y = 5;
 			}
@@ -121,7 +111,7 @@ void CrackEnemy::Update()
 			state = State::death;
 		}
 
-		
+
 
 		break;
 	case State::goal:
@@ -148,6 +138,14 @@ void CrackEnemy::Update()
 				//アニメーションが終わったら
 				can_delete = true;
 			}
+			else if (chenge_img > 3)
+			{
+				if (check_hp == true)
+				{
+					check_hp = false;
+					can_create_mini = true;
+				}
+			}
 		}
 
 		break;
@@ -155,13 +153,11 @@ void CrackEnemy::Update()
 		break;
 	}
 
-
 }
 
-void CrackEnemy::Draw() const
+void SplitEnemy::Draw() const
 {
-
-	DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
+	DrawFormatString((int)location.x, (int)location.y - 40, 0xe9967a, "hp:%d", hp);
 	if (can_hit == true)
 	{
 		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
@@ -170,41 +166,9 @@ void CrackEnemy::Draw() const
 	{
 		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
 	}
-	/*
-	//int r, g, b, a;
-	// //パレットの一覧を描画
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	for (int j = 0; j < 8; j++)
-	//	{
-	//		// パレットの色を取得する
-	//		GetPaletteSoftImage(handle, j + i * 16, &r, &g, &b, 0);
 
-	//		// DrawBox を使って描画
-	//		DrawBox(j * 16, i * 16+200, j * 16 + 16, i * 16 + 16+200, GetColor(r, g, b), TRUE);
-	//	}
-	//}
-
-	//for (int i = 0; i < image_height; i++)
-	//{
-	//	for (int j = 0; j < image_width; j++)
-	//	{
-	//		//1ドットの色を取得
-	//		GetPixelSoftImage(handle, j, i, &r, &g, &b, &a);
-	//		//DrawBoxで描画
-	//		DrawBox((j * 3)+ (int)location.x - (int)width / 2, (i * 3)+ (int)location.y - (int)height / 2, (j * 3 + 3)+ (int)location.x + (int)width / 2, (i * 3 + 3)+ (int)location.y + (int)height / 2, GetColor(r, g, b), TRUE);
-	//	}
-	//}
-	*/
-	
-	//DrawSoftImage(location.x, location.y, handle);
-
-	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
-	//DrawGraph(0, 300, handle2, TRUE);
-	//DrawGraph(0,332, handle, TRUE);
 	if (state == State::wait)
 	{
-		//DrawExtendGraph(int x1, int y1, int x2, int y2,int GrHandle, int TransFlag);
 		DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 4, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[chenge_img], TRUE);
 	}
 	else
@@ -215,14 +179,12 @@ void CrackEnemy::Draw() const
 		int right_bottom_y = (int)location.y + (int)height / 2;
 		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[chenge_img], TRUE);
 
-		//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
 	}
-	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, FALSE);
+
 }
 
-void CrackEnemy::HitReaction(ObjectBase* character)
+void SplitEnemy::HitReaction(ObjectBase* character)
 {
-	
 	switch (character->GetObjectType())
 	{
 	case ObjectType::cursor:
@@ -230,7 +192,13 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		hp -= 10;
+		if (hp >= 20)
+		{
+			check_hp = true;
+			width -= 30.0f;
+			height -= 30.0f;
+		}
+		hp -= 20;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
@@ -241,8 +209,12 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
-		hp -= 10;
-		
+
+		if (hp >= 10) {
+			width -= 10;
+			height -= 10;
+			hp -= 10;
+		}
 
 		break;
 	case ObjectType::attackskill:
@@ -251,4 +223,5 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 	default:
 		break;
 	}
+
 }
