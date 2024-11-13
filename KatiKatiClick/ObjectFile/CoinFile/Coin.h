@@ -2,6 +2,13 @@
 #include "../../UtilityFile/Geometry.h"
 #include <vector>
 
+enum class CoinState
+{
+	POP,
+	MOVE,
+	EFFECT,
+};
+
 class Coin
 {
 private:
@@ -10,7 +17,6 @@ private:
 	Vector2D distance;				// コインUIとコインの距離
 	float hypotenuse;				// 斜辺
 	float speed;					// コインの移動速度
-	bool effect_flg;				// エフェクトが出現するか？
 	bool can_delete;				// 削除してもいいか
 
 	std::vector<int> coin_image;    // コイン画像
@@ -24,6 +30,7 @@ private:
 	double angle;        // 画像の角度
 	double degree;       // 角度計算用
 
+	CoinState state;				// コインの状態
 
 public:
 	Coin();
@@ -33,8 +40,10 @@ public:
 	void Draw() const;
 
 private:
-	void CoinMove();			// コイン回収の動き
-	void CoinAnimation();		// コインのアニメーション
+	void Move();				// コイン回収の動き
+	void Pop();					// コインが弾ける動き
+	void CoinAnimation();			// コインのアニメーション
+	void EffectAnimation();			// エフェクトのアニメーション
 
 public:
 	bool GetCanDeleteFlg() const;

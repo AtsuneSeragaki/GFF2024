@@ -10,7 +10,6 @@ Coin::Coin()
 	distance = 0.0f;
 	hypotenuse = 0.0f;
 	speed = 5.0f;
-	effect_flg = false;
 	can_delete = false;
 
 	// ResourceManagerのインスタンスを取得
@@ -38,6 +37,8 @@ Coin::Coin()
 
 	angle = 0.0;
 	degree = 0.0;
+
+	state = CoinState::MOVE;
 }
 
 Coin::~Coin()
@@ -47,92 +48,122 @@ Coin::~Coin()
 
 void Coin::Update()
 {
-	if (effect_flg == false)
+	switch (state)
 	{
-		// コイン回収の動き
-		CoinMove();
+		case CoinState::POP:
+			// 弾ける動き
 
-		// コインのアニメーション
-		CoinAnimation();
 
-		if (hypotenuse < speed)
-		{
-			// エフェクトが出現
-			effect_flg = true;
+			// コインのアニメーション
+			CoinAnimation();
+			break;
 
-			anim_count = 0;
-			image_num = 0;
-		}
-	}
-	else
-	{
-		effect_count -= 3;
-		radius += 0.5f;
+		case CoinState::MOVE:
+			// コイン回収の動き
+			Move();
 
-		// エフェクトアニメーション更新
-		anim_count++;
+			// コインのアニメーション
+			CoinAnimation();
 
-		if (anim_count >= 5)
-		{
-			if (image_num < 5)
+			if (hypotenuse < speed)
 			{
-				image_num++;
+				// エフェクトが出現
+				state = CoinState::EFFECT;
+
+				anim_count = 0;
+				image_num = 0;
 			}
-			else
-			{
-				// アニメーションが一周したらコインを削除
-				can_delete = true;
-			}
+			break;
 
-			anim_count = 0;
-		}
+		case CoinState::EFFECT:
+			// エフェクトのアニメーション
+			EffectAnimation();
+			break;
 
-		//// 回転
-		//if (degree < 360.0)
-		//{
-		//	degree += 2.0;
-		//}
-		//else
-		//{
-		//	degree = 0.0;
-		//}
-
-		//// 画像の角度
-		//angle = DEGREE_RADIAN(degree);
+		default:
+			break;
 	}
+
+
+	//if (effect_flg == false)
+	//{
+
+	//	// コインのアニメーション
+	//	CoinAnimation();
+
+	//	if (hypotenuse < speed)
+	//	{
+	//		// エフェクトが出現
+	//		effect_flg = true;
+
+	//		anim_count = 0;
+	//		image_num = 0;
+	//	}
+	//}
+	//else
+	//{
+	//	effect_count -= 3;
+	//	radius += 0.5f;
+
+	//	// エフェクトアニメーション更新
+	//	anim_count++;
+
+	//	if (anim_count >= 5)
+	//	{
+	//		if (image_num < 5)
+	//		{
+	//			image_num++;
+	//		}
+	//		else
+	//		{
+	//			// アニメーションが一周したらコインを削除
+	//			can_delete = true;
+	//		}
+
+	//		anim_count = 0;
+	//	}
+
+	//	//// 回転
+	//	//if (degree < 360.0)
+	//	//{
+	//	//	degree += 2.0;
+	//	//}
+	//	//else
+	//	//{
+	//	//	degree = 0.0;
+	//	//}
+
+	//	//// 画像の角度
+	//	//angle = DEGREE_RADIAN(degree);
+	//}
 }
 
 void Coin::Draw() const
 {
-	if (effect_flg == false)
+	switch (state)
 	{
-		// コイン画像の描画
-		DrawRotaGraphF(location.x, location.y, 1.5, 0.0, coin_image[image_num], TRUE);
-	}
-	else
-	{
-		// 描画輝度のセット
-		SetDrawBright(255, 255, 150);
-		// エフェクト画像の描画
-		DrawRotaGraphF(location.x, location.y, 2.0, angle, effect_image[image_num], TRUE);
-		// 描画輝度を元に戻す
-		SetDrawBright(255, 255, 255);
+		case CoinState::POP:
+		case CoinState::MOVE:
+			// コイン画像の描画
+			DrawRotaGraphF(location.x, location.y, 1.5, 0.0, coin_image[image_num], TRUE);
+			break;
 
+		case CoinState::EFFECT:
+			// 描画輝度のセット
+			SetDrawBright(255, 255, 150);
+			// エフェクト画像の描画
+			DrawRotaGraphF(location.x, location.y, 2.0, angle, effect_image[image_num], TRUE);
+			// 描画輝度を元に戻す
+			SetDrawBright(255, 255, 255);
+			break;
 
-		//// 描画ブレンドモードをアルファブレンドにする
-		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, effect_count);
-		//// 円のエフェクトの描画
-		//DrawCircleAA(location.x, location.y, radius, 32, GetColor(255, 255, 150), FALSE, 1.0f);
-		//// 描画ブレンドモードをノーブレンドにする
-		//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		// エフェクト画像の描画
-		//DrawRotaGraphF(location.x, location.y, 2.0, 0.0, effect_image[image_num], TRUE);
+		default:
+			break;
 	}
 }
 
 // コイン回収の動き
-void Coin::CoinMove()
+void Coin::Move()
 {
 	// コインUIとコインのx座標、y座標のそれぞれの距離
 	distance.x = ui_coins_location.x - location.x;
@@ -149,6 +180,12 @@ void Coin::CoinMove()
 	speed += 0.5f;
 }
 
+// コイン弾けるの動き
+void Coin::Pop()
+{
+
+}
+
 // コインのアニメーション
 void Coin::CoinAnimation()
 {
@@ -163,6 +200,31 @@ void Coin::CoinAnimation()
 		else
 		{
 			image_num = 0;
+		}
+
+		anim_count = 0;
+	}
+}
+
+// // エフェクトのアニメーション
+void Coin::EffectAnimation()
+{
+	effect_count -= 3;
+	radius += 0.5f;
+
+	// エフェクトアニメーション更新
+	anim_count++;
+
+	if (anim_count >= 5)
+	{
+		if (image_num < 5)
+		{
+			image_num++;
+		}
+		else
+		{
+			// アニメーションが一周したらコインを削除
+			can_delete = true;
 		}
 
 		anim_count = 0;
