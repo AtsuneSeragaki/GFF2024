@@ -20,19 +20,19 @@ BAttackSkill::BAttackSkill()
 	std::vector<int> tmp;
 	tmp = rm->GetImages("Resource/Images/Skill/battack_close.png",1);
 	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png",1);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
 	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png",1);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
 
 	// 効果音の読み込み
-	int tmp2;
-	tmp2 = rm->GetSounds("Resource/Sounds/Click/skill.mp3");
-	se[0] = tmp2;
+	int tmp_s;
+	tmp_s = rm->GetSounds("Resource/Sounds/Click/skill.mp3");
+	se[0] = tmp_s;
 
-	tmp2 = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
-	se[1] = tmp2;
+	tmp_s = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
+	se[1] = tmp_s;
 }
 
 BAttackSkill::~BAttackSkill()

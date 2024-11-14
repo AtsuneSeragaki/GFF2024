@@ -28,12 +28,12 @@ BSlowDownSkill::BSlowDownSkill()
 	image = button_img[0];
 
 	// 効果音の読み込み
-	int tmp2;
-	tmp2 = rm->GetSounds("Resource/Sounds/Click/skill.mp3");
-	se[0] = tmp2;
+	int tmp_s;
+	tmp_s = rm->GetSounds("Resource/Sounds/Click/skill.mp3");
+	se[0] = tmp_s;
 
-	tmp2 = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
-	se[1] = tmp2;
+	tmp_s = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
+	se[1] = tmp_s;
 }
 
 BSlowDownSkill::~BSlowDownSkill()

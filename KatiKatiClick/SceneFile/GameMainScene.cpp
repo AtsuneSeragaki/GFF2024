@@ -10,8 +10,8 @@ GameMainScene::GameMainScene()
 {
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
-    CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
-    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
+    CreateObject<BAttackSkill>(Vector2D(80.0f, 735.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 735.0f));     // 足止めスキルボタン生成
     CreateObject<PauseButton>(Vector2D(320.0f, 35.0f));         // ポーズボタン生成
     goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
@@ -194,11 +194,13 @@ void GameMainScene::Update()
     {
         if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
         {
+            objects[i]->Update();
             SkillCoinUse(i, 20);
             SkillPause(i);
         }
         else if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
+            objects[i]->Update();
             SkillCoinUse(i, 40);
             SkillPause(i);
         }
