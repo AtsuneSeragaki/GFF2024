@@ -504,11 +504,24 @@ void GameMainScene::EnmGenerateTimeCheck()
                         crack_enemy->SetWaitTime(i * 60);
                     }
 
+                    if (enemy_array[i][j] == 3)
+                    {
+                        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        burst_enemy->SetWaitTime(i * 60);
+                    }
+
+                    if (enemy_array[i][j] == 2)
+                    {
+                        EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        split_enemy->SetWaitTime(i * 60);
+                    }
+
                     if (enemy_array[i][j] == 4)
                     {
                         EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, 0.0f));//エネミー生成
                         frog_enemy->SetWaitTime(i * 60);
                     }
+
 
                     if (enemy_array[i][j] == 5)
                     {

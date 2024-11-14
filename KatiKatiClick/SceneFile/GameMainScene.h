@@ -2,6 +2,7 @@
 #include "AbstractScene.h"
 #include "DxLib.h"
 #include "../ObjectFile/EnemyFile/CrackEnemy.h"
+#include "../ObjectFile/EnemyFile/SplitEnemy.h"
 #include "../ObjectFile/EnemyFile/BurstEnemy.h"
 #include "../ObjectFile/EnemyFile/SnakeEnemy.h"
 #include "../ObjectFile/EnemyFile/FrogEnemy.h"

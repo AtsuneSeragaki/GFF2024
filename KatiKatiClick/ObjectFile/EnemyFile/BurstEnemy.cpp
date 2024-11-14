@@ -12,7 +12,7 @@ BurstEnemy::BurstEnemy()
 	can_hit = true;
 	object_type = ObjectType::enemy;
 	shape = Shape::circle;
-	state = State::move;
+	state = State::wait;
 
 	ResourceManager* rm = ResourceManager::GetInstance();
 	int tmp;
