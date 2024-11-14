@@ -2,6 +2,8 @@
 #include "Coin.h"
 #include "../../UtilityFile/ResourceManager.h"
 #include "../../UtilityFile/Define.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 Coin::Coin()
 {
@@ -38,7 +40,10 @@ Coin::Coin()
 	angle = 0.0;
 	degree = 0.0;
 
-	state = CoinState::MOVE;
+	state = CoinState::POP;
+	result_sin = 0.0f;
+	count = 40;
+	pop_count = 0;
 }
 
 Coin::~Coin()
@@ -52,7 +57,7 @@ void Coin::Update()
 	{
 		case CoinState::POP:
 			// 弾ける動き
-
+			Pop();
 
 			// コインのアニメーション
 			CoinAnimation();
@@ -83,59 +88,6 @@ void Coin::Update()
 		default:
 			break;
 	}
-
-
-	//if (effect_flg == false)
-	//{
-
-	//	// コインのアニメーション
-	//	CoinAnimation();
-
-	//	if (hypotenuse < speed)
-	//	{
-	//		// エフェクトが出現
-	//		effect_flg = true;
-
-	//		anim_count = 0;
-	//		image_num = 0;
-	//	}
-	//}
-	//else
-	//{
-	//	effect_count -= 3;
-	//	radius += 0.5f;
-
-	//	// エフェクトアニメーション更新
-	//	anim_count++;
-
-	//	if (anim_count >= 5)
-	//	{
-	//		if (image_num < 5)
-	//		{
-	//			image_num++;
-	//		}
-	//		else
-	//		{
-	//			// アニメーションが一周したらコインを削除
-	//			can_delete = true;
-	//		}
-
-	//		anim_count = 0;
-	//	}
-
-	//	//// 回転
-	//	//if (degree < 360.0)
-	//	//{
-	//	//	degree += 2.0;
-	//	//}
-	//	//else
-	//	//{
-	//	//	degree = 0.0;
-	//	//}
-
-	//	//// 画像の角度
-	//	//angle = DEGREE_RADIAN(degree);
-	//}
 }
 
 void Coin::Draw() const
@@ -143,6 +95,10 @@ void Coin::Draw() const
 	switch (state)
 	{
 		case CoinState::POP:
+			// コイン画像の描画
+			DrawRotaGraphF(location.x, location.y - result_sin, 1.5, 0.0, coin_image[image_num], TRUE);
+			break;
+
 		case CoinState::MOVE:
 			// コイン画像の描画
 			DrawRotaGraphF(location.x, location.y, 1.5, 0.0, coin_image[image_num], TRUE);
@@ -152,7 +108,7 @@ void Coin::Draw() const
 			// 描画輝度のセット
 			SetDrawBright(255, 255, 150);
 			// エフェクト画像の描画
-			DrawRotaGraphF(location.x, location.y, 2.0, angle, effect_image[image_num], TRUE);
+			DrawRotaGraphF(location.x, location.y, 2.0, 0.0, effect_image[image_num], TRUE);
 			// 描画輝度を元に戻す
 			SetDrawBright(255, 255, 255);
 			break;
@@ -183,7 +139,24 @@ void Coin::Move()
 // コイン弾けるの動き
 void Coin::Pop()
 {
+	location.x += 0.5f;
 
+	if (count < 60)
+	{
+		count++;
+	}
+	else
+	{
+		count = 0;
+		pop_count++;
+	}
+
+	result_sin = fabsf(sinf(M_PI * 2 / 60 * count) * 30);
+
+	if (pop_count >= 1 && count >= 30)
+	{
+		state = CoinState::MOVE;
+	}
 }
 
 // コインのアニメーション
