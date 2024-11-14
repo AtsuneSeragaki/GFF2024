@@ -14,7 +14,16 @@ GameMainScene::GameMainScene()
     CreateObject<BAttackSkill>(Vector2D(90.0f, 720.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 720.0f));     // 足止めスキルボタン生成
     CreateObject<PauseButton>(Vector2D(320.0f, 35.0f));         // ポーズボタン生成
-    goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
+    
+    goal_cnt = 0;
+
+    for (int i = 0; i < 3; i++)
+    {
+        //ゴール生成
+        float y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3)-(i* (float)ONE_LANE_HEIGHT / 4.0f);
+        CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f,y));
+        goal_cnt++;
+    }
 
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
@@ -57,7 +66,6 @@ void GameMainScene::Update()
 
     // UIコインの更新処理
     ui_coins->Update();
-    ui_goal->SetGoalHp(goal->GetGoalCnt());
 
     // スキル置く場所選択中の処理
     if (is_spos_select == true)
@@ -177,18 +185,17 @@ void GameMainScene::Update()
     }
 
     //ゲームオーバーかチェック
-    if (goal != nullptr)
+    //ゴールの数が０になったら
+    if (goal_cnt <= 0)
     {
-        if (goal->GetGoalCnt() <= 0)
-        {
-            // シーン切り替え待ちカウントを減らす
-            change_wait_time--;
-            is_game_over = true;
-            // カーソルのみ更新
-            CursorUpdate();
-            return;            //この行より下の処理はしない
-        }
+        // シーン切り替え待ちカウントを減らす
+        change_wait_time--;
+        is_game_over = true;
+        // カーソルのみ更新
+        CursorUpdate();
+        return;            //この行より下の処理はしない
     }
+    
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
@@ -219,6 +226,7 @@ void GameMainScene::Update()
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
+            if (objects[i]->GetObjectType() == ObjectType::goal) { goal_cnt -= 1; }
             objects.erase(objects.begin() + i);
         }
     }
@@ -330,8 +338,8 @@ void GameMainScene::Draw() const
     }
 
     //UI設置仮
-    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+    //DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
 
     for (int i = 0; i < objects.size(); i++)
     {

@@ -204,8 +204,7 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 		break;
 	case ObjectType::goal:
 		can_hit = false;
-		state = State::goal;
-		speed = 3;
+		state = State::death;
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生

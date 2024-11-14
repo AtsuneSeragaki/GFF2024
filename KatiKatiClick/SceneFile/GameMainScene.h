@@ -31,6 +31,8 @@ private:
 
 	int enm_generate_cnt;//エネミー生成カウント
 	
+	int goal_cnt;//ゴールの数カウント
+
 	bool is_enm_generate;//エネミーを生成するか？
 
 	bool is_game_clear;			// ゲームクリアか？
