@@ -94,8 +94,16 @@ void AttackSkill::ChangeEffectImage()
 
 void AttackSkill::ChangeWidthHeight()
 {
-	width += 7;
-	height += 7;
+	if (effect_num == 0)
+	{
+		width += 3;
+		height += 3;
+	}
+	else
+	{
+		width += 7;
+		height += 7;
+	}
 
 	if (width >= 150)
 	{
