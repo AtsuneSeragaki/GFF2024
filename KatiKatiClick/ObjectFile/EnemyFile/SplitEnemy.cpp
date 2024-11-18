@@ -28,11 +28,11 @@ SplitEnemy::SplitEnemy()
 
 	//敵画像の読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
-	enemy_image.push_back(tmp_img[0]);
+	enemy_image.push_back(tmp_img[3]);
 	//敵画像死ぬアニメーション読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png", 4, 4, 1, 64, 32);
-	//0~3
-	for (int i = 0; i <= 3; i++)
+	//12~15
+	for (int i = 12; i <= 15; i++)
 	{
 		enemy_image.push_back(tmp_img[i]);
 	}
