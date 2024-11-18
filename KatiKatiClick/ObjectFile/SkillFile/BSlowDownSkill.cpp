@@ -19,11 +19,11 @@ BSlowDownSkill::BSlowDownSkill()
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = rm->GetImages("Resource/Images/Skill/battack_close.png");
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_close.png");
 	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_possible.png");
 	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_active.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
 
