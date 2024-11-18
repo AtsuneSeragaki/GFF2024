@@ -509,25 +509,25 @@ void GameMainScene::EnmGenerateTimeCheck()
 
                     if (enemy_array[i][j] == 1)
                     {
-                        EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                         crack_enemy->SetWaitTime(i * 60);
                     }
 
                     if (enemy_array[i][j] == 3)
                     {
-                        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                         burst_enemy->SetWaitTime(i * 60);
                     }
 
                     if (enemy_array[i][j] == 2)
                     {
-                        EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                         split_enemy->SetWaitTime(i * 60);
                     }
 
                     if (enemy_array[i][j] == 4)
                     {
-                        EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                         frog_enemy->SetWaitTime(i * 60);
                     }
 
@@ -536,7 +536,7 @@ void GameMainScene::EnmGenerateTimeCheck()
                     {
                         for (int k = 0; k < 3; k++)
                         {
-                            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                             //i*60待ってから出てくる
                             snake_enemy->SetWaitTime((i * 60)+(k*40));
                         }

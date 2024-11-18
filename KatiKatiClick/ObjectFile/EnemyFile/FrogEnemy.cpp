@@ -86,7 +86,7 @@ void FrogEnemy::Update()
 		location.y += result;
 
 		//UIより上か下だったら当たり判定をしない
-		if (location.y < ONE_LANE_HEIGHT)
+		if (location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
 		{
 			can_hit = false;
 		}
