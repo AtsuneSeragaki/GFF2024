@@ -4,8 +4,7 @@
 
 CrackEnemy::CrackEnemy()
 {
-	location.x = 320.0f;
-	location.y = 0.0f;
+
 	hp = 10;
 	width = 70.0f;
 	height = 70.0f;
@@ -14,24 +13,13 @@ CrackEnemy::CrackEnemy()
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
 
-
 	count_img = 0;
 	chenge_img = 0;
 	shape_change_x = 0;
 	shape_change_y = 0;
 	shape_change_cnt = 0;
 
-	////画像の読込
-	//int handle = LoadSoftImage("Resource/Images/characters/enemy/square.png");
-	//if (sh == -1) {
-	//	assert(0 && "aaaaaa");
-	//}
-	//SetPaletteSoftImage(sh, 2, 255, 0, 0, 255);
-	//handle2 = CreateGraphFromSoftImage(sh);
-	//DeleteSoftImage(sh);
-	//handle =  CreateGraphFromSoftImage(LoadSoftImage("Resource/Images/characters/enemy/square.png"));
-
-		// ResourceManagerのインスタンスを取得
+	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp_img;
 
@@ -118,10 +106,10 @@ void CrackEnemy::Update()
 			// 敵がつぶれるSE再生
 			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
 			can_hit = false;
+			death_effect = new DeathEffect(location);
 			state = State::death;
 		}
 
-		
 
 		break;
 	case State::goal:
@@ -138,6 +126,7 @@ void CrackEnemy::Update()
 		break;
 	case State::death:
 
+		death_effect->Update();
 		if (count_img++ > 2)
 		{
 			count_img = 0;
@@ -214,10 +203,11 @@ void CrackEnemy::Draw() const
 		int right_bottom_x = (int)location.x + (int)width / 2;
 		int right_bottom_y = (int)location.y + (int)height / 2;
 		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[chenge_img], TRUE);
-
-		//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
 	}
-	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffffff, FALSE);
+
+	if (death_effect != nullptr) {
+		death_effect->Draw();
+	}
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
@@ -242,7 +232,6 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 		hp -= 10;
 		
-
 		break;
 	case ObjectType::attackskill:
 		hp -= 20;
