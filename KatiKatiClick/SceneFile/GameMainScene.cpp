@@ -302,10 +302,12 @@ void GameMainScene::Update()
                 crack_enemy_mini->SetHp(10);
                 crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini->SetWaitTime(5);
+                crack_enemy_mini->SetSpeed(2.0f);
                 EnemyBase* crack_enemy_mini2 = CreateObject<CrackEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f,objects[i]->GetLocation().y + 40.0f));
                 crack_enemy_mini2->SetHp(10);
                 crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini2->SetWaitTime(5);
+                crack_enemy_mini2->SetSpeed(2.0f);
 
             }
         }

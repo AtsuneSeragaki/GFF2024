@@ -9,7 +9,7 @@ SplitEnemy::SplitEnemy()
 	hp = 20;
 	width = 70.0f;
 	height = 70.0f;
-	speed = 1.5f;
+	speed = 1.0f;
 	can_hit = false;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
