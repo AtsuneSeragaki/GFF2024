@@ -2,6 +2,10 @@
 #include "Coin.h"
 #include "../../UtilityFile/ResourceManager.h"
 #include "../../UtilityFile/Define.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 Coin::Coin()
 {
@@ -9,8 +13,7 @@ Coin::Coin()
 	ui_coins_location = 0.0f;
 	distance = 0.0f;
 	hypotenuse = 0.0f;
-	speed = 5.0f;
-	effect_flg = false;
+	speed = 15.0f;
 	can_delete = false;
 
 	// ResourceManagerのインスタンスを取得
@@ -36,8 +39,13 @@ Coin::Coin()
 	radius = 10.0f;
 	effect_count = 150;
 
-	angle = 0.0;
-	degree = 0.0;
+	state = CoinState::POP;
+	result_sin = 0.0f;
+	count = 40;
+	pop_count = 0;
+
+	// 0か1をとる
+	direction = rand() % 2;
 }
 
 Coin::~Coin()
@@ -47,92 +55,73 @@ Coin::~Coin()
 
 void Coin::Update()
 {
-	if (effect_flg == false)
+	switch (state)
 	{
-		// コイン回収の動き
-		CoinMove();
+		case CoinState::POP:
+			// 弾ける動き
+			Pop();
 
-		// コインのアニメーション
-		CoinAnimation();
+			// コインのアニメーション
+			CoinAnimation();
+			break;
 
-		if (hypotenuse < speed)
-		{
-			// エフェクトが出現
-			effect_flg = true;
+		case CoinState::MOVE:
+			// コイン回収の動き
+			Move();
 
-			anim_count = 0;
-			image_num = 0;
-		}
-	}
-	else
-	{
-		effect_count -= 3;
-		radius += 0.5f;
+			// コインのアニメーション
+			CoinAnimation();
 
-		// エフェクトアニメーション更新
-		anim_count++;
-
-		if (anim_count >= 5)
-		{
-			if (image_num < 5)
+			if (hypotenuse < speed)
 			{
-				image_num++;
+				// エフェクトが出現
+				state = CoinState::EFFECT;
+
+				anim_count = 0;
+				image_num = 0;
 			}
-			else
-			{
-				// アニメーションが一周したらコインを削除
-				can_delete = true;
-			}
+			break;
 
-			anim_count = 0;
-		}
+		case CoinState::EFFECT:
+			// エフェクトのアニメーション
+			EffectAnimation();
+			break;
 
-		//// 回転
-		//if (degree < 360.0)
-		//{
-		//	degree += 2.0;
-		//}
-		//else
-		//{
-		//	degree = 0.0;
-		//}
-
-		//// 画像の角度
-		//angle = DEGREE_RADIAN(degree);
+		default:
+			break;
 	}
 }
 
 void Coin::Draw() const
 {
-	if (effect_flg == false)
+	switch (state)
 	{
-		// コイン画像の描画
-		DrawRotaGraphF(location.x, location.y, 1.5, 0.0, coin_image[image_num], TRUE);
-	}
-	else
-	{
-		// 描画輝度のセット
-		SetDrawBright(255, 255, 150);
-		// エフェクト画像の描画
-		DrawRotaGraphF(location.x, location.y, 2.0, angle, effect_image[image_num], TRUE);
-		// 描画輝度を元に戻す
-		SetDrawBright(255, 255, 255);
+		case CoinState::POP:
+			// コイン画像の描画
+			DrawRotaGraphF(location.x, location.y - result_sin, 1.5, 0.0, coin_image[image_num], TRUE);
+			break;
 
+		case CoinState::MOVE:
+			// コイン画像の描画
+			DrawRotaGraphF(location.x, location.y, 1.5, 0.0, coin_image[image_num], TRUE);
+			break;
 
-		//// 描画ブレンドモードをアルファブレンドにする
-		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, effect_count);
-		//// 円のエフェクトの描画
-		//DrawCircleAA(location.x, location.y, radius, 32, GetColor(255, 255, 150), FALSE, 1.0f);
-		//// 描画ブレンドモードをノーブレンドにする
-		//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		case CoinState::EFFECT:
+			// 描画輝度のセット
+			SetDrawBright(255, 255, 150);
+			// エフェクト画像の描画
+			DrawRotaGraphF(location.x, location.y, 2.0, 0.0, effect_image[image_num], TRUE);
+			// 描画輝度を元に戻す
+			SetDrawBright(255, 255, 255);
+			break;
 
-		// エフェクト画像の描画
-		//DrawRotaGraphF(location.x, location.y, 2.0, 0.0, effect_image[image_num], TRUE);
+		default:
+			break;
 	}
 }
 
 // コイン回収の動き
-void Coin::CoinMove()
+void Coin::Move()
 {
 	// コインUIとコインのx座標、y座標のそれぞれの距離
 	distance.x = ui_coins_location.x - location.x;
@@ -147,6 +136,38 @@ void Coin::CoinMove()
 
 	// 加速
 	speed += 0.5f;
+}
+
+// コイン弾けるの動き
+void Coin::Pop()
+{
+	if (direction == 0)
+	{
+		// 右に弾ける
+		location.x += 0.5f;
+	}
+	else
+	{
+		// 左に弾ける
+		location.x -= 0.5f;
+	}
+
+	if (count < 60)
+	{
+		count++;
+	}
+	else
+	{
+		count = 0;
+		pop_count++;
+	}
+
+	result_sin = fabsf(sinf(M_PI * 2 / 60 * count) * 30);
+
+	if (pop_count >= 1 && count >= 30)
+	{
+		state = CoinState::MOVE;
+	}
 }
 
 // コインのアニメーション
@@ -169,6 +190,31 @@ void Coin::CoinAnimation()
 	}
 }
 
+// // エフェクトのアニメーション
+void Coin::EffectAnimation()
+{
+	effect_count -= 3;
+	radius += 0.5f;
+
+	// エフェクトアニメーション更新
+	anim_count++;
+
+	if (anim_count >= 5)
+	{
+		if (image_num < 5)
+		{
+			image_num++;
+		}
+		else
+		{
+			// アニメーションが一周したらコインを削除
+			can_delete = true;
+		}
+
+		anim_count = 0;
+	}
+}
+
 bool Coin::GetCanDeleteFlg() const
 {
 	return can_delete;
@@ -183,6 +229,6 @@ void Coin::SetLocation(const Vector2D& location)
 // コインUI座標の設定
 void Coin::SetUICoinsLocation(const Vector2D& ui_coins_location)
 {
-	this->ui_coins_location.x = ui_coins_location.x - 70.0f;
-	this->ui_coins_location.y = ui_coins_location.y;
+	this->ui_coins_location.x = ui_coins_location.x - 80.0f;
+	this->ui_coins_location.y = ui_coins_location.y - 15.0f;
 }

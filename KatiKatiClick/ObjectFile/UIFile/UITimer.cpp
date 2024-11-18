@@ -4,6 +4,8 @@
 
 UITimer::UITimer()
 {
+	location.x = 30.0f;
+	location.y = 590.0f;
 	fps_count = 0;
 	seconds = 60;
 
@@ -12,7 +14,7 @@ UITimer::UITimer()
 	std::vector<int> tmp;
 
 	// タイマー画像の読み込み
-	tmp = rm->GetImages("Resource/Images/Timer/Timer.png");
+	tmp = rm->GetImages("Resource/Images/Timer/Timer03.png");
 	timer_image.push_back(tmp[0]);
 
 	// コロン画像の読み込み
@@ -61,20 +63,20 @@ void UITimer::Update()
 
 void UITimer::Draw() const
 {
-	DrawBox(10, 10, 160, 60, 0x000000, TRUE);
-	//DrawFormatString(20, 20, 0xffffff, "timer:");
+	//DrawBox(10, 10, 150, 60, 0xfff4b3, TRUE);
+	//DrawBoxAA(10.0f, 10.0f, 150.0f, 60.0f, 0x000000, FALSE, 2.0f);
 
 	// タイマー画像の描画
-	DrawRotaGraph(40, 35, 1.0, 0.0, timer_image[0], TRUE);
+	DrawRotaGraphF(location.x, location.y, 2.5, 0.0, timer_image[0], TRUE);
 	// 分の数字画像の描画
-	DrawRotaGraph(80, 35, 1.0, 0.0, num_image[image_minutes_num], TRUE);
+	DrawRotaGraphF(location.x + 35.0f, location.y, 1.0, 0.0, num_image[image_minutes_num], TRUE);
 	// コロン画像の描画
-	DrawRotaGraph(100, 35, 1.0, 0.0, colon_image[0], TRUE);
+	DrawRotaGraphF(location.x + 50.0f, location.y, 1.0, 0.0, colon_image[0], TRUE);
 
 	for (int i = 0; i < 2; i++)
 	{
 		// 数字画像の描画
-		DrawRotaGraph(140 - i * 20, 35, 1.0, 0.0, num_image[image_seconds_num[i]], TRUE);
+		DrawRotaGraphF((location.x + 90.0f) - i * 20, location.y, 1.0, 0.0, num_image[image_seconds_num[i]], TRUE);
 	}
 }
 

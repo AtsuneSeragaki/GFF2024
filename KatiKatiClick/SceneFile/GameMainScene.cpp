@@ -25,6 +25,9 @@ GameMainScene::GameMainScene()
         goal_cnt++;
     }
 
+    CreateObject<PauseButton>(Vector2D(320.0f, 590.0f));         // ポーズボタン生成
+    //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
+
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
     ui_goal = new UIGoal;       //ゴールUI生成
@@ -342,8 +345,9 @@ void GameMainScene::Draw() const
     }
 
     //UI設置仮
-    //DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
+    // DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0xffec80, TRUE);
     DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
 
     for (int i = 0; i < objects.size(); i++)
     {
@@ -362,30 +366,32 @@ void GameMainScene::Draw() const
         }
     }
 
+
+    //if (ui_goal != nullptr)
+    //{
+    //    ui_goal->Draw();
+    //}
+
+
+    ////ゴール描画
+    //for (int i = 0; i < objects.size(); i++)
+    //{
+    //    if (objects[i]->GetObjectType() == ObjectType::goal)
+    //    {
+    //        objects[i]->Draw();
+    //    }
+    //}
+
     if (ui_coins != nullptr)
     {
         // コインUIの描画
         ui_coins->Draw();
     }
 
-    if (ui_goal != nullptr)
-    {
-        ui_goal->Draw();
-    }
-
     // コイン描画
     for (int i = 0; i < coins.size(); i++)
     {
         coins[i]->Draw();
-    }
-
-    //ゴール描画
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::goal)
-        {
-            objects[i]->Draw();
-        }
     }
 
     if (ui_timer != nullptr)
