@@ -507,32 +507,32 @@ void GameMainScene::EnmGenerateTimeCheck()
 
                     float lane = ((float)SCREEN_WIDTH / 6) * (float)j + 60.0f;
 
-                    if (enemy_array[i][j] == 1)
+                    if (enemy_array[i][j] == (int)Enemys::CrackEnemy)
                     {
                         EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                         crack_enemy->SetWaitTime(i * 60);
                     }
 
-                    if (enemy_array[i][j] == 3)
+                    if (enemy_array[i][j] == (int)Enemys::BurstEnemy)
                     {
                         EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                         burst_enemy->SetWaitTime(i * 60);
                     }
 
-                    if (enemy_array[i][j] == 2)
+                    if (enemy_array[i][j] == (int)Enemys::SplitEnemy)
                     {
                         EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                         split_enemy->SetWaitTime(i * 60);
                     }
 
-                    if (enemy_array[i][j] == 4)
+                    if (enemy_array[i][j] == (int)Enemys::FrogEnemy)
                     {
                         EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, -100.0f));//エネミー生成
                         frog_enemy->SetWaitTime(i * 60);
                     }
 
 
-                    if (enemy_array[i][j] == 5)
+                    if (enemy_array[i][j] == (int)Enemys::SnakeEnemy)
                     {
                         for (int k = 0; k < 3; k++)
                         {
