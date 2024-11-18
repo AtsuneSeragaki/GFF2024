@@ -18,17 +18,21 @@ BAttackSkill::BAttackSkill()
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = rm->GetImages("Resource/Images/TestSkill.png");
+	tmp = rm->GetImages("Resource/Images/Skill/battack_close.png",1);
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
 
 	// 効果音の読み込み
-	int tmp2;
-	tmp2 = rm->GetSounds("Resource/Sounds/Click/skill.mp3");
-	se[0] = tmp2;
+	int tmp_s;
+	tmp_s = rm->GetSounds("Resource/Sounds/Click/skill.mp3");
+	se[0] = tmp_s;
 
-	tmp2 = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
-	se[1] = tmp2;
+	tmp_s = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
+	se[1] = tmp_s;
 }
 
 BAttackSkill::~BAttackSkill()
@@ -52,13 +56,34 @@ void BAttackSkill::Initialize()
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = rm->GetImages("../../Resource/Images/TestSkill.png");
+	tmp = rm->GetImages("../../Resource/Images/battack_close.png");
 	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
+	button_img.push_back(tmp[1]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
+	button_img.push_back(tmp[2]);
 	image = button_img[0];
 }
 
 void BAttackSkill::Update()
 {
+	switch (bskill_state)
+	{
+	case BSkillState::close:
+		image = button_img[0];
+		break;
+
+	case BSkillState::possible:
+		image = button_img[1];
+		break;
+
+	case BSkillState::active:
+		image = button_img[2];
+		break;
+
+	default:
+		break;
+	}
 }
 
 void BAttackSkill::Draw() const
@@ -67,18 +92,21 @@ void BAttackSkill::Draw() const
 	switch (bskill_state)
 	{
 	case BSkillState::close:
-		DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffffff, TRUE);
-		DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10,(int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\nclose", 0x000000);
+		DrawGraph(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, image, TRUE);
+		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffffff, TRUE);
+		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10,(int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\nclose", 0x000000);
 		break;
 
 	case BSkillState::possible:
-		DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);
-		DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\npossible", 0x000000);
+		DrawGraph(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, image, TRUE);
+		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);
+		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\npossible", 0x000000);
 		break;
 
 	case BSkillState::active:
-		DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
-		DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\nactive", 0x000000);
+		DrawGraph(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, image, TRUE);
+		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
+		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\nactive", 0x000000);
 		break;
 
 	default:
@@ -86,7 +114,7 @@ void BAttackSkill::Draw() const
 	}
 
 	// 解放に必要なコインの数を描画
-	DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 50, "coin:20", 0x000000);
+	//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 50, "coin:20", 0x000000);
 
 #ifdef _DEBUG
 
