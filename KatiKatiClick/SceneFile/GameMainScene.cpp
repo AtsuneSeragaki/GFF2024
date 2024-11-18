@@ -5,6 +5,7 @@
 #include "../ObjectFile/SkillFile/AttackSKill.h"
 #include "../ObjectFile/SkillFile/SlowDownSkill.h"
 #include "../UtilityFile/MouseInput.h"
+#include "../UtilityFile/ResourceManager.h"
 
 GameMainScene::GameMainScene()
 {
@@ -28,6 +29,14 @@ GameMainScene::GameMainScene()
     is_pause = false;
     is_spos_select = false;
     is_attack_active = false;
+
+    // ResourceManagerのインスタンスを取得
+    ResourceManager* rm = ResourceManager::GetInstance();
+    std::vector<int> tmp;
+    // 背景画像の読み込み
+    tmp = rm->GetImages("Resource/Images/Background/Moon.png");
+    background_image.push_back(tmp[0]);
+
 }
 
 GameMainScene::~GameMainScene()
@@ -176,18 +185,18 @@ void GameMainScene::Update()
     }
 
     //ゲームオーバーかチェック
-    if (goal != nullptr)
-    {
-        if (goal->GetGoalCnt() <= 0)
-        {
-            // シーン切り替え待ちカウントを減らす
-            change_wait_time--;
-            is_game_over = true;
-            // カーソルのみ更新
-            CursorUpdate();
-            return;            //この行より下の処理はしない
-        }
-    }
+    //if (goal != nullptr)
+    //{
+    //    if (goal->GetGoalCnt() <= 0)
+    //    {
+    //        // シーン切り替え待ちカウントを減らす
+    //        change_wait_time--;
+    //        is_game_over = true;
+    //        // カーソルのみ更新
+    //        CursorUpdate();
+    //        return;            //この行より下の処理はしない
+    //    }
+    //}
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
@@ -305,14 +314,33 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-    float tmp = float(60 - ui_timer->GetSeconds()) * 4.25f;
+    //float tmp = float(60 - ui_timer->GetSeconds()) * 4.25f;
 
-    // ループする度に明るくなる
-    SetDrawBright((int)tmp, (int)tmp, (int)tmp);
-    // 背景色
-    DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xffffff, TRUE);// 白四角形
-    // 描画輝度を元に戻す
-    SetDrawBright(255, 255, 255);
+    //// ループする度に明るくなる
+    //SetDrawBright((int)tmp, (int)tmp, (int)tmp);
+    //// 紫色
+    //SetDrawBright(112, 86, 143);
+    //// 空色
+    ////SetDrawBright(127, 219, 240);
+    //// 背景色
+    //DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(127, 219, 240), TRUE);// 白四角形
+    //// 描画輝度を元に戻す
+    //SetDrawBright(255, 255, 255);
+
+    float param = 255.0f - float(60 - ui_timer->GetSeconds()) * 4.25f;
+
+    // 朝背景色
+    DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(189, 225, 252), TRUE);
+
+    // 描画ブレンドモードをアルファブレンドにする
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)param);
+    // 夜背景色
+    DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
+    // 背景の月画像の描画
+    DrawRotaGraphF(180.0f, 280.0f, 1.0, 0.0, background_image[0], TRUE);
+
+    // 描画ブレンドモードをノーブレンドにする
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
     for (int i = 0; i < objects.size(); i++)
     {
