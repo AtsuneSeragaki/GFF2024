@@ -305,6 +305,15 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
+    float tmp = float(60 - ui_timer->GetSeconds()) * 4.25f;
+
+    // ループする度に明るくなる
+    SetDrawBright((int)tmp, (int)tmp, (int)tmp);
+    // 背景色
+    DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xffffff, TRUE);// 白四角形
+    // 描画輝度を元に戻す
+    SetDrawBright(255, 255, 255);
+
     for (int i = 0; i < objects.size(); i++)
     {
         if (objects[i]->GetObjectType() == ObjectType::attackskill)
