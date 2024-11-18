@@ -4,6 +4,8 @@
 #include "../../UtilityFile/Define.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 Coin::Coin()
 {
@@ -11,7 +13,7 @@ Coin::Coin()
 	ui_coins_location = 0.0f;
 	distance = 0.0f;
 	hypotenuse = 0.0f;
-	speed = 5.0f;
+	speed = 15.0f;
 	can_delete = false;
 
 	// ResourceManagerのインスタンスを取得
@@ -37,13 +39,13 @@ Coin::Coin()
 	radius = 10.0f;
 	effect_count = 150;
 
-	angle = 0.0;
-	degree = 0.0;
-
 	state = CoinState::POP;
 	result_sin = 0.0f;
 	count = 40;
 	pop_count = 0;
+
+	// 0か1をとる
+	direction = rand() % 2;
 }
 
 Coin::~Coin()
@@ -139,7 +141,16 @@ void Coin::Move()
 // コイン弾けるの動き
 void Coin::Pop()
 {
-	location.x += 0.5f;
+	if (direction == 0)
+	{
+		// 右に弾ける
+		location.x += 0.5f;
+	}
+	else
+	{
+		// 左に弾ける
+		location.x -= 0.5f;
+	}
 
 	if (count < 60)
 	{
@@ -218,6 +229,6 @@ void Coin::SetLocation(const Vector2D& location)
 // コインUI座標の設定
 void Coin::SetUICoinsLocation(const Vector2D& ui_coins_location)
 {
-	this->ui_coins_location.x = ui_coins_location.x - 70.0f;
-	this->ui_coins_location.y = ui_coins_location.y;
+	this->ui_coins_location.x = ui_coins_location.x - 80.0f;
+	this->ui_coins_location.y = ui_coins_location.y - 15.0f;
 }

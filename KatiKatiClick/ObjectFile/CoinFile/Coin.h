@@ -27,15 +27,13 @@ private:
 	float radius;					// エフェクトの半径
 	int effect_count;				// エフェクトカウント
 
-	double angle;					// sinの角度
-	//double radian;					// sinの角度
-	double degree;					// 角度計算用
-
 	CoinState state;				// コインの状態
 
 	float result_sin;
 	int count;
 	int pop_count;
+
+	int direction;					// コインが弾ける向き
 
 public:
 	Coin();
