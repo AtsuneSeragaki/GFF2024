@@ -7,6 +7,7 @@ class SkillBase : public ObjectBase
 protected:
 	bool disp_flg; // 表示 false:しない true:する
 	int cnt;
+	int image;
 
 public:
 	SkillBase();
