@@ -10,9 +10,9 @@ GameMainScene::GameMainScene()
 {
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
-    CreateObject<BSlowDownSkill>(Vector2D(75.0f, 735.0f));      // 足止めスキルボタン生成
-    CreateObject<BAttackSkill>(Vector2D(255.0f, 735.0f));       // アタックスキルボタン生成
-    CreateObject<PauseButton>(Vector2D(320.0f, 35.0f));         // ポーズボタン生成
+    CreateObject<BAttackSkill>(Vector2D(80.0f, 735.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 735.0f));     // 足止めスキルボタン生成
+    CreateObject<PauseButton>(Vector2D(320.0f, 590.0f));         // ポーズボタン生成
     goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -192,13 +192,13 @@ void GameMainScene::Update()
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
         {
             objects[i]->Update();
             SkillCoinUse(i, 20);
             SkillPause(i);
         }
-        else if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        else if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
             objects[i]->Update();
             SkillCoinUse(i, 40);
@@ -331,8 +331,9 @@ void GameMainScene::Draw() const
     }
 
     //UI設置仮
-    DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0x999999, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(2), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+    // DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0xffec80, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
 
     for (int i = 0; i < objects.size(); i++)
     {
@@ -351,30 +352,32 @@ void GameMainScene::Draw() const
         }
     }
 
+
+    //if (ui_goal != nullptr)
+    //{
+    //    ui_goal->Draw();
+    //}
+
+
+    ////ゴール描画
+    //for (int i = 0; i < objects.size(); i++)
+    //{
+    //    if (objects[i]->GetObjectType() == ObjectType::goal)
+    //    {
+    //        objects[i]->Draw();
+    //    }
+    //}
+
     if (ui_coins != nullptr)
     {
         // コインUIの描画
         ui_coins->Draw();
     }
 
-    if (ui_goal != nullptr)
-    {
-        ui_goal->Draw();
-    }
-
     // コイン描画
     for (int i = 0; i < coins.size(); i++)
     {
         coins[i]->Draw();
-    }
-
-    //ゴール描画
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::goal)
-        {
-            objects[i]->Draw();
-        }
     }
 
     if (ui_timer != nullptr)
