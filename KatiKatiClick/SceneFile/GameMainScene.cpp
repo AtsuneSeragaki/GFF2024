@@ -373,14 +373,14 @@ void GameMainScene::Draw() const
     //}
 
 
-    ////ゴール描画
-    //for (int i = 0; i < objects.size(); i++)
-    //{
-    //    if (objects[i]->GetObjectType() == ObjectType::goal)
-    //    {
-    //        objects[i]->Draw();
-    //    }
-    //}
+    //ゴール描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::goal)
+        {
+            objects[i]->Draw();
+        }
+    }
 
     if (ui_coins != nullptr)
     {
