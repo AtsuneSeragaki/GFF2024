@@ -94,6 +94,7 @@ void SnakeEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
+			can_hit = false;
 			state = State::death;
 		}
 
@@ -110,6 +111,7 @@ void SnakeEnemy::Update()
 
 		break;
 	case State::death:
+
 		if (count_img++ > 2)
 		{
 			count_img = 0;

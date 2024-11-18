@@ -107,6 +107,7 @@ void SplitEnemy::Update()
 
 			// 敵がつぶれるSE再生
 			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
+			can_hit = false;
 
 			state = State::death;
 		}

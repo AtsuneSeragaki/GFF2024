@@ -13,7 +13,6 @@ GameMainScene::GameMainScene()
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(80.0f, 735.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(270.0f, 735.0f));     // 足止めスキルボタン生成
-    CreateObject<PauseButton>(Vector2D(320.0f, 35.0f));         // ポーズボタン生成
     
     goal_cnt = 0;
 

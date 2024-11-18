@@ -98,6 +98,7 @@ void FrogEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
+			can_hit = false;
 			state = State::death;
 		}
 

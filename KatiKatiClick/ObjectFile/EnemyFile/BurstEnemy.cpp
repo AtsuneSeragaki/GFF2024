@@ -78,6 +78,7 @@ void BurstEnemy::Update()
 
 			// 敵が破裂するSE再生
 			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
+			can_hit = false;
 
 			state = State::death;
 		}
