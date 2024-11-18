@@ -4,7 +4,7 @@ class Goal :
     public ObjectBase
 {
 private:
-    int goal_cnt;//敵が通った数をカウント
+    int hp;//ゴールの耐久値
 
 public:
     Goal();
@@ -15,7 +15,5 @@ public:
     void Draw()const override;
     void HitReaction(ObjectBase* character) override;
 
-    void EnemyGoal() { goal_cnt--; }
-    int GetGoalCnt() { return goal_cnt; }
 };
 

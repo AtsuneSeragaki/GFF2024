@@ -1,13 +1,12 @@
 #include "CrackEnemy.h"
 #include "../../UtilityFile/Define.h"
 #include "../../UtilityFile/ResourceManager.h"
-#include <cassert>
 
 CrackEnemy::CrackEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 20;
+	hp = 10;
 	width = 70.0f;
 	height = 70.0f;
 	speed = 1.5f;
@@ -15,7 +14,6 @@ CrackEnemy::CrackEnemy()
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
 
-	check_hp = false;
 
 	count_img = 0;
 	chenge_img = 0;
@@ -119,7 +117,7 @@ void CrackEnemy::Update()
 
 			// 敵がつぶれるSE再生
 			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
-
+			can_hit = false;
 			state = State::death;
 		}
 
@@ -149,14 +147,6 @@ void CrackEnemy::Update()
 			{
 				//アニメーションが終わったら
 				can_delete = true;
-			}
-			else if (chenge_img > 3)
-			{
-				if (check_hp == true)
-				{
-					check_hp = false;
-					can_create_mini = true;
-				}
 			}
 		}
 
@@ -240,29 +230,18 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		if (hp >= 20)
-		{
-			check_hp = true;
-			width -= 30.0f;
-			height -= 30.0f;
-		}
-		hp -= 20;
+		hp -= 10;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
 		can_hit = false;
-		state = State::goal;
-		speed = 3;
+		state = State::death;
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
-
-		if (hp >= 10) {
-			width -= 10;
-			height -= 10;
-			hp -= 10;
-		}
+		hp -= 10;
+		
 
 		break;
 	case ObjectType::attackskill:

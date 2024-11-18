@@ -5,15 +5,27 @@
 #include "../ObjectFile/SkillFile/AttackSKill.h"
 #include "../ObjectFile/SkillFile/SlowDownSkill.h"
 #include "../UtilityFile/MouseInput.h"
+#include "../ObjectFile/EnemyFile/EnemyArray.h"
 
 GameMainScene::GameMainScene()
 {
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
-    CreateObject<BAttackSkill>(Vector2D(255.0f, 735.0f));        // アタックスキルボタン生成
-    CreateObject<BSlowDownSkill>(Vector2D(75.0f, 735.0f));     // 足止めスキルボタン生成
+    CreateObject<BAttackSkill>(Vector2D(80.0f, 735.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 735.0f));     // 足止めスキルボタン生成
+    
+    goal_cnt = 0;
+
+    for (int i = 0; i < 3; i++)
+    {
+        //ゴール生成
+        float y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3)-(i* (float)ONE_LANE_HEIGHT / 4.0f);
+        CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f,y));
+        goal_cnt++;
+    }
+
     CreateObject<PauseButton>(Vector2D(320.0f, 590.0f));         // ポーズボタン生成
-    goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
+    //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
@@ -56,7 +68,6 @@ void GameMainScene::Update()
 
     // UIコインの更新処理
     ui_coins->Update();
-    ui_goal->SetGoalHp(goal->GetGoalCnt());
 
     // スキル置く場所選択中の処理
     if (is_spos_select == true)
@@ -176,29 +187,28 @@ void GameMainScene::Update()
     }
 
     //ゲームオーバーかチェック
-    if (goal != nullptr)
+    //ゴールの数が０になったら
+    if (goal_cnt <= 0)
     {
-        if (goal->GetGoalCnt() <= 0)
-        {
-            // シーン切り替え待ちカウントを減らす
-            change_wait_time--;
-            is_game_over = true;
-            // カーソルのみ更新
-            CursorUpdate();
-            return;            //この行より下の処理はしない
-        }
+        // シーン切り替え待ちカウントを減らす
+        change_wait_time--;
+        is_game_over = true;
+        // カーソルのみ更新
+        CursorUpdate();
+        return;            //この行より下の処理はしない
     }
+    
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
         {
             objects[i]->Update();
             SkillCoinUse(i, 20);
             SkillPause(i);
         }
-        else if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        else if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
             objects[i]->Update();
             SkillCoinUse(i, 40);
@@ -220,6 +230,7 @@ void GameMainScene::Update()
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
+            if (objects[i]->GetObjectType() == ObjectType::goal) { goal_cnt -= 1; }
             objects.erase(objects.begin() + i);
         }
     }
@@ -293,10 +304,12 @@ void GameMainScene::Update()
                 crack_enemy_mini->SetHp(10);
                 crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini->SetWaitTime(5);
+                crack_enemy_mini->SetSpeed(2.0f);
                 EnemyBase* crack_enemy_mini2 = CreateObject<CrackEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f,objects[i]->GetLocation().y + 40.0f));
                 crack_enemy_mini2->SetHp(10);
                 crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini2->SetWaitTime(5);
+                crack_enemy_mini2->SetSpeed(2.0f);
 
             }
         }
@@ -359,14 +372,14 @@ void GameMainScene::Draw() const
     //}
 
 
-    ////ゴール描画
-    //for (int i = 0; i < objects.size(); i++)
-    //{
-    //    if (objects[i]->GetObjectType() == ObjectType::goal)
-    //    {
-    //        objects[i]->Draw();
-    //    }
-    //}
+    //ゴール描画
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::goal)
+        {
+            objects[i]->Draw();
+        }
+    }
 
     if (ui_coins != nullptr)
     {
@@ -481,23 +494,73 @@ void GameMainScene::EnmGenerateTimeCheck()
     switch (ui_timer->GetSeconds())
     {
     case 60:
-        EnemyGenerate(1);
+        if (is_enm_generate == true)
+        {
+            is_enm_generate = false;
+
+            for (int i = 0; i < enemy_array.size(); i++)
+            {
+                for (int j = 0; j < enemy_array[i].size(); j++)
+                {
+
+                    if (enemy_array[i][j] == 0) { continue; }
+
+                    float lane = ((float)SCREEN_WIDTH / 6) * (float)j + 60.0f;
+
+                    if (enemy_array[i][j] == 1)
+                    {
+                        EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        crack_enemy->SetWaitTime(i * 60);
+                    }
+
+                    if (enemy_array[i][j] == 3)
+                    {
+                        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        burst_enemy->SetWaitTime(i * 60);
+                    }
+
+                    if (enemy_array[i][j] == 2)
+                    {
+                        EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        split_enemy->SetWaitTime(i * 60);
+                    }
+
+                    if (enemy_array[i][j] == 4)
+                    {
+                        EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                        frog_enemy->SetWaitTime(i * 60);
+                    }
+
+
+                    if (enemy_array[i][j] == 5)
+                    {
+                        for (int k = 0; k < 3; k++)
+                        {
+                            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, 0.0f));//エネミー生成
+                            //i*60待ってから出てくる
+                            snake_enemy->SetWaitTime((i * 60)+(k*40));
+                        }
+                    }
+                }
+            }
+        }
+
         break;
-    case 50:
-        EnemyGenerate(2);
-        break;
-    case 40:
-        EnemyGenerate(3);
-        break;
-    case 30:
-        EnemyGenerate(4);
-        break;
-    case 20:
-        EnemyGenerate(4);
-        break;
-    case 10:
-        EnemyGenerate(3);
-        break;
+    //case 50:
+    //    EnemyGenerate(2);
+    //    break;
+    //case 40:
+    //    EnemyGenerate(3);
+    //    break;
+    //case 30:
+    //    EnemyGenerate(4);
+    //    break;
+    //case 20:
+    //    EnemyGenerate(4);
+    //    break;
+    //case 10:
+    //    EnemyGenerate(3);
+    //    break;
     default:
         is_enm_generate = true;
         break;

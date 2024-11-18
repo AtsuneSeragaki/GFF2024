@@ -1,61 +1,61 @@
-#include "SnakeEnemy.h"
+#include "SplitEnemy.h"
 #include "../../UtilityFile/Define.h"
 #include "../../UtilityFile/ResourceManager.h"
-#define _USE_MATH_DEFINES
-#include <math.h>
 
-SnakeEnemy::SnakeEnemy()
+SplitEnemy::SplitEnemy()
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
-	hp = 10;
-	width = 50.0f;
-	height = 50.0f;
-	speed = 1.5f;
+	hp = 20;
+	width = 70.0f;
+	height = 70.0f;
+	speed = 1.0f;
 	can_hit = false;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
-	angle = 0;
-	radian = 0.0f;
-	result = 0.0f;
 
+	check_hp = false;
+
+	count_img = 0;
+	chenge_img = 0;
+	shape_change_x = 0;
+	shape_change_y = 0;
+	shape_change_cnt = 0;
+
+	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
-
 	std::vector<int> tmp_img;
 
 	//敵画像の読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square.png");
-	enemy_image.push_back(tmp_img[1]);
+	enemy_image.push_back(tmp_img[0]);
 	//敵画像死ぬアニメーション読み込み
 	tmp_img = rm->GetSoftImages("Resource/Images/Characters/Enemy/square_death.png", 4, 4, 1, 64, 32);
-	//4~7
-	for (int i = 4; i <= 7; i++)
+	//0~3
+	for (int i = 0; i <= 3; i++)
 	{
 		enemy_image.push_back(tmp_img[i]);
 	}
-
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
 	se[0] = tmp;
+
+	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
+	se[1] = tmp;
+
 }
 
-SnakeEnemy::~SnakeEnemy()
+SplitEnemy::~SplitEnemy()
 {
 }
 
-void SnakeEnemy::Initialize()
+void SplitEnemy::Initialize()
 {
-	/*ResourceManager* rm = ResourceManager::GetInstance();
-	int tmp;
-	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_b.mp3");
-	se[0] = tmp;
-
-	tmp = rm->GetSounds("Resource/Sounds/Click/enemy_b.mp3");
-	se[1] = tmp;*/
 }
 
-void SnakeEnemy::Update()
+void SplitEnemy::Update()
 {
+
 	switch (state)
 	{
 	case State::wait:
@@ -68,18 +68,26 @@ void SnakeEnemy::Update()
 		break;
 	case State::move:
 		location.y += speed;
-		
-		//cos動き
-		angle+=2;
-		if (angle > 360)
+
+		//５カウントずつ幅の大きさを変えて歩いているように
+		if (shape_change_cnt++ > 5)
 		{
-			angle = 0;
+			shape_change_cnt = 0;
+			if (shape_change_x == 0)
+			{
+				shape_change_x = 3;
+				shape_change_y = 2;
+			}
+			else if (shape_change_y == 2)
+			{
+				shape_change_y = 5;
+			}
+			else
+			{
+				shape_change_x = 0;
+				shape_change_y = 0;
+			}
 		}
-		radian = (float)angle * (float)M_PI / 180.0f;
-		result = cosf(radian);
-		location.x += result;
-
-
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y < ONE_LANE_HEIGHT)
@@ -94,12 +102,21 @@ void SnakeEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
+			// 効果音の再生を止める
+			StopSoundMem(se[0]);
+
+			// 敵がつぶれるSE再生
+			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
 			can_hit = false;
+
 			state = State::death;
 		}
 
+
+
 		break;
 	case State::goal:
+
 		if (location.y < 720)
 		{
 			location.y += speed;
@@ -122,18 +139,26 @@ void SnakeEnemy::Update()
 				//アニメーションが終わったら
 				can_delete = true;
 			}
+			else if (chenge_img > 3)
+			{
+				if (check_hp == true)
+				{
+					check_hp = false;
+					can_create_mini = true;
+				}
+			}
 		}
+
 		break;
 	default:
 		break;
 	}
+
 }
 
-void SnakeEnemy::Draw() const
+void SplitEnemy::Draw() const
 {
-	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x9932cc, FALSE);
 	DrawFormatString((int)location.x, (int)location.y - 40, 0xe9967a, "hp:%d", hp);
-
 	if (can_hit == true)
 	{
 		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
@@ -143,24 +168,38 @@ void SnakeEnemy::Draw() const
 		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
 	}
 
+	if (state == State::wait)
+	{
+		DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 4, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[chenge_img], TRUE);
+	}
+	else
+	{
+		int left_top_x = (int)location.x - (int)width / 2;
+		int left_top_y = (int)location.y - (int)height / 2;
+		int right_bottom_x = (int)location.x + (int)width / 2;
+		int right_bottom_y = (int)location.y + (int)height / 2;
+		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[chenge_img], TRUE);
 
-	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
-	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
-
+	}
 
 }
 
-void SnakeEnemy::HitReaction(ObjectBase* character)
+void SplitEnemy::HitReaction(ObjectBase* character)
 {
 	switch (character->GetObjectType())
 	{
 	case ObjectType::cursor:
+
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 
-		hp -= 10;
-		width -= 10.0f;
-		height -= 10.0f;
+		if (hp >= 20)
+		{
+			check_hp = true;
+			width -= 30.0f;
+			height -= 30.0f;
+		}
+		hp -= 20;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
@@ -170,18 +209,19 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
-		hp -= 10;
+
+		if (hp >= 10) {
+			width -= 10;
+			height -= 10;
+			hp -= 10;
+		}
+
 		break;
 	case ObjectType::attackskill:
 		hp -= 20;
 		break;
-	case ObjectType::slowdownskill:
-		if (speed >= 1.5f)
-		{
-			speed -= 0.7f;
-		}
-		break;
 	default:
 		break;
 	}
+
 }

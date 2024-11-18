@@ -2,6 +2,7 @@
 #include "AbstractScene.h"
 #include "DxLib.h"
 #include "../ObjectFile/EnemyFile/CrackEnemy.h"
+#include "../ObjectFile/EnemyFile/SplitEnemy.h"
 #include "../ObjectFile/EnemyFile/BurstEnemy.h"
 #include "../ObjectFile/EnemyFile/SnakeEnemy.h"
 #include "../ObjectFile/EnemyFile/FrogEnemy.h"
@@ -31,6 +32,8 @@ private:
 
 	int enm_generate_cnt;//エネミー生成カウント
 	
+	int goal_cnt;//ゴールの数カウント
+
 	bool is_enm_generate;//エネミーを生成するか？
 
 	bool is_game_clear;			// ゲームクリアか？
