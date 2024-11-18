@@ -13,6 +13,8 @@ private:
     std::vector<int> button_image;    // ボタン画像
     int image_num;                      // 画像番号
 
+    bool change_location;
+
 public:
     PauseButton();
     ~PauseButton();

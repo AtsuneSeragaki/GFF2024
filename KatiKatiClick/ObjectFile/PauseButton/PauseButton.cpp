@@ -32,6 +32,7 @@ PauseButton::PauseButton()
 	}
 
 	image_num = 0;
+	change_location = false;
 }
 
 PauseButton::~PauseButton()
@@ -50,11 +51,25 @@ void PauseButton::Update()
 	{
 		// 画像を停止ボタンにする
 		image_num = 0;
+
+		if (change_location)
+		{
+			location.x = 320.0f;
+			location.y = 590.0f;
+			change_location = false;
+		}
 	}
 	else
 	{
 		// 画像を再生ボタンにする
 		image_num = 1;
+
+		if (change_location)
+		{
+			location.x = 180.0f;
+			location.y = 700.0f;
+			change_location = false;
+		}
 	}
 }
 
@@ -88,20 +103,19 @@ void PauseButton::Draw() const
 
 
 
-		// DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0xaaaaaa, TRUE);
+		 DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0xaaaaaa, TRUE);
 
-		//DrawFormatStringF(150.0f, location.y - 10.0f, 0x000000, "HELP");
-		//DrawFormatStringF(150.0f, 700.0f, 0x000000, "TITLE");
+		DrawFormatStringF(160.0f, 100.0f, 0x000000, "HELP");
+		DrawFormatStringF(150.0f, 600.0f, 0x000000, "TITLE");
 
 		//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
 		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
 	}
 
-	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0x000000, FALSE, 2.0f);
-
+	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0x000000, FALSE, 2.0f);
 
 	// ポーズボタン画像の描画
-	//DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[image_num], TRUE);
+	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[image_num], TRUE);
 }
 
 void PauseButton::HitReaction(ObjectBase* character)
@@ -118,6 +132,9 @@ void PauseButton::HitReaction(ObjectBase* character)
 			// 一時停止を解除する
 			is_pause = false;
 		}
+
+		// ボタンの位置を変更
+		change_location = true;
 	}
 }
 

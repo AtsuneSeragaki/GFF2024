@@ -1,10 +1,12 @@
 #pragma once
 #include "UIBase.h"
 #include <vector>
+#include "../../UtilityFile/Geometry.h"
 
 class UITimer : public UIBase
 {
 private:
+    Vector2D location;              // 座標
 	int fps_count;
 	int seconds;		            // ゲームが終わるまでの秒数
     std::vector<int> timer_image;   // タイマー画像
