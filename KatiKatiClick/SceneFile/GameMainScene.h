@@ -44,6 +44,7 @@ private:
 	bool is_attack_active;      // アタックスキルが有効か？
 
 	std::vector<int> background_image;     // 背景画像
+	float background_location_y;				// 背景のy座標
 
 
 public:

@@ -36,7 +36,10 @@ GameMainScene::GameMainScene()
     // 背景画像の読み込み
     tmp = rm->GetImages("Resource/Images/Background/Moon.png");
     background_image.push_back(tmp[0]);
+    tmp = rm->GetImages("Resource/Images/Background/Sun2.png");
+    background_image.push_back(tmp[0]);
 
+    background_location_y = 0.0f;
 }
 
 GameMainScene::~GameMainScene()
@@ -182,6 +185,13 @@ void GameMainScene::Update()
 
         // タイマー更新処理
         ui_timer->Update();
+
+        // 背景y座標のずらす値を増やす
+        background_location_y += 0.2f;
+        if (ui_timer->GetSeconds() == 30)
+        {
+            background_location_y += 0.0f;
+        }
     }
 
     //ゲームオーバーかチェック
@@ -327,20 +337,48 @@ void GameMainScene::Draw() const
     //// 描画輝度を元に戻す
     //SetDrawBright(255, 255, 255);
 
-    float param = 255.0f - float(60 - ui_timer->GetSeconds()) * 4.25f;
+    // 1秒間あたりの透明度
+    float result = float(60 - ui_timer->GetSeconds()) * 4.25f;
 
-    // 朝背景色
-    DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(189, 225, 252), TRUE);
+    if (ui_timer->GetSeconds() >= 30)
+    {
+        int param = 255 - (int)result * 2;
 
-    // 描画ブレンドモードをアルファブレンドにする
-    SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)param);
-    // 夜背景色
-    DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
-    // 背景の月画像の描画
-    DrawRotaGraphF(180.0f, 280.0f, 1.0, 0.0, background_image[0], TRUE);
+        // 白色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(255, 255, 255), TRUE);
 
-    // 描画ブレンドモードをノーブレンドにする
-    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
+        // 夜背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
+        // 背景の月画像の描画
+        DrawRotaGraphF(180.0f, 280.0f - background_location_y, 1.0, 0.0, background_image[0], TRUE);
+
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+    }
+    else
+    {
+        int param = ((int)result - 128) * 2;
+        float box_height = 560.0f - (18.6f * (30 - ui_timer->GetSeconds()));
+
+        // 朝背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(248, 250, 203), TRUE);
+        
+        // 白色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(255, 255, 255), TRUE);
+
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
+        // 朝背景色
+        DrawBoxAA(0.0f, box_height, 360.0f, 560.0f, GetColor(248, 250, 203), TRUE);
+        // 背景の太陽画像の描画
+        DrawRotaGraphF(180.0f, 1130.0f - background_location_y, 1.0, 0.0, background_image[1], TRUE);
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+    }
 
     for (int i = 0; i < objects.size(); i++)
     {
