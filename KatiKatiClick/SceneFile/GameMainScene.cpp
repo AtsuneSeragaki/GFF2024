@@ -15,14 +15,18 @@ GameMainScene::GameMainScene()
     CreateObject<BAttackSkill>(Vector2D(255.0f, 735.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(75.0f, 735.0f));     // 足止めスキルボタン生成
     
-    goal_cnt = 0;
+    goal_cnt = 1;
+
+    //バリア生成
+    float y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3) + ((float)ONE_LANE_HEIGHT / 4.0f)-10.0f;
+    CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, y));
 
     for (int i = 0; i < 3; i++)
     {
-        //ゴール生成
-        float y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3)-(i* (float)ONE_LANE_HEIGHT / 4.0f);
-        CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f,y));
-        goal_cnt++;
+        //バリア生成
+        float y2 = SCREEN_HEIGHT - GET_LANE_HEIGHT(3)-(i* (float)ONE_LANE_HEIGHT / 4.0f)-10.0f;
+        //	height = (float)ONE_LANE_HEIGHT / 4.0f;
+        CreateObject<Barrier>(Vector2D((float)SCREEN_WIDTH / 2.0f,y2));
     }
 
     CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
@@ -523,6 +527,11 @@ void GameMainScene::Draw() const
         {
             objects[i]->Draw();
            // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::barrier)
+        {
+            objects[i]->Draw();
         }
     }
 

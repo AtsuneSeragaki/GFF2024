@@ -12,6 +12,7 @@ enum class ObjectType
 	pausebutton,
 	cursor,
 	goal,
+	barrier,
 	circlezone,
 };
 

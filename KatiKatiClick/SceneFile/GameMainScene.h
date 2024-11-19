@@ -8,6 +8,7 @@
 #include "../ObjectFile/EnemyFile/FrogEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../ObjectFile/GoalFile/Goal.h"
+#include "../ObjectFile/GoalFile/Barrier.h"
 #include "../UtilityFile/Define.h"
 #include "../ObjectFile/CoinFile/Coin.h"
 #include "../UtilityFile/Geometry.h"

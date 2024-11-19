@@ -154,6 +154,10 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		state = State::goal;
 		speed = 3;
 		break;
+	case ObjectType::barrier:
+		can_hit = false;
+		state = State::death;
+		break;
 	case ObjectType::attackskill:
 		hp -= 30;
 		break;

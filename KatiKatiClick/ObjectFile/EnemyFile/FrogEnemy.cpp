@@ -206,6 +206,11 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 		break;
 	case ObjectType::goal:
 		can_hit = false;
+		state = State::goal;
+		speed = 3;
+		break;
+	case ObjectType::barrier:
+		can_hit = false;
 		state = State::death;
 		break;
 	case ObjectType::circlezone:
