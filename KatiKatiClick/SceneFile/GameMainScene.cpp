@@ -72,50 +72,98 @@ void GameMainScene::Update()
     // スキル置く場所選択中の処理
     if (is_spos_select == true)
     {
-        int i;
+        int i,j;
         float x,y;
+
+        for (int k = 0; k < objects.size() - 1; k++)
+        {
+            for (int m = k + 1; m < objects.size(); m++)
+            {
+                if (objects[k]->GetObjectType() == ObjectType::cursor && objects[k]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+                {
+                    if (objects[m]->GetObjectType() == ObjectType::b_attackskill || objects[m]->GetObjectType() == ObjectType::b_slowdownskill)
+                    {
+                        //ヒットチェック
+                        if (objects[k]->HitBoxCircle(objects[m]) == true)
+                        {
+                            HitCursorBSkill(m);
+                        }
+                        else
+                        {
+                            ResetCursorBSkill(m);
+                        }
+                    }
+                }
+                else if (objects[m]->GetObjectType() == ObjectType::cursor && objects[m]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+                {
+                    if (objects[k]->GetObjectType() == ObjectType::b_attackskill || objects[k]->GetObjectType() == ObjectType::b_slowdownskill)
+                    {
+                        //ヒットチェック
+                        if (objects[m]->HitBoxCircle(objects[k]) == true)
+                        {
+                            HitCursorBSkill(k);
+                        }
+                        else
+                        {
+                            ResetCursorBSkill(k);
+                        }
+                    }
+                }
+            }
+        }
+
 
         // 更新処理
         for (i = 0; i < objects.size(); i++)
         {
             if (objects[i]->GetObjectType() == ObjectType::cursor)
             {
-                // カーソルのみ更新する
                 objects[i]->Update();
                 x = objects[i]->GetLocation().x;
                 y = objects[i]->GetLocation().y;
             }
         }
 
+        for (j = 0; j < objects.size(); j++)
+        {
+            if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
+            {
+                objects[j]->Update();
+            }
+        }
+
         if (MouseInput::GetMouseState() == eMouseInputState::eClick)
         {
-            if (is_attack_active == true)
+            if (y <= 470.0f)
             {
-                CreateObject<AttackSkill>(Vector2D(x, y));
-                for (i = 0; i < objects.size(); i++)
+                if (is_attack_active == true)
                 {
-                    if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+                    CreateObject<AttackSkill>(Vector2D(x, y));
+                    for (i = 0; i < objects.size(); i++)
                     {
-                        BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
-                        b_skill->SetSkillStateClose();
+                        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+                        {
+                            BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+                            b_skill->SetSkillStateClose();
+                        }
+                    }
+                    is_attack_active = false;
+                }
+                else
+                {
+                    CreateObject<SlowDownSkill>(Vector2D(x, y));
+                    for (i = 0; i < objects.size(); i++)
+                    {
+                        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+                        {
+                            BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+                            b_skill->SetSkillStateClose();
+                        }
                     }
                 }
-                is_attack_active = false;
-            }
-            else
-            {
-                CreateObject<SlowDownSkill>(Vector2D(x, y));
-                for (i = 0; i < objects.size(); i++)
-                {
-                    if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-                    {
-                        BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
-                        b_skill->SetSkillStateClose();
-                    }
-                }
-            }
 
-            is_spos_select = false;
+                is_spos_select = false;
+            }
         }
 
         return;            //この行より下の処理はしない
@@ -240,6 +288,36 @@ void GameMainScene::Update()
     {
         for (int j = i + 1; j < objects.size(); j++)
         {
+            if (objects[i]->GetObjectType() == ObjectType::cursor && objects[i]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+            {
+                if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
+                {
+                    //ヒットチェック
+                    if (objects[i]->HitBoxCircle(objects[j]) == true)
+                    {
+                        HitCursorBSkill(j);
+                    }
+                    else
+                    {
+                        ResetCursorBSkill(j);
+                    }
+                }
+            }
+            else if (objects[j]->GetObjectType() == ObjectType::cursor && objects[j]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+            {
+                if (objects[i]->GetObjectType() == ObjectType::b_attackskill || objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+                {
+                    //ヒットチェック
+                    if (objects[j]->HitBoxCircle(objects[i]) == true)
+                    {
+                        HitCursorBSkill(i);
+                    }
+                    else
+                    {
+                        ResetCursorBSkill(i);
+                    }
+                }
+            }
 
             if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
@@ -320,14 +398,6 @@ void GameMainScene::Draw() const
 {
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::attackskill)
-        {
-            objects[i]->Draw();
-        }
-    }
-
-    for (int i = 0; i < objects.size(); i++)
-    {
         if (objects[i]->GetObjectType() == ObjectType::slowdownskill)
         {
             objects[i]->Draw();
@@ -378,8 +448,19 @@ void GameMainScene::Draw() const
         if (objects[i]->GetObjectType() == ObjectType::goal)
         {
             objects[i]->Draw();
+           // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
         }
     }
+
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::attackskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
+    
 
     if (ui_coins != nullptr)
     {
@@ -638,6 +719,9 @@ void GameMainScene::SkillPause(int i)
 {
     BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
 
+    b_skill->Update();
+    b_skill->SetHitCursorFlg(false);
+
     if (b_skill->GetSkillState() == BSkillState::active)
     {
         is_spos_select = true;
@@ -688,4 +772,18 @@ void GameMainScene::PauseCheck()
 void GameMainScene::PausedHitCheck()
 {
 
+}
+
+void GameMainScene::HitCursorBSkill(int i)
+{
+    BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+
+    b_skill->SetHitCursorFlg(true);
+}
+
+void GameMainScene::ResetCursorBSkill(int i)
+{
+    BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+
+    b_skill->SetHitCursorFlg(false);
 }
