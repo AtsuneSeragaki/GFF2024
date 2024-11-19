@@ -61,6 +61,15 @@ void UICoins::Draw() const
 	//DrawBox(170, 10, 280, 60, 0xfff4b3, TRUE);
 	//DrawBoxAA(170.0f, 10.0f, 280.0f, 60.0f, 0x000000, FALSE, 2.0f);
 
+	// 描画ブレンドモードをアルファブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+	// 白色四角
+	DrawBoxAA(location.x - 115.0f, location.y - 25.0f, location.x + 30.0f, location.y + 25.0f, 0xffffff, TRUE);
+	// 描画ブレンドモードをノーブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	DrawBoxAA(location.x - 115.0f, location.y - 25.0f, location.x + 30.0f, location.y + 25.0f, 0x000000, FALSE, 2.0f);
+
 	// コイン画像の描画
 	DrawRotaGraphF(location.x - 80.0f, location.y, 1.0, 0.0, coin_image[0], TRUE);
 
