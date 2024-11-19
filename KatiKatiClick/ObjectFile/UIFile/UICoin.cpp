@@ -6,7 +6,7 @@ UICoins::UICoins()
 {
 	location.x = 230.0f;
 	location.y = 640.0f;
-	coins_num = 120;
+	coins_num = 0;
 
 	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
@@ -27,6 +27,12 @@ UICoins::UICoins()
 	{
 		image_num[i] = 0;
 	}
+
+	int tmp_s;
+	tmp_s = rm->GetSounds("Resource/Sounds/Coin/getcoin.mp3");
+	se = tmp_s;
+
+	ChangeVolumeSoundMem(90, se);
 }
 
 UICoins::~UICoins()
@@ -76,7 +82,7 @@ void UICoins::Draw() const
 void UICoins::IncreaseCoins()
 {
 	// コインがカウントアップする時のSE再生
-
+	PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
 	coins_num++;
 }
 

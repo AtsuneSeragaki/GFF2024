@@ -11,6 +11,7 @@ private:
     std::vector<int> coin_image;    // コイン画像
     std::vector<int> num_image;     // 数字画像
     int image_num[3];               // 描画する画像番号
+    int se;                         // 効果音
 
 public:
     UICoins();

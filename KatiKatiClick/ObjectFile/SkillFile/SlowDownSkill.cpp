@@ -24,7 +24,7 @@ SlowDownSkill::SlowDownSkill()
 	image = effect_img[0];
 
 	int tmp2;
-	tmp2 = rm->GetSounds("Resource/Sounds/Skill/bakuhatu.mp3");
+	tmp2 = rm->GetSounds("Resource/Sounds/Skill/kumonosu.mp3");
 	se = tmp2;
 }
 
@@ -36,6 +36,11 @@ SlowDownSkill::~SlowDownSkill()
 
 void SlowDownSkill::Update()
 {
+	if (cnt == 0)
+	{
+		PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+	}
+
 	cnt++;
 
 	if (max_flg == false)

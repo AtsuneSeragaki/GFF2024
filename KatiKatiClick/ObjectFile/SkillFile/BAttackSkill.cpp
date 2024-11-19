@@ -41,7 +41,7 @@ BAttackSkill::BAttackSkill()
 	tmp_s = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
 	se[1] = tmp_s;
 
-	ChangeVolumeSoundMem(200, se[0]);
+	ChangeVolumeSoundMem(150, se[0]);
 }
 
 BAttackSkill::~BAttackSkill()
