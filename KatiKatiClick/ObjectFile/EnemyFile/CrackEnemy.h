@@ -7,7 +7,7 @@ class CrackEnemy :
     public EnemyBase
 {
 private:
-    DeathEffect* death_effect;
+    //DeathEffect* death_effect;
 public:
     CrackEnemy();
     ~CrackEnemy();

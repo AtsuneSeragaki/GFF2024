@@ -106,7 +106,7 @@ void CrackEnemy::Update()
 			// 敵がつぶれるSE再生
 			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
 			can_hit = false;
-			death_effect = new DeathEffect(location);
+			//death_effect = new DeathEffect(location);
 			state = State::death;
 		}
 
@@ -126,7 +126,7 @@ void CrackEnemy::Update()
 		break;
 	case State::death:
 
-		death_effect->Update();
+		//death_effect->Update();
 		if (count_img++ > 2)
 		{
 			count_img = 0;
@@ -205,9 +205,9 @@ void CrackEnemy::Draw() const
 		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[chenge_img], TRUE);
 	}
 
-	if (death_effect != nullptr) {
+	/*if (death_effect != nullptr) {
 		death_effect->Draw();
-	}
+	}*/
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
