@@ -46,7 +46,7 @@ GameMainScene::GameMainScene()
     ResourceManager* rm = ResourceManager::GetInstance();
     std::vector<int> tmp;
     // 背景画像の読み込み
-    tmp = rm->GetImages("Resource/Images/Background/Moon.png");
+    tmp = rm->GetImages("Resource/Images/Background/Moon3.png");
     background_image.push_back(tmp[0]);
     tmp = rm->GetImages("Resource/Images/Background/Sun2.png");
     background_image.push_back(tmp[0]);
@@ -246,11 +246,21 @@ void GameMainScene::Update()
 
         // タイマー更新処理
         ui_timer->Update();
-        // 背景y座標のずらす値を増やす
-        background_location_y += 0.2f;
-        if (ui_timer->GetSeconds() == 30)
+
+        if (ui_timer->GetSeconds() > 30)
         {
-            background_location_y += 0.0f;
+            // 背景y座標のずらす値を増やす
+            background_location_y += 0.1f;
+        }
+        else if (ui_timer->GetSeconds() < 30)
+        {
+            // 背景y座標のずらす値を増やす
+            background_location_y += 0.2f;
+
+        }
+        else
+        {
+            background_location_y = 0.0f;
         }
     }
     
@@ -437,14 +447,14 @@ void GameMainScene::Draw() const
         int param = 255 - (int)result * 2;
 
         // 白色背景
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(255, 255, 255), TRUE);
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
         // 夜背景色
         DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
         // 背景の月画像の描画
-        DrawRotaGraphF(180.0f, 280.0f - background_location_y, 1.0, 0.0, background_image[0], TRUE);
+        DrawRotaGraphF(180.0f, 200.0f - background_location_y, 0.5, 0.0, background_image[0], TRUE);
 
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -453,20 +463,20 @@ void GameMainScene::Draw() const
     else
     {
         int param = ((int)result - 128) * 2;
-        float box_height = 560.0f - (18.6f * (30 - ui_timer->GetSeconds()));
+        float box_height = 560.0f - (18.7f * (30 - ui_timer->GetSeconds()));
 
         // 朝背景色
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(248, 250, 203), TRUE);
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
         
         // 白色背景
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(255, 255, 255), TRUE);
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
         // 朝背景色
-        DrawBoxAA(0.0f, box_height, 360.0f, 560.0f, GetColor(248, 250, 203), TRUE);
+        DrawBoxAA(0.0f, box_height, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
         // 背景の太陽画像の描画
-        DrawRotaGraphF(180.0f, 1130.0f - background_location_y, 1.0, 0.0, background_image[1], TRUE);
+        DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
@@ -586,14 +596,14 @@ void GameMainScene::Draw() const
 
     if (is_game_clear)
     {
-        DrawString(30, 350, "GAME CLEAR", 0xffffff);
-        DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
+        DrawString(30, 350, "GAME CLEAR", 0x000000);
+        DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
     }
 
     if (is_game_over)
     {
-        DrawString(30, 350, "GAME OVER", 0xffffff);
-        DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
+        DrawString(30, 350, "GAME OVER", 0x000000);
+        DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
     }
 
     //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
