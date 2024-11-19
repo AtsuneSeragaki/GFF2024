@@ -41,6 +41,8 @@ BSlowDownSkill::BSlowDownSkill()
 
 	tmp_s = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
 	se[1] = tmp_s;
+
+	ChangeVolumeSoundMem(150, se[0]);
 }
 
 BSlowDownSkill::~BSlowDownSkill()
