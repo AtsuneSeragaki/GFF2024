@@ -14,6 +14,8 @@ private:
     std::vector<int> num_image;     // 数字画像
     int image_minutes_num;          // 分画像番号
     int image_seconds_num[2];       // 秒画像番号
+    float time_bar_length;          // タイムバーの長さ
+    float now_time_bar_length;      // 現在のタイムバーの長さ
 
 public:
     UITimer();

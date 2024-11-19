@@ -4,8 +4,8 @@
 
 UITimer::UITimer()
 {
-	location.x = 30.0f;
-	location.y = 590.0f;
+	location.x = 25.0f;
+	location.y = 600.0f;
 	fps_count = 0;
 	seconds = 60;
 
@@ -33,6 +33,9 @@ UITimer::UITimer()
 		image_seconds_num[i] = 0;
 	}
 	image_minutes_num = 1;
+
+	time_bar_length = 300.0f;
+	now_time_bar_length = time_bar_length;
 }
 
 UITimer::~UITimer()
@@ -52,6 +55,8 @@ void UITimer::Update()
 		if (seconds > 0)
 		{
 			seconds--;
+
+			now_time_bar_length = (float)seconds * 5.0f;
 		}
 
 		fps_count = 0;
@@ -65,6 +70,10 @@ void UITimer::Draw() const
 {
 	//DrawBox(10, 10, 150, 60, 0xfff4b3, TRUE);
 	//DrawBoxAA(10.0f, 10.0f, 150.0f, 60.0f, 0x000000, FALSE, 2.0f);
+
+	// バーの描画
+	DrawBoxAA(50.0f, location.y - 20.0f, 50.0f + now_time_bar_length, location.y + 20.0f, 0xff0000, TRUE);
+	DrawBoxAA(50.0f, location.y - 20.0f, 50.0f + time_bar_length, location.y + 20.0f, 0x000000, FALSE);
 
 	// タイマー画像の描画
 	DrawRotaGraphF(location.x, location.y, 2.5, 0.0, timer_image[0], TRUE);

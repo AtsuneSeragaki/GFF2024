@@ -25,7 +25,7 @@ GameMainScene::GameMainScene()
         goal_cnt++;
     }
 
-    CreateObject<PauseButton>(Vector2D(320.0f, 590.0f));         // ポーズボタン生成
+    CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -203,17 +203,18 @@ void GameMainScene::Update()
             background_location_y += 0.0f;
         }
     }
+    
     //ゲームオーバーかチェック
     //ゴールの数が０になったら
-    if (goal_cnt <= 0)
-    {
-        // シーン切り替え待ちカウントを減らす
-        change_wait_time--;
-        is_game_over = true;
-        // カーソルのみ更新
-        CursorUpdate();
-        return;            //この行より下の処理はしない
-    }
+    //if (goal_cnt <= 0)
+    //{
+    //    // シーン切り替え待ちカウントを減らす
+    //    change_wait_time--;
+    //    is_game_over = true;
+    //    // カーソルのみ更新
+    //    CursorUpdate();
+    //    return;            //この行より下の処理はしない
+    //}
     
 
     //更新処理
