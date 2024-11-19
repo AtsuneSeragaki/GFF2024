@@ -15,15 +15,22 @@ BSlowDownSkill::BSlowDownSkill()
 	can_delete = false;
 	bskill_state = BSkillState::close;
 	use_coin = false;
+	hit_cursor = false;
 
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = rm->GetImages("Resource/Images/Skill/battack_close.png");
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_close.png");
 	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_possible.png");
 	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_active.png");
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_close_d.png");
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_possible_d.png");
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_active_d.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
 
@@ -63,23 +70,7 @@ void BSlowDownSkill::Initialize()
 
 void BSlowDownSkill::Update()
 {
-	switch (bskill_state)
-	{
-	case BSkillState::close:
-		image = button_img[0];
-		break;
-
-	case BSkillState::possible:
-		image = button_img[1];
-		break;
-
-	case BSkillState::active:
-		image = button_img[2];
-		break;
-
-	default:
-		break;
-	}
+	ChangeImage();
 }
 
 void BSlowDownSkill::Draw() const
@@ -144,5 +135,49 @@ void BSlowDownSkill::HitReaction(ObjectBase* character)
 
 	default:
 		break;
+	}
+}
+
+void BSlowDownSkill::ChangeImage()
+{
+	if (hit_cursor == false)
+	{
+		switch (bskill_state)
+		{
+		case BSkillState::close:
+			image = button_img[0];
+			break;
+
+		case BSkillState::possible:
+			image = button_img[1];
+			break;
+
+		case BSkillState::active:
+			image = button_img[2];
+			break;
+
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (bskill_state)
+		{
+		case BSkillState::close:
+			image = button_img[3];
+			break;
+
+		case BSkillState::possible:
+			image = button_img[4];
+			break;
+
+		case BSkillState::active:
+			image = button_img[5];
+			break;
+
+		default:
+			break;
+		}
 	}
 }

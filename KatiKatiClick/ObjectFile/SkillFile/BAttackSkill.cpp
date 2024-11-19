@@ -14,6 +14,7 @@ BAttackSkill::BAttackSkill()
 	shape = Shape::square;
 	can_delete = false;
 	bskill_state = BSkillState::close;
+	hit_cursor = false;
 
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
@@ -23,6 +24,12 @@ BAttackSkill::BAttackSkill()
 	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
 	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_close_d.png", 1);
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_possible_d.png");
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/battack_active_d.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
 
@@ -67,23 +74,7 @@ void BAttackSkill::Initialize()
 
 void BAttackSkill::Update()
 {
-	switch (bskill_state)
-	{
-	case BSkillState::close:
-		image = button_img[0];
-		break;
-
-	case BSkillState::possible:
-		image = button_img[1];
-		break;
-
-	case BSkillState::active:
-		image = button_img[2];
-		break;
-
-	default:
-		break;
-	}
+	ChangeImage();
 }
 
 void BAttackSkill::Draw() const
@@ -150,5 +141,49 @@ void BAttackSkill::HitReaction(ObjectBase* character)
 	default:
 		
 		break;
+	}
+}
+
+void BAttackSkill::ChangeImage()
+{
+	if (hit_cursor == false)
+	{
+		switch (bskill_state)
+		{
+		case BSkillState::close:
+			image = button_img[0];
+			break;
+
+		case BSkillState::possible:
+			image = button_img[1];
+			break;
+
+		case BSkillState::active:
+			image = button_img[2];
+			break;
+
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (bskill_state)
+		{
+		case BSkillState::close:
+			image = button_img[3];
+			break;
+
+		case BSkillState::possible:
+			image = button_img[4];
+			break;
+
+		case BSkillState::active:
+			image = button_img[5];
+			break;
+
+		default:
+			break;
+		}
 	}
 }

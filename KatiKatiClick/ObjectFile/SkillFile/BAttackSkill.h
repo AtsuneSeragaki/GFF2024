@@ -16,4 +16,6 @@ public:
 	void Draw() const override;
 	void Finalize();
 	void HitReaction(ObjectBase* character) override; //hitCheckがtrueだったらhitした後の処理をする
+
+	void ChangeImage() override;
 };

@@ -5,14 +5,15 @@
 #include "../ObjectFile/SkillFile/AttackSKill.h"
 #include "../ObjectFile/SkillFile/SlowDownSkill.h"
 #include "../UtilityFile/MouseInput.h"
+#include "../UtilityFile/ResourceManager.h"
 #include "../ObjectFile/EnemyFile/EnemyArray.h"
 
 GameMainScene::GameMainScene()
 {
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
-    CreateObject<BAttackSkill>(Vector2D(80.0f, 735.0f));        // アタックスキルボタン生成
-    CreateObject<BSlowDownSkill>(Vector2D(270.0f, 735.0f));     // 足止めスキルボタン生成
+    CreateObject<BAttackSkill>(Vector2D(255.0f, 735.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(75.0f, 735.0f));     // 足止めスキルボタン生成
     
     goal_cnt = 0;
 
@@ -24,7 +25,7 @@ GameMainScene::GameMainScene()
         goal_cnt++;
     }
 
-    CreateObject<PauseButton>(Vector2D(320.0f, 590.0f));         // ポーズボタン生成
+    CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -40,6 +41,19 @@ GameMainScene::GameMainScene()
     is_pause = false;
     is_spos_select = false;
     is_attack_active = false;
+
+    // ResourceManagerのインスタンスを取得
+    ResourceManager* rm = ResourceManager::GetInstance();
+    std::vector<int> tmp;
+    // 背景画像の読み込み
+    tmp = rm->GetImages("Resource/Images/Background/Moon.png");
+    background_image.push_back(tmp[0]);
+    tmp = rm->GetImages("Resource/Images/Background/Sun2.png");
+    background_image.push_back(tmp[0]);
+    tmp = rm->GetImages("Resource/Images/Background/Brick3.png");
+    background_image.push_back(tmp[0]);
+
+    background_location_y = 0.0f;
 }
 
 GameMainScene::~GameMainScene()
@@ -72,50 +86,98 @@ void GameMainScene::Update()
     // スキル置く場所選択中の処理
     if (is_spos_select == true)
     {
-        int i;
+        int i,j;
         float x,y;
+
+        for (int k = 0; k < objects.size() - 1; k++)
+        {
+            for (int m = k + 1; m < objects.size(); m++)
+            {
+                if (objects[k]->GetObjectType() == ObjectType::cursor && objects[k]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+                {
+                    if (objects[m]->GetObjectType() == ObjectType::b_attackskill || objects[m]->GetObjectType() == ObjectType::b_slowdownskill)
+                    {
+                        //ヒットチェック
+                        if (objects[k]->HitBoxCircle(objects[m]) == true)
+                        {
+                            HitCursorBSkill(m);
+                        }
+                        else
+                        {
+                            ResetCursorBSkill(m);
+                        }
+                    }
+                }
+                else if (objects[m]->GetObjectType() == ObjectType::cursor && objects[m]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+                {
+                    if (objects[k]->GetObjectType() == ObjectType::b_attackskill || objects[k]->GetObjectType() == ObjectType::b_slowdownskill)
+                    {
+                        //ヒットチェック
+                        if (objects[m]->HitBoxCircle(objects[k]) == true)
+                        {
+                            HitCursorBSkill(k);
+                        }
+                        else
+                        {
+                            ResetCursorBSkill(k);
+                        }
+                    }
+                }
+            }
+        }
+
 
         // 更新処理
         for (i = 0; i < objects.size(); i++)
         {
             if (objects[i]->GetObjectType() == ObjectType::cursor)
             {
-                // カーソルのみ更新する
                 objects[i]->Update();
                 x = objects[i]->GetLocation().x;
                 y = objects[i]->GetLocation().y;
             }
         }
 
+        for (j = 0; j < objects.size(); j++)
+        {
+            if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
+            {
+                objects[j]->Update();
+            }
+        }
+
         if (MouseInput::GetMouseState() == eMouseInputState::eClick)
         {
-            if (is_attack_active == true)
+            if (y <= 470.0f)
             {
-                CreateObject<AttackSkill>(Vector2D(x, y));
-                for (i = 0; i < objects.size(); i++)
+                if (is_attack_active == true)
                 {
-                    if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+                    CreateObject<AttackSkill>(Vector2D(x, y));
+                    for (i = 0; i < objects.size(); i++)
                     {
-                        BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
-                        b_skill->SetSkillStateClose();
+                        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+                        {
+                            BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+                            b_skill->SetSkillStateClose();
+                        }
+                    }
+                    is_attack_active = false;
+                }
+                else
+                {
+                    CreateObject<SlowDownSkill>(Vector2D(x, y));
+                    for (i = 0; i < objects.size(); i++)
+                    {
+                        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+                        {
+                            BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+                            b_skill->SetSkillStateClose();
+                        }
                     }
                 }
-                is_attack_active = false;
-            }
-            else
-            {
-                CreateObject<SlowDownSkill>(Vector2D(x, y));
-                for (i = 0; i < objects.size(); i++)
-                {
-                    if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-                    {
-                        BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
-                        b_skill->SetSkillStateClose();
-                    }
-                }
-            }
 
-            is_spos_select = false;
+                is_spos_select = false;
+            }
         }
 
         return;            //この行より下の処理はしない
@@ -184,8 +246,14 @@ void GameMainScene::Update()
 
         // タイマー更新処理
         ui_timer->Update();
+        // 背景y座標のずらす値を増やす
+        background_location_y += 0.2f;
+        if (ui_timer->GetSeconds() == 30)
+        {
+            background_location_y += 0.0f;
+        }
     }
-
+    
     //ゲームオーバーかチェック
     //ゴールの数が０になったら
     if (goal_cnt <= 0)
@@ -202,13 +270,13 @@ void GameMainScene::Update()
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
             objects[i]->Update();
             SkillCoinUse(i, 20);
             SkillPause(i);
         }
-        else if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        else if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
         {
             objects[i]->Update();
             SkillCoinUse(i, 40);
@@ -240,6 +308,36 @@ void GameMainScene::Update()
     {
         for (int j = i + 1; j < objects.size(); j++)
         {
+            if (objects[i]->GetObjectType() == ObjectType::cursor && objects[i]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+            {
+                if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
+                {
+                    //ヒットチェック
+                    if (objects[i]->HitBoxCircle(objects[j]) == true)
+                    {
+                        HitCursorBSkill(j);
+                    }
+                    else
+                    {
+                        ResetCursorBSkill(j);
+                    }
+                }
+            }
+            else if (objects[j]->GetObjectType() == ObjectType::cursor && objects[j]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+            {
+                if (objects[i]->GetObjectType() == ObjectType::b_attackskill || objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+                {
+                    //ヒットチェック
+                    if (objects[j]->HitBoxCircle(objects[i]) == true)
+                    {
+                        HitCursorBSkill(i);
+                    }
+                    else
+                    {
+                        ResetCursorBSkill(i);
+                    }
+                }
+            }
 
             if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
@@ -318,12 +416,60 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-    for (int i = 0; i < objects.size(); i++)
+    //float tmp = float(60 - ui_timer->GetSeconds()) * 4.25f;
+
+    //// ループする度に明るくなる
+    //SetDrawBright((int)tmp, (int)tmp, (int)tmp);
+    //// 紫色
+    //SetDrawBright(112, 86, 143);
+    //// 空色
+    ////SetDrawBright(127, 219, 240);
+    //// 背景色
+    //DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(127, 219, 240), TRUE);// 白四角形
+    //// 描画輝度を元に戻す
+    //SetDrawBright(255, 255, 255);
+
+    // 1秒間あたりの透明度
+    float result = float(60 - ui_timer->GetSeconds()) * 4.25f;
+
+    if (ui_timer->GetSeconds() >= 30)
     {
-        if (objects[i]->GetObjectType() == ObjectType::attackskill)
-        {
-            objects[i]->Draw();
-        }
+        int param = 255 - (int)result * 2;
+
+        // 白色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(255, 255, 255), TRUE);
+
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
+        // 夜背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
+        // 背景の月画像の描画
+        DrawRotaGraphF(180.0f, 280.0f - background_location_y, 1.0, 0.0, background_image[0], TRUE);
+
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+    }
+    else
+    {
+        int param = ((int)result - 128) * 2;
+        float box_height = 560.0f - (18.6f * (30 - ui_timer->GetSeconds()));
+
+        // 朝背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(248, 250, 203), TRUE);
+        
+        // 白色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(255, 255, 255), TRUE);
+
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
+        // 朝背景色
+        DrawBoxAA(0.0f, box_height, 360.0f, 560.0f, GetColor(248, 250, 203), TRUE);
+        // 背景の太陽画像の描画
+        DrawRotaGraphF(180.0f, 1130.0f - background_location_y, 1.0, 0.0, background_image[1], TRUE);
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
     }
 
     for (int i = 0; i < objects.size(); i++)
@@ -343,34 +489,22 @@ void GameMainScene::Draw() const
         }
     }
 
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::attackskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
     //UI設置仮
     // DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0xffec80, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
-
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
-        {
-            objects[i]->Draw();
-        }
-    }
-
-    // 足止めスキルボタン描画
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-        {
-            objects[i]->Draw();
-        }
-    }
+    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
 
 
-    //if (ui_goal != nullptr)
-    //{
-    //    ui_goal->Draw();
-    //}
-
+    // UI下のレンガ画像
+    DrawRotaGraphF(180.0f, 680.0f, 1.0, 0.0, background_image[2], TRUE);
 
     //ゴール描画
     for (int i = 0; i < objects.size(); i++)
@@ -378,26 +512,59 @@ void GameMainScene::Draw() const
         if (objects[i]->GetObjectType() == ObjectType::goal)
         {
             objects[i]->Draw();
+           // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
         }
     }
 
-    if (ui_coins != nullptr)
+    // 一時停止中でないならUIを描画する
+    if (is_pause == false)
     {
-        // コインUIの描画
-        ui_coins->Draw();
-    }
+        // 足止めスキルボタン描画
+        for (int i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+            {
+                objects[i]->Draw();
+            }
+        }
 
-    // コイン描画
-    for (int i = 0; i < coins.size(); i++)
-    {
-        coins[i]->Draw();
-    }
+        // 範囲攻撃スキルボタン描画
+        for (int i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+            {
+                objects[i]->Draw();
+            }
+        }
 
-    if (ui_timer != nullptr)
-    {
-        // タイマー描画処理
-        ui_timer->Draw();
-    }
+        //ゴール描画
+        for (int i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::goal)
+            {
+                objects[i]->Draw();
+                // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
+            }
+        }
+
+        if (ui_coins != nullptr)
+        {
+            // コインUIの描画
+            ui_coins->Draw();
+        }
+
+        // コイン描画
+        for (int i = 0; i < coins.size(); i++)
+        {
+            coins[i]->Draw();
+        }
+
+        if (ui_timer != nullptr)
+        {
+            // タイマー描画処理
+            ui_timer->Draw();
+        }
+    }    
 
     // ポーズボタン描画
     for (int i = 0; i < objects.size(); i++)
@@ -427,11 +594,6 @@ void GameMainScene::Draw() const
     {
         DrawString(30, 350, "GAME OVER", 0xffffff);
         DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
-    }
-
-    if (is_pause)
-    {
-       //DrawString(30, 350, "PAUSE", 0xffffff);
     }
 
     //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
@@ -638,6 +800,9 @@ void GameMainScene::SkillPause(int i)
 {
     BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
 
+    b_skill->Update();
+    b_skill->SetHitCursorFlg(false);
+
     if (b_skill->GetSkillState() == BSkillState::active)
     {
         is_spos_select = true;
@@ -688,4 +853,18 @@ void GameMainScene::PauseCheck()
 void GameMainScene::PausedHitCheck()
 {
 
+}
+
+void GameMainScene::HitCursorBSkill(int i)
+{
+    BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+
+    b_skill->SetHitCursorFlg(true);
+}
+
+void GameMainScene::ResetCursorBSkill(int i)
+{
+    BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+
+    b_skill->SetHitCursorFlg(false);
 }

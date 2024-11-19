@@ -46,6 +46,10 @@ private:
 
 	bool is_attack_active;      // アタックスキルが有効か？
 
+	std::vector<int> background_image;     // 背景画像
+	float background_location_y;				// 背景のy座標
+
+
 public:
 	GameMainScene();
 	~GameMainScene();
@@ -70,6 +74,10 @@ private:
 	void PauseCheck();
 	// 一時停止時のポーズボタンとカーソルの当たり判定
 	void PausedHitCheck();
+	// カーソルがスキルボタンの上にある時の処理
+	void HitCursorBSkill(int i);
+	// カーソルがスキルボタンの上に無い時の処理
+	void ResetCursorBSkill(int i);
 
 protected:
 	template <class T>
