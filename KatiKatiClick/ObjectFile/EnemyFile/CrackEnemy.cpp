@@ -112,11 +112,6 @@ void CrackEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
-			// 効果音の再生を止める
-			StopSoundMem(se[0]);
-
-			// 敵がつぶれるSE再生
-			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
 			can_hit = false;
 			state = State::death;
 		}
@@ -245,6 +240,8 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 
 		break;
 	case ObjectType::attackskill:
+		// 敵がつぶれるSE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 		hp -= 20;
 		break;
 	case ObjectType::slowdownskill:

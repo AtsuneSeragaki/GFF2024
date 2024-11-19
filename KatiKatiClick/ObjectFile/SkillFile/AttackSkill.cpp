@@ -26,6 +26,12 @@ AttackSkill::AttackSkill()
 	}
 	
 	image = effect_img[0];
+
+	int tmp2;
+	tmp2 = rm->GetSounds("Resource/Sounds/Skill/bakuhatu.mp3");
+	se = tmp2;
+
+	ChangeVolumeSoundMem(190, se);
 }
 
 AttackSkill::~AttackSkill()
@@ -36,6 +42,11 @@ AttackSkill::~AttackSkill()
 
 void AttackSkill::Update()
 {
+	if (cnt == 0)
+	{
+		PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+	}
+
 	cnt++;
 
 	if (cnt % 10 == 0)

@@ -40,6 +40,8 @@ BAttackSkill::BAttackSkill()
 
 	tmp_s = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
 	se[1] = tmp_s;
+
+	ChangeVolumeSoundMem(200, se[0]);
 }
 
 BAttackSkill::~BAttackSkill()
@@ -126,6 +128,7 @@ void BAttackSkill::HitReaction(ObjectBase* character)
 		if (bskill_state == BSkillState::possible)
 		{
 			// 解放前SE再生
+			
 			PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 			bskill_state = BSkillState::active;
 			use_coin = true;

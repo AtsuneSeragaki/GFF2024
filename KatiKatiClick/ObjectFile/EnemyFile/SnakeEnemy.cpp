@@ -94,6 +94,7 @@ void SnakeEnemy::Update()
 		//hpが0以下になったら消す
 		if (hp <= 0)
 		{
+			
 			can_hit = false;
 			state = State::death;
 		}
@@ -173,6 +174,8 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		hp -= 10;
 		break;
 	case ObjectType::attackskill:
+		// 敵が押された時SE再生
+		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 		hp -= 20;
 		break;
 	case ObjectType::slowdownskill:

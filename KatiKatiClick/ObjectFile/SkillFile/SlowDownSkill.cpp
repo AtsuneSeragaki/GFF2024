@@ -22,6 +22,10 @@ SlowDownSkill::SlowDownSkill()
 	tmp = rm->GetImages("Resource/Images/Skill/spiderweb.png");
 	effect_img.push_back(tmp[0]);
 	image = effect_img[0];
+
+	int tmp2;
+	tmp2 = rm->GetSounds("Resource/Sounds/Skill/bakuhatu.mp3");
+	se = tmp2;
 }
 
 SlowDownSkill::~SlowDownSkill()
