@@ -66,5 +66,6 @@ public:
 	}
 	void SetHp(int set_hp) { hp = set_hp; }
 	void StopCreateMini() { can_create_mini = false; }
+	void SetSpeed(float set_speed) { speed = set_speed; }
 };
 

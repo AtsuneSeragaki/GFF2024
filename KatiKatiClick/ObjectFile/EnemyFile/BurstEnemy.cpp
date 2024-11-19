@@ -7,12 +7,12 @@ BurstEnemy::BurstEnemy()
 	location.x =0.0f;
 	location.y = 0.0f;
 	hp = 30;
-	radius = 10.0f;
+	radius = 20.0f;
 	speed = 1.0f;
 	can_hit = true;
 	object_type = ObjectType::enemy;
 	shape = Shape::circle;
-	state = State::move;
+	state = State::wait;
 
 	ResourceManager* rm = ResourceManager::GetInstance();
 	int tmp;
@@ -21,6 +21,13 @@ BurstEnemy::BurstEnemy()
 
 	tmp = rm->GetSounds("Resource/Sounds/Click/enemy_b.mp3");
 	se[1] = tmp;
+
+	std::vector<int> tmp_img;
+	tmp_img = rm->GetImages("Resource/Images/Characters/Enemy/Burst.png",4,4,1,32,32);
+	for (int i = 0; i < 4; i++)
+	{
+		enemy_image.push_back(tmp_img[i]);
+	}
 }
 
 BurstEnemy::~BurstEnemy()
@@ -71,6 +78,7 @@ void BurstEnemy::Update()
 
 			// 敵が破裂するSE再生
 			PlaySoundMem(se[1], DX_PLAYTYPE_BACK, TRUE);
+			can_hit = false;
 
 			state = State::death;
 		}
@@ -99,7 +107,6 @@ void BurstEnemy::Update()
 
 void BurstEnemy::Draw() const
 {
-	DrawCircleAA(location.x, location.y, radius, 32, 0xffffff, TRUE);
 	DrawFormatString((int)location.x, (int)location.y, 0xe9967a, "hp:%d", hp);
 
 	if (can_hit == true)
@@ -110,6 +117,18 @@ void BurstEnemy::Draw() const
 	{
 		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
 	}
+
+	//int ex_rate = radius / 10;
+	//DrawRotaGraph(location.x, location.y, (double)ex_rate, 0, enemy_image[chenge_img], TRUE);
+
+	int left_top_x = (int)location.x - (int)radius;
+	int left_top_y = (int)location.y - (int)radius;
+	int right_bottom_x = (int)location.x + (int)radius;
+	int right_bottom_y = (int)location.y + (int)radius;
+	DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[chenge_img], TRUE);
+
+	//当たり判定表示用
+	//DrawCircleAA(location.x, location.y, radius, 32, 0xffffff, FALSE);
 }
 
 void BurstEnemy::HitReaction(ObjectBase* character)
@@ -127,6 +146,7 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 			speed -= 0.3f;
 		}
 		radius += 15.0f;
+		chenge_img++;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:

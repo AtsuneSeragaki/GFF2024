@@ -27,7 +27,7 @@ void HitCircleZone::Update()
 
 void HitCircleZone::Draw() const
 {
-	DrawCircleAA(location.x, location.y, radius, 32, 0xff0000, TRUE);
+	//DrawCircleAA(location.x, location.y, radius, 32, 0xff0000, TRUE);
 }
 
 void HitCircleZone::HitReaction(ObjectBase* character)
