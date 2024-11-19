@@ -96,13 +96,13 @@ void AttackSkill::ChangeWidthHeight()
 {
 	if (effect_num == 0)
 	{
-		width += 3;
-		height += 3;
+		width += 5;
+		height += 5;
 	}
 	else
 	{
-		width += 7;
-		height += 7;
+		width += 20;
+		height += 20;
 	}
 
 	if (width >= 150)

@@ -1,15 +1,10 @@
 #pragma once
 
 #include "SkillBase.h"
-#include <vector>
 
 class AttackSkill : public SkillBase
 {
 private:
-	std::vector<int> effect_img;
-	int effect_num;
-	bool max_flg;  // MAXの大きさまで大きく false:なってない true:なった
-	int blend_num; // 画像の透明度の値
 
 public:
 	AttackSkill();

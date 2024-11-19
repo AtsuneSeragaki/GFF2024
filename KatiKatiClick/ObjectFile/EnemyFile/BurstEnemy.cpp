@@ -158,7 +158,7 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		hp -= 30;
 		break;
 	case ObjectType::slowdownskill:
-		if (speed >= 1.5f)
+		if (speed >= 1.0f)
 		{
 			speed -= 0.7f;
 		}

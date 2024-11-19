@@ -19,10 +19,17 @@ protected:
 	int se[2]; // 効果音データ
 	BSkillState bskill_state; // ボタンの状態
 	bool use_coin; // コイン false:使ってない true:使った
+	bool hit_cursor; // カーソルがボタンの上に false:ない true:ある
 
 public:
 	BSkillBase();
 	~BSkillBase(){};
+
+	// スキルボタンの状態によって画像を変える処理
+	virtual void ChangeImage() = 0;
+
+	// hit_cursorの値を設定
+	void SetHitCursorFlg(bool flg);
 
 	// ボタンの状態を返す
 	BSkillState GetSkillState() { return bskill_state; }
