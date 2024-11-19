@@ -5,6 +5,7 @@
 #include "../ObjectFile/SkillFile/AttackSKill.h"
 #include "../ObjectFile/SkillFile/SlowDownSkill.h"
 #include "../UtilityFile/MouseInput.h"
+#include "../UtilityFile/ResourceManager.h"
 #include "../ObjectFile/EnemyFile/EnemyArray.h"
 
 GameMainScene::GameMainScene()
@@ -24,7 +25,7 @@ GameMainScene::GameMainScene()
         goal_cnt++;
     }
 
-    CreateObject<PauseButton>(Vector2D(320.0f, 590.0f));         // ポーズボタン生成
+    CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -40,6 +41,19 @@ GameMainScene::GameMainScene()
     is_pause = false;
     is_spos_select = false;
     is_attack_active = false;
+
+    // ResourceManagerのインスタンスを取得
+    ResourceManager* rm = ResourceManager::GetInstance();
+    std::vector<int> tmp;
+    // 背景画像の読み込み
+    tmp = rm->GetImages("Resource/Images/Background/Moon3.png");
+    background_image.push_back(tmp[0]);
+    tmp = rm->GetImages("Resource/Images/Background/Sun2.png");
+    background_image.push_back(tmp[0]);
+    tmp = rm->GetImages("Resource/Images/Background/Brick3.png");
+    background_image.push_back(tmp[0]);
+
+    background_location_y = 0.0f;
 }
 
 GameMainScene::~GameMainScene()
@@ -232,8 +246,24 @@ void GameMainScene::Update()
 
         // タイマー更新処理
         ui_timer->Update();
-    }
 
+        if (ui_timer->GetSeconds() > 30)
+        {
+            // 背景y座標のずらす値を増やす
+            background_location_y += 0.1f;
+        }
+        else if (ui_timer->GetSeconds() < 30)
+        {
+            // 背景y座標のずらす値を増やす
+            background_location_y += 0.2f;
+
+        }
+        else
+        {
+            background_location_y = 0.0f;
+        }
+    }
+    
     //ゲームオーバーかチェック
     //ゴールの数が０になったら
     if (goal_cnt <= 0)
@@ -396,6 +426,62 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
+    //float tmp = float(60 - ui_timer->GetSeconds()) * 4.25f;
+
+    //// ループする度に明るくなる
+    //SetDrawBright((int)tmp, (int)tmp, (int)tmp);
+    //// 紫色
+    //SetDrawBright(112, 86, 143);
+    //// 空色
+    ////SetDrawBright(127, 219, 240);
+    //// 背景色
+    //DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(127, 219, 240), TRUE);// 白四角形
+    //// 描画輝度を元に戻す
+    //SetDrawBright(255, 255, 255);
+
+    // 1秒間あたりの透明度
+    float result = float(60 - ui_timer->GetSeconds()) * 4.25f;
+
+    if (ui_timer->GetSeconds() >= 30)
+    {
+        int param = 255 - (int)result * 2;
+
+        // 白色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
+
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
+        // 夜背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
+        // 背景の月画像の描画
+        DrawRotaGraphF(180.0f, 200.0f - background_location_y, 0.5, 0.0, background_image[0], TRUE);
+
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+    }
+    else
+    {
+        int param = ((int)result - 128) * 2;
+        float box_height = 560.0f - (18.7f * (30 - ui_timer->GetSeconds()));
+
+        // 朝背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
+        
+        // 白色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
+
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
+        // 朝背景色
+        DrawBoxAA(0.0f, box_height, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
+        // 背景の太陽画像の描画
+        DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+    }
+
     for (int i = 0; i < objects.size(); i++)
     {
         if (objects[i]->GetObjectType() == ObjectType::slowdownskill)
@@ -413,34 +499,22 @@ void GameMainScene::Draw() const
         }
     }
 
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::attackskill)
+        {
+            objects[i]->Draw();
+        }
+    }
+
     //UI設置仮
     // DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0xffec80, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
-    DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
-
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
-        {
-            objects[i]->Draw();
-        }
-    }
-
-    // 足止めスキルボタン描画
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-        {
-            objects[i]->Draw();
-        }
-    }
+    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
+    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
 
 
-    //if (ui_goal != nullptr)
-    //{
-    //    ui_goal->Draw();
-    //}
-
+    // UI下のレンガ画像
+    DrawRotaGraphF(180.0f, 680.0f, 1.0, 0.0, background_image[2], TRUE);
 
     //ゴール描画
     for (int i = 0; i < objects.size(); i++)
@@ -452,33 +526,55 @@ void GameMainScene::Draw() const
         }
     }
 
-    for (int i = 0; i < objects.size(); i++)
+    // 一時停止中でないならUIを描画する
+    if (is_pause == false)
     {
-        if (objects[i]->GetObjectType() == ObjectType::attackskill)
+        // 足止めスキルボタン描画
+        for (int i = 0; i < objects.size(); i++)
         {
-            objects[i]->Draw();
+            if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+            {
+                objects[i]->Draw();
+            }
         }
-    }
 
-    
+        // 範囲攻撃スキルボタン描画
+        for (int i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+            {
+                objects[i]->Draw();
+            }
+        }
 
-    if (ui_coins != nullptr)
-    {
-        // コインUIの描画
-        ui_coins->Draw();
-    }
+        //ゴール描画
+        for (int i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::goal)
+            {
+                objects[i]->Draw();
+                // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
+            }
+        }
 
-    // コイン描画
-    for (int i = 0; i < coins.size(); i++)
-    {
-        coins[i]->Draw();
-    }
+        if (ui_coins != nullptr)
+        {
+            // コインUIの描画
+            ui_coins->Draw();
+        }
 
-    if (ui_timer != nullptr)
-    {
-        // タイマー描画処理
-        ui_timer->Draw();
-    }
+        // コイン描画
+        for (int i = 0; i < coins.size(); i++)
+        {
+            coins[i]->Draw();
+        }
+
+        if (ui_timer != nullptr)
+        {
+            // タイマー描画処理
+            ui_timer->Draw();
+        }
+    }    
 
     // ポーズボタン描画
     for (int i = 0; i < objects.size(); i++)
@@ -500,19 +596,14 @@ void GameMainScene::Draw() const
 
     if (is_game_clear)
     {
-        DrawString(30, 350, "GAME CLEAR", 0xffffff);
-        DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
+        DrawString(30, 350, "GAME CLEAR", 0x000000);
+        DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
     }
 
     if (is_game_over)
     {
-        DrawString(30, 350, "GAME OVER", 0xffffff);
-        DrawFormatString(30, 370, 0xffffff, "start : %d sec", change_wait_time / 60 + 1);
-    }
-
-    if (is_pause)
-    {
-       //DrawString(30, 350, "PAUSE", 0xffffff);
+        DrawString(30, 350, "GAME OVER", 0x000000);
+        DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
     }
 
     //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);

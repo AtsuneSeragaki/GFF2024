@@ -103,7 +103,6 @@ void PauseButton::Draw() const
 
 
 
-		 DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0xaaaaaa, TRUE);
 		 DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xdddddd, TRUE);
 
 		DrawFormatStringF(160.0f, 50.0f, 0x000000, "HELP");
