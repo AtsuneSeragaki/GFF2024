@@ -21,6 +21,9 @@ Barrier::Barrier()
 	tmp_img = rm->GetImages("Resource/Images/Barrier/Barrier.png");
 	img.push_back(tmp_img[0]);
 
+	img_num = 0;
+	change_cnt = 0;
+
 }
 
 Barrier::~Barrier()
@@ -33,6 +36,16 @@ void Barrier::Initialize()
 
 void Barrier::Update()
 {
+	//if (change_cnt++ > 10)
+	//{
+	//	img_num++;
+	//	if (img_num > 3)
+	//	{
+	//		img_num = 0;
+	//	}
+	//}
+
+	//hpが0になったら
 	if (hp <= 0)
 	{
 		can_delete = true;
@@ -42,7 +55,7 @@ void Barrier::Update()
 void Barrier::Draw() const
 {
 
-	DrawRotaGraph(location.x, location.y, 1, 0, img[0], TRUE);
+	DrawRotaGraph(location.x, location.y, 1, 0, img[img_num], TRUE);
 	
 	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffff00, TRUE);
 	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xAD6820, FALSE);

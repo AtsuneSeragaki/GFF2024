@@ -14,7 +14,7 @@ CrackEnemy::CrackEnemy()
 	shape = Shape::square;
 
 	count_img = 0;
-	chenge_img = 0;
+	change_img = 0;
 	shape_change_x = 0;
 	shape_change_y = 0;
 	shape_change_cnt = 0;
@@ -125,9 +125,9 @@ void CrackEnemy::Update()
 		if (count_img++ > 2)
 		{
 			count_img = 0;
-			chenge_img++;
+			change_img++;
 
-			if (chenge_img > 4)
+			if (change_img > 4)
 			{
 				//アニメーションが終わったら
 				can_delete = true;
@@ -189,7 +189,7 @@ void CrackEnemy::Draw() const
 	if (state == State::wait)
 	{
 		//DrawExtendGraph(int x1, int y1, int x2, int y2,int GrHandle, int TransFlag);
-		DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 4, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[chenge_img], TRUE);
+		DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 4, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[change_img], TRUE);
 	}
 	else
 	{
@@ -197,7 +197,7 @@ void CrackEnemy::Draw() const
 		int left_top_y = (int)location.y - (int)height / 2;
 		int right_bottom_x = (int)location.x + (int)width / 2;
 		int right_bottom_y = (int)location.y + (int)height / 2;
-		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[chenge_img], TRUE);
+		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[change_img], TRUE);
 	}
 
 	/*if (death_effect != nullptr) {

@@ -119,9 +119,9 @@ void FrogEnemy::Update()
 		if (count_img++ > 2)
 		{
 			count_img = 0;
-			chenge_img++;
+			change_img++;
 
-			if (chenge_img > 4)
+			if (change_img > 4)
 			{
 				//アニメーションが終わったら
 				can_delete = true;
@@ -167,7 +167,7 @@ void FrogEnemy::Draw() const
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 
 	
-	DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[chenge_img], TRUE);
+	DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[change_img], TRUE);
 
 	if (hit_damage == true)
 	{

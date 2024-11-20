@@ -25,7 +25,7 @@ protected:
 	std::vector<int> enemy_image;   //エネミー画像
 
 	int count_img;//画像切り替えカウント
-	int chenge_img;//画像切り替え
+	int change_img;//画像切り替え
 
 	int shape_change_x;//歩く画像を変更する数字で
 	int shape_change_y;
@@ -45,7 +45,7 @@ public:
 		se[0] = 0;
 		se[1] = 0;
 		count_img = 0;
-		chenge_img = 0;
+		change_img = 0;
 		shape_change_x = 0;
 		shape_change_y = 0;
 		shape_change_cnt = 0;

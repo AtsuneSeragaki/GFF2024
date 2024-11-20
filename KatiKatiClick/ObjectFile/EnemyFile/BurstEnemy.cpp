@@ -125,7 +125,7 @@ void BurstEnemy::Draw() const
 	int left_top_y = (int)location.y - (int)radius;
 	int right_bottom_x = (int)location.x + (int)radius;
 	int right_bottom_y = (int)location.y + (int)radius;
-	DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[chenge_img], TRUE);
+	DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[change_img], TRUE);
 
 	//当たり判定表示用
 	//DrawCircleAA(location.x, location.y, radius, 32, 0xffffff, FALSE);
@@ -146,7 +146,7 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 			speed -= 0.3f;
 		}
 		radius += 15.0f;
-		chenge_img++;
+		change_img++;
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
