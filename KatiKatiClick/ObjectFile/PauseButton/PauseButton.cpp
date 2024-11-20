@@ -20,10 +20,6 @@ PauseButton::PauseButton()
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
 
-	//// はてな画像を読み込む
-	//tmp = rm->GetImages("Resource/Images/Question3.png");
-	//question_image.push_back(tmp[0]);
-
 	// ポーズボタン画像を読み込む
 	tmp = rm->GetImages("Resource/Images/Pause/PauseButton.png", 2, 2, 1, 16, 16);
 	for (int i = 0; i < 2; i++)
@@ -31,8 +27,26 @@ PauseButton::PauseButton()
 		button_image.push_back(tmp[i]);
 	}
 
+	// "遊び方"テキスト画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Pause/Text/HowToPlay.png");
+	heading_image.push_back(tmp[0]);
+
+	// 説明テキスト画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Pause/Text/Text.png", 5, 1, 5, 360, 64);
+	for (int i = 0; i < 5; i++)
+	{
+		text_image.push_back(tmp[i]);
+	}
+
+	// 説明画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Pause/HelpImage.png", 5, 3, 2, 340, 340);
+	for (int i = 0; i < 5; i++)
+	{
+		help_image.push_back(tmp[i]);
+	}
+
 	image_num = 0;
-	change_location = false;
+	page_num = 0;
 }
 
 PauseButton::~PauseButton()
@@ -52,67 +66,37 @@ void PauseButton::Update()
 		// 画像を停止ボタンにする
 		image_num = 0;
 
-		//if (change_location)
-		//{
-		//	location.x = 320.0f;
-		//	location.y = 590.0f;
-		//	change_location = false;
-		//}
+		if (page_num != 0)
+		{
+			// ページを0に戻す
+			page_num = 0;
+		}
 	}
 	else
 	{
 		// 画像を再生ボタンにする
 		image_num = 1;
 
-		//if (change_location)
-		//{
-		//	location.x = 180.0f;
-		//	location.y = 700.0f;
-		//	change_location = false;
-		//}
 	}
 }
 
 void PauseButton::Draw() const
 {
-	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
-	//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
-
-	if (is_pause == false)
+	if (is_pause)
 	{
-		//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
-		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x000000, "PAUSE");
+		// 灰色背景
+		DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xdddddd, TRUE);
+
+		// "遊び方"テキスト画像描画
+		DrawRotaGraphF(180.0f, 25.0f, 1.0, 0.0, heading_image[0], TRUE);
+
+		// 説明テキスト画像描画
+		DrawRotaGraphF(180.0f, 90.0f, 1.0, 0.0, text_image[page_num], TRUE);
+
+		// 説明画像描画
+		DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, help_image[page_num], TRUE);
+
 	}
-	else
-	{
-		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0x666666, "PAUSE");
-
-		//// ボックス
-		//DrawBoxAA(location.x - width / 2, location.y + height / 2, location.x + width / 2, location.y + height / 2 + 60.0f, 0xc0c0c0, TRUE);
-		//DrawBoxAA(location.x - width / 2, location.y + height / 2, location.x + width / 2, location.y + height / 2 + 30.0f, 0xaa0000, FALSE);
-
-		//DrawFormatStringF(300.0f, 65.0f, 0xaa0000, "HELP");
-
-		//// ボックス
-		//DrawBoxAA(location.x - width / 2, location.y + height / 2 + 60.0f, location.x + width / 2, location.y + height / 2 + 120.0f, 0xc0c0c0, TRUE);
-		//DrawBoxAA(location.x - width / 2, location.y + height / 2 + 60.0f, location.x + width / 2, location.y + height / 2 + 120.0f, 0x0000aa, FALSE);
-
-		//DrawFormatStringF(300.0f, 125.0f, 0x0000aa, "TITLE");
-
-
-
-
-
-		 DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xdddddd, TRUE);
-
-		DrawFormatStringF(160.0f, 50.0f, 0x000000, "HELP");
-		DrawFormatStringF(150.0f, 500.0f, 0x000000, "TITLE");
-
-		//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xc0c0c0, TRUE);
-		//DrawFormatStringF(location.x - 20.0f, location.y - 10.0f, 0xee0000, "PAUSE");
-	}
-
-	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0x000000, FALSE, 2.0f);
 
 	// ポーズボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
@@ -132,9 +116,6 @@ void PauseButton::HitReaction(ObjectBase* character)
 			// 一時停止を解除する
 			is_pause = false;
 		}
-
-		// ボタンの位置を変更
-		// change_location = true;
 	}
 }
 
