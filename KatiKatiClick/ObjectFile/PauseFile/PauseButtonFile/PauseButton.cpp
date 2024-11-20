@@ -1,6 +1,6 @@
 #include "PauseButton.h"
 #include "DxLib.h"
-#include "../../UtilityFile/ResourceManager.h"
+#include "../../../UtilityFile/ResourceManager.h"
 
 PauseButton::PauseButton()
 {

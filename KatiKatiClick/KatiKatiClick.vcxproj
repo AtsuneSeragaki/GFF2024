@@ -153,10 +153,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\ShapeZoneFile\HitCircleZone.cpp" />
     <ClCompile Include="ObjectFile\ClickEffectFile\ClickEffect.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\FrogEnemy.cpp" />
-    <ClCompile Include="ObjectFile\PauseButton\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Goal.cpp" />
     <ClCompile Include="ObjectFile\CoinFile\Coin.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp" />
@@ -187,10 +187,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
+    <ClInclude Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.h" />
     <ClInclude Include="ObjectFile\ShapeZoneFile\HitCircleZone.h" />
     <ClInclude Include="ObjectFile\ClickEffectFile\ClickEffect.h" />
     <ClInclude Include="ObjectFile\EnemyFile\FrogEnemy.h" />
-    <ClInclude Include="ObjectFile\PauseButton\PauseButton.h" />
     <ClInclude Include="ObjectFile\GoalFile\Goal.h" />
     <ClInclude Include="ObjectFile\CoinFile\Coin.h" />
     <ClInclude Include="ObjectFile\EnemyFile\BurstEnemy.h" />
