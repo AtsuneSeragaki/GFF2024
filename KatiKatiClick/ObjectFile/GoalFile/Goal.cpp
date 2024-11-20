@@ -23,10 +23,10 @@ void Goal::Initialize()
 
 void Goal::Update()
 {
-	//if (hp <= 0)
-	//{
-	//	can_delete=true;
-	//}
+	if (hp <= 0)
+	{
+		can_delete=true;
+	}
 }
 
 void Goal::Draw() const
@@ -41,11 +41,11 @@ void Goal::Draw() const
 
 void Goal::HitReaction(ObjectBase* character)
 {
-	//if (character->GetObjectType() == ObjectType::enemy)
-	//{
-	//	if (hp > 0)
-	//	{
-	//		hp -= 1;
-	//	}
-	//}
+	if (character->GetObjectType() == ObjectType::enemy)
+	{
+		if (hp > 0)
+		{
+			hp -= 1;
+		}
+	}
 }

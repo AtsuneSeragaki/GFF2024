@@ -10,6 +10,8 @@
 
 GameMainScene::GameMainScene()
 {
+    game_state = GameState::in_game;//プレイ中に設定
+
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(255.0f, 735.0f));        // アタックスキルボタン生成
@@ -17,7 +19,7 @@ GameMainScene::GameMainScene()
     
     goal_cnt = 1;
 
-    //バリア生成
+    //ゴール生成
     float y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3) + ((float)ONE_LANE_HEIGHT / 4.0f)-10.0f;
     CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, y));
 
@@ -72,360 +74,23 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
-    for (int i = 0; i < coins.size(); i++)
+    switch (game_state)
     {
-        // コイン更新
-        coins[i]->Update();
-
-        //消してもOKだったらcoinsを削除
-        if (coins[i]->GetCanDeleteFlg() == true)
-        {
-            coins.erase(coins.begin() + i);
-        }
+    case GameState::start:
+        InStartUpdate();
+        break;
+    case GameState::in_game:
+        InGameUpdate();
+        break;
+    case GameState::gameclear:
+        InGameClearUpdate();
+        break;
+    case GameState::gameover:
+        InGameOverUpdate();
+        break;
+    default:
+        break;
     }
-
-    // UIコインの更新処理
-    ui_coins->Update();
-
-    // スキル置く場所選択中の処理
-    if (is_spos_select == true)
-    {
-        int i,j;
-        float x,y;
-
-        for (int k = 0; k < objects.size() - 1; k++)
-        {
-            for (int m = k + 1; m < objects.size(); m++)
-            {
-                if (objects[k]->GetObjectType() == ObjectType::cursor && objects[k]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
-                {
-                    if (objects[m]->GetObjectType() == ObjectType::b_attackskill || objects[m]->GetObjectType() == ObjectType::b_slowdownskill)
-                    {
-                        //ヒットチェック
-                        if (objects[k]->HitBoxCircle(objects[m]) == true)
-                        {
-                            HitCursorBSkill(m);
-                        }
-                        else
-                        {
-                            ResetCursorBSkill(m);
-                        }
-                    }
-                }
-                else if (objects[m]->GetObjectType() == ObjectType::cursor && objects[m]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
-                {
-                    if (objects[k]->GetObjectType() == ObjectType::b_attackskill || objects[k]->GetObjectType() == ObjectType::b_slowdownskill)
-                    {
-                        //ヒットチェック
-                        if (objects[m]->HitBoxCircle(objects[k]) == true)
-                        {
-                            HitCursorBSkill(k);
-                        }
-                        else
-                        {
-                            ResetCursorBSkill(k);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        // 更新処理
-        for (i = 0; i < objects.size(); i++)
-        {
-            if (objects[i]->GetObjectType() == ObjectType::cursor)
-            {
-                objects[i]->Update();
-                x = objects[i]->GetLocation().x;
-                y = objects[i]->GetLocation().y;
-            }
-        }
-
-        for (j = 0; j < objects.size(); j++)
-        {
-            if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
-            {
-                objects[j]->Update();
-            }
-        }
-
-        if (MouseInput::GetMouseState() == eMouseInputState::eClick)
-        {
-            if (y <= 470.0f)
-            {
-                if (is_attack_active == true)
-                {
-                    CreateObject<AttackSkill>(Vector2D(x, y));
-                    for (i = 0; i < objects.size(); i++)
-                    {
-                        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
-                        {
-                            BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
-                            b_skill->SetSkillStateClose();
-                        }
-                    }
-                    is_attack_active = false;
-                }
-                else
-                {
-                    CreateObject<SlowDownSkill>(Vector2D(x, y));
-                    for (i = 0; i < objects.size(); i++)
-                    {
-                        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-                        {
-                            BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
-                            b_skill->SetSkillStateClose();
-                        }
-                    }
-                }
-
-                is_spos_select = false;
-            }
-        }
-
-        return;            //この行より下の処理はしない
-    }
-
-    // 一時停止中の処理
-    if (is_pause == true && is_game_over == false)
-    {
-        
-        // 更新処理
-        for (int i = 0; i < objects.size(); i++)
-        {
-            if (objects[i]->GetObjectType() == ObjectType::cursor || objects[i]->GetObjectType() == ObjectType::pausebutton)
-            {
-                // カーソルとポーズボタンのみ更新する
-                objects[i]->Update();
-            }
-        }
-
-        //当たり判定
-        for (int i = 0; i < objects.size() - 1; i++)
-        {
-            for (int j = i + 1; j < objects.size(); j++)
-            {
-                // objects[i]がcursor、object[j]がpausebuttonなら当たり判定処理
-                if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::pausebutton)
-                {
-                    if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
-
-                    //もしshapeが違かったら
-                    if (objects[i]->GetShape() != objects[j]->GetShape())
-                    {
-                        //ヒットチェック
-                        if (objects[i]->HitBoxCircle(objects[j]) == true)
-                        {
-                            objects[i]->HitReaction(objects[j]);
-                            objects[j]->HitReaction(objects[i]);
-                        }
-                    }
-                }
-            }
-        }
-
-        // 一時停止中か調べる
-        PauseCheck();
-
-        // ゲームの更新を一時停止
-        return;
-    }
-   
-    if (ui_timer != nullptr && is_game_over == false)
-    {
-        if (ui_timer->GetSeconds() == 0)
-        {
-            // 制限時間が0ならゲームクリア
-            is_game_clear = true;
-
-            // シーン切り替え待ちカウントを減らす
-            change_wait_time--;
-
-            // カーソルのみ更新
-            CursorUpdate();
-
-            return;
-        }
-
-        // タイマー更新処理
-        ui_timer->Update();
-
-        if (ui_timer->GetSeconds() > 30)
-        {
-            // 背景y座標のずらす値を増やす
-            background_location_y += 0.1f;
-        }
-        else if (ui_timer->GetSeconds() < 30)
-        {
-            // 背景y座標のずらす値を増やす
-            background_location_y += 0.2f;
-
-        }
-        else
-        {
-            background_location_y = 0.0f;
-        }
-    }
-    
-    //ゲームオーバーかチェック
-    //ゴールの数が０になったら
-    if (goal_cnt <= 0)
-    {
-        // シーン切り替え待ちカウントを減らす
-        change_wait_time--;
-        is_game_over = true;
-        // カーソルのみ更新
-        CursorUpdate();
-        return;            //この行より下の処理はしない
-    }
-    
-
-    //更新処理
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-        {
-            objects[i]->Update();
-            SkillCoinUse(i, 20);
-            SkillPause(i);
-        }
-        else if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
-        {
-            objects[i]->Update();
-            SkillCoinUse(i, 40);
-            SkillPause(i);
-        }
-        else
-        {
-            objects[i]->Update();
-        }
-
-        //flgがtrueだったらcircleの当たり判定だけのclassを生成する
-        if (objects[i]->GetCanCreateZone() == true)
-        {
-            HitCircleZone* circle_zone = CreateObject<HitCircleZone>(objects[i]->GetLocation());
-            circle_zone->SetRadius(objects[i]->GetRadius()+20);
-        }
-
-
-        //消してもOKだったらobjectを削除
-        if (objects[i]->GetIsDelete() == true)
-        {
-            if (objects[i]->GetObjectType() == ObjectType::goal) { goal_cnt -= 1; }
-            objects.erase(objects.begin() + i);
-        }
-    }
-
-    //当たり判定
-    for (int i = 0; i < objects.size() - 1; i++)
-    {
-        for (int j = i + 1; j < objects.size(); j++)
-        {
-            if (objects[i]->GetObjectType() == ObjectType::cursor && objects[i]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
-            {
-                if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
-                {
-                    //ヒットチェック
-                    if (objects[i]->HitBoxCircle(objects[j]) == true)
-                    {
-                        HitCursorBSkill(j);
-                    }
-                    else
-                    {
-                        ResetCursorBSkill(j);
-                    }
-                }
-            }
-            else if (objects[j]->GetObjectType() == ObjectType::cursor && objects[j]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
-            {
-                if (objects[i]->GetObjectType() == ObjectType::b_attackskill || objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
-                {
-                    //ヒットチェック
-                    if (objects[j]->HitBoxCircle(objects[i]) == true)
-                    {
-                        HitCursorBSkill(i);
-                    }
-                    else
-                    {
-                        ResetCursorBSkill(i);
-                    }
-                }
-            }
-
-            if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
-
-            //もしshapeが違かったら
-            if(objects[i]->GetShape()!=objects[j]->GetShape())
-            {
-                //ヒットチェック
-                if (objects[i]->HitBoxCircle(objects[j]) == true)
-                {
-                    objects[i]->HitReaction(objects[j]);
-                    objects[j]->HitReaction(objects[i]);
-                }
-            }
-            else
-            {
-                //shapeが同じ時
-                if (objects[i]->GetShape() == Shape::circle && objects[j]->GetShape() == Shape::circle)
-                {
-                    //ヒットチェック
-                    if (objects[i]->HitCircle(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
-                    {
-                        objects[i]->HitReaction(objects[j]);
-                        objects[j]->HitReaction(objects[i]);
-                    }
-                }
-
-                if (objects[i]->GetShape() == Shape::square && objects[j]->GetShape() == Shape::square)
-                {
-                    //ヒットチェック
-                    if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()))
-                    {
-                        objects[i]->HitReaction(objects[j]);
-                        objects[j]->HitReaction(objects[i]);
-                    }
-                }
-            }
-
-            // コインの生成
-            CoinGenerate(i, j);
-
-            // 一時停止か調べる
-            PauseCheck();
-        }
-    }
-
-    //エネミーを生成
-    EnmGenerateTimeCheck();
-
-    //小さいCrackEnemyを生成
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::enemy)
-        {
-            EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
-
-            if (enemy->GetCanCreateMini() == true)
-            {
-                enemy->StopCreateMini();
-
-                //小さいエネミーを作る
-                EnemyBase* crack_enemy_mini = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f,objects[i]->GetLocation().y + 40.0f));
-                crack_enemy_mini->SetHp(10);
-                crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
-                crack_enemy_mini->SetWaitTime(5);
-                crack_enemy_mini->SetSpeed(2.0f);
-                EnemyBase* crack_enemy_mini2 = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f,objects[i]->GetLocation().y + 40.0f));
-                crack_enemy_mini2->SetHp(10);
-                crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
-                crack_enemy_mini2->SetWaitTime(5);
-                crack_enemy_mini2->SetSpeed(2.0f);
-
-            }
-        }
-    } 
 }
 
 void GameMainScene::Draw() const
@@ -626,6 +291,377 @@ AbstractScene* GameMainScene::Change()
     }
 
     return this;
+}
+
+void GameMainScene::InGameUpdate()
+{
+    for (int i = 0; i < coins.size(); i++)
+    {
+        // コイン更新
+        coins[i]->Update();
+
+        //消してもOKだったらcoinsを削除
+        if (coins[i]->GetCanDeleteFlg() == true)
+        {
+            coins.erase(coins.begin() + i);
+        }
+    }
+
+    // UIコインの更新処理
+    ui_coins->Update();
+
+    // スキル置く場所選択中の処理
+    if (is_spos_select == true)
+    {
+        int i, j;
+        float x, y;
+
+        for (int k = 0; k < objects.size() - 1; k++)
+        {
+            for (int m = k + 1; m < objects.size(); m++)
+            {
+                if (objects[k]->GetObjectType() == ObjectType::cursor && objects[k]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+                {
+                    if (objects[m]->GetObjectType() == ObjectType::b_attackskill || objects[m]->GetObjectType() == ObjectType::b_slowdownskill)
+                    {
+                        //ヒットチェック
+                        if (objects[k]->HitBoxCircle(objects[m]) == true)
+                        {
+                            HitCursorBSkill(m);
+                        }
+                        else
+                        {
+                            ResetCursorBSkill(m);
+                        }
+                    }
+                }
+                else if (objects[m]->GetObjectType() == ObjectType::cursor && objects[m]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+                {
+                    if (objects[k]->GetObjectType() == ObjectType::b_attackskill || objects[k]->GetObjectType() == ObjectType::b_slowdownskill)
+                    {
+                        //ヒットチェック
+                        if (objects[m]->HitBoxCircle(objects[k]) == true)
+                        {
+                            HitCursorBSkill(k);
+                        }
+                        else
+                        {
+                            ResetCursorBSkill(k);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // 更新処理
+        for (i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::cursor)
+            {
+                objects[i]->Update();
+                x = objects[i]->GetLocation().x;
+                y = objects[i]->GetLocation().y;
+            }
+        }
+
+        for (j = 0; j < objects.size(); j++)
+        {
+            if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
+            {
+                objects[j]->Update();
+            }
+        }
+
+        if (MouseInput::GetMouseState() == eMouseInputState::eClick)
+        {
+            if (y <= 470.0f)
+            {
+                if (is_attack_active == true)
+                {
+                    CreateObject<AttackSkill>(Vector2D(x, y));
+                    for (i = 0; i < objects.size(); i++)
+                    {
+                        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+                        {
+                            BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+                            b_skill->SetSkillStateClose();
+                        }
+                    }
+                    is_attack_active = false;
+                }
+                else
+                {
+                    CreateObject<SlowDownSkill>(Vector2D(x, y));
+                    for (i = 0; i < objects.size(); i++)
+                    {
+                        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+                        {
+                            BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
+                            b_skill->SetSkillStateClose();
+                        }
+                    }
+                }
+
+                is_spos_select = false;
+            }
+        }
+
+        return;            //この行より下の処理はしない
+    }
+
+    // 一時停止中の処理
+    if (is_pause == true && is_game_over == false)
+    {
+
+        // 更新処理
+        for (int i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::cursor || objects[i]->GetObjectType() == ObjectType::pausebutton)
+            {
+                // カーソルとポーズボタンのみ更新する
+                objects[i]->Update();
+            }
+        }
+
+        //当たり判定
+        for (int i = 0; i < objects.size() - 1; i++)
+        {
+            for (int j = i + 1; j < objects.size(); j++)
+            {
+                // objects[i]がcursor、object[j]がpausebuttonなら当たり判定処理
+                if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::pausebutton)
+                {
+                    if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
+
+                    //もしshapeが違かったら
+                    if (objects[i]->GetShape() != objects[j]->GetShape())
+                    {
+                        //ヒットチェック
+                        if (objects[i]->HitBoxCircle(objects[j]) == true)
+                        {
+                            objects[i]->HitReaction(objects[j]);
+                            objects[j]->HitReaction(objects[i]);
+                        }
+                    }
+                }
+            }
+        }
+
+        // 一時停止中か調べる
+        PauseCheck();
+
+        // ゲームの更新を一時停止
+        return;
+    }
+
+    if (ui_timer != nullptr && is_game_over == false)
+    {
+        if (ui_timer->GetSeconds() == 0)
+        {
+            // 制限時間が0ならゲームクリア
+            is_game_clear = true;
+
+            // シーン切り替え待ちカウントを減らす
+            change_wait_time--;
+
+            // カーソルのみ更新
+            CursorUpdate();
+
+            return;
+        }
+
+        // タイマー更新処理
+        ui_timer->Update();
+
+        if (ui_timer->GetSeconds() > 30)
+        {
+            // 背景y座標のずらす値を増やす
+            background_location_y += 0.1f;
+        }
+        else if (ui_timer->GetSeconds() < 30)
+        {
+            // 背景y座標のずらす値を増やす
+            background_location_y += 0.2f;
+
+        }
+        else
+        {
+            background_location_y = 0.0f;
+        }
+    }
+
+    //ゲームオーバーかチェック
+    //ゴールの数が０になったら
+    if (goal_cnt <= 0)
+    {
+        // シーン切り替え待ちカウントを減らす
+        change_wait_time--;
+        is_game_over = true;
+
+        game_state = GameState::gameover;//stateをゲームオーバーに
+        return;            //この行より下の処理はしない
+    }
+
+
+    //更新処理
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {
+            objects[i]->Update();
+            SkillCoinUse(i, 20);
+            SkillPause(i);
+        }
+        else if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        {
+            objects[i]->Update();
+            SkillCoinUse(i, 40);
+            SkillPause(i);
+        }
+        else
+        {
+            objects[i]->Update();
+        }
+
+        //flgがtrueだったらcircleの当たり判定だけのclassを生成する
+        if (objects[i]->GetCanCreateZone() == true)
+        {
+            HitCircleZone* circle_zone = CreateObject<HitCircleZone>(objects[i]->GetLocation());
+            circle_zone->SetRadius(objects[i]->GetRadius() + 20);
+        }
+
+
+        //消してもOKだったらobjectを削除
+        if (objects[i]->GetIsDelete() == true)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::goal) { goal_cnt -= 1; }
+            objects.erase(objects.begin() + i);
+        }
+    }
+
+    //当たり判定
+    for (int i = 0; i < objects.size() - 1; i++)
+    {
+        for (int j = i + 1; j < objects.size(); j++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::cursor && objects[i]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+            {
+                if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
+                {
+                    //ヒットチェック
+                    if (objects[i]->HitBoxCircle(objects[j]) == true)
+                    {
+                        HitCursorBSkill(j);
+                    }
+                    else
+                    {
+                        ResetCursorBSkill(j);
+                    }
+                }
+            }
+            else if (objects[j]->GetObjectType() == ObjectType::cursor && objects[j]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+            {
+                if (objects[i]->GetObjectType() == ObjectType::b_attackskill || objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+                {
+                    //ヒットチェック
+                    if (objects[j]->HitBoxCircle(objects[i]) == true)
+                    {
+                        HitCursorBSkill(i);
+                    }
+                    else
+                    {
+                        ResetCursorBSkill(i);
+                    }
+                }
+            }
+
+            if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
+
+            //もしshapeが違かったら
+            if (objects[i]->GetShape() != objects[j]->GetShape())
+            {
+                //ヒットチェック
+                if (objects[i]->HitBoxCircle(objects[j]) == true)
+                {
+                    objects[i]->HitReaction(objects[j]);
+                    objects[j]->HitReaction(objects[i]);
+                }
+            }
+            else
+            {
+                //shapeが同じ時
+                if (objects[i]->GetShape() == Shape::circle && objects[j]->GetShape() == Shape::circle)
+                {
+                    //ヒットチェック
+                    if (objects[i]->HitCircle(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
+                    {
+                        objects[i]->HitReaction(objects[j]);
+                        objects[j]->HitReaction(objects[i]);
+                    }
+                }
+
+                if (objects[i]->GetShape() == Shape::square && objects[j]->GetShape() == Shape::square)
+                {
+                    //ヒットチェック
+                    if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()))
+                    {
+                        objects[i]->HitReaction(objects[j]);
+                        objects[j]->HitReaction(objects[i]);
+                    }
+                }
+            }
+
+            // コインの生成
+            CoinGenerate(i, j);
+
+            // 一時停止か調べる
+            PauseCheck();
+        }
+    }
+
+    //エネミーを生成
+    EnmGenerateTimeCheck();
+
+    //小さいSplitEnemyを生成
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::enemy)
+        {
+            EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+
+            if (enemy->GetCanCreateMini() == true)
+            {
+                enemy->StopCreateMini();
+
+                //小さいエネミーを作る
+                EnemyBase* crack_enemy_mini = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f, objects[i]->GetLocation().y + 40.0f));
+                crack_enemy_mini->SetHp(10);
+                crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                crack_enemy_mini->SetWaitTime(5);
+                crack_enemy_mini->SetSpeed(2.0f);
+                EnemyBase* crack_enemy_mini2 = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f, objects[i]->GetLocation().y + 40.0f));
+                crack_enemy_mini2->SetHp(10);
+                crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                crack_enemy_mini2->SetWaitTime(5);
+                crack_enemy_mini2->SetSpeed(2.0f);
+
+            }
+        }
+    }
+}
+
+void GameMainScene::InStartUpdate()
+{
+}
+
+void GameMainScene::InGameClearUpdate()
+{
+}
+
+void GameMainScene::InGameOverUpdate()
+{
+    CursorUpdate();        // カーソルのみ更新
 }
 
 void GameMainScene::Initialize()

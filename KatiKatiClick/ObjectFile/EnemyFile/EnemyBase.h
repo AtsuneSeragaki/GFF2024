@@ -31,6 +31,7 @@ protected:
 	int shape_change_y;
 	int shape_change_cnt;//カウント
 
+	
 
 public:
 	EnemyBase()
@@ -67,5 +68,6 @@ public:
 	void SetHp(int set_hp) { hp = set_hp; }
 	void StopCreateMini() { can_create_mini = false; }
 	void SetSpeed(float set_speed) { speed = set_speed; }
+	void SetStateGameOver() { state = State::goal; }
 };
 
