@@ -503,8 +503,6 @@ void GameMainScene::InGameUpdate()
     //ゴールの数が０になったら
     if (goal_cnt <= 0)
     {
-        // シーン切り替え待ちカウントを減らす
-        change_wait_time--;
         is_game_over = true;
 
         game_state = GameState::gameover;//stateをゲームオーバーに
@@ -669,6 +667,8 @@ void GameMainScene::InGameClearUpdate()
 
 void GameMainScene::InGameOverUpdate()
 {
+    // シーン切り替え待ちカウントを減らす
+    change_wait_time--;
     CursorUpdate();        // カーソルのみ更新
 }
 
