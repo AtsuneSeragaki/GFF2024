@@ -5,6 +5,7 @@
 
 Barrier::Barrier()
 {
+
 	location.x = (float)SCREEN_WIDTH / 2.0f;
 	width = (float)SCREEN_WIDTH;
 	height = (float)ONE_LANE_HEIGHT / 4.0f;
@@ -12,6 +13,7 @@ Barrier::Barrier()
 	object_type = ObjectType::barrier;
 	hp = 2;
 	can_hit = true;
+	can_shake = false;
 
 	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
@@ -34,6 +36,11 @@ Barrier::Barrier()
 
 Barrier::~Barrier()
 {
+	if (damage_effect != nullptr)
+	{
+		delete damage_effect;
+		damage_effect = nullptr;
+	}
 }
 
 void Barrier::Initialize()
@@ -42,22 +49,65 @@ void Barrier::Initialize()
 
 void Barrier::Update()
 {
-	if (change_cnt++ > 10)
+	//if (change_cnt++ > 10)
+	//{
+	//	change_cnt = 0;
+	//	img_num++;
+	//	if (img_num > 3)
+	//	{
+	//		img_num = 0;
+	//	}
+	//}
+
+	if (can_shake == true)
 	{
-		change_cnt = 0;
-		img_num++;
-		if (img_num > 3)
+		change_cnt++;
+		switch (change_cnt)
 		{
-			img_num = 0;
+		case 0:
+			location.x += 20;
+			break;
+		case 2:
+			location.x -= 10;
+			break;
+		case 4:
+			location.x += 20;
+			break;
+		case 6:
+			location.x -= 10;
+			break;
+		case 8:
+			//hpが0になったら
+			if (hp <= 0)
+			{
+				can_delete = true;
+			}
+			change_cnt = 0;
+			can_shake = false;
+			break;
+		default:
+			break;
+		}
+		
+	}
+
+	//ダメージエフェクト更新処理
+	if (damage_effect != nullptr)
+	{
+		damage_effect->DamageEffect();
+
+		//消しても良かったら
+		if (damage_effect->GetDeleteFlg() == true)
+		{
+			delete damage_effect;
+			damage_effect = nullptr;
 		}
 	}
 
-	//hpが0になったら
-	if (hp <= 0)
+	if (location.x == 175)
 	{
-		can_delete = true;
+		location.x += 5;
 	}
-
 }
 
 void Barrier::Draw() const
@@ -68,6 +118,11 @@ void Barrier::Draw() const
 	if (damage_display == true)
 	{
 		DrawRotaGraph((int)damage_pos.x, (int)damage_pos.y, 1, 0, damage_img[0], TRUE);
+	}
+
+	if (damage_effect != nullptr)
+	{
+		damage_effect->Draw();
 	}
 	
 	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffff00, TRUE);
@@ -83,8 +138,12 @@ void Barrier::HitReaction(ObjectBase* character)
 			hp -= 1;
 			damage_display = true;
 			damage_pos.y = location.y;
-			damage_pos.x = character->GetLocation().x-5;//座標貰う
-			location.x -= 5;
+			damage_pos.x = character->GetLocation().x;//座標貰う
+			can_shake = true;
+			Vector2D set_pos;
+			set_pos.x = character->GetLocation().x;
+			set_pos.y = location.y;
+			damage_effect = new DeathEffect(set_pos);
 		}
 	}
 }

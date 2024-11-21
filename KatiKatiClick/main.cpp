@@ -16,6 +16,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);	//画面サイズ指定
 
+	//アイコンの設定
+	SetWindowIconID(101);
 	if (DxLib_Init() == -1) return -1;	// DXライブラリの初期化処理
 	//SetBackgroundColor(119, 136, 153);
 

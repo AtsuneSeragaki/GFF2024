@@ -1,5 +1,7 @@
 #pragma once
 #include "../ObjectBase.h"
+#include "../DeathEffect/DeathEffect.h"
+
 #include <vector>
 class Barrier :
     public ObjectBase
@@ -14,6 +16,9 @@ private:
 
     Vector2D damage_pos;
     bool damage_display;
+    bool can_shake;
+
+    DeathEffect* damage_effect;
 
 public:
     Barrier();
