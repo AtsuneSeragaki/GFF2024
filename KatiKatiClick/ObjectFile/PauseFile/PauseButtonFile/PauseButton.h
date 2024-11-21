@@ -7,9 +7,6 @@ class PauseButton : public ObjectBase
 private:
     bool is_pause;          // 一時停止か？
 
-    float cursor_x;         // カーソルx座標
-    float cursor_y;         // カーソルy座標
-
     std::vector<int> button_image;      // ボタン画像
     std::vector<int> heading_image;     // "遊び方"テキスト画像
     std::vector<int> text_image;        // 説明テキスト画像
