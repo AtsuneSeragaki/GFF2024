@@ -35,8 +35,8 @@ GameMainScene::GameMainScene()
     }
 
     CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
-    CreateObject<RightButton>(Vector2D(30.0f, 500.0f));         // ポーズ中右向き矢印ボタン生成
-     CreateObject<LeftButton>(Vector2D(330.0f, 500.0f));         // ポーズ中矢印ボタン生成
+    CreateObject<RightButton>(Vector2D(330.0f, 500.0f));         // ポーズ中右向き矢印ボタン生成
+     CreateObject<LeftButton>(Vector2D(30.0f, 500.0f));         // ポーズ中左向き矢印ボタン生成
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -65,11 +65,15 @@ GameMainScene::GameMainScene()
     background_image.push_back(tmp[0]);
 
     background_location_y = 0.0f;
+
+    change_pause_page_flg = false;
+    click_left_button_flg = false;
 }
 
 GameMainScene::~GameMainScene()
 {
     delete ui_coins;
+    delete ui_timer;
     for (ObjectBase* obj : objects)
     {
         delete obj;
@@ -437,7 +441,6 @@ void GameMainScene::InGameUpdate()
     // 一時停止中の処理
     if (is_pause == true && is_game_over == false)
     {
-        
         // 更新処理
         for (int i = 0; i < objects.size(); i++)
         {
@@ -445,6 +448,16 @@ void GameMainScene::InGameUpdate()
                 || objects[i]->GetObjectType() == ObjectType::pausebutton
                 || objects[i]->GetObjectType() == ObjectType::in_pausebutton)
             {
+                if (change_pause_page_flg)
+                {
+                    PauseButton* pause_button = dynamic_cast<PauseButton*>(objects[i]);
+                    if (pause_button != nullptr)
+                    {
+                        // ヘルプのページ番号の変更
+                        pause_button->SetPage(click_left_button_flg);
+                    }
+                }
+
                 // カーソルとポーズボタンのみ更新する
                 objects[i]->Update();
             }
@@ -495,7 +508,32 @@ void GameMainScene::InGameUpdate()
                         }
                     }
                 }
+
+                LeftButton* left_button = dynamic_cast<LeftButton*>(objects[j]);
+                if (left_button != nullptr)
+                {
+                    // 左向き矢印がクリックされたか調べる
+                    change_pause_page_flg = left_button->GetClickFlg();
+                    if (change_pause_page_flg)
+                    {
+                        click_left_button_flg = true;
+                        return;
+                    }
+                }
+
+                RightButton* right_button = dynamic_cast<RightButton*>(objects[j]);
+                if (right_button != nullptr)
+                {
+                    // 右向き矢印がクリックされたか調べる
+                    change_pause_page_flg = right_button->GetClickFlg();
+                    if (change_pause_page_flg)
+                    {
+                        click_left_button_flg = false;
+                        return;
+                    }
+                }
             }
+
         }
 
         // 一時停止中か調べる

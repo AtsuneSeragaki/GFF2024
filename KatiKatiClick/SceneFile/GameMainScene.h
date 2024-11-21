@@ -60,6 +60,8 @@ private:
 	std::vector<int> background_image;     // 背景画像
 	float background_location_y;				// 背景のy座標
 
+	bool change_pause_page_flg;		// ポーズ中のヘルプのページを変更するか？
+	bool click_left_button_flg;		// 左向き矢印ボタンをクリックしたか？
 
 public:
 	GameMainScene();

@@ -6,6 +6,7 @@ class LeftButton : public ObjectBase
 {
 private:
 	std::vector<int> button_image;      // ボタン画像
+	bool click_flg;						// クリックされたか？
 
 public:
 	LeftButton();
@@ -15,4 +16,6 @@ public:
 	void Update()override;
 	void Draw()const override;
 	void HitReaction(ObjectBase* character) override;
+
+	bool GetClickFlg() const;
 };

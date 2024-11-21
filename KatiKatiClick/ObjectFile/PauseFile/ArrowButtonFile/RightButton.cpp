@@ -18,6 +18,8 @@ RightButton::RightButton()
 	// ボタン画像を読み込む
 	tmp = rm->GetImages("Resource/Images/Pause/Button/RightButton.png");
 	button_image.push_back(tmp[0]);
+
+	click_flg = false;
 }
 
 RightButton::~RightButton()
@@ -32,7 +34,10 @@ void RightButton::Initialize()
 
 void RightButton::Update()
 {
-
+	if (click_flg)
+	{
+		click_flg = false;
+	}
 }
 
 void RightButton::Draw() const
@@ -47,6 +52,11 @@ void RightButton::HitReaction(ObjectBase* character)
 {
 	if (character->GetObjectType() == ObjectType::cursor)
 	{
-
+		click_flg = true;
 	}
+}
+
+bool RightButton::GetClickFlg() const
+{
+	return click_flg;
 }

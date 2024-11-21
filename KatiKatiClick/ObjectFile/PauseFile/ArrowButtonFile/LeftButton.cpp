@@ -18,6 +18,8 @@ LeftButton::LeftButton()
 	// ボタン画像を読み込む
 	tmp = rm->GetImages("Resource/Images/Pause/Button/LeftButton.png");
 	button_image.push_back(tmp[0]);
+
+	click_flg = false;
 }
 
 LeftButton::~LeftButton()
@@ -32,7 +34,10 @@ void LeftButton::Initialize()
 
 void LeftButton::Update()
 {
-
+	if (click_flg)
+	{
+		click_flg = false;
+	}
 }
 
 void LeftButton::Draw() const
@@ -47,5 +52,11 @@ void LeftButton::HitReaction(ObjectBase* character)
 {
 	if (character->GetObjectType() == ObjectType::cursor)
 	{
+		click_flg = true;
 	}
+}
+
+bool LeftButton::GetClickFlg() const
+{
+	return click_flg;
 }
