@@ -1,17 +1,18 @@
 #pragma once
 
 #include "AbstractScene.h"
-#include "../UtilityFile/MouseInput.h"
+#include "../ObjectFile/PlayerFile/Cursor.h"
 
 #define BOX_WIDTH  100
-#define BOX_HEIGHT 100
+#define BOX_HEIGHT 50
 
 class TitleScene : public AbstractScene
 {
 private:
-	MouseInput* mouseinput;
+	Cursor* cursor;
 	float x1, x2, y1, y2; // ボタンの座標
 	int select; // プレイヤーが選んだメニュー
+	int on_button; // カーソルがボタンの上にあるか
 
 public:
 	TitleScene();

@@ -1,20 +1,21 @@
 #include "TitleScene.h"
-#include "../ObjectFile/PlayerFile/Cursor.h"
 #include "GameMainScene.h"
-#include "../UtilityFile//Geometry.h"
+#include "../UtilityFile/Define.h"
 #include "DxLib.h"
 #include <math.h>
 
 TitleScene::TitleScene()
 {
-	x1 = 75.0f;
-	x2 = 255.0f;
+	x1 = 85.0f;
+	x2 = 275.0f;
 	y1 = 300.0f;
 	y2 = 300.0f;
 
-	mouseinput = new MouseInput;
+	cursor = new Cursor;
 
 	select = -1;
+
+	on_button = -1;
 }
 
 TitleScene::~TitleScene()
@@ -23,17 +24,37 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
-	if (mouseinput->GetMouseState() == eMouseInputState::eClick)
+	cursor->Update();
+
+	if (cursor->GetPState() == P_State::attack)
 	{
-		if (HitBoxCircle(x1, y1,mouseinput->GetMouseLocation(),12.0f) == true)
+		if (HitBoxCircle(x1, y1, cursor->GetLocation(), cursor->GetRadius()) == true)
 		{
 			select = 0;
 		}
 		else
 		{
-			if (HitBoxCircle(x2, y2, mouseinput->GetMouseLocation(), 12.0f) == true)
+			if (HitBoxCircle(x2, y2, cursor->GetLocation(), cursor->GetRadius()) == true)
 			{
 				select = 1;
+			}
+		}
+	}
+	else
+	{
+		if (HitBoxCircle(x1, y1, cursor->GetLocation(), cursor->GetRadius()) == true)
+		{
+			on_button = 0;
+		}
+		else
+		{
+			if (HitBoxCircle(x2, y2, cursor->GetLocation(), cursor->GetRadius()) == true)
+			{
+				on_button = 1;
+			}
+			else
+			{
+				on_button = -1;
 			}
 		}
 	}
@@ -42,10 +63,34 @@ void TitleScene::Update()
 
 void TitleScene::Draw() const
 {
-	DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
-	DrawString(x1, y1, "START", 0x000000);
-	DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
-	DrawString(x2, y2, "END", 0x000000);
+	DrawString(160, 100, "TITLE", 0xffffff);
+
+	switch (on_button)
+	{
+	case 0:
+		DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0x999999, TRUE);
+		DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
+		DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
+		DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
+		break;
+
+	case 1:
+		DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
+		DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
+		DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0x999999, TRUE);
+		DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
+		break;
+
+	default:
+		DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
+		DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
+		DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
+		DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
+		break;
+	}
+	
+
+	cursor->Draw();
 }
 
 AbstractScene* TitleScene::Change()
