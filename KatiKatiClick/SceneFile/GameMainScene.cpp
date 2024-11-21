@@ -9,7 +9,7 @@
 #include "../ObjectFile/EnemyFile/EnemyArray.h"
 #include "../ObjectFile/PauseFile/ArrowButtonFile/LeftButton.h"
 #include "../ObjectFile/PauseFile/ArrowButtonFile/RightButton.h"
-
+#include "../ObjectFile/PauseFile/TitleButtonFile/TitleButton.h"
 
 GameMainScene::GameMainScene()
 {
@@ -36,7 +36,9 @@ GameMainScene::GameMainScene()
 
     CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
     CreateObject<RightButton>(Vector2D(330.0f, 500.0f));         // ポーズ中右向き矢印ボタン生成
-     CreateObject<LeftButton>(Vector2D(30.0f, 500.0f));         // ポーズ中左向き矢印ボタン生成
+    CreateObject<LeftButton>(Vector2D(30.0f, 500.0f));          // ポーズ中左向き矢印ボタン生成
+    CreateObject<TitleButton>(Vector2D(180.0f, 530.0f));         // タイトルへ戻るボタン生成
+
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成

@@ -176,6 +176,7 @@
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\BAttackSkill.cpp" />
     <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
     <ClInclude Include="SceneFile\TitleScene.h" />
+    <ClInclude Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.h" />
     <ClInclude Include="UtilityFile\Define.h" />
     <ClInclude Include="ObjectFile\EnemyFile\EnemyArray.h" />
     <ClInclude Include="UtilityFile\Geometry.h" />

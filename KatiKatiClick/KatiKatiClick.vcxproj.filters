@@ -66,6 +66,7 @@
     <ClCompile Include="ObjectFile\GoalFile\Barrier.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -136,6 +137,7 @@
     <ClInclude Include="ObjectFile\GoalFile\Barrier.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">
