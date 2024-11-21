@@ -26,6 +26,7 @@ GameMainScene::GameMainScene()
     }
 
     CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
+    // CreateObject<ArrowButton>(Vector2D(300.0f, 400.0f));         // ポーズ中矢印ボタン生成
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -470,6 +471,7 @@ void GameMainScene::Draw() const
         
         // 明け方の色背景
         DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
+
 
         // 白色背景
         // DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);

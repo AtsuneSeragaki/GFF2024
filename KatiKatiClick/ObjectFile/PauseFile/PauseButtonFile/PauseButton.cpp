@@ -13,8 +13,6 @@ PauseButton::PauseButton()
 	height = 50.0f;
 
 	is_pause = false;
-	cursor_x = 0.0f;
-	cursor_y = 0.0f;
 
 	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
