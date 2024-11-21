@@ -35,7 +35,10 @@ void TitleButton::Initialize()
 
 void TitleButton::Update()
 {
-
+	if (click_flg)
+	{
+		click_flg = false;
+	}
 }
 
 void TitleButton::Draw() const

@@ -188,6 +188,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SceneFile\SceneManager.cpp" />
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ObjectFile\GoalFile\Barrier.h" />
@@ -229,6 +230,7 @@
     <ClInclude Include="ObjectFile\ObjectBase.h" />
     <ClInclude Include="SceneFile\SceneManager.h" />
     <ClInclude Include="UtilityFile\ResourceManager.h" />
+    <ClInclude Include="ObjectFile\PauseFile\YesButtonFile\YesButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />
