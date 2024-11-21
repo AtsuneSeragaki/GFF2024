@@ -32,6 +32,7 @@ GameMainScene::GameMainScene()
     }
 
     CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
+    // CreateObject<ArrowButton>(Vector2D(300.0f, 400.0f));         // ポーズ中矢印ボタン生成
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -115,7 +116,7 @@ void GameMainScene::Draw() const
     {
         int param = 255 - (int)result * 2;
 
-        // 白色背景
+        // 明け方の色背景
         DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
@@ -132,23 +133,30 @@ void GameMainScene::Draw() const
     else
     {
         int param = ((int)result - 128) * 2;
-        float box_height = 560.0f - (18.7f * (30 - ui_timer->GetSeconds()));
+       // int param = 510 - (int)result * 2;
 
-        // 朝背景色
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
+        // float box_height = 560.0f - (18.7f * (30 - ui_timer->GetSeconds()));
+
         
-        // 白色背景
+        // 明け方の色背景
         DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
+
+
+        // 白色背景
+        // DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
+        //// 朝背景色
+        //DrawBoxAA(0.0f, box_height, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
         // 朝背景色
-        DrawBoxAA(0.0f, box_height, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
-        // 背景の太陽画像の描画
-        DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
+
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
+        
+        // 背景の太陽画像の描画
+        DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
     }
 
     for (int i = 0; i < objects.size(); i++)
