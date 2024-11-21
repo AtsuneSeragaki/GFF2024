@@ -1,5 +1,5 @@
 #pragma once
-#include "../ObjectBase.h"
+#include "../../ObjectBase.h"
 #include <vector>
 
 class PauseButton : public ObjectBase
@@ -10,10 +10,12 @@ private:
     float cursor_x;         // カーソルx座標
     float cursor_y;         // カーソルy座標
 
-    std::vector<int> button_image;    // ボタン画像
+    std::vector<int> button_image;      // ボタン画像
+    std::vector<int> heading_image;     // "遊び方"テキスト画像
+    std::vector<int> text_image;        // 説明テキスト画像
+    std::vector<int> help_image;        // 説明画像
     int image_num;                      // 画像番号
-
-    bool change_location;
+    int page_num;                       // 説明ページ画像番号
 
 public:
     PauseButton();

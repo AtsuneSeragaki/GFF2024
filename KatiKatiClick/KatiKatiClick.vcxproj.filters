@@ -49,7 +49,6 @@
       <Filter>ソースファイル\UIFile</Filter>
     </ClCompile>
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
-    <ClCompile Include="ObjectFile\PauseButton\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Goal.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\SkillBase.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\AttackSkill.cpp" />
@@ -63,6 +62,7 @@
     <ClCompile Include="SceneFile\EndScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -115,7 +115,6 @@
       <Filter>ヘッダーファイル\UIFile</Filter>
     </ClInclude>
     <ClInclude Include="UtilityFile\ResourceManager.h" />
-    <ClInclude Include="ObjectFile\PauseButton\PauseButton.h" />
     <ClInclude Include="ObjectFile\GoalFile\Goal.h" />
     <ClInclude Include="ObjectFile\SkillFile\SkillBase.h" />
     <ClInclude Include="ObjectFile\SkillFile\AttackSKill.h" />
@@ -130,6 +129,7 @@
     <ClInclude Include="SceneFile\TitleScene.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
+    <ClInclude Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">
