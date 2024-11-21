@@ -13,6 +13,7 @@ enum class ObjectType
 	in_pausebutton,
 	cursor,
 	goal,
+	barrier,
 	circlezone,
 };
 

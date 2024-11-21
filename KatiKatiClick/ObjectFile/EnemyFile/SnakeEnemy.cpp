@@ -116,9 +116,9 @@ void SnakeEnemy::Update()
 		if (count_img++ > 2)
 		{
 			count_img = 0;
-			chenge_img++;
+			change_img++;
 
-			if (chenge_img > 4)
+			if (change_img > 4)
 			{
 				//アニメーションが終わったら
 				can_delete = true;
@@ -146,7 +146,7 @@ void SnakeEnemy::Draw() const
 
 
 	DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
-	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[chenge_img], TRUE);
+	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[change_img], TRUE);
 
 
 }
@@ -165,6 +165,11 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		hit_cursor = true;
 		break;
 	case ObjectType::goal:
+		can_hit = false;
+		state = State::goal;
+		speed = 3;
+		break;
+	case ObjectType::barrier:
 		can_hit = false;
 		state = State::death;
 		break;
