@@ -8,6 +8,7 @@
 #include "../ObjectFile/EnemyFile/FrogEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../ObjectFile/GoalFile/Goal.h"
+#include "../ObjectFile/GoalFile/Barrier.h"
 #include "../UtilityFile/Define.h"
 #include "../ObjectFile/CoinFile/Coin.h"
 #include "../UtilityFile/Geometry.h"
@@ -19,10 +20,20 @@
 #include "../ObjectFile/PauseFile/ArrowButtonFile/ArrowButton.h"
 #include <vector>
 
+enum class GameState
+{
+	start,//
+	in_game,//プレイ中
+	gameclear,//ゲームクリア
+	gameover,//エネミーがゴールした
+};
+
 class GameMainScene :
     public AbstractScene
 {
 private:
+	GameState game_state;
+
 	ObjectBase* check_virtual;
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
@@ -59,6 +70,12 @@ public:
 	void Draw() const override;
 	AbstractScene* Change() override;
 
+private:
+	//プレイ中
+	void InGameUpdate();
+	void InStartUpdate();//スタート
+	void InGameClearUpdate();//ゲームクリア
+	void InGameOverUpdate();//ゲームオーバー
 
 private:
 	void Initialize();
