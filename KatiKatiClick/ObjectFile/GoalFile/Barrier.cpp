@@ -18,11 +18,10 @@ Barrier::Barrier()
 	std::vector<int> tmp_img;
 
 	//敵画像の読み込み
-	tmp_img = rm->GetImages("Resource/Images/Barrier/Barrier.png",4,1,4,360,24);
-	for (int i = 0; i < 4; i++)
-	{
-		img.push_back(tmp_img[i]);
-	}
+	tmp_img = rm->GetImages("Resource/Images/Barrier/Barrier.png");
+
+	img.push_back(tmp_img[0]);
+	
 
 	tmp_img = rm->GetImages("Resource/Images/Barrier/BarrierDamage.png");
 	damage_img.push_back(tmp_img[0]);
@@ -58,16 +57,17 @@ void Barrier::Update()
 	{
 		can_delete = true;
 	}
+
 }
 
 void Barrier::Draw() const
 {
 
-	DrawRotaGraph(location.x, location.y, 1, 0, img[img_num], TRUE);
+	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img[0], TRUE);
 
 	if (damage_display == true)
 	{
-		DrawRotaGraph(damage_pos.x, damage_pos.y, 1, 0, damage_img[0], TRUE);
+		DrawRotaGraph((int)damage_pos.x, (int)damage_pos.y, 1, 0, damage_img[0], TRUE);
 	}
 	
 	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffff00, TRUE);
@@ -83,7 +83,8 @@ void Barrier::HitReaction(ObjectBase* character)
 			hp -= 1;
 			damage_display = true;
 			damage_pos.y = location.y;
-			damage_pos.x = character->GetLocation().x;//座標貰う
+			damage_pos.x = character->GetLocation().x-5;//座標貰う
+			location.x -= 5;
 		}
 	}
 }
