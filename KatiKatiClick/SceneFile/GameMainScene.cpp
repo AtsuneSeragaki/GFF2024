@@ -281,6 +281,7 @@ void GameMainScene::Draw() const
                 objects[i]->Draw();
             }
         }
+    }
 
     //カーソル描画
     for (int i = 0; i < objects.size(); i++)
