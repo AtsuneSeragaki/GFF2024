@@ -48,10 +48,13 @@ void TitleButton::Draw() const
 
 void TitleButton::HitReaction(ObjectBase* character)
 {
-
+	if (character->GetObjectType() == ObjectType::cursor)
+	{
+		click_flg = true;
+	}
 }
 
-void TitleButton::GetClickFlg() const
+bool TitleButton::GetClickFlg() const
 {
-
+	return click_flg;
 }

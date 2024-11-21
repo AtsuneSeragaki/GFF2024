@@ -1,4 +1,5 @@
 #include "GameMainScene.h"
+#include "TitleScene.h"
 
 #include "../ObjectFile/SkillFile/BAttackSkill.h"
 #include "../ObjectFile/SkillFile/BSlowDownSkill.h"
@@ -70,6 +71,7 @@ GameMainScene::GameMainScene()
 
     change_pause_page_flg = false;
     click_left_button_flg = false;
+    click_title_button_flg = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -315,6 +317,12 @@ void GameMainScene::Draw() const
 
 AbstractScene* GameMainScene::Change()
 {
+    if (click_title_button_flg)
+    {
+        // タイトルに遷移する
+        return new TitleScene;
+    }
+
     if (change_wait_time <= 0)
     {
         return new GameMainScene;
@@ -508,6 +516,17 @@ void GameMainScene::InGameUpdate()
                                 objects[j]->HitReaction(objects[i]);
                             }
                         }
+                    }
+                }
+
+                TitleButton* title_button = dynamic_cast<TitleButton*>(objects[j]);
+                if (title_button != nullptr)
+                {
+                    // タイトルボタンがクリックされたか調べる
+                    click_title_button_flg = title_button->GetClickFlg();
+                    if (click_title_button_flg)
+                    {
+                        return;
                     }
                 }
 
@@ -1001,12 +1020,6 @@ void GameMainScene::PauseCheck()
             return;
         }
     }
-}
-
-// 一時停止時のポーズボタンとカーソルの当たり判定
-void GameMainScene::PausedHitCheck()
-{
-
 }
 
 void GameMainScene::HitCursorBSkill(int i)

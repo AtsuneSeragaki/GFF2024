@@ -17,5 +17,5 @@ public:
     void Draw()const override;
     void HitReaction(ObjectBase* character) override;
 
-    void GetClickFlg() const;
+    bool GetClickFlg() const;
 };

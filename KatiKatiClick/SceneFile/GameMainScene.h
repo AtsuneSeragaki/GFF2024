@@ -62,6 +62,7 @@ private:
 
 	bool change_pause_page_flg;		// ポーズ中のヘルプのページを変更するか？
 	bool click_left_button_flg;		// 左向き矢印ボタンをクリックしたか？
+	bool click_title_button_flg;	// タイトルボタンをクリックしたか？
 
 public:
 	GameMainScene();
@@ -91,8 +92,6 @@ private:
 	void CursorUpdate();
 	// 一時停止か調べる処理
 	void PauseCheck();
-	// 一時停止時のポーズボタンとカーソルの当たり判定
-	void PausedHitCheck();
 	// カーソルがスキルボタンの上にある時の処理
 	void HitCursorBSkill(int i);
 	// カーソルがスキルボタンの上に無い時の処理
