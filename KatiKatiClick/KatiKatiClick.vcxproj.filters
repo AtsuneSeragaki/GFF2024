@@ -63,7 +63,8 @@
     <ClCompile Include="SceneFile\TitleScene.cpp" />
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.cpp" />
-    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\ArrowButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -131,7 +132,8 @@
     <ClInclude Include="SceneFile\EndScene.h" />
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
     <ClInclude Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.h" />
-    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\ArrowButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">

@@ -152,7 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\ArrowButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\ShapeZoneFile\HitCircleZone.cpp" />
@@ -172,6 +172,7 @@
     <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UIGoal.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SplitEnemy.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
@@ -187,7 +188,7 @@
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\ArrowButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
     <ClInclude Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.h" />
     <ClInclude Include="ObjectFile\ShapeZoneFile\HitCircleZone.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="ObjectFile\EnemyFile\SnakeEnemy.h" />
     <ClInclude Include="ObjectFile\UIFile\UIGoal.h" />
     <ClInclude Include="ObjectFile\EnemyFile\SplitEnemy.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
     <ClInclude Include="SceneFile\TitleScene.h" />
     <ClInclude Include="UtilityFile\Define.h" />

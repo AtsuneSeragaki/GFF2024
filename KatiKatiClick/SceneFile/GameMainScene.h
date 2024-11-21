@@ -16,7 +16,6 @@
 #include "../ObjectFile/UIFile/UIGoal.h"
 #include "../ObjectFile/PauseFile/PauseButtonFile/PauseButton.h"
 #include "../ObjectFile/ShapeZoneFile/HitCircleZone.h"
-#include "../ObjectFile/PauseFile/ArrowButtonFile/ArrowButton.h"
 #include <vector>
 
 class GameMainScene :
