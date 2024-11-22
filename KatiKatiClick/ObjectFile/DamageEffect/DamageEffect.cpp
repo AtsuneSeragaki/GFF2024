@@ -1,12 +1,14 @@
-#include "DeathEffect.h"
+#include "DamageEffect.h"
 #include "DxLib.h"
+#include "../../UtilityFile/ResourceManager.h"
 
-DeathEffect::DeathEffect(Vector2D set_location)
+DamageEffect::DamageEffect(Vector2D set_location)
 {
 	pos1 = set_location;
 	pos2 = set_location;
 	pos3 = set_location;
 	pos4 = set_location;
+	pos = set_location;
 
 	pos1.x -= 15;
 	pos1.y -= 10;
@@ -23,13 +25,26 @@ DeathEffect::DeathEffect(Vector2D set_location)
 	vel = -10;
 	acc = 1;
 	can_delete = false;
+
+	// ResourceManagerのインスタンスを取得
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp_img;
+	tmp_img = rm->GetImages("Resource/Images/Barrier/smoke.png", 4, 4, 1, 64, 32);
+	for (int i = 0; i < 4; i++)
+	{
+		smoke_img.push_back(tmp_img[i]);
+	}
+	img_num = 0;
+	smoke_flg = false;
+	smoke_cnt = 0;
+
 }
 
-DeathEffect::~DeathEffect()
+DamageEffect::~DamageEffect()
 {
 }
 
-void DeathEffect::Update()
+void DamageEffect::Update()
 {
 	if (count < 10) {
 		count++;
@@ -52,7 +67,7 @@ void DeathEffect::Update()
 
 }
 
-void DeathEffect::DamageEffect()
+void DamageEffect::WallDamageEffect()
 {
 	vel += acc;
 	pos1.y += vel;
@@ -67,12 +82,27 @@ void DeathEffect::DamageEffect()
 
 	if (vel > 10)
 	{
-		can_delete = true;
 	}
+
+	smoke_cnt++;
+	if (smoke_cnt > 5)
+	{
+		smoke_cnt = 0;
+		img_num++;
+		if (img_num > 3)
+		{
+			img_num = 0;
+			smoke_flg = false;
+
+			can_delete = true;
+		}
+	}
+
+	
 
 }
 
-void DeathEffect::Draw() const
+void DamageEffect::Draw() const
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 	DrawBox((int)pos1.x, (int)pos1.y, (int)pos1.x + 10, (int)pos1.y + 10, 0xffffff, TRUE);
@@ -81,9 +111,13 @@ void DeathEffect::Draw() const
 	DrawBox((int)pos4.x, (int)pos4.y, (int)pos4.x + 10, (int)pos4.y + 10, 0xffffff, TRUE);
 	// 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+
+	DrawRotaGraph((int)pos.x, (int)pos.y-64, 3, 0, smoke_img[img_num], TRUE);
+	
 }
 
-bool DeathEffect::GetDeleteFlg()
+bool DamageEffect::GetDeleteFlg()
 {
 	return can_delete;
 }

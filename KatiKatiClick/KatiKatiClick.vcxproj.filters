@@ -59,7 +59,7 @@
     <ClCompile Include="ObjectFile\EnemyFile\SplitEnemy.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
-    <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
+    <ClCompile Include="ObjectFile\DamageEffect\DamageEffect.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\WallFile\Wall.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
@@ -130,7 +130,7 @@
     <ClInclude Include="ObjectFile\EnemyFile\SplitEnemy.h" />
     <ClInclude Include="SceneFile\TitleScene.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
-    <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
+    <ClInclude Include="ObjectFile\DamageEffect\DamageEffect.h" />
     <ClInclude Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.h" />
     <ClInclude Include="ObjectFile\WallFile\Wall.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />

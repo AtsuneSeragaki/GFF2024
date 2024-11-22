@@ -15,6 +15,7 @@
 #include "../ObjectFile/UIFile/UITimer.h"
 #include "../ObjectFile/PauseFile/PauseButtonFile/PauseButton.h"
 #include "../ObjectFile/ShapeZoneFile/HitCircleZone.h"
+#include "../ObjectFile/DamageEffect/DamageEffect.h"
 #include <vector>
 
 enum class GameState
@@ -34,6 +35,7 @@ private:
 	ObjectBase* check_virtual;
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
+	
 	UICoins* ui_coins;
 	UITimer* ui_timer;
 

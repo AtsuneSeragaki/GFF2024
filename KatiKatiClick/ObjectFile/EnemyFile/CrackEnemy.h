@@ -1,7 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
 #include <vector>
-#include "../DeathEffect/DeathEffect.h"
 
 class CrackEnemy :
     public EnemyBase

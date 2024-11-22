@@ -154,7 +154,7 @@
   <ItemGroup>
     <ClCompile Include="ObjectFile\WallFile\Wall.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
-    <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
+    <ClCompile Include="ObjectFile\DamageEffect\DamageEffect.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\ShapeZoneFile\HitCircleZone.cpp" />
     <ClCompile Include="ObjectFile\ClickEffectFile\ClickEffect.cpp" />
@@ -192,7 +192,7 @@
   <ItemGroup>
     <ClInclude Include="ObjectFile\WallFile\Wall.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
-    <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
+    <ClInclude Include="ObjectFile\DamageEffect\DamageEffect.h" />
     <ClInclude Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.h" />
     <ClInclude Include="ObjectFile\ShapeZoneFile\HitCircleZone.h" />
     <ClInclude Include="ObjectFile\ClickEffectFile\ClickEffect.h" />
