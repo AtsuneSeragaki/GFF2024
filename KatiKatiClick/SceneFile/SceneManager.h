@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractScene.h"
+
 class SceneManager : public AbstractScene
 {
 private:

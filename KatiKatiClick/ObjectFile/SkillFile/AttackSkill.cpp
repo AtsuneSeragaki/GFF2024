@@ -116,7 +116,7 @@ void AttackSkill::ChangeWidthHeight()
 		height += 20;
 	}
 
-	if (width >= 150)
+	if (width >= 160)
 	{
 		max_flg = true;
 	}

@@ -155,6 +155,7 @@
     <ClCompile Include="ObjectFile\GoalFile\DamageEffect.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\ArrowButton.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Barrier.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\ShapeZoneFile\HitCircleZone.cpp" />
@@ -174,8 +175,10 @@
     <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UIGoal.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SplitEnemy.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\BAttackSkill.cpp" />
     <ClCompile Include="ObjectFile\PlayerFile\Cursor.cpp" />
@@ -187,11 +190,13 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SceneFile\SceneManager.cpp" />
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ObjectFile\GoalFile\DamageEffect.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\ArrowButton.h" />
     <ClInclude Include="ObjectFile\GoalFile\Barrier.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
     <ClInclude Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.h" />
     <ClInclude Include="ObjectFile\ShapeZoneFile\HitCircleZone.h" />
@@ -210,8 +215,10 @@
     <ClInclude Include="ObjectFile\EnemyFile\SnakeEnemy.h" />
     <ClInclude Include="ObjectFile\UIFile\UIGoal.h" />
     <ClInclude Include="ObjectFile\EnemyFile\SplitEnemy.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
     <ClInclude Include="SceneFile\TitleScene.h" />
+    <ClInclude Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.h" />
     <ClInclude Include="UtilityFile\Define.h" />
     <ClInclude Include="ObjectFile\EnemyFile\EnemyArray.h" />
     <ClInclude Include="UtilityFile\Geometry.h" />
@@ -227,6 +234,7 @@
     <ClInclude Include="ObjectFile\ObjectBase.h" />
     <ClInclude Include="SceneFile\SceneManager.h" />
     <ClInclude Include="UtilityFile\ResourceManager.h" />
+    <ClInclude Include="ObjectFile\PauseFile\YesButtonFile\YesButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />

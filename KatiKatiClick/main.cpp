@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "SceneFile/AbstractScene.h"
 #include "SceneFile/SceneManager.h"
+#include "SceneFile/TitleScene.h"
 #include "SceneFile/GameMainScene.h"
 #include "UtilityFile/FPS.h"
 #include "UtilityFile/MouseInput.h"
@@ -24,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先画面を裏にする
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 
-	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new GameMainScene()));
+	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new TitleScene()));
 	FPS fp;
 	//ループ前にFPS計測を初期化
 	fp.Reset_FPS();

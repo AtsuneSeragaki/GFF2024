@@ -31,5 +31,7 @@ public:
     void Update()override;
     void Draw()const override;
     void HitReaction(ObjectBase* character) override;
+
+    P_State GetPState() { return state; }
 };
 
