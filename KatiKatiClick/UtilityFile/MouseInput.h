@@ -5,6 +5,7 @@ enum class eMouseInputState
 {
 	eNone,//何も押してない
 	eClick,//クリックしている
+	eRelease,//放した
 	eHold,//長押し
 };
 

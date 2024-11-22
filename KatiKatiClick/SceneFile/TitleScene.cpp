@@ -26,7 +26,7 @@ void TitleScene::Update()
 {
 	cursor->Update();
 
-	if (cursor->GetPState() == P_State::attack)
+	if (cursor->GetPState() == P_State::attack && cursor->GetCanHit() == true)
 	{
 		if (HitBoxCircle(x1, y1, cursor->GetLocation(), cursor->GetRadius()) == true)
 		{
