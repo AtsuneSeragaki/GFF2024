@@ -294,8 +294,18 @@
     <Media Include="Resource\Sounds\Click\mouse.mp3" />
     <Media Include="Resource\Sounds\Click\skill.mp3" />
     <Media Include="Resource\Sounds\Coin\getcoin.mp3" />
+    <Media Include="Resource\Sounds\GameMain\BGM\bgm1.mp3" />
+    <Media Include="Resource\Sounds\GameMain\BGM\bgm2.mp3" />
+    <Media Include="Resource\Sounds\GameMain\Coin\getcoin.mp3" />
+    <Media Include="Resource\Sounds\GameMain\Skill\bakuhatu.mp3" />
+    <Media Include="Resource\Sounds\GameMain\Skill\kumonosu.mp3" />
     <Media Include="Resource\Sounds\Skill\bakuhatu.mp3" />
     <Media Include="Resource\Sounds\Skill\kumonosu.mp3" />
+    <Media Include="Resource\Sounds\Title\Click\enemy_b.mp3" />
+    <Media Include="Resource\Sounds\Title\Click\hitenemy_b.mp3" />
+    <Media Include="Resource\Sounds\Title\Click\hitenemy_c.mp3" />
+    <Media Include="Resource\Sounds\Title\Click\mouse.mp3" />
+    <Media Include="Resource\Sounds\Title\Click\skill.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

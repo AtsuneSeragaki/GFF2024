@@ -28,7 +28,7 @@ AttackSkill::AttackSkill()
 	image = effect_img[0];
 
 	int tmp2;
-	tmp2 = rm->GetSounds("Resource/Sounds/Skill/bakuhatu.mp3");
+	tmp2 = rm->GetSounds("Resource/Sounds/GameMain/Skill/bakuhatu.mp3");
 	se = tmp2;
 
 	ChangeVolumeSoundMem(190, se);

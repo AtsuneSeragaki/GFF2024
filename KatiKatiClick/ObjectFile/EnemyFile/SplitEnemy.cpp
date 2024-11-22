@@ -37,10 +37,10 @@ SplitEnemy::SplitEnemy()
 		enemy_image.push_back(tmp_img[i]);
 	}
 	int tmp;
-	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
+	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/hitenemy_c.mp3");
 	se[0] = tmp;
 
-	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
+	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/hitenemy_c.mp3");
 	se[1] = tmp;
 
 }

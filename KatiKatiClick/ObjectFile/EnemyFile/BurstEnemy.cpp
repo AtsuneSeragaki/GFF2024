@@ -16,10 +16,10 @@ BurstEnemy::BurstEnemy()
 
 	ResourceManager* rm = ResourceManager::GetInstance();
 	int tmp;
-	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_b.mp3");
+	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/hitenemy_b.mp3");
 	se[0] = tmp;
 
-	tmp = rm->GetSounds("Resource/Sounds/Click/enemy_b.mp3");
+	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/enemy_b.mp3");
 	se[1] = tmp;
 
 	std::vector<int> tmp_img;

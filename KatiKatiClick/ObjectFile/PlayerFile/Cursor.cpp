@@ -14,7 +14,7 @@ Cursor::Cursor()
 
 	ResourceManager* rm = ResourceManager::GetInstance();
 	int tmp;
-	tmp = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
+	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/mouse.mp3");
 	se = tmp;
 
 	//std::vector<int> tmp_img;
