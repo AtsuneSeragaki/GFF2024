@@ -315,6 +315,9 @@ AbstractScene* GameMainScene::Change()
 {
     if (going_title)
     {
+        // BGMを止める
+        StopSoundMem(bgm);
+
         // タイトルに遷移する
         return new TitleScene;
     }
@@ -332,6 +335,16 @@ void GameMainScene::InGameUpdate()
     if (CheckSoundMem(bgm) == 0)
     {
         PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+    }
+
+    // ポーズ中はBGMの音量を小さくする
+    if (is_pause)
+    {
+        ChangeVolumeSoundMem(100, bgm);
+    }
+    else
+    {
+        ChangeVolumeSoundMem(150, bgm);
     }
 
     for (int i = 0; i < coins.size(); i++)
@@ -613,6 +626,7 @@ void GameMainScene::InGameUpdate()
             // 制限時間が0ならゲームクリア
             is_game_clear = true;
 
+            // BGMを止める
             StopSoundMem(bgm);
 
             // シーン切り替え待ちカウントを減らす
@@ -649,7 +663,10 @@ void GameMainScene::InGameUpdate()
     if (goal_cnt <= 0)
     {
         is_game_over = true;
+
+        // BGMを止める
         StopSoundMem(bgm);
+
         game_state = GameState::gameover;//stateをゲームオーバーに
         return;            //この行より下の処理はしない
     }
