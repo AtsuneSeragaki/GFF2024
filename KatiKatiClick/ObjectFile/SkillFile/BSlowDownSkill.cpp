@@ -5,8 +5,8 @@
 
 BSlowDownSkill::BSlowDownSkill()
 {
-	location.x = 330.0f;
-	location.y = 650.0f;
+	location.x = 0.0f;
+	location.y = 0.0f;
 	width = BUTTON_WIDTH;
 	height = BUTTON_HEIGHT;
 	object_type = ObjectType::b_slowdownskill;
@@ -32,7 +32,10 @@ BSlowDownSkill::BSlowDownSkill()
 	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_active_d.png");
 	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/spiderweb.png");
+	button_img.push_back(tmp[0]);
 	image = button_img[0];
+	effect_image = button_img[6];
 
 	// 効果音の読み込み
 	int tmp_s;
@@ -43,6 +46,11 @@ BSlowDownSkill::BSlowDownSkill()
 	se[1] = tmp_s;
 
 	ChangeVolumeSoundMem(150, se[0]);
+
+	effect_x = location.x;
+	effect_y = location.y - 5;
+	effect_width = 200;
+	effect_height = 200;
 }
 
 BSlowDownSkill::~BSlowDownSkill()
@@ -73,6 +81,16 @@ void BSlowDownSkill::Initialize()
 void BSlowDownSkill::Update()
 {
 	ChangeImage();
+
+	if (bskill_state == BSkillState::possible)
+	{
+		ChangeButtonSize();
+	}
+	else
+	{
+		effect_width = 200;
+		effect_height = 200;
+	}
 }
 
 void BSlowDownSkill::Draw() const
@@ -88,6 +106,11 @@ void BSlowDownSkill::Draw() const
 
 	case BSkillState::possible:
 		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
+		if (effect_width > 44)
+		{
+			DrawExtendGraph(location.x + 15 - effect_width / 2, location.y - 13 - effect_height / 2, location.x + 15 + effect_width / 2, location.y - 13 + effect_height / 2, effect_image, TRUE);
+		}
+		//DrawExtendGraph(effect_x - effect_width / 2, effect_y - effect_height / 2, effect_x + effect_width / 2, effect_y + effect_height / 2, effect_image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "SlowDownSkill\npossible", 0x000000);
 		break;
@@ -106,7 +129,7 @@ void BSlowDownSkill::Draw() const
 	//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 50, "coin:40", 0x000000);
 
 #ifdef _DEBUG
-
+	
 #endif // _DEBUG
 }
 
@@ -126,6 +149,7 @@ void BSlowDownSkill::HitReaction(ObjectBase* character)
 			PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 			bskill_state = BSkillState::active;
 			use_coin = true;
+			
 		}
 		else
 		{
@@ -186,5 +210,9 @@ void BSlowDownSkill::ChangeImage()
 
 void BSlowDownSkill::ChangeButtonSize()
 {
-
+	if (effect_width > 44)
+	{
+		effect_width -= 3;
+		effect_height -= 3;
+	}
 }
