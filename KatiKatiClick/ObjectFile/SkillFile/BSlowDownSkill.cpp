@@ -32,7 +32,10 @@ BSlowDownSkill::BSlowDownSkill()
 	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_active_d.png");
 	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/spiderweb.png");
+	button_img.push_back(tmp[0]);
 	image = button_img[0];
+	effect_image = button_img[6];
 
 	// 効果音の読み込み
 	int tmp_s;

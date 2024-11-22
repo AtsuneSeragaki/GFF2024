@@ -31,7 +31,10 @@ BAttackSkill::BAttackSkill()
 	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/battack_active_d.png");
 	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/explosion.png");
+	button_img.push_back(tmp[0]);
 	image = button_img[0];
+
 
 	// 効果音の読み込み
 	int tmp_s;
@@ -68,9 +71,11 @@ void BAttackSkill::Initialize()
 	tmp = rm->GetImages("../../Resource/Images/battack_close.png");
 	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
-	button_img.push_back(tmp[1]);
+	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
-	button_img.push_back(tmp[2]);
+	button_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Skill/explosion.png");
+	button_img.push_back(tmp[0]);
 	image = button_img[0];
 }
 

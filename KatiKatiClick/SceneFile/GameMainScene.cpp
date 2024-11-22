@@ -77,6 +77,7 @@ GameMainScene::GameMainScene()
     click_left_button_flg = false;
     click_title_button_flg = false;
     going_title = false;
+    is_bgm_active = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -307,6 +308,7 @@ AbstractScene* GameMainScene::Change()
     {
         // BGMを止める
         StopSoundMem(bgm);
+        is_bgm_active = 0;
 
         // タイトルに遷移する
         return new TitleScene;
@@ -316,6 +318,7 @@ AbstractScene* GameMainScene::Change()
     {
         // BGMを止める
         StopSoundMem(bgm);
+        is_bgm_active = 0;
 
         // リザルト画面に遷移する
         return new ResultScene(is_game_clear,wall_cnt);
@@ -331,8 +334,9 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InGameUpdate()
 {
-    if (CheckSoundMem(bgm) == 0)
+    if (is_bgm_active == 0)
     {
+        is_bgm_active = 1;
         PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
     }
 
@@ -627,6 +631,7 @@ void GameMainScene::InGameUpdate()
 
             // BGMを止める
             StopSoundMem(bgm);
+            is_bgm_active = 0;
 
             // シーン切り替え待ちカウントを減らす
             change_wait_time--;
@@ -665,6 +670,7 @@ void GameMainScene::InGameUpdate()
 
         // BGMを止める
         StopSoundMem(bgm);
+        is_bgm_active = 0;
 
         game_state = GameState::gameover;//stateをゲームオーバーに
         return;            //この行より下の処理はしない

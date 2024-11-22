@@ -63,6 +63,8 @@ private:
 
 	int bgm; // BGMデータ
 
+	bool is_bgm_active; // BGM流れているか
+
 
 public:
 	GameMainScene();
