@@ -134,6 +134,21 @@ void Cursor::Draw() const
 
 void Cursor::HitReaction(ObjectBase* character)
 {
-	// se[0]の再生を止める
-	StopSoundMem(se);
+	switch (character->GetObjectType())
+	{
+	case ObjectType::in_pausebutton:
+		break;
+
+	case ObjectType::pausebutton:
+		break;
+
+	case ObjectType::yesbutton:
+		break;
+
+	default:
+		// se[0]の再生を止める
+		StopSoundMem(se);
+		break;
+	}
+	
 }

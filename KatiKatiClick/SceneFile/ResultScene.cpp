@@ -133,7 +133,6 @@ void ResultScene::Draw() const
 		break;
 	}
 
-
 	cursor->Draw();
 }
 
