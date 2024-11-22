@@ -18,4 +18,6 @@ public:
 	void HitReaction(ObjectBase* character) override; //hitCheckがtrueだったらhitした後の処理をする
 
 	void ChangeImage() override;
+
+	void ChangeButtonSize();
 };

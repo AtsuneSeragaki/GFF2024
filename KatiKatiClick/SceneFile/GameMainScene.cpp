@@ -1,6 +1,6 @@
 #include "GameMainScene.h"
 #include "TitleScene.h"
-
+#include "ResultScene.h"
 #include "../ObjectFile/SkillFile/BAttackSkill.h"
 #include "../ObjectFile/SkillFile/BSlowDownSkill.h"
 #include "../ObjectFile/SkillFile/AttackSKill.h"
@@ -312,10 +312,19 @@ AbstractScene* GameMainScene::Change()
         return new TitleScene;
     }
 
-    if (change_wait_time <= 0)
+    if (is_game_clear == true || is_game_over == true)
+    {
+        // BGMを止める
+        StopSoundMem(bgm);
+
+        // リザルト画面に遷移する
+        return new ResultScene(is_game_clear,wall_cnt);
+    }
+
+    /*if (change_wait_time <= 0)
     {
         return new GameMainScene;
-    }
+    }*/
 
     return this;
 }

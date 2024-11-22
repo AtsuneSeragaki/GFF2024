@@ -190,3 +190,11 @@ void BAttackSkill::ChangeImage()
 		}
 	}
 }
+
+void BAttackSkill::ChangeButtonSize()
+{
+	if (width > BUTTON_WIDTH)
+	{
+		width -= 20;
+	}
+}

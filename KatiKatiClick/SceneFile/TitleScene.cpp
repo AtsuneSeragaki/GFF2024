@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include "EndScene.h"
 #include "GameMainScene.h"
 #include "../UtilityFile/Define.h"
 #include "DxLib.h"
@@ -102,7 +103,7 @@ AbstractScene* TitleScene::Change()
 		break;
 
 	case 1:
-		//return new EndScene();
+		return new EndScene();
 		break;
 
 	default:

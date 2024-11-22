@@ -2,7 +2,6 @@
 #include "SceneFile/AbstractScene.h"
 #include "SceneFile/SceneManager.h"
 #include "SceneFile/TitleScene.h"
-#include "SceneFile/GameMainScene.h"
 #include "UtilityFile/FPS.h"
 #include "UtilityFile/MouseInput.h"
 #include "UtilityFile/Define.h"
@@ -47,7 +46,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 	}
-
 
 	DxLib_End(); // DXライブラリ使用の終了処理
 
