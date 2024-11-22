@@ -13,8 +13,7 @@ enum class ObjectType
 	in_pausebutton,
 	yesbutton,
 	cursor,
-	goal,
-	barrier,
+	wall,
 	circlezone,
 };
 

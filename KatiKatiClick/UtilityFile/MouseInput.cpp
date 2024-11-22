@@ -41,6 +41,12 @@ void MouseInput::Update()
 		mouse_input_state = eMouseInputState::eHold;
 	}
 
+	//放した瞬間
+	if (now_key == 0 && old_key == 1)
+	{
+		mouse_input_state = eMouseInputState::eRelease;
+	}
+
 	//何も押してないか
 	if (now_key == 0 && old_key == 0)
 	{

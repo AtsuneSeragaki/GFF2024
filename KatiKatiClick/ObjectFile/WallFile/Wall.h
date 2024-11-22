@@ -3,7 +3,7 @@
 #include "../DeathEffect/DeathEffect.h"
 
 #include <vector>
-class Barrier :
+class Wall :
     public ObjectBase
 {
 private:
@@ -21,8 +21,8 @@ private:
     DeathEffect* damage_effect;
 
 public:
-    Barrier();
-    ~Barrier();
+    Wall();
+    ~Wall();
 
     void Initialize() override;
     void Update()override;

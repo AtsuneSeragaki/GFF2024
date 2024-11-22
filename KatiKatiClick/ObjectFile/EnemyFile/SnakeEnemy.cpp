@@ -164,12 +164,7 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		height -= 10.0f;
 		hit_cursor = true;
 		break;
-	case ObjectType::goal:
-		can_hit = false;
-		state = State::goal;
-		speed = 3;
-		break;
-	case ObjectType::barrier:
+	case ObjectType::wall:
 		can_hit = false;
 		state = State::death;
 		break;

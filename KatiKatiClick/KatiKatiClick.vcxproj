@@ -152,15 +152,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ObjectFile\GoalFile\DamageEffect.cpp" />
-    <ClCompile Include="ObjectFile\GoalFile\Barrier.cpp" />
+    <ClCompile Include="ObjectFile\WallFile\Wall.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.cpp" />
     <ClCompile Include="ObjectFile\ShapeZoneFile\HitCircleZone.cpp" />
     <ClCompile Include="ObjectFile\ClickEffectFile\ClickEffect.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\FrogEnemy.cpp" />
-    <ClCompile Include="ObjectFile\GoalFile\Goal.cpp" />
     <ClCompile Include="ObjectFile\CoinFile\Coin.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\BurstEnemy.cpp" />
     <ClCompile Include="ObjectFile\ObjectBase.cpp" />
@@ -172,7 +170,6 @@
     <ClCompile Include="ObjectFile\UIFile\UICoin.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UITimer.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
-    <ClCompile Include="ObjectFile\UIFile\UIGoal.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SplitEnemy.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
@@ -193,15 +190,13 @@
     <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ObjectFile\GoalFile\DamageEffect.h" />
-    <ClInclude Include="ObjectFile\GoalFile\Barrier.h" />
+    <ClInclude Include="ObjectFile\WallFile\Wall.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
     <ClInclude Include="ObjectFile\PauseFile\PauseButtonFile\PauseButton.h" />
     <ClInclude Include="ObjectFile\ShapeZoneFile\HitCircleZone.h" />
     <ClInclude Include="ObjectFile\ClickEffectFile\ClickEffect.h" />
     <ClInclude Include="ObjectFile\EnemyFile\FrogEnemy.h" />
-    <ClInclude Include="ObjectFile\GoalFile\Goal.h" />
     <ClInclude Include="ObjectFile\CoinFile\Coin.h" />
     <ClInclude Include="ObjectFile\EnemyFile\BurstEnemy.h" />
     <ClInclude Include="ObjectFile\SkillFile\AttackSKill.h" />
@@ -212,7 +207,6 @@
     <ClInclude Include="ObjectFile\UIFile\UICoins.h" />
     <ClInclude Include="ObjectFile\UIFile\UITimer.h" />
     <ClInclude Include="ObjectFile\EnemyFile\SnakeEnemy.h" />
-    <ClInclude Include="ObjectFile\UIFile\UIGoal.h" />
     <ClInclude Include="ObjectFile\EnemyFile\SplitEnemy.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
