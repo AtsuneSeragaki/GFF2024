@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\GoalFile\DamageEffect.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Barrier.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
@@ -175,7 +176,6 @@
     <ClCompile Include="ObjectFile\EnemyFile\SplitEnemy.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
-    <ClCompile Include="SceneFile\ResultScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
@@ -192,6 +192,7 @@
     <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectFile\GoalFile\DamageEffect.h" />
     <ClInclude Include="ObjectFile\GoalFile\Barrier.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
@@ -214,7 +215,6 @@
     <ClInclude Include="ObjectFile\EnemyFile\SplitEnemy.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
-    <ClInclude Include="SceneFile\ResultScene.h" />
     <ClInclude Include="SceneFile\TitleScene.h" />
     <ClInclude Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.h" />
     <ClInclude Include="UtilityFile\Define.h" />
@@ -238,74 +238,7 @@
     <Text Include="Log.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Images\Background\Brick.png" />
-    <Image Include="Resource\Images\Background\Brick2.png" />
-    <Image Include="Resource\Images\Background\Brick3.png" />
-    <Image Include="Resource\Images\Background\Moon.png" />
-    <Image Include="Resource\Images\Background\Moon2.png" />
-    <Image Include="Resource\Images\Background\Moon3.png" />
-    <Image Include="Resource\Images\Background\Sun2.png" />
-    <Image Include="Resource\Images\Barrier\Barrier.png" />
-    <Image Include="Resource\Images\Barrier\BarrierDamage.png" />
-    <Image Include="Resource\Images\characters\Cursor\cursor.png" />
-    <Image Include="Resource\Images\characters\enemy\Burst.png" />
-    <Image Include="Resource\Images\characters\enemy\square.png" />
-    <Image Include="Resource\Images\characters\enemy\squarea1.png" />
-    <Image Include="Resource\Images\characters\enemy\square_death.png" />
-    <Image Include="Resource\Images\Coin\Coin01.png" />
-    <Image Include="Resource\Images\Coin\Coin02.png" />
-    <Image Include="Resource\Images\Coin\Coin03.png" />
-    <Image Include="Resource\Images\Coin\Effect.png" />
-    <Image Include="Resource\Images\Coin\Wallet.png" />
-    <Image Include="Resource\Images\Pause\Button\ArrowButton.png" />
-    <Image Include="Resource\Images\Pause\Button\LeftButton.png" />
-    <Image Include="Resource\Images\Pause\Button\NoButton.png" />
-    <Image Include="Resource\Images\Pause\Button\RightButton.png" />
-    <Image Include="Resource\Images\Pause\Button\TitleButton.png" />
-    <Image Include="Resource\Images\Pause\Button\YesButton.png" />
-    <Image Include="Resource\Images\Pause\HelpImage.png" />
-    <Image Include="Resource\Images\Pause\PauseButton.png" />
-    <Image Include="Resource\Images\Pause\Text\HowToPlay.png" />
-    <Image Include="Resource\Images\Pause\Text\Text.png" />
-    <Image Include="Resource\Images\Skill\battack_active.png" />
-    <Image Include="Resource\Images\Skill\battack_active_d.png" />
-    <Image Include="Resource\Images\Skill\battack_close.png" />
-    <Image Include="Resource\Images\Skill\battack_close_d.png" />
-    <Image Include="Resource\Images\Skill\battack_possible.png" />
-    <Image Include="Resource\Images\Skill\battack_possible_d.png" />
-    <Image Include="Resource\Images\Skill\bslowdown_active.png" />
-    <Image Include="Resource\Images\Skill\bslowdown_active_d.png" />
-    <Image Include="Resource\Images\Skill\bslowdown_close.png" />
-    <Image Include="Resource\Images\Skill\bslowdown_close_d.png" />
-    <Image Include="Resource\Images\Skill\bslowdown_possible.png" />
-    <Image Include="Resource\Images\Skill\bslowdown_possible_d.png" />
-    <Image Include="Resource\Images\Skill\explosion1.png" />
-    <Image Include="Resource\Images\Skill\spiderweb.png" />
-    <Image Include="Resource\Images\Timer\Colon.png" />
-    <Image Include="Resource\Images\Timer\Num.png" />
-    <Image Include="Resource\Images\Timer\Timer.png" />
-    <Image Include="Resource\Images\Timer\Timer01.png" />
-    <Image Include="Resource\Images\Timer\Timer03.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Resource\Sounds\Click\enemy_b.mp3" />
-    <Media Include="Resource\Sounds\Click\hitenemy_b.mp3" />
-    <Media Include="Resource\Sounds\Click\hitenemy_c.mp3" />
-    <Media Include="Resource\Sounds\Click\mouse.mp3" />
-    <Media Include="Resource\Sounds\Click\skill.mp3" />
-    <Media Include="Resource\Sounds\Coin\getcoin.mp3" />
-    <Media Include="Resource\Sounds\GameMain\BGM\bgm1.mp3" />
-    <Media Include="Resource\Sounds\GameMain\BGM\bgm2.mp3" />
-    <Media Include="Resource\Sounds\GameMain\Coin\getcoin.mp3" />
-    <Media Include="Resource\Sounds\GameMain\Skill\bakuhatu.mp3" />
-    <Media Include="Resource\Sounds\GameMain\Skill\kumonosu.mp3" />
-    <Media Include="Resource\Sounds\Skill\bakuhatu.mp3" />
-    <Media Include="Resource\Sounds\Skill\kumonosu.mp3" />
-    <Media Include="Resource\Sounds\Title\Click\enemy_b.mp3" />
-    <Media Include="Resource\Sounds\Title\Click\hitenemy_b.mp3" />
-    <Media Include="Resource\Sounds\Title\Click\hitenemy_c.mp3" />
-    <Media Include="Resource\Sounds\Title\Click\mouse.mp3" />
-    <Media Include="Resource\Sounds\Title\Click\skill.mp3" />
+    <ResourceCompile Include="IconFile\Icon.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
