@@ -19,8 +19,8 @@ GameMainScene::GameMainScene()
 
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
-    CreateObject<BAttackSkill>(Vector2D(255.0f, 735.0f));        // アタックスキルボタン生成
-    CreateObject<BSlowDownSkill>(Vector2D(75.0f, 735.0f));     // 足止めスキルボタン生成
+    CreateObject<BAttackSkill>(Vector2D(255.0f, 675.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(75.0f, 675.0f));     // 足止めスキルボタン生成
     
     goal_cnt = 1;
 
@@ -36,7 +36,8 @@ GameMainScene::GameMainScene()
         CreateObject<Barrier>(Vector2D((float)SCREEN_WIDTH / 2.0f,y2));
     }
 
-    CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
+    CreateObject<PauseButton>(Vector2D(330.0f, 765.0f));         // ポーズボタン生成
+
     CreateObject<RightButton>(Vector2D(330.0f, 500.0f));         // ポーズ中右向き矢印ボタン生成
     CreateObject<LeftButton>(Vector2D(30.0f, 500.0f));          // ポーズ中左向き矢印ボタン生成
     CreateObject<TitleButton>(Vector2D(180.0f, 530.0f));         // タイトルへ戻るボタン生成

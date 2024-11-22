@@ -5,7 +5,7 @@
 UITimer::UITimer()
 {
 	location.x = 25.0f;
-	location.y = 600.0f;
+	location.y = 590.0f;
 	fps_count = 0;
 	seconds = 60;
 
