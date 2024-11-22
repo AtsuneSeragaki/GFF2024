@@ -83,7 +83,7 @@ void PauseButton::Draw() const
 	if (is_pause)
 	{
 		// 灰色背景
-		DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xdddddd, TRUE);
+		DrawBoxAA(0.0f, 0.0f, 360.0f, 590.0f, 0xdddddd, TRUE);
 
 		// "遊び方"テキスト画像描画
 		DrawRotaGraphF(180.0f, 25.0f, 1.0, 0.0, heading_image[0], TRUE);
@@ -95,7 +95,7 @@ void PauseButton::Draw() const
 		DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, help_image[page_num], TRUE);
 	}
 
-	DrawFormatString(200, 200, 0x00000, "page %d", page_num);
+	// DrawFormatString(200, 200, 0x00000, "page %d", page_num);
 
 	// ポーズボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);

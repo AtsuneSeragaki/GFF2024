@@ -20,7 +20,18 @@ YesButton::YesButton()
 	tmp = rm->GetImages("Resource/Images/Pause/Button/YesButton.png");
 	button_image.push_back(tmp[0]);
 
+	// "いいえ"ボタン画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Pause/Button/NoButton.png");
+	button_image.push_back(tmp[0]);
+
+	// ダイアログボックス画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Pause/Button/DialogBox.png");
+	button_image.push_back(tmp[0]);
+
 	click_flg = false;
+
+	no_button_location_x = 260.0f;
+	no_button_location_y = 330.0f;
 }
 
 YesButton::~YesButton()
@@ -40,8 +51,14 @@ void YesButton::Update()
 
 void YesButton::Draw() const
 {
-	//  "タイトルへ戻る"ボタン画像の描画
+	//  ダイアログボックス画像の描画
+	DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, button_image[2], TRUE);
+
+	//  "はい"ボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+
+	//  "いいえ"ボタン画像の描画
+	DrawRotaGraphF(no_button_location_x, no_button_location_y, 1.0, 0.0, button_image[1], TRUE);
 }
 
 void YesButton::HitReaction(ObjectBase* character)
