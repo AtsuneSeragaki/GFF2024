@@ -93,6 +93,21 @@ void PauseButton::Draw() const
 
 		// 説明画像描画
 		DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, help_image[page_num], TRUE);
+
+		for (int i = 0; i < 5; i++)
+		{
+			if (i != page_num)
+			{
+				// 黒丸
+				DrawCircleAA(150.0f + i * 15.0f, 500.0f, 5, 32, 0x000000, TRUE);
+			}
+			else
+			{
+				// 白丸
+				DrawCircleAA(150.0f + i * 15.0f, 500.0f, 5, 32, 0xffffff, TRUE);
+				DrawCircleAA(150.0f + i * 15.0f, 500.0f, 5, 32, 0x000000, FALSE, 1.0f);
+			}
+		}
 	}
 
 	// DrawFormatString(200, 200, 0x00000, "page %d", page_num);
