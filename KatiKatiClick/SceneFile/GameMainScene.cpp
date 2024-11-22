@@ -318,7 +318,7 @@ AbstractScene* GameMainScene::Change()
         StopSoundMem(bgm);
 
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear,goal_cnt);
+        return new ResultScene(is_game_clear,wall_cnt);
     }
 
     /*if (change_wait_time <= 0)
