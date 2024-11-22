@@ -21,6 +21,8 @@ protected:
 	BSkillState bskill_state; // ボタンの状態
 	bool use_coin; // コイン false:使ってない true:使った
 	bool hit_cursor; // カーソルがボタンの上に false:ない true:ある
+	int effect_x, effect_y;
+	int effect_width, effect_height;
 
 public:
 	BSkillBase();

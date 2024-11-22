@@ -34,7 +34,7 @@ BAttackSkill::BAttackSkill()
 	tmp = rm->GetImages("Resource/Images/Skill/explosion.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
-
+	effect_image = button_img[6];
 
 	// 効果音の読み込み
 	int tmp_s;
@@ -45,6 +45,9 @@ BAttackSkill::BAttackSkill()
 	se[1] = tmp_s;
 
 	ChangeVolumeSoundMem(150, se[0]);
+
+	effect_width = 200;
+	effect_height = 200;
 }
 
 BAttackSkill::~BAttackSkill()
@@ -77,11 +80,27 @@ void BAttackSkill::Initialize()
 	tmp = rm->GetImages("Resource/Images/Skill/explosion.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
+	effect_image = button_img[3];
+
+	effect_x = location.x;
+	effect_y = location.y - 5;
+	effect_width = 200;
+	effect_height = 200;
 }
 
 void BAttackSkill::Update()
 {
 	ChangeImage();
+
+	if (bskill_state == BSkillState::possible)
+	{
+		ChangeButtonSize();
+	}
+	else
+	{
+		effect_width = 200;
+		effect_height = 200;
+	}
 }
 
 void BAttackSkill::Draw() const
@@ -97,6 +116,10 @@ void BAttackSkill::Draw() const
 
 	case BSkillState::possible:
 		DrawGraph(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, image, TRUE);
+		if (effect_width > 44)
+		{
+			DrawExtendGraph(location.x + 15 - effect_width / 2, location.y - 13 - effect_height / 2, location.x + 15 + effect_width / 2, location.y - 13 + effect_height / 2, effect_image, TRUE);
+		}
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\npossible", 0x000000);
 		break;
@@ -115,7 +138,7 @@ void BAttackSkill::Draw() const
 	//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 50, "coin:20", 0x000000);
 
 #ifdef _DEBUG
-
+	//DrawExtendGraph(effect_x - effect_width / 2, effect_y - effect_height / 2, effect_x + effect_width / 2, effect_y + effect_height / 2, effect_image, TRUE);
 #endif // _DEBUG
 }
 
@@ -137,6 +160,8 @@ void BAttackSkill::HitReaction(ObjectBase* character)
 			PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 			bskill_state = BSkillState::active;
 			use_coin = true;
+			effect_width = 200;
+			effect_height = 200;
 		}
 		else
 		{
@@ -198,8 +223,9 @@ void BAttackSkill::ChangeImage()
 
 void BAttackSkill::ChangeButtonSize()
 {
-	if (width > BUTTON_WIDTH)
+	if (effect_width > 44)
 	{
-		width -= 20;
+		effect_width -= 3;
+		effect_height -= 3;
 	}
 }
