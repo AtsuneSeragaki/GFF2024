@@ -10,12 +10,14 @@ class ResultScene : public AbstractScene
 {
 private:
 	Cursor* cursor;
-	float x,y; // ボタンの座標
-	bool select; // プレイヤーが選んだメニュー
-	bool on_button; // カーソルがボタンの上にあるか
+	float x1,y1,x2,y2; // ボタンの座標
+	int select; // プレイヤーが選んだメニュー
+	int on_button; // カーソルがボタンの上にあるか
+	bool is_clear; // クリアしたか？
+	int star_num;      // 星の数
 
 public:
-	ResultScene();
+	ResultScene(bool is_game_clear,int goal_num);
 	~ResultScene();
 
 	void Update() override;

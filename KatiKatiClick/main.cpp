@@ -2,6 +2,7 @@
 #include "SceneFile/AbstractScene.h"
 #include "SceneFile/SceneManager.h"
 #include "SceneFile/TitleScene.h"
+#include "SceneFile/ResultScene.h"
 #include "SceneFile/GameMainScene.h"
 #include "UtilityFile/FPS.h"
 #include "UtilityFile/MouseInput.h"
