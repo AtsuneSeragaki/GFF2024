@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\GoalFile\DamageEffect.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Barrier.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectFile\GoalFile\DamageEffect.h" />
     <ClInclude Include="ObjectFile\GoalFile\Barrier.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
@@ -234,6 +236,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IconFile\Icon.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

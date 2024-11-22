@@ -1,7 +1,7 @@
 #pragma once
 #include "../../UtilityFile/Geometry.h"
 
-class DeathEffect
+class DamageEffect
 {
 private:
 	Vector2D pos1;
@@ -12,19 +12,12 @@ private:
 	int count;
 	int alpha;
 
-	float vel;//初速を入れる
-	float acc;//重力加速
-	
-	bool can_delete;//削除してもいいか
-	
 public:
 	//倒れたエネミーの座標を受け取る
-	DeathEffect(Vector2D set_location);
-	~DeathEffect();
+	DamageEffect(float set_x,float set_y);
+	~DamageEffect();
 
 	void Update();
-	void DamageEffect();
 	void Draw()const;
-	bool GetDeleteFlg();
 };
 

@@ -68,6 +68,7 @@
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
+    <ClCompile Include="ObjectFile\GoalFile\DamageEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
     <ClInclude Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.h" />
     <ClInclude Include="ObjectFile\PauseFile\YesButtonFile\YesButton.h" />
+    <ClInclude Include="ObjectFile\GoalFile\DamageEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">
@@ -199,5 +201,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IconFile\Icon.rc" />
   </ItemGroup>
 </Project>
