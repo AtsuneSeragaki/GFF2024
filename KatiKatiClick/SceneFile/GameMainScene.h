@@ -17,7 +17,6 @@
 #include "../ObjectFile/UIFile/UIGoal.h"
 #include "../ObjectFile/PauseFile/PauseButtonFile/PauseButton.h"
 #include "../ObjectFile/ShapeZoneFile/HitCircleZone.h"
-#include "../ObjectFile/PauseFile/ArrowButtonFile/ArrowButton.h"
 #include <vector>
 
 enum class GameState
@@ -61,6 +60,10 @@ private:
 	std::vector<int> background_image;     // 背景画像
 	float background_location_y;				// 背景のy座標
 
+	bool change_pause_page_flg;		// ポーズ中のヘルプのページを変更するか？
+	bool click_left_button_flg;		// 左向き矢印ボタンをクリックしたか？
+	bool click_title_button_flg;	// タイトルボタンをクリックしたか？
+	bool going_title;				// タイトルへ行きますか？
 
 public:
 	GameMainScene();
@@ -90,8 +93,6 @@ private:
 	void CursorUpdate();
 	// 一時停止か調べる処理
 	void PauseCheck();
-	// 一時停止時のポーズボタンとカーソルの当たり判定
-	void PausedHitCheck();
 	// カーソルがスキルボタンの上にある時の処理
 	void HitCursorBSkill(int i);
 	// カーソルがスキルボタンの上に無い時の処理

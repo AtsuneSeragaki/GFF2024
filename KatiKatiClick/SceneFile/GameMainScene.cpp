@@ -1,4 +1,5 @@
 #include "GameMainScene.h"
+#include "TitleScene.h"
 
 #include "../ObjectFile/SkillFile/BAttackSkill.h"
 #include "../ObjectFile/SkillFile/BSlowDownSkill.h"
@@ -7,6 +8,10 @@
 #include "../UtilityFile/MouseInput.h"
 #include "../UtilityFile/ResourceManager.h"
 #include "../ObjectFile/EnemyFile/EnemyArray.h"
+#include "../ObjectFile/PauseFile/ArrowButtonFile/LeftButton.h"
+#include "../ObjectFile/PauseFile/ArrowButtonFile/RightButton.h"
+#include "../ObjectFile/PauseFile/TitleButtonFile/TitleButton.h"
+#include "../ObjectFile/PauseFile/YesButtonFile/YesButton.h"
 
 GameMainScene::GameMainScene()
 {
@@ -32,7 +37,11 @@ GameMainScene::GameMainScene()
     }
 
     CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
-    // CreateObject<ArrowButton>(Vector2D(300.0f, 400.0f));         // ポーズ中矢印ボタン生成
+    CreateObject<RightButton>(Vector2D(330.0f, 500.0f));         // ポーズ中右向き矢印ボタン生成
+    CreateObject<LeftButton>(Vector2D(30.0f, 500.0f));          // ポーズ中左向き矢印ボタン生成
+    CreateObject<TitleButton>(Vector2D(180.0f, 530.0f));         // タイトルへ戻るボタン生成
+    CreateObject<YesButton>(Vector2D(180.0f, 400.0f));         // "はい"ボタン生成
+
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
     ui_coins = new UICoins;     // コインUI生成
@@ -61,11 +70,17 @@ GameMainScene::GameMainScene()
     background_image.push_back(tmp[0]);
 
     background_location_y = 0.0f;
+
+    change_pause_page_flg = false;
+    click_left_button_flg = false;
+    click_title_button_flg = false;
+    going_title = false;
 }
 
 GameMainScene::~GameMainScene()
 {
     delete ui_coins;
+    delete ui_timer;
     for (ObjectBase* obj : objects)
     {
         delete obj;
@@ -96,19 +111,6 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-    //float tmp = float(60 - ui_timer->GetSeconds()) * 4.25f;
-
-    //// ループする度に明るくなる
-    //SetDrawBright((int)tmp, (int)tmp, (int)tmp);
-    //// 紫色
-    //SetDrawBright(112, 86, 143);
-    //// 空色
-    ////SetDrawBright(127, 219, 240);
-    //// 背景色
-    //DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(127, 219, 240), TRUE);// 白四角形
-    //// 描画輝度を元に戻す
-    //SetDrawBright(255, 255, 255);
-
     // 1秒間あたりの透明度
     float result = float(60 - ui_timer->GetSeconds()) * 4.25f;
 
@@ -133,25 +135,14 @@ void GameMainScene::Draw() const
     else
     {
         int param = ((int)result - 128) * 2;
-       // int param = 510 - (int)result * 2;
 
-        // float box_height = 560.0f - (18.7f * (30 - ui_timer->GetSeconds()));
-
-        
         // 明け方の色背景
         DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
-
-        // 白色背景
-        // DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
-
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
-        //// 朝背景色
-        //DrawBoxAA(0.0f, box_height, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
         // 朝背景色
         DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
-
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         
@@ -267,6 +258,28 @@ void GameMainScene::Draw() const
         }
     }
 
+    if (is_pause)
+    {
+        // ポーズ中のボタン描画
+        for (int i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::in_pausebutton)
+            {
+                objects[i]->Draw();
+            }
+
+            // "タイトルへ戻るボタン"がクリックされたら
+            if (click_title_button_flg)
+            {
+                if (objects[i]->GetObjectType() == ObjectType::yesbutton)
+                {
+                    // "はい"ボタンの描画
+                    objects[i]->Draw();
+                }
+            }
+        }
+    }
+
     //カーソル描画
     for (int i = 0; i < objects.size(); i++)
     {
@@ -293,6 +306,12 @@ void GameMainScene::Draw() const
 
 AbstractScene* GameMainScene::Change()
 {
+    if (going_title)
+    {
+        // タイトルに遷移する
+        return new TitleScene;
+    }
+
     if (change_wait_time <= 0)
     {
         return new GameMainScene;
@@ -421,13 +440,24 @@ void GameMainScene::InGameUpdate()
     // 一時停止中の処理
     if (is_pause == true && is_game_over == false)
     {
-
         // 更新処理
         for (int i = 0; i < objects.size(); i++)
         {
-            if (objects[i]->GetObjectType() == ObjectType::cursor || objects[i]->GetObjectType() == ObjectType::pausebutton)
+            if (objects[i]->GetObjectType() == ObjectType::cursor 
+                || objects[i]->GetObjectType() == ObjectType::pausebutton
+                || objects[i]->GetObjectType() == ObjectType::in_pausebutton)
             {
-                // カーソルとポーズボタンのみ更新する
+                if (change_pause_page_flg)
+                {
+                    PauseButton* pause_button = dynamic_cast<PauseButton*>(objects[i]);
+                    if (pause_button != nullptr)
+                    {
+                        // ヘルプのページ番号の変更
+                        pause_button->SetPage(click_left_button_flg);
+                    }
+                }
+
+                // カーソルとポーズ中のボタンのみ更新する
                 objects[i]->Update();
             }
         }
@@ -437,23 +467,124 @@ void GameMainScene::InGameUpdate()
         {
             for (int j = i + 1; j < objects.size(); j++)
             {
-                // objects[i]がcursor、object[j]がpausebuttonなら当たり判定処理
-                if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::pausebutton)
+                if (click_title_button_flg)
                 {
-                    if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
-
-                    //もしshapeが違かったら
-                    if (objects[i]->GetShape() != objects[j]->GetShape())
+                    if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::yesbutton)
                     {
+                        if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
+
                         //ヒットチェック
                         if (objects[i]->HitBoxCircle(objects[j]) == true)
                         {
                             objects[i]->HitReaction(objects[j]);
                             objects[j]->HitReaction(objects[i]);
                         }
+
+                        // "はい"ボタンがクリックされたか
+                        YesButton* yes_button = dynamic_cast<YesButton*>(objects[j]);
+                        if (yes_button != nullptr)
+                        {
+                            // タイトルボタンがクリックされたか調べる
+                            going_title = yes_button->GetClickFlg();
+                            if (going_title)
+                            {
+                                return;
+                            }
+                        }
+
+                        // 他の領域がクリックされたか
+                        Cursor* p_cursor = dynamic_cast<Cursor*>(objects[i]);
+                        if (p_cursor != nullptr)
+                        {
+                            if (p_cursor->GetPState() == P_State::attack)
+                            {
+                                click_title_button_flg = false;
+                            }
+                        }
+
                     }
                 }
+                else
+                {
+                    // objects[i]がcursor、object[j]がpausebuttonなら当たり判定処理
+                    if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::pausebutton
+                        || objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::in_pausebutton)
+                    {
+                        if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
+
+                        //もしshapeが違かったら
+                        if (objects[i]->GetShape() != objects[j]->GetShape())
+                        {
+                            //ヒットチェック
+                            if (objects[i]->HitBoxCircle(objects[j]) == true)
+                            {
+                                objects[i]->HitReaction(objects[j]);
+                                objects[j]->HitReaction(objects[i]);
+                            }
+                        }
+                        else
+                        {
+                            //shapeが同じ時
+                            if (objects[i]->GetShape() == Shape::circle && objects[j]->GetShape() == Shape::circle)
+                            {
+                                //ヒットチェック
+                                if (objects[i]->HitCircle(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
+                                {
+                                    objects[i]->HitReaction(objects[j]);
+                                    objects[j]->HitReaction(objects[i]);
+                                }
+                            }
+
+                            if (objects[i]->GetShape() == Shape::square && objects[j]->GetShape() == Shape::square)
+                            {
+                                //ヒットチェック
+                                if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()))
+                                {
+                                    objects[i]->HitReaction(objects[j]);
+                                    objects[j]->HitReaction(objects[i]);
+                                }
+                            }
+                        }
+                    }
+
+                    TitleButton* title_button = dynamic_cast<TitleButton*>(objects[j]);
+                    if (title_button != nullptr)
+                    {
+                        // タイトルボタンがクリックされたか調べる
+                        click_title_button_flg = title_button->GetClickFlg();
+                        if (click_title_button_flg)
+                        {
+                            return;
+                        }
+                    }
+
+                    LeftButton* left_button = dynamic_cast<LeftButton*>(objects[j]);
+                    if (left_button != nullptr)
+                    {
+                        // 左向き矢印がクリックされたか調べる
+                        change_pause_page_flg = left_button->GetClickFlg();
+                        if (change_pause_page_flg)
+                        {
+                            click_left_button_flg = true;
+                            return;
+                        }
+                    }
+
+                    RightButton* right_button = dynamic_cast<RightButton*>(objects[j]);
+                    if (right_button != nullptr)
+                    {
+                        // 右向き矢印がクリックされたか調べる
+                        change_pause_page_flg = right_button->GetClickFlg();
+                        if (change_pause_page_flg)
+                        {
+                            click_left_button_flg = false;
+                            return;
+                        }
+                    }
+                }
+
             }
+
         }
 
         // 一時停止中か調べる
@@ -513,6 +644,9 @@ void GameMainScene::InGameUpdate()
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
+        // ポーズ中のボタンは処理を飛ばす
+        if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
+
         if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
             objects[i]->Update();
@@ -549,8 +683,14 @@ void GameMainScene::InGameUpdate()
     //当たり判定
     for (int i = 0; i < objects.size() - 1; i++)
     {
+        // ポーズ中のボタンは処理を飛ばす
+        if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
+
         for (int j = i + 1; j < objects.size(); j++)
         {
+            // ポーズ中のボタンは処理を飛ばす
+            if (objects[j]->GetObjectType() == ObjectType::in_pausebutton) continue;
+
             if (objects[i]->GetObjectType() == ObjectType::cursor && objects[i]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
             {
                 if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
@@ -910,12 +1050,6 @@ void GameMainScene::PauseCheck()
             return;
         }
     }
-}
-
-// 一時停止時のポーズボタンとカーソルの当たり判定
-void GameMainScene::PausedHitCheck()
-{
-
 }
 
 void GameMainScene::HitCursorBSkill(int i)

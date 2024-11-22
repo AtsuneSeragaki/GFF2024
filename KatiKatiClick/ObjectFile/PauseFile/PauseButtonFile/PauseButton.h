@@ -24,5 +24,7 @@ public:
     void HitReaction(ObjectBase* character) override;
 
     bool GetPauseFlg() const;           // 一時停止フラグの取得
+
+    void SetPage(bool change_left);                     // ページの設定
 };
 

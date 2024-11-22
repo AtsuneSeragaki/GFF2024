@@ -10,6 +10,8 @@ enum class ObjectType
 	attackskill,
 	slowdownskill,
 	pausebutton,
+	in_pausebutton,
+	yesbutton,
 	cursor,
 	goal,
 	barrier,

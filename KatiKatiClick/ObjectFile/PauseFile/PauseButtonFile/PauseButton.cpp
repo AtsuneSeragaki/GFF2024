@@ -93,8 +93,9 @@ void PauseButton::Draw() const
 
 		// 説明画像描画
 		DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, help_image[page_num], TRUE);
-
 	}
+
+	DrawFormatString(200, 200, 0x00000, "page %d", page_num);
 
 	// ポーズボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
@@ -120,4 +121,30 @@ void PauseButton::HitReaction(ObjectBase* character)
 bool PauseButton::GetPauseFlg() const
 {
 	return is_pause;
+}
+
+void PauseButton::SetPage(bool change_left)
+{
+	if (change_left)
+	{
+		// 前のページへ
+		this->page_num--;
+
+		if (this->page_num < 0)
+		{
+			// 最後のページにする
+			this->page_num = 4;
+		}
+	}
+	else
+	{
+		// 次のページへ
+		this->page_num++;
+
+		if (this->page_num > 4)
+		{
+			// 最初のページにする
+			this->page_num = 0;
+		}
+	}
 }
