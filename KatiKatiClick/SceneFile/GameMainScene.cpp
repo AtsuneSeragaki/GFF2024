@@ -21,19 +21,14 @@ GameMainScene::GameMainScene()
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
     CreateObject<BAttackSkill>(Vector2D(255.0f, 735.0f));        // アタックスキルボタン生成
     CreateObject<BSlowDownSkill>(Vector2D(75.0f, 735.0f));     // 足止めスキルボタン生成
-    
-    goal_cnt = 1;
-
-    //ゴール生成
-    float y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3) + ((float)ONE_LANE_HEIGHT / 4.0f)-10.0f;
-    CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, y));
+    wall_cnt = 0;
 
     for (int i = 0; i < 3; i++)
     {
-        //バリア生成
+        wall_cnt++;
+        //壁生成
         float y2 = SCREEN_HEIGHT - GET_LANE_HEIGHT(3)-(i* (float)ONE_LANE_HEIGHT / 4.0f)-10.0f;
-        //	height = (float)ONE_LANE_HEIGHT / 4.0f;
-        CreateObject<Barrier>(Vector2D((float)SCREEN_WIDTH / 2.0f,y2));
+        CreateObject<Wall>(Vector2D((float)SCREEN_WIDTH / 2.0f,y2));
     }
 
     CreateObject<PauseButton>(Vector2D(330.0f, 650.0f));         // ポーズボタン生成
@@ -46,7 +41,6 @@ GameMainScene::GameMainScene()
 
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
-    ui_goal = new UIGoal;       //ゴールUI生成
 
     enm_generate_cnt = 200;
 
@@ -191,16 +185,11 @@ void GameMainScene::Draw() const
     // UI下のレンガ画像
     DrawRotaGraphF(180.0f, 680.0f, 1.0, 0.0, background_image[2], TRUE);
 
-    //ゴール描画
+    //壁描画
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() == ObjectType::goal)
-        {
-            objects[i]->Draw();
-           // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
-        }
 
-        if (objects[i]->GetObjectType() == ObjectType::barrier)
+        if (objects[i]->GetObjectType() == ObjectType::wall)
         {
             objects[i]->Draw();
         }
@@ -230,7 +219,7 @@ void GameMainScene::Draw() const
         //ゴール描画
         for (int i = 0; i < objects.size(); i++)
         {
-            if (objects[i]->GetObjectType() == ObjectType::goal)
+            if (objects[i]->GetObjectType() == ObjectType::wall)
             {
                 objects[i]->Draw();
                 // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
@@ -659,8 +648,8 @@ void GameMainScene::InGameUpdate()
     }
 
     //ゲームオーバーかチェック
-    //ゴールの数が０になったら
-    if (goal_cnt <= 0)
+    //壁の数が０になったら
+    if (wall_cnt <= 0)
     {
         is_game_over = true;
 
@@ -706,7 +695,7 @@ void GameMainScene::InGameUpdate()
         //消してもOKだったらobjectを削除
         if (objects[i]->GetIsDelete() == true)
         {
-            if (objects[i]->GetObjectType() == ObjectType::goal) { goal_cnt -= 1; }
+            if (objects[i]->GetObjectType() == ObjectType::wall) { wall_cnt -= 1; }
             objects.erase(objects.begin() + i);
         }
     }

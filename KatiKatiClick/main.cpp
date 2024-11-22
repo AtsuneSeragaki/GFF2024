@@ -19,6 +19,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//アイコンの設定
 	SetWindowIconID(101);
+
+
 	if (DxLib_Init() == -1) return -1;	// DXライブラリの初期化処理
 	//SetBackgroundColor(119, 136, 153);
 

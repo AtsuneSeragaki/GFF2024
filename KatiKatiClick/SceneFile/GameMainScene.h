@@ -7,14 +7,12 @@
 #include "../ObjectFile/EnemyFile/SnakeEnemy.h"
 #include "../ObjectFile/EnemyFile/FrogEnemy.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
-#include "../ObjectFile/GoalFile/Goal.h"
-#include "../ObjectFile/GoalFile/Barrier.h"
+#include "../ObjectFile/WallFile/Wall.h"
 #include "../UtilityFile/Define.h"
 #include "../ObjectFile/CoinFile/Coin.h"
 #include "../UtilityFile/Geometry.h"
 #include "../ObjectFile/UIFile/UICoins.h"
 #include "../ObjectFile/UIFile/UITimer.h"
-#include "../ObjectFile/UIFile/UIGoal.h"
 #include "../ObjectFile/PauseFile/PauseButtonFile/PauseButton.h"
 #include "../ObjectFile/ShapeZoneFile/HitCircleZone.h"
 #include <vector>
@@ -38,12 +36,10 @@ private:
 	std::vector<Coin*> coins;
 	UICoins* ui_coins;
 	UITimer* ui_timer;
-	UIGoal* ui_goal;
-	Goal* goal;
 
 	int enm_generate_cnt;//エネミー生成カウント
 	
-	int goal_cnt;//ゴールの数カウント
+	int wall_cnt;//ゴールの数カウント
 
 	bool is_enm_generate;//エネミーを生成するか？
 

@@ -1,16 +1,16 @@
-#include "Barrier.h"
+#include "Wall.h"
 #include "DxLib.h"
 #include "../../UtilityFile/Define.h"
 #include "../../UtilityFile/ResourceManager.h"
 
-Barrier::Barrier()
+Wall::Wall()
 {
 
 	location.x = (float)SCREEN_WIDTH / 2.0f;
 	width = (float)SCREEN_WIDTH;
 	height = (float)ONE_LANE_HEIGHT / 4.0f;
 	shape = Shape::square;
-	object_type = ObjectType::barrier;
+	object_type = ObjectType::wall;
 	hp = 2;
 	can_hit = true;
 	can_shake = false;
@@ -34,7 +34,7 @@ Barrier::Barrier()
 	damage_display = false;
 }
 
-Barrier::~Barrier()
+Wall::~Wall()
 {
 	if (damage_effect != nullptr)
 	{
@@ -43,11 +43,11 @@ Barrier::~Barrier()
 	}
 }
 
-void Barrier::Initialize()
+void Wall::Initialize()
 {
 }
 
-void Barrier::Update()
+void Wall::Update()
 {
 	//if (change_cnt++ > 10)
 	//{
@@ -110,7 +110,7 @@ void Barrier::Update()
 	}
 }
 
-void Barrier::Draw() const
+void Wall::Draw() const
 {
 
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img[0], TRUE);
@@ -129,7 +129,7 @@ void Barrier::Draw() const
 	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xAD6820, FALSE);
 }
 
-void Barrier::HitReaction(ObjectBase* character)
+void Wall::HitReaction(ObjectBase* character)
 {
 	if (character->GetObjectType() == ObjectType::enemy)
 	{
