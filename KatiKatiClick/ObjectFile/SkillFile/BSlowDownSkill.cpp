@@ -36,10 +36,10 @@ BSlowDownSkill::BSlowDownSkill()
 
 	// 効果音の読み込み
 	int tmp_s;
-	tmp_s = rm->GetSounds("Resource/Sounds/Click/skill.mp3");
+	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Click/skill.mp3");
 	se[0] = tmp_s;
 
-	tmp_s = rm->GetSounds("Resource/Sounds/Click/mouse.mp3");
+	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Click/mouse.mp3");
 	se[1] = tmp_s;
 
 	ChangeVolumeSoundMem(150, se[0]);

@@ -41,7 +41,7 @@ FrogEnemy::FrogEnemy()
 	}
 
 	int tmp;
-	tmp = rm->GetSounds("Resource/Sounds/Click/hitenemy_c.mp3");
+	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/hitenemy_c.mp3");
 	se[0] = tmp;
 }
 
