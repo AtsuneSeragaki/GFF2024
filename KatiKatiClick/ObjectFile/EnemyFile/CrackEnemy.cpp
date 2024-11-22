@@ -145,15 +145,15 @@ void CrackEnemy::Update()
 void CrackEnemy::Draw() const
 {
 
-	DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
-	if (can_hit == true)
-	{
-		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
-	}
-	else
-	{
-		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
-	}
+	//DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
+	//if (can_hit == true)
+	//{
+	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
+	//}
+	//else
+	//{
+	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
+	//}
 	/*
 	//int r, g, b, a;
 	// //パレットの一覧を描画

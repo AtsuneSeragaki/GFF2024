@@ -107,16 +107,15 @@ void BurstEnemy::Update()
 
 void BurstEnemy::Draw() const
 {
-	DrawFormatString((int)location.x, (int)location.y, 0xe9967a, "hp:%d", hp);
-
-	if (can_hit == true)
-	{
-		DrawFormatString((int)location.x, (int)location.y-20, 0xe9967a, "true");
-	}
-	else
-	{
-		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
-	}
+	//DrawFormatString((int)location.x, (int)location.y, 0xe9967a, "hp:%d", hp);
+	//if (can_hit == true)
+	//{
+	//	DrawFormatString((int)location.x, (int)location.y-20, 0xe9967a, "true");
+	//}
+	//else
+	//{
+	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
+	//}
 
 	//int ex_rate = radius / 10;
 	//DrawRotaGraph(location.x, location.y, (double)ex_rate, 0, enemy_image[chenge_img], TRUE);
