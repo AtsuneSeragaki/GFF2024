@@ -8,6 +8,9 @@ private:
     std::vector<int> button_image;      // ボタン画像
     bool click_flg;                     // クリックされたか？
 
+    float no_button_location_x;
+    float no_button_location_y;
+
 public:
 	YesButton();
 	~YesButton();
