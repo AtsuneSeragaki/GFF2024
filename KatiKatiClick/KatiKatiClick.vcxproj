@@ -153,7 +153,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ObjectFile\GoalFile\DamageEffect.cpp" />
-    <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\ArrowButton.cpp" />
     <ClCompile Include="ObjectFile\GoalFile\Barrier.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\DeathEffect\DeathEffect.cpp" />
@@ -194,7 +193,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ObjectFile\GoalFile\DamageEffect.h" />
-    <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\ArrowButton.h" />
     <ClInclude Include="ObjectFile\GoalFile\Barrier.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\DeathEffect\DeathEffect.h" />
