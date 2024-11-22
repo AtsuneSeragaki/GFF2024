@@ -24,7 +24,7 @@ SlowDownSkill::SlowDownSkill()
 	image = effect_img[0];
 
 	int tmp2;
-	tmp2 = rm->GetSounds("Resource/Sounds/Skill/kumonosu.mp3");
+	tmp2 = rm->GetSounds("Resource/Sounds/GameMain/Skill/kumonosu.mp3");
 	se = tmp2;
 }
 

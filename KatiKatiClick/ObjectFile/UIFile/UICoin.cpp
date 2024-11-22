@@ -28,8 +28,9 @@ UICoins::UICoins()
 		image_num[i] = 0;
 	}
 
+	// 音データ読み込み
 	int tmp_s;
-	tmp_s = rm->GetSounds("Resource/Sounds/Coin/getcoin.mp3");
+	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Coin/getcoin.mp3");
 	se = tmp_s;
 
 	ChangeVolumeSoundMem(90, se);

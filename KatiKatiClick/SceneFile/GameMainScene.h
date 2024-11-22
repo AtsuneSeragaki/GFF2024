@@ -65,6 +65,9 @@ private:
 	bool click_title_button_flg;	// タイトルボタンをクリックしたか？
 	bool going_title;				// タイトルへ行きますか？
 
+	int bgm; // BGMデータ
+
+
 public:
 	GameMainScene();
 	~GameMainScene();
