@@ -95,12 +95,9 @@ void DamageEffect::WallDamageEffect()
 	pos3.x -= 3.0f;
 	pos4.x += 4.0f;
 
-	if (vel > 10)
-	{
-	}
 
 	smoke_cnt++;
-	if (smoke_cnt > 5)
+	if (smoke_cnt > 3)
 	{
 		smoke_cnt = 0;
 		img_num++;
@@ -132,6 +129,10 @@ void DamageEffect::Draw() const
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		break;
 	case Effect_Type::wall_damage:
+		DrawBox((int)pos1.x, (int)pos1.y, (int)pos1.x + 10, (int)pos1.y + 10, 0xffffff, TRUE);
+		DrawBox((int)pos2.x, (int)pos2.y, (int)pos2.x + 10, (int)pos2.y + 10, 0xffffff, TRUE);
+		DrawBox((int)pos3.x, (int)pos3.y, (int)pos3.x + 10, (int)pos3.y + 10, 0xffffff, TRUE);
+		DrawBox((int)pos4.x, (int)pos4.y, (int)pos4.x + 10, (int)pos4.y + 10, 0xffffff, TRUE);
 		DrawRotaGraph((int)pos.x, (int)pos.y - 64, 3, 0, smoke_img[img_num], TRUE);
 		break;
 	default:

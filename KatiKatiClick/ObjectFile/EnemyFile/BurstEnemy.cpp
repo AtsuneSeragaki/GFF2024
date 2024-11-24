@@ -28,6 +28,8 @@ BurstEnemy::BurstEnemy()
 	{
 		enemy_image.push_back(tmp_img[i]);
 	}
+
+	death_cnt = 2;
 }
 
 BurstEnemy::~BurstEnemy()
@@ -55,7 +57,6 @@ void BurstEnemy::Update()
 		{
 			state = State::move;
 		}
-
 		break;
 	case State::move:
 		location.y += speed;
@@ -99,7 +100,10 @@ void BurstEnemy::Update()
 		break;
 	case State::death:
 		can_create_zone = true;
-		can_delete = true;
+		if (death_cnt-- < 0)
+		{
+			can_delete = true;
+		}
 		break;
 	default:
 		break;

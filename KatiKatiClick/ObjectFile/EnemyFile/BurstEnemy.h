@@ -4,7 +4,7 @@ class BurstEnemy :
     public EnemyBase
 {
 private:
-
+    int death_cnt;//死ぬまでのカウント
 public:
     BurstEnemy();
     ~BurstEnemy();

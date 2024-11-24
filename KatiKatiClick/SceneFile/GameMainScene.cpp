@@ -79,7 +79,7 @@ GameMainScene::GameMainScene()
     going_title = false;
     is_bgm_active = false;
 
-    gameover_alpha = 0;
+    gameover_alpha = -50;
 }
 
 GameMainScene::~GameMainScene()
@@ -311,7 +311,7 @@ void GameMainScene::Draw() const
     if (game_state == GameState::gameover)
     {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameover_alpha);
-        DrawBox(0.0f, 0.0f, 360.0f, 800.0f, GetColor(255, 255, 255), TRUE);
+        DrawBox(0.0f, 0.0f, 360.0f, 800.0f, GetColor(0, 0, 0), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
@@ -888,10 +888,10 @@ void GameMainScene::InGameOverUpdate()
             {
                 objects[i]->Update();
             }
-        
     }
 
-    if (gameover_alpha++ > 255)
+    gameover_alpha += 2;
+    if (gameover_alpha > 300)
     {
         is_game_over = true;
     }
