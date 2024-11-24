@@ -101,15 +101,17 @@ void SnakeEnemy::Update()
 
 		break;
 	case State::goal:
-		if (location.y < 720)
+		if (wait_time-- < 0)
 		{
-			location.y += speed;
+			if (location.y < 720)
+			{
+				location.y += speed;
+			}
+			else {
+				//720より下に行ったら削除
+				can_delete = true;
+			}
 		}
-		else {
-			//720より下に行ったら削除
-			can_delete = true;
-		}
-
 		break;
 	case State::death:
 
@@ -162,10 +164,12 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		width -= 10.0f;
 		height -= 10.0f;
 		hit_cursor = true;
+		create_damage_effect = true;
 		break;
 	case ObjectType::wall:
 		can_hit = false;
 		state = State::death;
+		create_wall_effect = true;
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生

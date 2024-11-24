@@ -37,7 +37,7 @@ DamageEffect::DamageEffect(Vector2D set_location)
 	img_num = 0;
 	smoke_flg = false;
 	smoke_cnt = 0;
-
+	effect_type = Effect_Type::none;
 }
 
 DamageEffect::~DamageEffect()
@@ -45,6 +45,23 @@ DamageEffect::~DamageEffect()
 }
 
 void DamageEffect::Update()
+{
+
+	switch (effect_type)
+	{
+	case Effect_Type::enemy_damage:
+		EnemyDamageEffect();
+		break;
+	case Effect_Type::wall_damage:
+		WallDamageEffect();
+		break;
+	default:
+		break;
+	}
+
+}
+
+void DamageEffect::EnemyDamageEffect()
 {
 	if (count < 10) {
 		count++;
@@ -63,8 +80,6 @@ void DamageEffect::Update()
 	pos3.y += num;
 	pos4.x -= num;
 	pos4.y += num;
-
-
 }
 
 void DamageEffect::WallDamageEffect()
@@ -104,17 +119,25 @@ void DamageEffect::WallDamageEffect()
 
 void DamageEffect::Draw() const
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-	DrawBox((int)pos1.x, (int)pos1.y, (int)pos1.x + 10, (int)pos1.y + 10, 0xffffff, TRUE);
-	DrawBox((int)pos2.x, (int)pos2.y, (int)pos2.x + 10, (int)pos2.y + 10, 0xffffff, TRUE);
-	DrawBox((int)pos3.x, (int)pos3.y, (int)pos3.x + 10, (int)pos3.y + 10, 0xffffff, TRUE);
-	DrawBox((int)pos4.x, (int)pos4.y, (int)pos4.x + 10, (int)pos4.y + 10, 0xffffff, TRUE);
-	// 描画ブレンドモードをノーブレンドにする
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	switch (effect_type)
+	{
+	case Effect_Type::enemy_damage:
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+		DrawBox((int)pos1.x, (int)pos1.y, (int)pos1.x + 10, (int)pos1.y + 10, 0xffffff, TRUE);
+		DrawBox((int)pos2.x, (int)pos2.y, (int)pos2.x + 10, (int)pos2.y + 10, 0xffffff, TRUE);
+		DrawBox((int)pos3.x, (int)pos3.y, (int)pos3.x + 10, (int)pos3.y + 10, 0xffffff, TRUE);
+		DrawBox((int)pos4.x, (int)pos4.y, (int)pos4.x + 10, (int)pos4.y + 10, 0xffffff, TRUE);
+		// 描画ブレンドモードをノーブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		break;
+	case Effect_Type::wall_damage:
+		DrawRotaGraph((int)pos.x, (int)pos.y - 64, 3, 0, smoke_img[img_num], TRUE);
+		break;
+	default:
+		break;
+	}
 
-	DrawRotaGraph((int)pos.x, (int)pos.y-64, 3, 0, smoke_img[img_num], TRUE);
-	
 }
 
 bool DamageEffect::GetDeleteFlg()

@@ -43,11 +43,7 @@ Wall::Wall()
 
 Wall::~Wall()
 {
-	if (damage_effect != nullptr)
-	{
-		delete damage_effect;
-		damage_effect = nullptr;
-	}
+
 }
 
 void Wall::Initialize()
@@ -116,23 +112,19 @@ void Wall::Update()
 
 	}
 
-	//ダメージエフェクト更新処理
-	if (damage_effect != nullptr)
-	{
-		damage_effect->WallDamageEffect();
+	////ダメージエフェクト更新処理
+	//if (damage_effect != nullptr)
+	//{
+	//	damage_effect->WallDamageEffect();
 
-		//消しても良かったら
-		if (damage_effect->GetDeleteFlg() == true)
-		{
-			delete damage_effect;
-			damage_effect = nullptr;
-		}
-	}
+	//	//消しても良かったら
+	//	if (damage_effect->GetDeleteFlg() == true)
+	//	{
+	//		delete damage_effect;
+	//		damage_effect = nullptr;
+	//	}
+	//}
 
-	if (location.x == 175)
-	{
-		location.x += 5;
-	}
 }
 
 void Wall::Draw() const
@@ -141,7 +133,6 @@ void Wall::Draw() const
 
 	if (smoke_flg == true)
 	{
-		//DrawRotaGraph((int)damage_pos.x, (int)damage_pos.y-(int)height, 3, 0, smoke_img[img_num], TRUE);
 		DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height*2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, smoke_img[img_num], TRUE);
 	}
 	else
@@ -153,12 +144,6 @@ void Wall::Draw() const
 		}
 	}
 
-
-
-	if (damage_effect != nullptr)
-	{
-		damage_effect->Draw();
-	}
 	
 	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffff00, TRUE);
 	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xAD6820, FALSE);
@@ -175,10 +160,10 @@ void Wall::HitReaction(ObjectBase* character)
 			damage_pos.y = location.y;
 			damage_pos.x = character->GetLocation().x;//座標貰う
 			can_shake = true;
-			Vector2D set_pos;
-			set_pos.x = character->GetLocation().x;
-			set_pos.y = location.y;
-			damage_effect = new DamageEffect(set_pos);
+			//Vector2D set_pos;
+			//set_pos.x = character->GetLocation().x;
+			//set_pos.y = location.y;
+			//damage_effect = new DamageEffect(set_pos);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include "../ObjectBase.h"
-#include "../DamageEffect/DamageEffect.h"
 
 #include <vector>
 class Wall :
@@ -22,7 +21,6 @@ private:
 
     bool smoke_flg;
 
-    DamageEffect* damage_effect;
 
 public:
     Wall();

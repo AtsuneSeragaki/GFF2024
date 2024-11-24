@@ -15,6 +15,7 @@
 #include "../ObjectFile/UIFile/UITimer.h"
 #include "../ObjectFile/PauseFile/PauseButtonFile/PauseButton.h"
 #include "../ObjectFile/ShapeZoneFile/HitCircleZone.h"
+#include "../ObjectFile/DamageEffect/DamageEffect.h"
 #include <vector>
 
 enum class GameState
@@ -34,6 +35,7 @@ private:
 	ObjectBase* check_virtual;
 	std::vector<ObjectBase*> objects;
 	std::vector<Coin*> coins;
+	std::vector<DamageEffect*> damage_effect;
 	
 	UICoins* ui_coins;
 	UITimer* ui_timer;
@@ -66,6 +68,7 @@ private:
 
 	bool is_bgm_active; // BGM流れているか
 
+	int gameover_alpha;//ゲームオーバーの時に使用
 
 public:
 	GameMainScene();
@@ -77,15 +80,20 @@ public:
 
 private:
 	//プレイ中
-	void InGameUpdate();
-	void InStartUpdate();//スタート
-	void InGameClearUpdate();//ゲームクリア
-	void InGameOverUpdate();//ゲームオーバー
+	void InGameUpdate();//ゲームプレイ中のアップデート
+	void InStartUpdate();//ゲームスタートのアップデート
+	void InGameClearUpdate();//ゲームクリアアップデート
+	void InGameOverUpdate();//ゲームオーバーアップデート
 
 private:
 	void Initialize();
 	void EnemyGenerate(int num);
+	void GameOver_Enm_Generate();
 	void EnmGenerateTimeCheck();
+
+	void EnmMiniGenerate();
+	void EnmEffectGenerate();
+
 	void CoinGenerate(int i, int j);
 	// スキルボタンの解放でコインを使った時の処理
 	void SkillCoinUse(int i,int coin_num); 
