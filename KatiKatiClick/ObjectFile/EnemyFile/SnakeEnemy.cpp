@@ -69,6 +69,7 @@ void SnakeEnemy::Update()
 	case State::move:
 		location.y += speed;
 		
+
 		//cos動き
 		angle+=2;
 		if (angle > 360)

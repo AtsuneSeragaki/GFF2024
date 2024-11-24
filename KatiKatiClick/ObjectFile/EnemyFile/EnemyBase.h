@@ -83,5 +83,6 @@ public:
 	bool GetCreateDamageEffect() { return create_damage_effect; }
 	void OffCreateDamageEffect() { create_damage_effect=false; }
 	
+	void MoveShapeChange();
 };
 
