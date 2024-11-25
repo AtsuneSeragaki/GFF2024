@@ -4,6 +4,10 @@
 
 DamageEffect::DamageEffect(Vector2D set_location)
 {
+
+	box_width = 0;
+	box_height = 0;
+
 	pos1 = set_location;
 	pos2 = set_location;
 	pos3 = set_location;
@@ -63,23 +67,39 @@ void DamageEffect::Update()
 
 void DamageEffect::EnemyDamageEffect()
 {
-	if (count < 10) {
-		count++;
+	//段々大きくする
 
+	switch (count)
+	{
+	case 5:
+		box_width = 5;
+		box_height = 5;
+		break;
+	case 10:
+		box_width = 10;
+		box_height = 10;
+		break;
+	default:
+		break;
+	}
+
+	if (count < 15) {
+		count++;
+		float num = (float)count;
+		pos1.x -= num;
+		pos1.y -= num;
+		pos2.x += num;
+		pos2.y -= num;
+		pos3.x += num;
+		pos3.y += num;
+		pos4.x -= num;
+		pos4.y += num;
 	}
 	else
 	{
-		alpha = 70;
+		can_delete = true;
 	}
-	float num = (float)count;
-	pos1.x -= num;
-	pos1.y -= num;
-	pos2.x += num;
-	pos2.y -= num;
-	pos3.x += num;
-	pos3.y += num;
-	pos4.x -= num;
-	pos4.y += num;
+
 }
 
 void DamageEffect::WallDamageEffect()
@@ -121,10 +141,10 @@ void DamageEffect::Draw() const
 	{
 	case Effect_Type::enemy_damage:
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-		DrawBox((int)pos1.x, (int)pos1.y, (int)pos1.x + 10, (int)pos1.y + 10, 0xffffff, TRUE);
-		DrawBox((int)pos2.x, (int)pos2.y, (int)pos2.x + 10, (int)pos2.y + 10, 0xffffff, TRUE);
-		DrawBox((int)pos3.x, (int)pos3.y, (int)pos3.x + 10, (int)pos3.y + 10, 0xffffff, TRUE);
-		DrawBox((int)pos4.x, (int)pos4.y, (int)pos4.x + 10, (int)pos4.y + 10, 0xffffff, TRUE);
+		DrawBox((int)pos1.x-box_width, (int)pos1.y-box_height, (int)pos1.x + 10+box_width, (int)pos1.y + 10+box_height, 0xffffff, TRUE);
+		DrawBox((int)pos2.x-box_width, (int)pos2.y - box_height, (int)pos2.x + 10 + box_width, (int)pos2.y + 10 + box_height, 0xffffff, TRUE);
+		DrawBox((int)pos3.x - box_width, (int)pos3.y - box_height, (int)pos3.x + 10 + box_width, (int)pos3.y + 10 + box_height, 0xffffff, TRUE);
+		DrawBox((int)pos4.x - box_width, (int)pos4.y - box_height, (int)pos4.x + 10 + box_width, (int)pos4.y + 10 + box_height, 0xffffff, TRUE);
 		// 描画ブレンドモードをノーブレンドにする
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		break;

@@ -15,6 +15,8 @@ class DamageEffect
 private:
 	Effect_Type effect_type;
 	
+	int box_width;
+	int box_height;
 
 	Vector2D pos1;
 	Vector2D pos2;
