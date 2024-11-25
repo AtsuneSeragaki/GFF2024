@@ -1,6 +1,7 @@
 #include "ResultScene.h"
 #include "TitleScene.h"
 #include "GameMainScene.h"
+#include "../UtilityFile/ResourceManager.h"
 #include "../UtilityFile/Define.h"
 #include "DxLib.h"
 #include <math.h>
@@ -22,6 +23,19 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	is_clear = is_game_clear;
 
 	star_num = goal_num;
+
+	// ResourceManagerのインスタンスを取得
+	ResourceManager* rm = ResourceManager::GetInstance();
+
+	// 音データ読み込み
+	int tmp_bgm;
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Title/bgm.mp3");
+	bgm = tmp_bgm;
+
+	is_bgm_active = false;
+
+	// 音量変更
+	ChangeVolumeSoundMem(190, bgm);
 }
 
 ResultScene::~ResultScene()
@@ -30,6 +44,13 @@ ResultScene::~ResultScene()
 
 void ResultScene::Update()
 {
+	if (is_bgm_active == false)
+	{
+		is_bgm_active = true;
+		// BGM再生
+		PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+	}
+
 	cursor->Update();
 
 	if (cursor->GetPState() == P_State::attack && cursor->GetCanHit()==true)
@@ -141,10 +162,14 @@ AbstractScene* ResultScene::Change()
 	switch (select)
 	{
 	case 0:
+		StopSoundMem(bgm);
+		is_bgm_active = false;
 		return new GameMainScene();
 		break;
 
 	case 1:
+		StopSoundMem(bgm);
+		is_bgm_active = false;
 		return new TitleScene();
 		break;
 

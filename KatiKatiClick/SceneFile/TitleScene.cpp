@@ -24,13 +24,13 @@ TitleScene::TitleScene()
 
 	// 音データ読み込み
 	int tmp_bgm;
-	tmp_bgm = rm->GetSounds("Resource/Sounds/Title/bgm.mp3");
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/bgm.mp3");
 	bgm = tmp_bgm;
 
 	is_bgm_active = false;
 
 	// 音量変更
-	ChangeVolumeSoundMem(190, bgm);
+	ChangeVolumeSoundMem(200, bgm);
 }
 
 TitleScene::~TitleScene()

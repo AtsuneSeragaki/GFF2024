@@ -15,6 +15,8 @@ private:
 	int on_button; // カーソルがボタンの上にあるか
 	bool is_clear; // クリアしたか？
 	int star_num;      // 星の数
+	int bgm; // BGMデータ
+	bool is_bgm_active; // BGMが流れているか？
 
 public:
 	ResultScene(bool is_game_clear,int goal_num);

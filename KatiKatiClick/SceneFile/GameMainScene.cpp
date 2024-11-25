@@ -69,7 +69,7 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/BGM/bgm1.mp3");
     bgm = tmp_s;
 
-    ChangeVolumeSoundMem(150, bgm);
+    ChangeVolumeSoundMem(0, bgm);
 
     background_location_y = 0.0f;
 
@@ -362,7 +362,7 @@ void GameMainScene::InGameUpdate()
     }
     else
     {
-        ChangeVolumeSoundMem(150, bgm);
+        ChangeVolumeSoundMem(140, bgm);
     }
 
     for (int i = 0; i < coins.size(); i++)
