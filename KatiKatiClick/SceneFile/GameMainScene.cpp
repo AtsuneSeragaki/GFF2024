@@ -47,7 +47,7 @@ GameMainScene::GameMainScene()
 
     is_game_clear = false;
     is_game_over = false;
-    change_wait_time = 300;
+    change_wait_time = 120;
     is_enm_generate = true;
     is_pause = false;
     is_spos_select = false;
@@ -69,6 +69,9 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/BGM/bgm1.mp3");
     bgm = tmp_s;
 
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Time/Time.mp3");
+    se = tmp_s;
+
     ChangeVolumeSoundMem(0, bgm);
 
     background_location_y = 0.0f;
@@ -80,6 +83,8 @@ GameMainScene::GameMainScene()
     is_bgm_active = false;
 
     gameover_alpha = -50;
+
+    
 }
 
 GameMainScene::~GameMainScene()
@@ -329,14 +334,24 @@ AbstractScene* GameMainScene::Change()
         return new TitleScene;
     }
 
-    if (is_game_clear == true || is_game_over == true)
+    if (is_game_clear == true  && change_wait_time == 0)
+    {
+        // BGMを止める
+        StopSoundMem(bgm);
+        is_bgm_active = 0;
+        change_wait_time = 120;
+        // リザルト画面に遷移する
+        return new ResultScene(is_game_clear,wall_cnt);
+    }
+
+    if (is_game_over == true)
     {
         // BGMを止める
         StopSoundMem(bgm);
         is_bgm_active = 0;
 
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear,wall_cnt);
+        return new ResultScene(is_game_clear, wall_cnt);
     }
 
     /*if (change_wait_time <= 0)
@@ -652,12 +667,13 @@ void GameMainScene::InGameUpdate()
     {
         if (ui_timer->GetSeconds() == 0)
         {
+            if (change_wait_time == 120)
+            {
+                PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+            }
+            
             // 制限時間が0ならゲームクリア
             is_game_clear = true;
-
-            // BGMを止める
-            StopSoundMem(bgm);
-            is_bgm_active = 0;
 
             // シーン切り替え待ちカウントを減らす
             change_wait_time--;
@@ -692,9 +708,6 @@ void GameMainScene::InGameUpdate()
     //壁の数が０になったら
     if (wall_cnt <= 0)
     {
-        // BGMを止める
-        StopSoundMem(bgm);
-        is_bgm_active = 0;
         GameOver_Enm_Generate();
         game_state = GameState::gameover;//stateをゲームオーバーに
         return;            //この行より下の処理はしない

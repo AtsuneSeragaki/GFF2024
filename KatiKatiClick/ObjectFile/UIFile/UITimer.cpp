@@ -36,6 +36,7 @@ UITimer::UITimer()
 
 	time_bar_length = 300.0f;
 	now_time_bar_length = time_bar_length;
+
 }
 
 UITimer::~UITimer()
