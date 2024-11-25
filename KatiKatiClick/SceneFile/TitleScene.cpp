@@ -1,6 +1,7 @@
 #include "TitleScene.h"
 #include "EndScene.h"
 #include "GameMainScene.h"
+#include "../UtilityFile/ResourceManager.h"
 #include "../UtilityFile/Define.h"
 #include "DxLib.h"
 #include <math.h>
@@ -17,6 +18,19 @@ TitleScene::TitleScene()
 	select = -1;
 
 	on_button = -1;
+
+	// ResourceManagerのインスタンスを取得
+	ResourceManager* rm = ResourceManager::GetInstance();
+
+	// 音データ読み込み
+	int tmp_bgm;
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Title/bgm.mp3");
+	bgm = tmp_bgm;
+
+	is_bgm_active = false;
+
+	// 音量変更
+	ChangeVolumeSoundMem(190, bgm);
 }
 
 TitleScene::~TitleScene()
@@ -25,6 +39,13 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
+	if (is_bgm_active == false)
+	{
+		is_bgm_active = true;
+		// BGM再生
+		PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+	}
+
 	cursor->Update();
 
 	if (cursor->GetPState() == P_State::attack && cursor->GetCanHit() == true)
@@ -99,10 +120,14 @@ AbstractScene* TitleScene::Change()
 	switch (select)
 	{
 	case 0:
+		StopSoundMem(bgm);
+		is_bgm_active = false;
 		return new GameMainScene();
 		break;
 
 	case 1:
+		StopSoundMem(bgm);
+		is_bgm_active = false;
 		return new EndScene();
 		break;
 

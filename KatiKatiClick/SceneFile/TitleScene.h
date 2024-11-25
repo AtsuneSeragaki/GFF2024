@@ -13,6 +13,8 @@ private:
 	float x1, x2, y1, y2; // ボタンの座標
 	int select; // プレイヤーが選んだメニュー
 	int on_button; // カーソルがボタンの上にあるか
+	int bgm; // BGMデータ
+	bool is_bgm_active; // BGMが流れているか？
 
 public:
 	TitleScene();

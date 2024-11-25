@@ -39,6 +39,14 @@ Wall::Wall()
 	damage_display = false;
 	smoke_flg = false;
 	smoke_cnt = 0;
+
+	// 効果音読み込み
+	int tmp_s;
+	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Wall/wall3.mp3");
+	se = tmp_s;
+
+	// 音量変更
+	ChangeVolumeSoundMem(190, se);
 }
 
 Wall::~Wall()
@@ -64,6 +72,12 @@ void Wall::Update()
 
 	if (can_shake == true)
 	{
+		if (change_cnt == 0)
+		{
+			// 衝突効果音再生
+			PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+		}
+
 		change_cnt++;
 		switch (change_cnt)
 		{
