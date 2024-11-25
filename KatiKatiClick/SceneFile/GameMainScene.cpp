@@ -91,6 +91,12 @@ GameMainScene::~GameMainScene()
         delete obj;
     }
     objects.clear();
+
+    for (DamageEffect* effect : damage_effect)
+    {
+        delete effect;
+    }
+    damage_effect.clear();
 }
 
 void GameMainScene::Update()
@@ -311,7 +317,7 @@ void GameMainScene::Draw() const
     if (game_state == GameState::gameover)
     {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameover_alpha);
-        DrawBox(0.0f, 0.0f, 360.0f, 800.0f, GetColor(0, 0, 0), TRUE);
+        DrawBox(0, 0, 360, 800, GetColor(0, 0, 0), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
@@ -1089,15 +1095,11 @@ void GameMainScene::EnmMiniGenerate()
 
                 //小さいエネミーを作る
                 EnemyBase* crack_enemy_mini = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f, objects[i]->GetLocation().y + 40.0f));
-                crack_enemy_mini->SetHp(10);
-                crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                crack_enemy_mini->SetMini(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini->SetWaitTime(5);
-                crack_enemy_mini->SetSpeed(2.0f);
                 EnemyBase* crack_enemy_mini2 = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f, objects[i]->GetLocation().y + 40.0f));
-                crack_enemy_mini2->SetHp(10);
-                crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                crack_enemy_mini2->SetMini(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini2->SetWaitTime(5);
-                crack_enemy_mini2->SetSpeed(2.0f);
 
             }
         }
