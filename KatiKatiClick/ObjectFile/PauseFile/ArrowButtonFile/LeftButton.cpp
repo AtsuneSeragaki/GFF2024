@@ -20,6 +20,7 @@ LeftButton::LeftButton()
 	button_image.push_back(tmp[0]);
 
 	click_flg = false;
+	cursor_overlap_flg = false;
 }
 
 LeftButton::~LeftButton()
@@ -54,9 +55,4 @@ void LeftButton::HitReaction(ObjectBase* character)
 	{
 		click_flg = true;
 	}
-}
-
-bool LeftButton::GetClickFlg() const
-{
-	return click_flg;
 }

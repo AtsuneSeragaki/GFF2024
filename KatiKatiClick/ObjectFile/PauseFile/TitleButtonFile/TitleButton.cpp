@@ -21,6 +21,7 @@ TitleButton::TitleButton()
 	button_image.push_back(tmp[0]);
 
 	click_flg = false;
+	cursor_overlap_flg = false;
 }
 
 TitleButton::~TitleButton()
@@ -55,9 +56,4 @@ void TitleButton::HitReaction(ObjectBase* character)
 	{
 		click_flg = true;
 	}
-}
-
-bool TitleButton::GetClickFlg() const
-{
-	return click_flg;
 }

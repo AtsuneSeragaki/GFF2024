@@ -32,6 +32,8 @@ YesButton::YesButton()
 
 	no_button_location_x = 260.0f;
 	no_button_location_y = 330.0f;
+
+	cursor_overlap_flg = false;
 }
 
 YesButton::~YesButton()
@@ -46,11 +48,18 @@ void YesButton::Initialize()
 
 void YesButton::Update()
 {
-
+	cursor_overlap_flg = false;
 }
 
 void YesButton::Draw() const
 {
+	// 描画ブレンドモードをアルファブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+	// 黒色四角
+	DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0x000000, TRUE);
+	// 描画ブレンドモードをノーブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 	//  ダイアログボックス画像の描画
 	DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, button_image[2], TRUE);
 
@@ -59,6 +68,18 @@ void YesButton::Draw() const
 
 	//  "いいえ"ボタン画像の描画
 	DrawRotaGraphF(no_button_location_x, no_button_location_y, 1.0, 0.0, button_image[1], TRUE);
+
+	// カーソルが "はい"ボタンに重なっていたら
+	if (cursor_overlap_flg)
+	{
+		// ポーズボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		//  "はい"ボタン画像の描画
+		DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+	}
 }
 
 void YesButton::HitReaction(ObjectBase* character)
@@ -67,9 +88,4 @@ void YesButton::HitReaction(ObjectBase* character)
 	{
 		click_flg = true;
 	}
-}
-
-bool YesButton::GetClickFlg() const
-{
-	return click_flg;
 }

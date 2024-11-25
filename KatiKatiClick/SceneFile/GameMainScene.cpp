@@ -527,6 +527,7 @@ void GameMainScene::InGameUpdate()
         {
             for (int j = i + 1; j < objects.size(); j++)
             {
+                // タイトルボタンが押されたら
                 if (click_title_button_flg)
                 {
                     if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::yesbutton)
@@ -570,6 +571,18 @@ void GameMainScene::InGameUpdate()
                     if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::pausebutton
                         || objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::in_pausebutton)
                     {
+                        //もしshapeが違かったら
+                        if (objects[i]->GetShape() != objects[j]->GetShape())
+                        {
+                            //ヒットチェック
+                            if (objects[i]->HitBoxCircle(objects[j]) == true)
+                            {
+                                // カーソルが重なっている
+                                PauseBase* pause_button = dynamic_cast<PauseBase*>(objects[j]);
+                                pause_button->SetCursorOverlapFlg();
+                            }
+                        }
+
                         if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
                         //もしshapeが違かったら
