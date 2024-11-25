@@ -537,7 +537,10 @@ void GameMainScene::InGameUpdate()
                             {
                                 // カーソルが重なっている
                                 PauseBase* pause_button = dynamic_cast<PauseBase*>(objects[j]);
-                                pause_button->SetCursorOverlapFlg();
+                                if (pause_button != nullptr)
+                                {
+                                    pause_button->SetCursorOverlapFlg();
+                                }
                             }
                         }
 
@@ -775,11 +778,13 @@ void GameMainScene::InGameUpdate()
     {
         // ポーズ中のボタンは処理を飛ばす
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
+        if (objects[i]->GetObjectType() == ObjectType::choicebutton) continue;
 
         for (int j = i + 1; j < objects.size(); j++)
         {
             // ポーズ中のボタンは処理を飛ばす
             if (objects[j]->GetObjectType() == ObjectType::in_pausebutton) continue;
+            if (objects[j]->GetObjectType() == ObjectType::choicebutton) continue;
 
             if (objects[i]->GetObjectType() == ObjectType::cursor && objects[i]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
             {
@@ -808,6 +813,21 @@ void GameMainScene::InGameUpdate()
                     else
                     {
                         ResetCursorBSkill(i);
+                    }
+                }
+            }
+
+            // PauseButtonがカーソルと重なっているか調べる
+            if (objects[i]->GetShape() != objects[j]->GetShape())
+            {
+                //ヒットチェック
+                if (objects[i]->HitBoxCircle(objects[j]) == true)
+                {
+                    // カーソルが重なっている
+                    PauseBase* pause_button = dynamic_cast<PauseBase*>(objects[j]);
+                    if (pause_button != nullptr)
+                    {
+                        pause_button->SetCursorOverlapFlg();
                     }
                 }
             }
