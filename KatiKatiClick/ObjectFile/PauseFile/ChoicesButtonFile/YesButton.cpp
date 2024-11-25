@@ -9,7 +9,7 @@ YesButton::YesButton()
 	can_hit = true;
 	object_type = ObjectType::yesbutton;
 	shape = Shape::square;
-	width = 81.0f;
+	width = 80.0f;
 	height = 32.0f;
 
 	// ResourceManagerのインスタンスを取得
@@ -18,10 +18,6 @@ YesButton::YesButton()
 
 	// "はい"ボタン画像を読み込む
 	tmp = rm->GetImages("Resource/Images/Pause/Button/YesButton.png");
-	button_image.push_back(tmp[0]);
-
-	// "いいえ"ボタン画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/Button/NoButton.png");
 	button_image.push_back(tmp[0]);
 
 	// ダイアログボックス画像を読み込む
@@ -34,6 +30,7 @@ YesButton::YesButton()
 	no_button_location_y = 330.0f;
 
 	cursor_overlap_flg = false;
+	no_button_overlap_flg = false;
 }
 
 YesButton::~YesButton()
@@ -61,13 +58,10 @@ void YesButton::Draw() const
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//  ダイアログボックス画像の描画
-	DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, button_image[2], TRUE);
+	DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, button_image[1], TRUE);
 
 	//  "はい"ボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
-
-	//  "いいえ"ボタン画像の描画
-	DrawRotaGraphF(no_button_location_x, no_button_location_y, 1.0, 0.0, button_image[1], TRUE);
 
 	// カーソルが "はい"ボタンに重なっていたら
 	if (cursor_overlap_flg)
@@ -88,4 +82,9 @@ void YesButton::HitReaction(ObjectBase* character)
 	{
 		click_flg = true;
 	}
+}
+
+// "いいえ"ボタンとカーソルの当たり判定
+void YesButton::HitNoButtonCheck()
+{
 }

@@ -65,9 +65,10 @@
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.cpp" />
-    <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\YesButton.cpp" />
     <ClCompile Include="SceneFile\ResultScene.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\PauseBase.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -137,9 +138,10 @@
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
     <ClInclude Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.h" />
-    <ClInclude Include="ObjectFile\PauseFile\YesButtonFile\YesButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\YesButton.h" />
     <ClInclude Include="SceneFile\ResultScene.h" />
     <ClInclude Include="ObjectFile\PauseFile\PauseBase.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">
