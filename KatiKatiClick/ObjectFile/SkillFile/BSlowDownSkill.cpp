@@ -45,7 +45,12 @@ BSlowDownSkill::BSlowDownSkill()
 	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Click/mouse.mp3");
 	se[1] = tmp_s;
 
+	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Skill/skill_possible.mp3");
+	se[2] = tmp_s;
+
+	// 音量変更
 	ChangeVolumeSoundMem(150, se[0]);
+	ChangeVolumeSoundMem(200, se[2]);
 
 	effect_x = location.x;
 	effect_y = location.y - 5;
@@ -84,6 +89,11 @@ void BSlowDownSkill::Update()
 
 	if (bskill_state == BSkillState::possible)
 	{
+		if (effect_width == 200)
+		{
+			PlaySoundMem(se[2], DX_PLAYTYPE_BACK, TRUE);
+		}
+
 		ChangeButtonSize();
 	}
 	else
