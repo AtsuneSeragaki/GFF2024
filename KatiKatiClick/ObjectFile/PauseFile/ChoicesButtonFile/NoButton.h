@@ -2,17 +2,14 @@
 #include "../PauseBase.h"
 #include <vector>
 
-class YesButton : public PauseBase
+class NoButton : public PauseBase
 {
 private:
     std::vector<int> button_image;      // ボタン画像
 
-    float no_button_location_x;
-    float no_button_location_y;
-
 public:
-	YesButton();
-	~YesButton();
+    NoButton();
+    ~NoButton();
 
     void Initialize() override;
     void Update()override;

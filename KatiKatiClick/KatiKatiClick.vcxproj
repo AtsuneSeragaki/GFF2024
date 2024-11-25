@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.cpp" />
     <ClCompile Include="ObjectFile\WallFile\Wall.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\DamageEffect\DamageEffect.cpp" />
@@ -188,9 +189,10 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SceneFile\SceneManager.cpp" />
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
-    <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\YesButton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.h" />
     <ClInclude Include="ObjectFile\WallFile\Wall.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\DamageEffect\DamageEffect.h" />
@@ -230,7 +232,7 @@
     <ClInclude Include="ObjectFile\ObjectBase.h" />
     <ClInclude Include="SceneFile\SceneManager.h" />
     <ClInclude Include="UtilityFile\ResourceManager.h" />
-    <ClInclude Include="ObjectFile\PauseFile\YesButtonFile\YesButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\YesButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />
