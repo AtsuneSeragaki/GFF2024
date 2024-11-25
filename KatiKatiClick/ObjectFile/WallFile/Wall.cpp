@@ -44,9 +44,12 @@ Wall::Wall()
 	int tmp_s;
 	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Wall/wall3.mp3");
 	se = tmp_s;
+	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Wall/wall2.mp3");
+	se_2 = tmp_s;
 
 	// 音量変更
-	ChangeVolumeSoundMem(190, se);
+	ChangeVolumeSoundMem(255, se);
+	ChangeVolumeSoundMem(255, se_2);
 }
 
 Wall::~Wall()
@@ -74,8 +77,16 @@ void Wall::Update()
 	{
 		if (change_cnt == 0)
 		{
-			// 衝突効果音再生
-			PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+			if (hp > 0)
+			{
+				// 衝突効果音再生
+				PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+			}
+			else
+			{
+				// 衝突効果音再生
+				PlaySoundMem(se_2, DX_PLAYTYPE_BACK, TRUE);
+			}
 		}
 
 		change_cnt++;

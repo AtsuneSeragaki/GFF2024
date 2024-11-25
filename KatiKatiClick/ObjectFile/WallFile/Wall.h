@@ -22,6 +22,7 @@ private:
     bool smoke_flg;
 
     int se; // 効果音
+    int se_2; // 効果音
 
 
 public:
