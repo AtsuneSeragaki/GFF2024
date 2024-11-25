@@ -70,6 +70,8 @@ void PauseButton::Initialize()
 
 void PauseButton::Update()
 {
+	cursor_overlap_flg = false;
+
 	if (is_pause == false)
 	{
 		// 画像を停止ボタンにする
@@ -155,10 +157,22 @@ void PauseButton::Draw() const
 		}
 	}
 
-	// DrawFormatString(200, 200, 0x00000, "page %d", page_num);
+	//DrawFormatString(200, 200, 0x00000, "overlap %d", cursor_overlap_flg);
 
 	// ポーズボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
+
+	// カーソルがポーズボタンに重なっていたら
+	if (cursor_overlap_flg)
+	{
+		// ポーズボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		// ポーズボタン画像の描画
+		DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+	}
 }
 
 void PauseButton::HitReaction(ObjectBase* character)

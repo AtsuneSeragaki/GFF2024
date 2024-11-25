@@ -311,7 +311,7 @@ void GameMainScene::Draw() const
     if (game_state == GameState::gameover)
     {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameover_alpha);
-        DrawBox(0.0f, 0.0f, 360.0f, 800.0f, GetColor(0, 0, 0), TRUE);
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, GetColor(0, 0, 0), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
@@ -565,15 +565,19 @@ void GameMainScene::InGameUpdate()
                     if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::pausebutton
                         || objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::in_pausebutton)
                     {
-                        if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
-
                         //もしshapeが違かったら
                         if (objects[i]->GetShape() != objects[j]->GetShape())
                         {
-                            // カーソルが重なっている
-                            // 
+                            //ヒットチェック
+                            if (objects[i]->HitBoxCircle(objects[j]) == true)
+                            {
+                                // カーソルが重なっている
+                                PauseBase* pause_button = dynamic_cast<PauseBase*>(objects[j]);
+                                pause_button->SetCursorOverlapFlg();
+                            }
                         }
 
+                        if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
                         //もしshapeが違かったら
                         if (objects[i]->GetShape() != objects[j]->GetShape())
