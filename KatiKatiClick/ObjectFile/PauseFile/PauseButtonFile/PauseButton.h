@@ -1,8 +1,8 @@
 #pragma once
-#include "../../ObjectBase.h"
+#include "../PauseBase.h"
 #include <vector>
 
-class PauseButton : public ObjectBase
+class PauseButton : public PauseBase
 {
 private:
     bool is_pause;          // 一時停止か？
@@ -30,4 +30,3 @@ public:
 
     void SetPage(bool change_left);                     // ページの設定
 };
-

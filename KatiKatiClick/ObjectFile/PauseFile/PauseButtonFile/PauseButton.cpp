@@ -54,6 +54,8 @@ PauseButton::PauseButton()
 	page_num = 0;
 	mouse_image_num = 0;
 	animation_count = 0;
+
+	cursor_overlap_flg = false;
 }
 
 PauseButton::~PauseButton()
@@ -78,6 +80,7 @@ void PauseButton::Update()
 			// ページを0に戻す
 			page_num = 0;
 			animation_count = 0;
+			mouse_image_num = 0;
 		}
 	}
 	else
@@ -85,13 +88,31 @@ void PauseButton::Update()
 		// 画像を再生ボタンにする
 		image_num = 1;
 
-		if (animation_count < 30)
+		// マウスのアニメーション処理
+		if (page_num <= 2)
 		{
-			animation_count++;
+			if (animation_count < 30)
+			{
+				animation_count++;
+			}
+			else
+			{
+				animation_count = 0;
+
+				if (mouse_image_num < 1)
+				{
+					mouse_image_num++;
+				}
+				else
+				{
+					mouse_image_num = 0;
+				}
+			}
 		}
 		else
 		{
 			animation_count = 0;
+			mouse_image_num = 0;
 		}
 	}
 }
@@ -115,7 +136,7 @@ void PauseButton::Draw() const
 		if (page_num <= 2)
 		{
 			// マウス画像の描画
-			DrawRotaGraphF(320.0f, 400.0f, 1.0, 0.0, mouse_image[mouse_image_num], TRUE);
+			DrawRotaGraphF(320.0f, 440.0f, 1.0, 0.0, mouse_image[mouse_image_num], TRUE);
 		}
 
 		for (int i = 0; i < 5; i++)

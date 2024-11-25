@@ -172,6 +172,7 @@
     <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SplitEnemy.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\PauseBase.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
     <ClCompile Include="SceneFile\ResultScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="ObjectFile\EnemyFile\SnakeEnemy.h" />
     <ClInclude Include="ObjectFile\EnemyFile\SplitEnemy.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\PauseBase.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
     <ClInclude Include="SceneFile\ResultScene.h" />
     <ClInclude Include="SceneFile\TitleScene.h" />

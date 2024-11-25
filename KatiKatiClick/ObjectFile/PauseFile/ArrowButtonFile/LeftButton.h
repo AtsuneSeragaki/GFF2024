@@ -1,12 +1,11 @@
 #pragma once
-#include "../../ObjectBase.h"
+#include "../PauseBase.h"
 #include <vector>
 
-class LeftButton : public ObjectBase
+class LeftButton : public PauseBase
 {
 private:
 	std::vector<int> button_image;      // ボタン画像
-	bool click_flg;						// クリックされたか？
 
 public:
 	LeftButton();
@@ -16,6 +15,4 @@ public:
 	void Update()override;
 	void Draw()const override;
 	void HitReaction(ObjectBase* character) override;
-
-	bool GetClickFlg() const;
 };

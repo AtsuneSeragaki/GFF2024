@@ -32,6 +32,8 @@ YesButton::YesButton()
 
 	no_button_location_x = 260.0f;
 	no_button_location_y = 330.0f;
+
+	cursor_overlap_flg = false;
 }
 
 YesButton::~YesButton()
@@ -74,9 +76,4 @@ void YesButton::HitReaction(ObjectBase* character)
 	{
 		click_flg = true;
 	}
-}
-
-bool YesButton::GetClickFlg() const
-{
-	return click_flg;
 }
