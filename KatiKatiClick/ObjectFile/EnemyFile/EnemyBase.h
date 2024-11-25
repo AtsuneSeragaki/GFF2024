@@ -57,7 +57,7 @@ public:
 		shape_change_cnt = 0;
 		create_damage_effect = false;
 		create_wall_effect = false;
-		face_num = 0;
+		face_num =0;
 		face_exrate = 2.0;
 		face_shift_y = 18;
 
@@ -90,6 +90,7 @@ public:
 		speed = 2.0f;
 		face_exrate = 1.3;
 		face_shift_y = 11;
+		face_num = 2;
 	}
 	void SetHp(int set_hp) { hp = set_hp; }
 	void StopCreateMini() { can_create_mini = false; }
@@ -98,8 +99,6 @@ public:
 	void SetStateGameOver() {
 		speed = 5;
 		state = State::goal;
-		create_damage_effect;
-		create_wall_effect;
 	}
 	bool GetCreateWallEffect() { return create_wall_effect; }
 	void OffCreateWallEffect() { create_wall_effect=false; }
