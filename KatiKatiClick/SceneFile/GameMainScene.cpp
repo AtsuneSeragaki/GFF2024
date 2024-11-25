@@ -78,6 +78,8 @@ GameMainScene::GameMainScene()
     click_title_button_flg = false;
     going_title = false;
     is_bgm_active = false;
+
+    gameover_alpha = -50;
 }
 
 GameMainScene::~GameMainScene()
@@ -240,6 +242,12 @@ void GameMainScene::Draw() const
             coins[i]->Draw();
         }
 
+        //ダメージエフェクトの描画
+        for (int i = 0; i < damage_effect.size(); i++)
+        {
+            damage_effect[i]->Draw();
+        }
+
         if (ui_timer != nullptr)
         {
             // タイマー描画処理
@@ -299,6 +307,13 @@ void GameMainScene::Draw() const
         DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
     }
 
+
+    if (game_state == GameState::gameover)
+    {
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameover_alpha);
+        DrawBox(0.0f, 0.0f, 360.0f, 800.0f, GetColor(0, 0, 0), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
     //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
 }
 
@@ -359,6 +374,17 @@ void GameMainScene::InGameUpdate()
         if (coins[i]->GetCanDeleteFlg() == true)
         {
             coins.erase(coins.begin() + i);
+        }
+    }
+
+    //ダメージエフェクト更新
+    for (int i = 0; i < damage_effect.size(); i++)
+    {
+        damage_effect[i]->Update();
+
+        if (damage_effect[i]->GetDeleteFlg() == true)
+        {
+           damage_effect.erase(damage_effect.begin() + i);
         }
     }
 
@@ -666,12 +692,10 @@ void GameMainScene::InGameUpdate()
     //壁の数が０になったら
     if (wall_cnt <= 0)
     {
-        is_game_over = true;
-
         // BGMを止める
         StopSoundMem(bgm);
         is_bgm_active = 0;
-
+        GameOver_Enm_Generate();
         game_state = GameState::gameover;//stateをゲームオーバーに
         return;            //この行より下の処理はしない
     }
@@ -805,6 +829,15 @@ void GameMainScene::InGameUpdate()
     //エネミーを生成
     EnmGenerateTimeCheck();
 
+    //小さいSpritEnemyを生成
+    EnmMiniGenerate();
+
+    //敵のEffectを生成
+    EnmEffectGenerate();
+
+
+
+    /*
     //小さいSplitEnemyを生成
     for (int i = 0; i < objects.size(); i++)
     {
@@ -831,6 +864,7 @@ void GameMainScene::InGameUpdate()
             }
         }
     }
+    */
 }
 
 void GameMainScene::InStartUpdate()
@@ -843,8 +877,24 @@ void GameMainScene::InGameClearUpdate()
 
 void GameMainScene::InGameOverUpdate()
 {
-    // シーン切り替え待ちカウントを減らす
-    change_wait_time--;
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() != ObjectType::enemy) { continue; }
+        
+            //画面内に表示されていたら
+            //stateがgoalだったら
+            EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+            if (enemy != nullptr && enemy->GetState() == State::goal)
+            {
+                objects[i]->Update();
+            }
+    }
+
+    gameover_alpha += 2;
+    if (gameover_alpha > 300)
+    {
+        is_game_over = true;
+    }
     CursorUpdate();        // カーソルのみ更新
 }
 
@@ -886,6 +936,61 @@ void GameMainScene::EnemyGenerate(int num)
         CreateObject<FrogEnemy>(Vector2D(((float)LANE_WIDTH * 3.0f) - (float)LANE_WIDTH_HALF, -500.0f));//エネミー生成
     }
     
+}
+
+void GameMainScene::GameOver_Enm_Generate()
+{
+    int wait_time = 20;
+
+   for (int i = 0; i < gameover_enm_array.size(); i++)
+    {
+        for (int j = 0; j < gameover_enm_array[i].size(); j++)
+        {
+
+            if (gameover_enm_array[i][j] == 0) { continue; }
+
+            float lane = ((float)SCREEN_WIDTH / 6) * (float)j + 60.0f;
+
+            if (gameover_enm_array[i][j] == (int)Enemys::CrackEnemy)
+            {
+                EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                crack_enemy->SetWaitTime(i * wait_time);
+                crack_enemy->SetStateGameOver();
+            }
+
+            if (gameover_enm_array[i][j] == (int)Enemys::BurstEnemy)
+            {
+                EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                burst_enemy->SetWaitTime(i * wait_time);
+                burst_enemy->SetStateGameOver();
+            }
+
+            if (gameover_enm_array[i][j] == (int)Enemys::SplitEnemy)
+            {
+                EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                split_enemy->SetWaitTime(i * wait_time);
+                split_enemy->SetStateGameOver();
+            }
+
+            if (gameover_enm_array[i][j] == (int)Enemys::FrogEnemy)
+            {
+                EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                frog_enemy->SetWaitTime(i * wait_time);
+                frog_enemy->SetStateGameOver();
+            }
+
+
+            if (gameover_enm_array[i][j] == (int)Enemys::SnakeEnemy)
+            {
+                EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                //i*60待ってから出てくる
+                snake_enemy->SetWaitTime((i * wait_time));
+                snake_enemy->SetStateGameOver();
+            }
+        }
+    }
+        
+
 }
 
 void GameMainScene::EnmGenerateTimeCheck()
@@ -965,6 +1070,72 @@ void GameMainScene::EnmGenerateTimeCheck()
     default:
         is_enm_generate = true;
         break;
+    }
+
+}
+
+void GameMainScene::EnmMiniGenerate()
+{
+    //小さいSplitEnemyを生成
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::enemy)
+        {
+            EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+
+            if (enemy->GetCanCreateMini() == true)
+            {
+                enemy->StopCreateMini();
+
+                //小さいエネミーを作る
+                EnemyBase* crack_enemy_mini = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f, objects[i]->GetLocation().y + 40.0f));
+                crack_enemy_mini->SetHp(10);
+                crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                crack_enemy_mini->SetWaitTime(5);
+                crack_enemy_mini->SetSpeed(2.0f);
+                EnemyBase* crack_enemy_mini2 = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f, objects[i]->GetLocation().y + 40.0f));
+                crack_enemy_mini2->SetHp(10);
+                crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                crack_enemy_mini2->SetWaitTime(5);
+                crack_enemy_mini2->SetSpeed(2.0f);
+
+            }
+        }
+    }
+
+}
+
+void GameMainScene::EnmEffectGenerate()
+{
+
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::enemy)
+        {
+            EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+
+            if (enemy->GetCreateWallEffect() == true)
+            {
+                //flgをオフに
+                enemy->OffCreateWallEffect();
+                Vector2D set_pos = 0;
+                set_pos.x = enemy->GetLocation().x;
+                set_pos.y = enemy->GetLocation().y+enemy->GetHeight();
+
+                //壁のダメージエフェクトを作成
+                damage_effect.push_back(new DamageEffect(set_pos));
+                damage_effect.back()->SetEffectWallDamage();
+            }
+
+            if (enemy->GetCreateDamageEffect() == true)
+            {
+                //flgをオフに
+                enemy->OffCreateDamageEffect();
+                //敵のダメージエフェクトを作成
+                damage_effect.push_back(new DamageEffect(objects[i]->GetLocation()));
+                damage_effect.back()->SetEffectEnemyDamage();
+            }
+        }
     }
 
 }

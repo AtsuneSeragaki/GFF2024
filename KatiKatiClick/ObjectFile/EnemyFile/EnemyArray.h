@@ -71,6 +71,16 @@ std::vector<std::vector<int>> enemy_array =
 
 };
 
+
+std::vector<std::vector<int>> gameover_enm_array =
+{
+	{1,1,1,1,1},
+	{2,2,2,2,2},
+	{4,4,4,4,4},
+	{5,5,5,5,5},
+	{3,3,3,3,3},
+};
+
 /*
 * 	0:None,
 	1:CrackEnemy,

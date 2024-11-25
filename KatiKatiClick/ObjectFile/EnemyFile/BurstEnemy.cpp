@@ -28,6 +28,8 @@ BurstEnemy::BurstEnemy()
 	{
 		enemy_image.push_back(tmp_img[i]);
 	}
+
+	death_cnt = 2;
 }
 
 BurstEnemy::~BurstEnemy()
@@ -55,7 +57,6 @@ void BurstEnemy::Update()
 		{
 			state = State::move;
 		}
-
 		break;
 	case State::move:
 		location.y += speed;
@@ -85,18 +86,24 @@ void BurstEnemy::Update()
 
 		break;
 	case State::goal:
-		if (location.y < 720)
+		if (wait_time-- < 0)
 		{
-			location.y += speed;
-		}
-		else {
-			//720より下に行ったら削除
-			can_delete = true;
+			if (location.y < 720)
+			{
+				location.y += speed;
+			}
+			else {
+				//720より下に行ったら削除
+				can_delete = true;
+			}
 		}
 		break;
 	case State::death:
 		can_create_zone = true;
-		can_delete = true;
+		if (death_cnt-- < 0)
+		{
+			can_delete = true;
+		}
 		break;
 	default:
 		break;
@@ -147,10 +154,12 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		radius += 15.0f;
 		change_img++;
 		hit_cursor = true;
+		create_damage_effect = true;
 		break;
 	case ObjectType::wall:
 		can_hit = false;
 		state = State::death;
+		create_wall_effect = true;
 		break;
 	case ObjectType::attackskill:
 		hp -= 30;

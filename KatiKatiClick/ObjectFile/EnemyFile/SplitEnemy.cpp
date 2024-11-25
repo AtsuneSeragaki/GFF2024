@@ -70,24 +70,8 @@ void SplitEnemy::Update()
 		location.y += speed;
 
 		//５カウントずつ幅の大きさを変えて歩いているように
-		if (shape_change_cnt++ > 5)
-		{
-			shape_change_cnt = 0;
-			if (shape_change_x == 0)
-			{
-				shape_change_x = 3;
-				shape_change_y = 2;
-			}
-			else if (shape_change_y == 2)
-			{
-				shape_change_y = 5;
-			}
-			else
-			{
-				shape_change_x = 0;
-				shape_change_y = 0;
-			}
-		}
+		MoveShapeChange();
+
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
@@ -112,14 +96,16 @@ void SplitEnemy::Update()
 
 		break;
 	case State::goal:
-
-		if (location.y < 720)
+		if (wait_time-- < 0)
 		{
-			location.y += speed;
-		}
-		else {
-			//720より下に行ったら削除
-			can_delete = true;
+			if (location.y < 720)
+			{
+				location.y += speed;
+			}
+			else {
+				//720より下に行ったら削除
+				can_delete = true;
+			}
 		}
 
 		break;
@@ -199,10 +185,12 @@ void SplitEnemy::HitReaction(ObjectBase* character)
 		}
 		hp -= 20;
 		hit_cursor = true;
+		create_damage_effect = true;//ダメージエフェクト生成
 		break;
 	case ObjectType::wall:
 		can_hit = false;
 		state = State::death;
+		create_wall_effect = true;//壁にぶつかったときのエフェクト生成
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生

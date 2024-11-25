@@ -31,7 +31,8 @@ protected:
 	int shape_change_y;
 	int shape_change_cnt;//カウント
 
-	
+	bool create_wall_effect;//壁にぶつかった時のエフェクト
+	bool create_damage_effect;//ダメージ受けた時のエフェクト
 
 public:
 	EnemyBase()
@@ -49,6 +50,8 @@ public:
 		shape_change_x = 0;
 		shape_change_y = 0;
 		shape_change_cnt = 0;
+		create_damage_effect = false;
+		create_wall_effect = false;
 	}
 	~EnemyBase(){};
 
@@ -68,6 +71,18 @@ public:
 	void SetHp(int set_hp) { hp = set_hp; }
 	void StopCreateMini() { can_create_mini = false; }
 	void SetSpeed(float set_speed) { speed = set_speed; }
-	void SetStateGameOver() { state = State::goal; }
+	State GetState() { return state; }
+	void SetStateGameOver() {
+		speed = 5;
+		state = State::goal;
+		create_damage_effect;
+		create_wall_effect;
+	}
+	bool GetCreateWallEffect() { return create_wall_effect; }
+	void OffCreateWallEffect() { create_wall_effect=false; }
+	bool GetCreateDamageEffect() { return create_damage_effect; }
+	void OffCreateDamageEffect() { create_damage_effect=false; }
+	
+	void MoveShapeChange();
 };
 

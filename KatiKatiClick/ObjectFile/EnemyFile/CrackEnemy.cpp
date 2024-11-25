@@ -68,24 +68,7 @@ void CrackEnemy::Update()
 		location.y += speed;
 		
 		//５カウントずつ幅の大きさを変えて歩いているように
-		if (shape_change_cnt++ > 5)
-		{
-			shape_change_cnt = 0;
-			if (shape_change_x == 0)
-			{
-				shape_change_x = 3;
-				shape_change_y = 2;
-			}
-			else if(shape_change_y==2)
-			{
-				shape_change_y = 5;
-			}
-			else
-			{
-				shape_change_x = 0;
-				shape_change_y = 0;
-			}
-		}
+		MoveShapeChange();
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
@@ -108,14 +91,16 @@ void CrackEnemy::Update()
 
 		break;
 	case State::goal:
-
-		if (location.y < 720)
+		if (wait_time-- < 0)
 		{
-			location.y += speed;
-		}
-		else {
-			//720より下に行ったら削除
-			can_delete = true;
+			if (location.y < 720)
+			{
+				location.y += speed;
+			}
+			else {
+				//720より下に行ったら削除
+				can_delete = true;
+			}
 		}
 
 		break;
@@ -145,43 +130,6 @@ void CrackEnemy::Update()
 void CrackEnemy::Draw() const
 {
 
-	//DrawFormatString((int)location.x, (int)location.y-40, 0xe9967a, "hp:%d", hp);
-	//if (can_hit == true)
-	//{
-	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
-	//}
-	//else
-	//{
-	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
-	//}
-	/*
-	//int r, g, b, a;
-	// //パレットの一覧を描画
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	for (int j = 0; j < 8; j++)
-	//	{
-	//		// パレットの色を取得する
-	//		GetPaletteSoftImage(handle, j + i * 16, &r, &g, &b, 0);
-
-	//		// DrawBox を使って描画
-	//		DrawBox(j * 16, i * 16+200, j * 16 + 16, i * 16 + 16+200, GetColor(r, g, b), TRUE);
-	//	}
-	//}
-
-	//for (int i = 0; i < image_height; i++)
-	//{
-	//	for (int j = 0; j < image_width; j++)
-	//	{
-	//		//1ドットの色を取得
-	//		GetPixelSoftImage(handle, j, i, &r, &g, &b, &a);
-	//		//DrawBoxで描画
-	//		DrawBox((j * 3)+ (int)location.x - (int)width / 2, (i * 3)+ (int)location.y - (int)height / 2, (j * 3 + 3)+ (int)location.x + (int)width / 2, (i * 3 + 3)+ (int)location.y + (int)height / 2, GetColor(r, g, b), TRUE);
-	//	}
-	//}
-	*/
-	
-	//DrawSoftImage(location.x, location.y, handle);
 
 	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 	//DrawGraph(0, 300, handle2, TRUE);
@@ -212,15 +160,18 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 	{
 	case ObjectType::cursor:
 
-		// 敵が押された時SE再生
-		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
-
-		hp -= 10;
-		hit_cursor = true;
+		if (hp > 0) {
+			// 敵が押された時SE再生
+			PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
+			create_damage_effect = true;//ダメージエフェクト生成
+			hp -= 10;
+			hit_cursor = true;
+		}
 		break;
 	case ObjectType::wall:
 		can_hit = false;
 		state = State::death;
+		create_wall_effect = true;
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生

@@ -2,9 +2,20 @@
 #include "../../UtilityFile/Geometry.h"
 #include <vector>
 
+enum class Effect_Type
+{
+	none,
+	enemy_damage,
+	wall_damage,
+};
+
+
 class DamageEffect
 {
 private:
+	Effect_Type effect_type;
+	
+
 	Vector2D pos1;
 	Vector2D pos2;
 	Vector2D pos3;
@@ -31,7 +42,14 @@ public:
 	~DamageEffect();
 
 	void Update();
+	//エネミーのダメージエフェクトの更新
+	void EnemyDamageEffect();
+	//壁にぶつかったときのエフェクトの更新
 	void WallDamageEffect();
+	//エネミーのダメージエフェクトをeffect_typeにセット
+	void SetEffectEnemyDamage() { effect_type = Effect_Type::enemy_damage; };
+	//壁にぶつかったときのエフェクトをeffect_typeにセット
+	void SetEffectWallDamage() { effect_type = Effect_Type::wall_damage; };
 	void Draw()const;
 	bool GetDeleteFlg();
 };

@@ -75,15 +75,34 @@ void FrogEnemy::Update()
 	case State::move:
 		location.y += speed;
 
+
 		//sin動き
 		angle += 2;
 		if (angle > 360)
 		{
 			angle = 0;
 		}
+
+
+		if (angle < 25)
+		{
+		}
+		else {
+			shape_change_x = 5;
+			shape_change_y = 5;
+		}
+
+
 		radian = (float)angle * (float)M_PI / 180.0f;
 		result = sinf(radian);
+		if (result < -0.5)
+		{
+			shape_change_x = 0;
+
+		}
 		location.y += result;
+
+
 
 		//UIより上か下だったら当たり判定をしない
 		if (location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
@@ -105,15 +124,17 @@ void FrogEnemy::Update()
 
 		break;
 	case State::goal:
-		if (location.y < 720)
+		if (wait_time-- < 0)
 		{
-			location.y += speed;
+			if (location.y < 720)
+			{
+				location.y += speed;
+			}
+			else {
+				//720より下に行ったら削除
+				can_delete = true;
+			}
 		}
-		else {
-			//720より下に行ったら削除
-			can_delete = true;
-		}
-
 		break;
 	case State::death:
 		if (count_img++ > 2)
@@ -167,7 +188,20 @@ void FrogEnemy::Draw() const
 	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
 
 	
-	DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[change_img], TRUE);
+
+
+	if (state == State::wait)
+	{
+		DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 4, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[change_img], TRUE);
+	}
+	else
+	{
+		int left_top_x = (int)location.x - (int)width / 2;
+		int left_top_y = (int)location.y - (int)height / 2;
+		int right_bottom_x = (int)location.x + (int)width / 2;
+		int right_bottom_y = (int)location.y + (int)height / 2;
+		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[change_img], TRUE);
+	}
 
 	if (hit_damage == true)
 	{
@@ -203,10 +237,12 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 			height -= 20.0f;
 		}
 		hit_cursor = true;
+		create_damage_effect = true;
 		break;
 	case ObjectType::wall:
 		can_hit = false;
 		state = State::death;
+		create_wall_effect = true;
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生
