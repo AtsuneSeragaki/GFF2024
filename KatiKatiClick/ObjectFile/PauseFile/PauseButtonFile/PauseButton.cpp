@@ -43,8 +43,17 @@ PauseButton::PauseButton()
 		help_image.push_back(tmp[i]);
 	}
 
+	// マウス画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Pause/Mouse.png", 2, 2, 1, 48, 48);
+	for (int i = 0; i < 2; i++)
+	{
+		mouse_image.push_back(tmp[i]);
+	}
+
 	image_num = 0;
 	page_num = 0;
+	mouse_image_num = 0;
+	animation_count = 0;
 }
 
 PauseButton::~PauseButton()
@@ -68,6 +77,7 @@ void PauseButton::Update()
 		{
 			// ページを0に戻す
 			page_num = 0;
+			animation_count = 0;
 		}
 	}
 	else
@@ -75,6 +85,14 @@ void PauseButton::Update()
 		// 画像を再生ボタンにする
 		image_num = 1;
 
+		if (animation_count < 30)
+		{
+			animation_count++;
+		}
+		else
+		{
+			animation_count = 0;
+		}
 	}
 }
 
@@ -93,6 +111,12 @@ void PauseButton::Draw() const
 
 		// 説明画像描画
 		DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, help_image[page_num], TRUE);
+
+		if (page_num <= 2)
+		{
+			// マウス画像の描画
+			DrawRotaGraphF(320.0f, 400.0f, 1.0, 0.0, mouse_image[mouse_image_num], TRUE);
+		}
 
 		for (int i = 0; i < 5; i++)
 		{

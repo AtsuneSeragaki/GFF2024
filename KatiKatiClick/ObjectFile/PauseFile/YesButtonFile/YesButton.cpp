@@ -51,6 +51,13 @@ void YesButton::Update()
 
 void YesButton::Draw() const
 {
+	// 描画ブレンドモードをアルファブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+	// 黒色四角
+	DrawBoxAA(0.0f, 0.0f, 360.0f, 800.0f, 0x000000, TRUE);
+	// 描画ブレンドモードをノーブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 	//  ダイアログボックス画像の描画
 	DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, button_image[2], TRUE);
 
