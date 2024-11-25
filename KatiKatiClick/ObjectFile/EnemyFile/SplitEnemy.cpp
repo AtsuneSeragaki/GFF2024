@@ -140,17 +140,6 @@ void SplitEnemy::Update()
 
 void SplitEnemy::Draw() const
 {
-	/*
-	DrawFormatString((int)location.x, (int)location.y - 40, 0xe9967a, "hp:%d", hp);
-	if (can_hit == true)
-	{
-		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
-	}
-	else
-	{
-		DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
-	}
-	*/
 
 	if (state == State::wait)
 	{
@@ -166,6 +155,10 @@ void SplitEnemy::Draw() const
 
 	}
 
+	if (state != State::death)
+	{
+		DrawRotaGraph((int)location.x, (int)location.y + face_shift_y, face_exrate, 0, face_image[face_num], TRUE);
+	}
 }
 
 void SplitEnemy::HitReaction(ObjectBase* character)

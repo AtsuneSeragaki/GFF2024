@@ -2,6 +2,7 @@
 #include "../ObjectBase.h"
 #include "DxLib.h"
 #include <vector>
+#include "../../UtilityFile/ResourceManager.h"
 
 enum class State
 {
@@ -23,6 +24,10 @@ protected:
 	int se[2]; // 効果音
 	bool can_create_mini;//小さいのを作る
 	std::vector<int> enemy_image;   //エネミー画像
+	std::vector<int> face_image;	//エネミーの表情画像
+	int face_num;//表示する表情の番号
+	double face_exrate;//拡大率
+	int face_shift_y;//表情の画像ずらす用
 
 	int count_img;//画像切り替えカウント
 	int change_img;//画像切り替え
@@ -52,6 +57,20 @@ public:
 		shape_change_cnt = 0;
 		create_damage_effect = false;
 		create_wall_effect = false;
+		face_num = 0;
+		face_exrate = 2.0;
+		face_shift_y = 18;
+
+		// ResourceManagerのインスタンスを取得
+		ResourceManager* rm = ResourceManager::GetInstance();
+		std::vector<int> tmp_img;
+		//敵画像表情読み込み
+		tmp_img = rm->GetImages("Resource/Images/Characters/Enemy/face.png", 5, 5, 1, 22, 9);
+		//12~15
+		for (int i = 0; i < 5; i++)
+		{
+			face_image.push_back(tmp_img[i]);
+		}
 	}
 	~EnemyBase(){};
 
@@ -63,10 +82,14 @@ public:
 	void SetFalseHitCursor() { hit_cursor = false; }
 	void SetWaitTime(int set_time) { wait_time = set_time; }
 	bool GetCanCreateMini() { return can_create_mini; }
-	void SetSize(float set_width, float set_height)
+	void SetMini(float set_width, float set_height)
 	{
 		width = set_width;
 		height = set_height;
+		hp = 10;
+		speed = 2.0f;
+		face_exrate = 1.3;
+		face_shift_y = 11;
 	}
 	void SetHp(int set_hp) { hp = set_hp; }
 	void StopCreateMini() { can_create_mini = false; }

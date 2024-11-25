@@ -148,9 +148,10 @@ void CrackEnemy::Draw() const
 		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[change_img], TRUE);
 	}
 
-	/*if (death_effect != nullptr) {
-		death_effect->Draw();
-	}*/
+	if (state != State::death)
+	{
+		DrawRotaGraph((int)location.x, (int)location.y + face_shift_y, 2, 0, face_image[face_num], TRUE);
+	}
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
