@@ -142,7 +142,7 @@ void Cursor::HitReaction(ObjectBase* character)
 	case ObjectType::pausebutton:
 		break;
 
-	case ObjectType::yesbutton:
+	case ObjectType::choicebutton:
 		break;
 
 	default:

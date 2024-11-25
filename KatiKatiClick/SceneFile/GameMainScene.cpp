@@ -279,9 +279,9 @@ void GameMainScene::Draw() const
             // "タイトルへ戻るボタン"がクリックされたら
             if (click_title_button_flg)
             {
-                if (objects[i]->GetObjectType() == ObjectType::yesbutton)
+                if (objects[i]->GetObjectType() == ObjectType::choicebutton)
                 {
-                    // "はい"ボタンの描画
+                    // 選択肢のボタンの描画
                     objects[i]->Draw();
                 }
             }
@@ -502,7 +502,7 @@ void GameMainScene::InGameUpdate()
             if (objects[i]->GetObjectType() == ObjectType::cursor 
                 || objects[i]->GetObjectType() == ObjectType::pausebutton
                 || objects[i]->GetObjectType() == ObjectType::in_pausebutton
-                || objects[i]->GetObjectType() == ObjectType::yesbutton)
+                || objects[i]->GetObjectType() == ObjectType::choicebutton)
             {
                 if (change_pause_page_flg)
                 {
@@ -527,7 +527,7 @@ void GameMainScene::InGameUpdate()
                 // タイトルボタンが押されたら
                 if (click_title_button_flg)
                 {
-                    if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::yesbutton)
+                    if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::choicebutton)
                     {
                         //もしshapeが違かったら
                         if (objects[i]->GetShape() != objects[j]->GetShape())

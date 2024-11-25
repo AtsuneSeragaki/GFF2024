@@ -11,7 +11,7 @@ enum class ObjectType
 	slowdownskill,
 	pausebutton,
 	in_pausebutton,
-	yesbutton,
+	choicebutton,
 	cursor,
 	wall,
 	circlezone,

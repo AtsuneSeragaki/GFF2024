@@ -7,7 +7,7 @@ YesButton::YesButton()
 	location.x = 0.0f;
 	location.y = 0.0f;
 	can_hit = true;
-	object_type = ObjectType::yesbutton;
+	object_type = ObjectType::choicebutton;
 	shape = Shape::square;
 	width = 80.0f;
 	height = 32.0f;
