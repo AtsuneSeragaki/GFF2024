@@ -83,16 +83,16 @@ void YesButton::Draw() const
 	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
 
 	// カーソルが "はい"ボタンに重なっていたら
-	//if (cursor_overlap_flg)
-	//{
-	//	// ポーズボタンを暗くする
-	//	// 描画輝度のセット
-	//	SetDrawBright(128, 128, 128);
-	//	//  "はい"ボタン画像の描画
-	//	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
-	//	// 描画輝度を元に戻す
-	//	SetDrawBright(255, 255, 255);
-	//}
+	if (cursor_overlap_flg)
+	{
+		// ポーズボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		//  "はい"ボタン画像の描画
+		DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+	}
 }
 
 void YesButton::HitReaction(ObjectBase* character)
