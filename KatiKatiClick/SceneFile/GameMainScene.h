@@ -66,6 +66,8 @@ private:
 
 	int bgm; // BGMデータ
 
+	int se;
+
 	bool is_bgm_active; // BGM流れているか
 
 	int gameover_alpha;//ゲームオーバーの時に使用

@@ -83,6 +83,8 @@ void AttackSkill::Draw() const
 	DrawExtendGraph(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, image, TRUE);
 	// 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	DrawBox(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xffffff, FALSE);
 }
 
 void AttackSkill::Finalize()
