@@ -68,6 +68,8 @@ private:
 
 	int se;
 
+	int gameover_se;
+
 	bool is_bgm_active; // BGM流れているか
 
 	int gameover_alpha;//ゲームオーバーの時に使用

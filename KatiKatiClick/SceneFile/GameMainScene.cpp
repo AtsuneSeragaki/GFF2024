@@ -74,6 +74,9 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Time/Time.mp3");
     se = tmp_s;
 
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Enemy/GameOver.mp3");
+    gameover_se = tmp_s;
+
     ChangeVolumeSoundMem(0, bgm);
 
     background_location_y = 0.0f;
@@ -957,6 +960,12 @@ void GameMainScene::InGameOverUpdate()
             {
                 objects[i]->Update();
             }
+    }
+
+    // 敵が降りて来る音一回だけ再生
+    if (gameover_alpha == -50)
+    {
+        PlaySoundMem(gameover_se, DX_PLAYTYPE_BACK, TRUE);
     }
 
     gameover_alpha += 2;
