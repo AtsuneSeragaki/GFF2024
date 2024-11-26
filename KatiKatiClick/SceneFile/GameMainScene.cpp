@@ -540,6 +540,21 @@ void GameMainScene::InGameUpdate()
 
                 // カーソルとポーズ中のボタンのみ更新する
                 objects[i]->Update();
+
+                // "はい"ボタンがクリックされたか
+                YesButton* yes_button = dynamic_cast<YesButton*>(objects[i]);
+                if (yes_button != nullptr)
+                {
+                    going_title = yes_button->GetGoingTitleFlg();
+                    if (wait_going_title)
+                    {
+                        if (going_title)
+                        {
+                            return;
+                        }
+                        return;
+                    }
+                }
             }
         }
 
@@ -581,21 +596,26 @@ void GameMainScene::InGameUpdate()
                         YesButton* yes_button = dynamic_cast<YesButton*>(objects[j]);
                         if (yes_button != nullptr)
                         {
-                            going_title = yes_button->GetClickFlg();
-                            if (going_title)
-                            {
-                                return;
-                            }
+                            wait_going_title = yes_button->GetClickFlg();
+                            going_title = yes_button->GetGoingTitleFlg();
                         }
 
-                        // 他の領域がクリックされたか
-                        Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
-                        if (cursor != nullptr)
+                        if (wait_going_title)
                         {
-                            if (cursor->GetPState() == P_State::attack)
+                            return;
+                        }
+                        else
+                        {
+                            // 他の領域がクリックされたか
+                            Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
+                            if (cursor != nullptr)
                             {
-                                click_title_button_flg = false;
+                                if (cursor->GetPState() == P_State::attack)
+                                {
+                                    click_title_button_flg = false;
+                                }
                             }
+
                         }
                     }
                 }
@@ -694,7 +714,6 @@ void GameMainScene::InGameUpdate()
                     }
                 }
             }
-
         }
 
         // 一時停止中か調べる

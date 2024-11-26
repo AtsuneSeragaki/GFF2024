@@ -50,7 +50,7 @@ void YesButton::Update()
 	cursor_overlap_flg = false;
 
 	// 押下アニメーション
-	if (can_hit == false)
+	if (click_flg)
 	{
 		anim_count++;
 		if (anim_count < 5)
@@ -60,8 +60,6 @@ void YesButton::Update()
 		}
 		else
 		{
-			anim_count = 0;
-			button_image_num = 0;
 			going_title = true;
 		}
 	}
@@ -83,16 +81,16 @@ void YesButton::Draw() const
 	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
 
 	// カーソルが "はい"ボタンに重なっていたら
-	if (cursor_overlap_flg)
-	{
-		// ポーズボタンを暗くする
-		// 描画輝度のセット
-		SetDrawBright(128, 128, 128);
-		//  "はい"ボタン画像の描画
-		DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
-		// 描画輝度を元に戻す
-		SetDrawBright(255, 255, 255);
-	}
+	//if (cursor_overlap_flg)
+	//{
+	//	// ポーズボタンを暗くする
+	//	// 描画輝度のセット
+	//	SetDrawBright(128, 128, 128);
+	//	//  "はい"ボタン画像の描画
+	//	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+	//	// 描画輝度を元に戻す
+	//	SetDrawBright(255, 255, 255);
+	//}
 }
 
 void YesButton::HitReaction(ObjectBase* character)
