@@ -19,6 +19,8 @@ SnakeEnemy::SnakeEnemy()
 	radian = 0.0f;
 	result = 0.0f;
 
+	face_num = 4;
+
 	ResourceManager* rm = ResourceManager::GetInstance();
 
 	std::vector<int> tmp_img;

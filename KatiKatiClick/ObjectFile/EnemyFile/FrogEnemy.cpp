@@ -43,6 +43,8 @@ FrogEnemy::FrogEnemy()
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/hitenemy_c.mp3");
 	se[0] = tmp;
+
+	face_num = 1;
 }
 
 FrogEnemy::~FrogEnemy()
@@ -90,6 +92,7 @@ void FrogEnemy::Update()
 		else {
 			shape_change_x = 5;
 			shape_change_y = 5;
+			face_num = 3;
 		}
 
 
@@ -98,7 +101,7 @@ void FrogEnemy::Update()
 		if (result < -0.5)
 		{
 			shape_change_x = 0;
-
+			face_num = 1;
 		}
 		location.y += result;
 

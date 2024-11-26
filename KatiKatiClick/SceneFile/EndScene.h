@@ -6,6 +6,8 @@ class EndScene : public AbstractScene
 {
 private:
 	int cnt;
+	int bgm; // BGMデータ
+	bool is_bgm_active; // BGMが流れているか？
 
 public:
 	EndScene();
