@@ -195,5 +195,9 @@ void Wall::HitReaction(ObjectBase* character)
 			can_shake = true;
 			can_damage_flash = true;
 		}
+		else
+		{
+			can_hit = false;
+		}
 	}
 }

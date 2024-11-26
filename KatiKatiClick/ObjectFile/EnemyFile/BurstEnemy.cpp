@@ -158,9 +158,12 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		create_damage_effect = true;
 		break;
 	case ObjectType::wall:
-		can_hit = false;
-		state = State::death;
-		create_wall_effect = true;
+		if (character->GetCanHit() != false)
+		{
+			can_hit = false;
+			state = State::death;
+			create_wall_effect = true;
+		}
 		break;
 	case ObjectType::attackskill:
 		hp -= 30;

@@ -182,9 +182,12 @@ void SplitEnemy::HitReaction(ObjectBase* character)
 		create_damage_effect = true;//ダメージエフェクト生成
 		break;
 	case ObjectType::wall:
-		can_hit = false;
-		state = State::death;
-		create_wall_effect = true;//壁にぶつかったときのエフェクト生成
+		if (character->GetCanHit() != false)
+		{
+			can_hit = false;
+			state = State::death;
+			create_wall_effect = true;//壁にぶつかったときのエフェクト生成
+		}
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生

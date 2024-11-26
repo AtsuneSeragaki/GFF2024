@@ -161,9 +161,12 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		create_damage_effect = true;
 		break;
 	case ObjectType::wall:
-		can_hit = false;
-		state = State::death;
-		create_wall_effect = true;
+		if (character->GetCanHit() != false)
+		{
+			can_hit = false;
+			state = State::death;
+			create_wall_effect = true;
+		}
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生
