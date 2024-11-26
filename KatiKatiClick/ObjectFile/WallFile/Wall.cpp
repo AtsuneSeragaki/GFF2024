@@ -39,6 +39,10 @@ Wall::Wall()
 	damage_display = false;
 	smoke_flg = false;
 	smoke_cnt = 0;
+	can_damage_flash = false;
+	flash_flg = false;
+	flash_cnt = 0;
+	off_flash_cnt = 0;
 
 	// 効果音読み込み
 	int tmp_s;
@@ -63,15 +67,6 @@ void Wall::Initialize()
 
 void Wall::Update()
 {
-	//if (change_cnt++ > 10)
-	//{
-	//	change_cnt = 0;
-	//	img_num++;
-	//	if (img_num > 3)
-	//	{
-	//		img_num = 0;
-	//	}
-	//}
 
 	if (can_shake == true)
 	{
@@ -122,6 +117,8 @@ void Wall::Update()
 
 	if (smoke_flg == true)
 	{
+		off_flash_cnt = 5;
+
 		smoke_cnt++;
 		if (smoke_cnt > 10)
 		{
@@ -137,18 +134,27 @@ void Wall::Update()
 
 	}
 
-	////ダメージエフェクト更新処理
-	//if (damage_effect != nullptr)
-	//{
-	//	damage_effect->WallDamageEffect();
+	//点滅
+	if (can_damage_flash == true)
+	{
+		if (flash_cnt++ > 5)
+		{
+			off_flash_cnt++;
+			flash_cnt = 0;
+			flash_flg = true;
+		}
+		else {
+			flash_flg = false;
+		}
 
-	//	//消しても良かったら
-	//	if (damage_effect->GetDeleteFlg() == true)
-	//	{
-	//		delete damage_effect;
-	//		damage_effect = nullptr;
-	//	}
-	//}
+		if (off_flash_cnt > 5)
+		{
+			can_damage_flash = false;
+			flash_cnt = 0;
+			off_flash_cnt = 0;
+			flash_flg = false;
+		}
+	}
 
 }
 
@@ -169,8 +175,10 @@ void Wall::Draw() const
 		}
 	}
 
-	
-	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xffff00, TRUE);
+	if (flash_flg == true)
+	{
+		DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xff0000, TRUE);
+	}
 	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0xAD6820, FALSE);
 }
 
@@ -185,10 +193,11 @@ void Wall::HitReaction(ObjectBase* character)
 			damage_pos.y = location.y;
 			damage_pos.x = character->GetLocation().x;//座標貰う
 			can_shake = true;
-			//Vector2D set_pos;
-			//set_pos.x = character->GetLocation().x;
-			//set_pos.y = location.y;
-			//damage_effect = new DamageEffect(set_pos);
+			can_damage_flash = true;
+		}
+		else
+		{
+			can_hit = false;
 		}
 	}
 }

@@ -17,20 +17,22 @@ YesButton::YesButton()
 	std::vector<int> tmp;
 
 	// "はい"ボタン画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/Button/YesButton.png");
-	button_image.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Pause/Button/YesButton.png", 2, 2, 1, 80, 32);
+	for (int i = 0; i < 2; i++)
+	{
+		button_image.push_back(tmp[i]);
+	}
 
 	// ダイアログボックス画像を読み込む
 	tmp = rm->GetImages("Resource/Images/Pause/Button/DialogBox.png");
-	button_image.push_back(tmp[0]);
+	box_image.push_back(tmp[0]);
 
 	click_flg = false;
 
-	no_button_location_x = 260.0f;
-	no_button_location_y = 330.0f;
-
 	cursor_overlap_flg = false;
-	no_button_overlap_flg = false;
+	anim_count = 0;
+	button_image_num = 0;
+	going_title = false;
 }
 
 YesButton::~YesButton()
@@ -46,6 +48,23 @@ void YesButton::Initialize()
 void YesButton::Update()
 {
 	cursor_overlap_flg = false;
+
+	// 押下アニメーション
+	if (can_hit == false)
+	{
+		anim_count++;
+		if (anim_count < 5)
+		{
+			// 押下時画像に変更
+			button_image_num = 1;
+		}
+		else
+		{
+			anim_count = 0;
+			button_image_num = 0;
+			going_title = true;
+		}
+	}
 }
 
 void YesButton::Draw() const
@@ -58,10 +77,10 @@ void YesButton::Draw() const
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//  ダイアログボックス画像の描画
-	DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, button_image[1], TRUE);
+	DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, box_image[0], TRUE);
 
 	//  "はい"ボタン画像の描画
-	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
 
 	// カーソルが "はい"ボタンに重なっていたら
 	if (cursor_overlap_flg)
@@ -84,7 +103,7 @@ void YesButton::HitReaction(ObjectBase* character)
 	}
 }
 
-// "いいえ"ボタンとカーソルの当たり判定
-void YesButton::HitNoButtonCheck()
+bool YesButton::GetGoingTitleFlg() const
 {
+	return going_title;
 }

@@ -15,6 +15,8 @@ class DamageEffect
 private:
 	Effect_Type effect_type;
 	
+	int box_width;
+	int box_height;
 
 	Vector2D pos1;
 	Vector2D pos2;
@@ -35,10 +37,14 @@ private:
 	bool smoke_flg;
 	
 	bool can_delete;//削除してもいいか
+
+	unsigned int color;//エフェクトの色
+
+	float move;
 	
 public:
 	//倒れたエネミーの座標を受け取る
-	DamageEffect(Vector2D set_location);
+	DamageEffect(Vector2D set_location,unsigned int get_color);
 	~DamageEffect();
 
 	void Update();
