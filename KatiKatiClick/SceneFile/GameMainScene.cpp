@@ -11,7 +11,8 @@
 #include "../ObjectFile/PauseFile/ArrowButtonFile/LeftButton.h"
 #include "../ObjectFile/PauseFile/ArrowButtonFile/RightButton.h"
 #include "../ObjectFile/PauseFile/TitleButtonFile/TitleButton.h"
-#include "../ObjectFile/PauseFile/YesButtonFile/YesButton.h"
+#include "../ObjectFile/PauseFile/ChoicesButtonFile/YesButton.h"
+#include "../ObjectFile/PauseFile/ChoicesButtonFile/NoButton.h"
 
 GameMainScene::GameMainScene()
 {
@@ -37,6 +38,7 @@ GameMainScene::GameMainScene()
     CreateObject<LeftButton>(Vector2D(30.0f, 500.0f));          // ポーズ中左向き矢印ボタン生成
     CreateObject<TitleButton>(Vector2D(180.0f, 560.0f));         // タイトルへ戻るボタン生成
     CreateObject<YesButton>(Vector2D(100.0f, 330.0f));         // "はい"ボタン生成
+    CreateObject<NoButton>(Vector2D(260.0f, 330.0f));         // "いいえ"ボタン生成
 
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
@@ -96,6 +98,12 @@ GameMainScene::~GameMainScene()
         delete obj;
     }
     objects.clear();
+
+    for (DamageEffect* effect : damage_effect)
+    {
+        delete effect;
+    }
+    damage_effect.clear();
 }
 
 void GameMainScene::Update()
@@ -282,9 +290,9 @@ void GameMainScene::Draw() const
             // "タイトルへ戻るボタン"がクリックされたら
             if (click_title_button_flg)
             {
-                if (objects[i]->GetObjectType() == ObjectType::yesbutton)
+                if (objects[i]->GetObjectType() == ObjectType::choicebutton)
                 {
-                    // "はい"ボタンの描画
+                    // 選択肢のボタンの描画
                     objects[i]->Draw();
                 }
             }
@@ -316,7 +324,7 @@ void GameMainScene::Draw() const
     if (game_state == GameState::gameover)
     {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameover_alpha);
-        DrawBox(0.0f, 0.0f, 360.0f, 800.0f, GetColor(0, 0, 0), TRUE);
+        DrawBox(0, 0, 360, 800, GetColor(0, 0, 0), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
@@ -514,7 +522,8 @@ void GameMainScene::InGameUpdate()
         {
             if (objects[i]->GetObjectType() == ObjectType::cursor 
                 || objects[i]->GetObjectType() == ObjectType::pausebutton
-                || objects[i]->GetObjectType() == ObjectType::in_pausebutton)
+                || objects[i]->GetObjectType() == ObjectType::in_pausebutton
+                || objects[i]->GetObjectType() == ObjectType::choicebutton)
             {
                 if (change_pause_page_flg)
                 {
@@ -536,10 +545,26 @@ void GameMainScene::InGameUpdate()
         {
             for (int j = i + 1; j < objects.size(); j++)
             {
+                // タイトルボタンが押されたら
                 if (click_title_button_flg)
                 {
-                    if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::yesbutton)
+                    if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::choicebutton)
                     {
+                        //もしshapeが違かったら
+                        if (objects[i]->GetShape() != objects[j]->GetShape())
+                        {
+                            //ヒットチェック
+                            if (objects[i]->HitBoxCircle(objects[j]) == true)
+                            {
+                                // カーソルが重なっている
+                                PauseBase* pause_button = dynamic_cast<PauseBase*>(objects[j]);
+                                if (pause_button != nullptr)
+                                {
+                                    pause_button->SetCursorOverlapFlg();
+                                }
+                            }
+                        }
+
                         if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
                         //ヒットチェック
@@ -562,15 +587,14 @@ void GameMainScene::InGameUpdate()
                         }
 
                         // 他の領域がクリックされたか
-                        Cursor* p_cursor = dynamic_cast<Cursor*>(objects[i]);
-                        if (p_cursor != nullptr)
+                        Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
+                        if (cursor != nullptr)
                         {
-                            if (p_cursor->GetPState() == P_State::attack)
+                            if (cursor->GetPState() == P_State::attack)
                             {
                                 click_title_button_flg = false;
                             }
                         }
-
                     }
                 }
                 else
@@ -579,6 +603,32 @@ void GameMainScene::InGameUpdate()
                     if (objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::pausebutton
                         || objects[i]->GetObjectType() == ObjectType::cursor && objects[j]->GetObjectType() == ObjectType::in_pausebutton)
                     {
+                        //もしshapeが違かったら
+                        if (objects[i]->GetShape() != objects[j]->GetShape())
+                        {
+                            //ヒットチェック
+                            if (objects[i]->HitBoxCircle(objects[j]) == true)
+                            {
+                                // カーソルが重なっている
+                                PauseBase* pause_button = dynamic_cast<PauseBase*>(objects[j]);
+                                pause_button->SetCursorOverlapFlg();
+                            }
+                        }
+                        else
+                        {
+                            //shapeが同じ時
+                            if (objects[i]->GetShape() == Shape::circle && objects[j]->GetShape() == Shape::circle)
+                            {
+                                //ヒットチェック
+                                if (objects[i]->HitCircle(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
+                                {
+                                    // カーソルが重なっている
+                                    PauseBase* pause_button = dynamic_cast<PauseBase*>(objects[j]);
+                                    pause_button->SetCursorOverlapFlg();
+                                }
+                            }
+                        }
+
                         if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
                         //もしshapeが違かったら
@@ -598,16 +648,6 @@ void GameMainScene::InGameUpdate()
                             {
                                 //ヒットチェック
                                 if (objects[i]->HitCircle(objects[j]->GetLocation(), objects[j]->GetRadius()) == true)
-                                {
-                                    objects[i]->HitReaction(objects[j]);
-                                    objects[j]->HitReaction(objects[i]);
-                                }
-                            }
-
-                            if (objects[i]->GetShape() == Shape::square && objects[j]->GetShape() == Shape::square)
-                            {
-                                //ヒットチェック
-                                if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()))
                                 {
                                     objects[i]->HitReaction(objects[j]);
                                     objects[j]->HitReaction(objects[i]);
@@ -651,7 +691,6 @@ void GameMainScene::InGameUpdate()
                         }
                     }
                 }
-
             }
 
         }
@@ -758,11 +797,13 @@ void GameMainScene::InGameUpdate()
     {
         // ポーズ中のボタンは処理を飛ばす
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
+        if (objects[i]->GetObjectType() == ObjectType::choicebutton) continue;
 
         for (int j = i + 1; j < objects.size(); j++)
         {
             // ポーズ中のボタンは処理を飛ばす
             if (objects[j]->GetObjectType() == ObjectType::in_pausebutton) continue;
+            if (objects[j]->GetObjectType() == ObjectType::choicebutton) continue;
 
             if (objects[i]->GetObjectType() == ObjectType::cursor && objects[i]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
             {
@@ -791,6 +832,21 @@ void GameMainScene::InGameUpdate()
                     else
                     {
                         ResetCursorBSkill(i);
+                    }
+                }
+            }
+
+            // PauseButtonがカーソルと重なっているか調べる
+            if (objects[i]->GetShape() != objects[j]->GetShape())
+            {
+                //ヒットチェック
+                if (objects[i]->HitBoxCircle(objects[j]) == true)
+                {
+                    // カーソルが重なっている
+                    PauseBase* pause_button = dynamic_cast<PauseBase*>(objects[j]);
+                    if (pause_button != nullptr)
+                    {
+                        pause_button->SetCursorOverlapFlg();
                     }
                 }
             }
@@ -1102,15 +1158,11 @@ void GameMainScene::EnmMiniGenerate()
 
                 //小さいエネミーを作る
                 EnemyBase* crack_enemy_mini = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f, objects[i]->GetLocation().y + 40.0f));
-                crack_enemy_mini->SetHp(10);
-                crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                crack_enemy_mini->SetMini(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini->SetWaitTime(5);
-                crack_enemy_mini->SetSpeed(2.0f);
                 EnemyBase* crack_enemy_mini2 = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f, objects[i]->GetLocation().y + 40.0f));
-                crack_enemy_mini2->SetHp(10);
-                crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
+                crack_enemy_mini2->SetMini(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini2->SetWaitTime(5);
-                crack_enemy_mini2->SetSpeed(2.0f);
 
             }
         }

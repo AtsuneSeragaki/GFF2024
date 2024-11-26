@@ -43,6 +43,8 @@ FrogEnemy::FrogEnemy()
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/hitenemy_c.mp3");
 	se[0] = tmp;
+
+	face_num = 1;
 }
 
 FrogEnemy::~FrogEnemy()
@@ -90,6 +92,7 @@ void FrogEnemy::Update()
 		else {
 			shape_change_x = 5;
 			shape_change_y = 5;
+			face_num = 3;
 		}
 
 
@@ -98,7 +101,7 @@ void FrogEnemy::Update()
 		if (result < -0.5)
 		{
 			shape_change_x = 0;
-
+			face_num = 1;
 		}
 		location.y += result;
 
@@ -172,24 +175,6 @@ void FrogEnemy::Update()
 
 void FrogEnemy::Draw() const
 {
-	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x3cb371, FALSE);
-	//DrawFormatString((int)location.x, (int)location.y - 40, 0xe9967a, "hp:%d", hp);
-
-	//if (can_hit == true)
-	//{
-	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
-	//}
-	//else
-	//{
-	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
-	//}
-
-
-	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
-
-	
-
-
 	if (state == State::wait)
 	{
 		DrawExtendGraph((int)location.x - (int)width / 2, (int)location.y - (int)height / 4, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, enemy_image[change_img], TRUE);
@@ -203,10 +188,15 @@ void FrogEnemy::Draw() const
 		DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[change_img], TRUE);
 	}
 
+	if (state != State::death) {
+		DrawRotaGraph((int)location.x, (int)location.y + face_shift_y, face_exrate, 0, face_image[face_num], TRUE);
+	}
+
 	if (hit_damage == true)
 	{
 		DrawExtendGraph((int)old_location.x - (int)old_width / 2, (int)old_location.y - (int)old_height / 2, (int)old_location.x + (int)old_width / 2, (int)old_location.y + (int)old_height / 2, enemy_image[img_num], TRUE);
 	}
+
 
 }
 
@@ -235,6 +225,8 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 		{
 			width -= 20.0f;
 			height -= 20.0f;
+			face_exrate = 1.5;
+			face_shift_y = 13;
 		}
 		hit_cursor = true;
 		create_damage_effect = true;

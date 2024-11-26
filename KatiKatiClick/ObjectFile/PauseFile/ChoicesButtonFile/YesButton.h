@@ -1,15 +1,16 @@
 #pragma once
-#include "../../ObjectBase.h"
+#include "../PauseBase.h"
 #include <vector>
 
-class YesButton : public ObjectBase
+class YesButton : public PauseBase
 {
 private:
     std::vector<int> button_image;      // ボタン画像
-    bool click_flg;                     // クリックされたか？
 
     float no_button_location_x;
     float no_button_location_y;
+
+    bool no_button_overlap_flg;         // "いいえ"ボタンにカーソルが重なっているか？
 
 public:
 	YesButton();
@@ -20,5 +21,6 @@ public:
     void Draw()const override;
     void HitReaction(ObjectBase* character) override;
 
-    bool GetClickFlg() const;
+private:
+    void HitNoButtonCheck();            // "いいえ"ボタンとカーソルの当たり判定
 };

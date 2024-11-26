@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.cpp" />
     <ClCompile Include="ObjectFile\WallFile\Wall.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
     <ClCompile Include="ObjectFile\DamageEffect\DamageEffect.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SplitEnemy.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\PauseBase.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
     <ClCompile Include="SceneFile\ResultScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
@@ -187,9 +189,10 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SceneFile\SceneManager.cpp" />
     <ClCompile Include="UtilityFile\ResourceManager.cpp" />
-    <ClCompile Include="ObjectFile\PauseFile\YesButtonFile\YesButton.cpp" />
+    <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\YesButton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.h" />
     <ClInclude Include="ObjectFile\WallFile\Wall.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />
     <ClInclude Include="ObjectFile\DamageEffect\DamageEffect.h" />
@@ -209,6 +212,7 @@
     <ClInclude Include="ObjectFile\EnemyFile\SnakeEnemy.h" />
     <ClInclude Include="ObjectFile\EnemyFile\SplitEnemy.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\RightButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\PauseBase.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
     <ClInclude Include="SceneFile\ResultScene.h" />
     <ClInclude Include="SceneFile\TitleScene.h" />
@@ -228,7 +232,7 @@
     <ClInclude Include="ObjectFile\ObjectBase.h" />
     <ClInclude Include="SceneFile\SceneManager.h" />
     <ClInclude Include="UtilityFile\ResourceManager.h" />
-    <ClInclude Include="ObjectFile\PauseFile\YesButtonFile\YesButton.h" />
+    <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\YesButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />

@@ -43,8 +43,19 @@ PauseButton::PauseButton()
 		help_image.push_back(tmp[i]);
 	}
 
+	// マウス画像を読み込む
+	tmp = rm->GetImages("Resource/Images/Pause/Mouse.png", 2, 2, 1, 48, 48);
+	for (int i = 0; i < 2; i++)
+	{
+		mouse_image.push_back(tmp[i]);
+	}
+
 	image_num = 0;
 	page_num = 0;
+	mouse_image_num = 0;
+	animation_count = 0;
+
+	cursor_overlap_flg = false;
 }
 
 PauseButton::~PauseButton()
@@ -59,6 +70,8 @@ void PauseButton::Initialize()
 
 void PauseButton::Update()
 {
+	cursor_overlap_flg = false;
+
 	if (is_pause == false)
 	{
 		// 画像を停止ボタンにする
@@ -68,6 +81,8 @@ void PauseButton::Update()
 		{
 			// ページを0に戻す
 			page_num = 0;
+			animation_count = 0;
+			mouse_image_num = 0;
 		}
 	}
 	else
@@ -75,6 +90,32 @@ void PauseButton::Update()
 		// 画像を再生ボタンにする
 		image_num = 1;
 
+		// マウスのアニメーション処理
+		if (page_num <= 2)
+		{
+			if (animation_count < 30)
+			{
+				animation_count++;
+			}
+			else
+			{
+				animation_count = 0;
+
+				if (mouse_image_num < 1)
+				{
+					mouse_image_num++;
+				}
+				else
+				{
+					mouse_image_num = 0;
+				}
+			}
+		}
+		else
+		{
+			animation_count = 0;
+			mouse_image_num = 0;
+		}
 	}
 }
 
@@ -94,6 +135,12 @@ void PauseButton::Draw() const
 		// 説明画像描画
 		DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, help_image[page_num], TRUE);
 
+		if (page_num <= 2)
+		{
+			// マウス画像の描画
+			DrawRotaGraphF(320.0f, 440.0f, 1.0, 0.0, mouse_image[mouse_image_num], TRUE);
+		}
+
 		for (int i = 0; i < 5; i++)
 		{
 			if (i != page_num)
@@ -110,10 +157,22 @@ void PauseButton::Draw() const
 		}
 	}
 
-	// DrawFormatString(200, 200, 0x00000, "page %d", page_num);
+	//DrawFormatString(200, 200, 0x00000, "overlap %d", cursor_overlap_flg);
 
 	// ポーズボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
+
+	// カーソルがポーズボタンに重なっていたら
+	if (cursor_overlap_flg)
+	{
+		// ポーズボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		// ポーズボタン画像の描画
+		DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+	}
 }
 
 void PauseButton::HitReaction(ObjectBase* character)

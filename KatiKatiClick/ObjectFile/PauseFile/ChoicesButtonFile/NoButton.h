@@ -2,14 +2,14 @@
 #include "../PauseBase.h"
 #include <vector>
 
-class TitleButton : public PauseBase
+class NoButton : public PauseBase
 {
 private:
     std::vector<int> button_image;      // ボタン画像
 
 public:
-    TitleButton();
-    ~TitleButton();
+    NoButton();
+    ~NoButton();
 
     void Initialize() override;
     void Update()override;

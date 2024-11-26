@@ -20,6 +20,7 @@ RightButton::RightButton()
 	button_image.push_back(tmp[0]);
 
 	click_flg = false;
+	cursor_overlap_flg = false;
 }
 
 RightButton::~RightButton()
@@ -34,6 +35,8 @@ void RightButton::Initialize()
 
 void RightButton::Update()
 {
+	cursor_overlap_flg = false;
+
 	if (click_flg)
 	{
 		click_flg = false;
@@ -45,6 +48,18 @@ void RightButton::Draw() const
 	// 矢印ボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 2.5, 0.0, button_image[0], TRUE);
 
+	// カーソルが 矢印ボタンに重なっていたら
+	if (cursor_overlap_flg)
+	{
+		// ポーズボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		//  "はい"ボタン画像の描画
+		DrawRotaGraphF(location.x, location.y, 2.5, 0.0, button_image[0], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+	}
+
 	//DrawCircleAA(location.x, location.y, radius, 32, 0xff0000f, FALSE);
 }
 
@@ -54,9 +69,4 @@ void RightButton::HitReaction(ObjectBase* character)
 	{
 		click_flg = true;
 	}
-}
-
-bool RightButton::GetClickFlg() const
-{
-	return click_flg;
 }

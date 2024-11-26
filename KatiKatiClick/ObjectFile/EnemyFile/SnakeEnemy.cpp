@@ -19,6 +19,8 @@ SnakeEnemy::SnakeEnemy()
 	radian = 0.0f;
 	result = 0.0f;
 
+	face_num = 4;
+
 	ResourceManager* rm = ResourceManager::GetInstance();
 
 	std::vector<int> tmp_img;
@@ -135,21 +137,11 @@ void SnakeEnemy::Update()
 
 void SnakeEnemy::Draw() const
 {
-	//DrawBox((int)location.x - (int)width / 2, (int)location.y - (int)height / 2, (int)location.x + (int)width / 2, (int)location.y + (int)height / 2, 0x9932cc, FALSE);
-	//DrawFormatString((int)location.x, (int)location.y - 40, 0xe9967a, "hp:%d", hp);
-
-	//if (can_hit == true)
-	//{
-	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "true");
-	//}
-	//else
-	//{
-	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
-	//}
-	//DrawCircleAA(location.x, location.y, 3, 32, 0x00ffff, TRUE);
-
 	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[change_img], TRUE);
-
+	if (state != State::death)
+	{
+		DrawRotaGraph((int)location.x, (int)location.y + face_shift_y, 2, 0, face_image[face_num], TRUE);
+	}
 
 }
 
