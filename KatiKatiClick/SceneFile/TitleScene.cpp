@@ -30,7 +30,7 @@ TitleScene::TitleScene()
 	is_bgm_active = false;
 
 	// 音量変更
-	ChangeVolumeSoundMem(200, bgm);
+	ChangeVolumeSoundMem(220, bgm);
 }
 
 TitleScene::~TitleScene()
