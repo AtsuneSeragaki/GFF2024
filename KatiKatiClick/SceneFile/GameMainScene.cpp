@@ -578,7 +578,6 @@ void GameMainScene::InGameUpdate()
                         YesButton* yes_button = dynamic_cast<YesButton*>(objects[j]);
                         if (yes_button != nullptr)
                         {
-                            // タイトルボタンがクリックされたか調べる
                             going_title = yes_button->GetClickFlg();
                             if (going_title)
                             {

@@ -5,13 +5,11 @@
 class YesButton : public PauseBase
 {
 private:
+    std::vector<int> box_image;         // ボックス画像
     std::vector<int> button_image;      // ボタン画像
-
-    float no_button_location_x;
-    float no_button_location_y;
-
-    bool no_button_overlap_flg;         // "いいえ"ボタンにカーソルが重なっているか？
-
+    int anim_count;						// ボタン押下アニメーション
+    int button_image_num;				// ボタンの画像番号
+    bool going_title;                   // タイトルに戻るか？
 public:
 	YesButton();
 	~YesButton();
@@ -21,6 +19,5 @@ public:
     void Draw()const override;
     void HitReaction(ObjectBase* character) override;
 
-private:
-    void HitNoButtonCheck();            // "いいえ"ボタンとカーソルの当たり判定
+    bool GetGoingTitleFlg() const;
 };
