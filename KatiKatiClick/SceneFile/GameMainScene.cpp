@@ -77,7 +77,7 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Enemy/GameOver.mp3");
     gameover_se = tmp_s;
 
-    ChangeVolumeSoundMem(0, bgm);
+    ChangeVolumeSoundMem(180, gameover_se);
 
     background_location_y = 0.0f;
 
@@ -375,7 +375,7 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InGameUpdate()
 {
-    if (is_bgm_active == 0)
+    if (is_bgm_active == 0 && is_game_clear == false)
     {
         is_bgm_active = 1;
         PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
@@ -711,6 +711,10 @@ void GameMainScene::InGameUpdate()
         {
             if (change_wait_time == 120)
             {
+                // BGMを止める
+                StopSoundMem(bgm);
+                is_bgm_active = 0;
+
                 PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
             }
             
@@ -965,6 +969,10 @@ void GameMainScene::InGameOverUpdate()
     // 敵が降りて来る音一回だけ再生
     if (gameover_alpha == -50)
     {
+        // BGMを止める
+        StopSoundMem(bgm);
+        is_bgm_active = 0;
+
         PlaySoundMem(gameover_se, DX_PLAYTYPE_BACK, TRUE);
     }
 
