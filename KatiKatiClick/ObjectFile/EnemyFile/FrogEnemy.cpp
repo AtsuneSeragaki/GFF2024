@@ -6,6 +6,7 @@
 
 FrogEnemy::FrogEnemy()
 {
+	enemy_color = 0x4DA66C;
 	location.x = 320.0f;
 	location.y = 0.0f;
 	hp = 20;

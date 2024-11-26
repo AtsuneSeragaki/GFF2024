@@ -1175,7 +1175,7 @@ void GameMainScene::EnmEffectGenerate()
                 set_pos.y = enemy->GetLocation().y+enemy->GetHeight();
 
                 //壁のダメージエフェクトを作成
-                damage_effect.push_back(new DamageEffect(set_pos));
+                damage_effect.push_back(new DamageEffect(set_pos,enemy->GetColor()));
                 damage_effect.back()->SetEffectWallDamage();
             }
 
@@ -1184,7 +1184,7 @@ void GameMainScene::EnmEffectGenerate()
                 //flgをオフに
                 enemy->OffCreateDamageEffect();
                 //敵のダメージエフェクトを作成
-                damage_effect.push_back(new DamageEffect(objects[i]->GetLocation()));
+                damage_effect.push_back(new DamageEffect(objects[i]->GetLocation(), enemy->GetColor()));
                 damage_effect.back()->SetEffectEnemyDamage();
             }
         }

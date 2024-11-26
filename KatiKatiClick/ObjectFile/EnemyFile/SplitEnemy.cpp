@@ -4,6 +4,7 @@
 
 SplitEnemy::SplitEnemy()
 {
+	enemy_color = 0xCE6161;
 	location.x = 320.0f;
 	location.y = 0.0f;
 	hp = 20;

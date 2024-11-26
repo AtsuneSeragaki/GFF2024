@@ -6,6 +6,7 @@
 
 SnakeEnemy::SnakeEnemy()
 {
+	enemy_color = 0x7F4DA6;
 	location.x = 320.0f;
 	location.y = 0.0f;
 	hp = 10;

@@ -4,6 +4,7 @@
 
 CrackEnemy::CrackEnemy()
 {
+	enemy_color= 0x4C9CA6;
 
 	hp = 10;
 	width = 70.0f;
