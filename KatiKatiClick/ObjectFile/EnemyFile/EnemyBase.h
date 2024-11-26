@@ -25,6 +25,7 @@ protected:
 	bool can_create_mini;//小さいのを作る
 	std::vector<int> enemy_image;   //エネミー画像
 	std::vector<int> face_image;	//エネミーの表情画像
+	unsigned int enemy_color;	//エネミーの色
 	int face_num;//表示する表情の番号
 	double face_exrate;//拡大率
 	int face_shift_y;//表情の画像ずらす用
@@ -42,6 +43,7 @@ protected:
 public:
 	EnemyBase()
 	{
+		enemy_color = 0x000000;
 		wait_time = 0;
 		hp = 0;
 		speed = 0.0f;
@@ -106,5 +108,10 @@ public:
 	void OffCreateDamageEffect() { create_damage_effect=false; }
 	
 	void MoveShapeChange();
+
+	unsigned int GetColor()
+	{
+		return enemy_color;
+	}
 };
 

@@ -6,6 +6,7 @@
 
 SnakeEnemy::SnakeEnemy()
 {
+	enemy_color = 0x7F4DA6;
 	location.x = 320.0f;
 	location.y = 0.0f;
 	hp = 10;
@@ -160,9 +161,12 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		create_damage_effect = true;
 		break;
 	case ObjectType::wall:
-		can_hit = false;
-		state = State::death;
-		create_wall_effect = true;
+		if (character->GetCanHit() != false)
+		{
+			can_hit = false;
+			state = State::death;
+			create_wall_effect = true;
+		}
 		break;
 	case ObjectType::circlezone:
 		// 敵が押された時SE再生

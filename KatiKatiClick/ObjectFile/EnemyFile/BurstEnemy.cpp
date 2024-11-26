@@ -4,6 +4,7 @@
 
 BurstEnemy::BurstEnemy()
 {
+	enemy_color = 0x0095d9;
 	location.x =0.0f;
 	location.y = 0.0f;
 	hp = 30;
@@ -157,9 +158,12 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		create_damage_effect = true;
 		break;
 	case ObjectType::wall:
-		can_hit = false;
-		state = State::death;
-		create_wall_effect = true;
+		if (character->GetCanHit() != false)
+		{
+			can_hit = false;
+			state = State::death;
+			create_wall_effect = true;
+		}
 		break;
 	case ObjectType::attackskill:
 		hp -= 30;
