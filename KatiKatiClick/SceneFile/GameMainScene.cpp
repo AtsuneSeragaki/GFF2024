@@ -311,13 +311,13 @@ void GameMainScene::Draw() const
     if (is_game_clear)
     {
         DrawString(30, 350, "GAME CLEAR", 0x000000);
-        DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
+       // DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
     }
 
     if (is_game_over)
     {
         DrawString(30, 350, "GAME OVER", 0x000000);
-        DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
+       // DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
     }
 
 
