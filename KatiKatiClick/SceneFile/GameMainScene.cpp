@@ -77,7 +77,12 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Enemy/GameOver.mp3");
     gameover_se = tmp_s;
 
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Time/GameClear.mp3");
+    gameclear_se = tmp_s;
+
     ChangeVolumeSoundMem(180, gameover_se);
+    ChangeVolumeSoundMem(180,se);
+    ChangeVolumeSoundMem(180, gameclear_se);
 
     background_location_y = 0.0f;
 
@@ -716,6 +721,7 @@ void GameMainScene::InGameUpdate()
                 is_bgm_active = 0;
 
                 PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+                PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
             }
             
             // 制限時間が0ならゲームクリア
