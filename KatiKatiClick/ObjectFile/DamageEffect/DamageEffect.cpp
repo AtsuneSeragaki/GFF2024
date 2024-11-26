@@ -125,6 +125,10 @@ void DamageEffect::EnemyDamageEffect()
 	pos3.x -= 5.0f;
 	pos4.x += 6.0f;
 
+	if (pos1.y > 700.0f)
+	{
+		can_delete = true;
+	}
 
 }
 
@@ -171,14 +175,14 @@ void DamageEffect::Draw() const
 		//枠部分
 		DrawBox((int)pos1.x - box_width-shift, (int)pos1.y - box_height-shift, (int)pos1.x + shift + box_width, (int)pos1.y + shift + box_height, 0x000000, TRUE);
 		DrawBox((int)pos2.x - box_width-shift, (int)pos2.y - box_height-shift, (int)pos2.x + shift + box_width, (int)pos2.y + shift + box_height, 0x000000, TRUE);
-		DrawBox((int)pos3.x - box_width-shift, (int)pos3.y - box_height-shift, (int)pos3.x + shift + box_width, (int)pos3.y + shift + box_height, 0x000000, TRUE);
-		DrawBox((int)pos4.x - box_width-shift, (int)pos4.y - box_height-shift, (int)pos4.x + shift + box_width, (int)pos4.y + shift + box_height, 0x000000, TRUE);
+		//DrawBox((int)pos3.x - box_width-shift, (int)pos3.y - box_height-shift, (int)pos3.x + shift + box_width, (int)pos3.y + shift + box_height, 0x000000, TRUE);
+		//DrawBox((int)pos4.x - box_width-shift, (int)pos4.y - box_height-shift, (int)pos4.x + shift + box_width, (int)pos4.y + shift + box_height, 0x000000, TRUE);
 
 
 		DrawBox((int)pos1.x-box_width, (int)pos1.y-box_height, (int)pos1.x +box_width, (int)pos1.y +box_height, color, TRUE);
 		DrawBox((int)pos2.x-box_width, (int)pos2.y - box_height, (int)pos2.x + box_width, (int)pos2.y +  box_height, color, TRUE);
-		DrawBox((int)pos3.x - box_width, (int)pos3.y - box_height, (int)pos3.x + box_width, (int)pos3.y +  box_height, color, TRUE);
-		DrawBox((int)pos4.x - box_width, (int)pos4.y - box_height, (int)pos4.x +  box_width, (int)pos4.y +  box_height, color, TRUE);
+		//DrawBox((int)pos3.x - box_width, (int)pos3.y - box_height, (int)pos3.x + box_width, (int)pos3.y +  box_height, color, TRUE);
+		//DrawBox((int)pos4.x - box_width, (int)pos4.y - box_height, (int)pos4.x +  box_width, (int)pos4.y +  box_height, color, TRUE);
 		// 描画ブレンドモードをノーブレンドにする
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		break;

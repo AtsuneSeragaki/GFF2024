@@ -4,7 +4,7 @@
 
 BurstEnemy::BurstEnemy()
 {
-	enemy_color = 0xe57782;
+	enemy_color = 0x0095d9;
 	location.x =0.0f;
 	location.y = 0.0f;
 	hp = 30;
