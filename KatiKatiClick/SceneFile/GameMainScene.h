@@ -64,6 +64,8 @@ private:
 	bool click_title_button_flg;	// タイトルボタンをクリックしたか？
 	bool going_title;				// タイトルへ行きますか？
 	bool wait_going_title;			// タイトル遷移待ちですか？
+	//bool click_no_button_flg;		// "いいえ"ボタンをクリックしたか？
+	//int no_button_wait_count;		// "いいえ"ボタンのアニメーション待ち時間
 
 	int bgm; // BGMデータ
 

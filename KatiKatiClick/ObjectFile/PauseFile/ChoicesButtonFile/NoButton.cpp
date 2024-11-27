@@ -20,9 +20,14 @@ NoButton::NoButton()
 	std::vector<int> tmp;
 
 	// "いいえ"ボタン画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/Button/NoButton.png");
-	button_image.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Pause/Button/NoButton.png", 2, 2, 1, 80, 32);
+	for (int i = 0; i < 2; i++)
+	{
+		button_image.push_back(tmp[i]);
+	}
 
+	anim_count = 0;
+	button_image_num = 0;
 }
 
 NoButton::~NoButton()
@@ -38,12 +43,36 @@ void NoButton::Initialize()
 void NoButton::Update()
 {
 	cursor_overlap_flg = false;
+
+	//if (click_flg)
+	//{
+	//	// 当たり判定なし
+	//	can_hit = false;
+	//}
+
+	//// 押下アニメーション
+	//if (can_hit == false)
+	//{
+	//	anim_count++;
+	//	if (anim_count < 5)
+	//	{
+	//		// 押下時画像に変更
+	//		button_image_num = 1;
+	//	}
+	//	else
+	//	{
+	//		anim_count = 0;
+	//		button_image_num = 0;
+	//		can_hit = true;
+	//		click_flg = false;
+	//	}
+	//}
 }
 
 void NoButton::Draw() const
 {
 	//  "いいえ"ボタン画像の描画
-	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
 
 	// カーソルが "いいえ"ボタンに重なっていたら
 	if (cursor_overlap_flg)
@@ -51,8 +80,8 @@ void NoButton::Draw() const
 		// ポーズボタンを暗くする
 		// 描画輝度のセット
 		SetDrawBright(128, 128, 128);
-		//  "はい"ボタン画像の描画
-		DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+		//  "いいえ"ボタン画像の描画
+		DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 	}
@@ -60,5 +89,8 @@ void NoButton::Draw() const
 
 void NoButton::HitReaction(ObjectBase* character)
 {
-
+	if (character->GetObjectType() == ObjectType::cursor)
+	{
+		click_flg = true;
+	}
 }
