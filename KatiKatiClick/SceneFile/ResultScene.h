@@ -7,6 +7,14 @@
 #define BOX_WIDTH  100
 #define BOX_HEIGHT 50
 
+#define STAR_WIDTH 40.0f
+#define STAR_HEIGHT 40.0f
+
+#define STAR_X 95.0f
+#define STAR_Y 260.0f
+
+#define PI    3.1415926535897932384626433832795f
+
 class ResultScene : public AbstractScene
 {
 private:
@@ -18,7 +26,9 @@ private:
 	int star_num;      // 星の数
 	int bgm; // BGMデータ
 	bool is_bgm_active; // BGMが流れているか？
-	std::vector<int> images;
+	int star_images[2];
+	int fire_image;
+	double extrate; // 画像の拡大率
 
 public:
 	ResultScene(bool is_game_clear,int goal_num);

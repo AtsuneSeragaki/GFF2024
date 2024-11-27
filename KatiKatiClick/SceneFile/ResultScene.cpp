@@ -28,12 +28,12 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	ResourceManager* rm = ResourceManager::GetInstance();
 
 	std::vector<int> tmp;
-	tmp = rm->GetImages("Resource/Result/star_silver.png");
-	images.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Result/star_gold.png");
-	images.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Result/fire.png");
-	images.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Images/Result/star_silver.png");
+	star_images[0] = tmp[0];
+	tmp = rm->GetImages("Resource/Images/Result/star_gold.png");
+	star_images[1] = tmp[0];
+	tmp = rm->GetImages("Resource/Images/Result/fire.png");
+	fire_image = tmp[0];
 
 	// 音データ読み込み
 	int tmp_bgm;
@@ -44,6 +44,8 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 
 	// 音量変更
 	ChangeVolumeSoundMem(190, bgm);
+
+	extrate = 1.0f;
 }
 
 ResultScene::~ResultScene()
@@ -113,9 +115,10 @@ void ResultScene::Draw() const
 	switch (star_num)
 	{
 	case 1:
-		DrawCircle(50 + 45, 260, 40, 0xffff00, TRUE);
-		DrawCircle(140 + 45, 240, 40, 0xffffff, TRUE);
-		DrawCircle(230 + 45, 260, 40, 0xffffff, TRUE);
+		DrawRotaGraph2F(STAR_X, STAR_Y, 20.0f, 20.0f, 1.0f, PI / 180 * 20,star_images[0],TRUE);
+		DrawRotaGraph2F(STAR_X + 90.0f, STAR_Y - 20.0f, 20.0f, 20.0f, 1.0f, 0, star_images[0], TRUE);
+		DrawRotaGraph2F(STAR_X + 180.0f, STAR_Y, 20.0f, 20.0f, 1.0f,-PI / 180 * 20, star_images[0], TRUE);
+		DrawRotaGraph2F(STAR_X, STAR_Y, 20.0f, 20.0f, extrate, PI / 180 * 20, star_images[1], TRUE);
 		break;
 
 	case 2:
