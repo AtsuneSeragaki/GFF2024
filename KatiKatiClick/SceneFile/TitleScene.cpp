@@ -27,6 +27,14 @@ TitleScene::TitleScene()
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/bgm.mp3");
 	bgm = tmp_bgm;
 
+	//画像読込
+	std::vector<int> tmp_img;
+	tmp_img = rm->GetImages("Resource/Images/Opening/TitleLogo.png");
+	titlelogo_img.push_back(tmp_img[0]);
+
+	tmp_img = rm->GetImages("Resource/Images/Opening/cloud.png");
+	cloud_img.push_back(tmp_img[0]);
+
 	is_bgm_active = false;
 
 	// 音量変更
@@ -85,7 +93,13 @@ void TitleScene::Update()
 
 void TitleScene::Draw() const
 {
-	DrawString(160, 100, "TITLE", 0xffffff);
+
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0xbdf4ff, TRUE);
+
+	DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
+	DrawRotaGraph(LANE_WIDTH*3-60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
+
+	DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
 
 	switch (on_button)
 	{
