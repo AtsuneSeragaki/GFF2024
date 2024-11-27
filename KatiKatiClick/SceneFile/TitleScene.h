@@ -16,6 +16,9 @@ private:
 	int bgm; // BGMデータ
 	bool is_bgm_active; // BGMが流れているか？
 
+	std::vector<int> cloud_img;//雲の画像
+	std::vector<int> titlelogo_img;//タイトルロゴの画像
+
 public:
 	TitleScene();
 	~TitleScene();
