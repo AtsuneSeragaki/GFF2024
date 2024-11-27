@@ -77,7 +77,12 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Enemy/GameOver.mp3");
     gameover_se = tmp_s;
 
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Time/GameClear.mp3");
+    gameclear_se = tmp_s;
+
     ChangeVolumeSoundMem(180, gameover_se);
+    ChangeVolumeSoundMem(180,se);
+    ChangeVolumeSoundMem(180, gameclear_se);
 
     background_location_y = 0.0f;
 
@@ -540,6 +545,21 @@ void GameMainScene::InGameUpdate()
 
                 // カーソルとポーズ中のボタンのみ更新する
                 objects[i]->Update();
+
+                // "はい"ボタンがクリックされたか
+                YesButton* yes_button = dynamic_cast<YesButton*>(objects[i]);
+                if (yes_button != nullptr)
+                {
+                    going_title = yes_button->GetGoingTitleFlg();
+                    if (wait_going_title)
+                    {
+                        if (going_title)
+                        {
+                            return;
+                        }
+                        return;
+                    }
+                }
             }
         }
 
@@ -581,22 +601,26 @@ void GameMainScene::InGameUpdate()
                         YesButton* yes_button = dynamic_cast<YesButton*>(objects[j]);
                         if (yes_button != nullptr)
                         {
-                            // タイトルボタンがクリックされたか調べる
-                            going_title = yes_button->GetClickFlg();
-                            if (going_title)
-                            {
-                                return;
-                            }
+                            wait_going_title = yes_button->GetClickFlg();
+                            going_title = yes_button->GetGoingTitleFlg();
                         }
 
-                        // 他の領域がクリックされたか
-                        Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
-                        if (cursor != nullptr)
+                        if (wait_going_title)
                         {
-                            if (cursor->GetPState() == P_State::attack)
+                            return;
+                        }
+                        else
+                        {
+                            // 他の領域がクリックされたか
+                            Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
+                            if (cursor != nullptr)
                             {
-                                click_title_button_flg = false;
+                                if (cursor->GetPState() == P_State::attack)
+                                {
+                                    click_title_button_flg = false;
+                                }
                             }
+
                         }
                     }
                 }
@@ -695,7 +719,6 @@ void GameMainScene::InGameUpdate()
                     }
                 }
             }
-
         }
 
         // 一時停止中か調べる
@@ -716,6 +739,7 @@ void GameMainScene::InGameUpdate()
                 is_bgm_active = 0;
 
                 PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+                PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
             }
             
             // 制限時間が0ならゲームクリア

@@ -63,12 +63,15 @@ private:
 	bool click_left_button_flg;		// 左向き矢印ボタンをクリックしたか？
 	bool click_title_button_flg;	// タイトルボタンをクリックしたか？
 	bool going_title;				// タイトルへ行きますか？
+	bool wait_going_title;			// タイトル遷移待ちですか？
 
 	int bgm; // BGMデータ
 
 	int se;
 
 	int gameover_se;
+
+	int gameclear_se;
 
 	bool is_bgm_active; // BGM流れているか
 
