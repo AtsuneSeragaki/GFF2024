@@ -12,13 +12,15 @@ FrogEnemy::FrogEnemy()
 	hp = 20;
 	width = 70.0f;
 	height = 70.0f;
-	speed = 1.5f;
+	default_speed = 1.5f;
+	speed = default_speed;
 	can_hit = false;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
 	angle = 0;
 	radian = 0.0f;
 	result = 0.0f;
+	hit_slowdown_skill = false;
 
 	img_cnt = 0;
 	img_num = 0;
@@ -198,6 +200,8 @@ void FrogEnemy::Draw() const
 		DrawExtendGraph((int)old_location.x - (int)old_width / 2, (int)old_location.y - (int)old_height / 2, (int)old_location.x + (int)old_width / 2, (int)old_location.y + (int)old_height / 2, enemy_image[img_num], TRUE);
 	}
 
+	//DrawFormatString((int)location.x, (int)location.y - 5, 0xe9967a, "flg:%d", hit_slowdown_skill);
+	//DrawFormatString((int)location.x, (int)location.y + 5, 0xe9967a, "speed:%f", speed);
 
 }
 
@@ -262,9 +266,10 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 		hp -= 20;
 		break;
 	case ObjectType::slowdownskill:
-		if (speed >= 1.5f)
+		if (speed >= default_speed)
 		{
 			speed -= 0.7f;
+			hit_slowdown_skill = true;
 		}
 		break;
 	default:

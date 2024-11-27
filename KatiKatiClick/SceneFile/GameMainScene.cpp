@@ -783,12 +783,24 @@ void GameMainScene::InGameUpdate()
         return;            //この行より下の処理はしない
     }
 
+    // 足止めスキルがあるか？
+    bool slowdown_active = false;
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
         // ポーズ中のボタンは処理を飛ばす
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
+
+        if (objects[i]->GetObjectType() == ObjectType::slowdownskill)
+        {
+            slowdown_active = true;
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
+        {
+            ResetEnemySpeed(i);
+        }
 
         if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
@@ -893,6 +905,18 @@ void GameMainScene::InGameUpdate()
                     objects[i]->HitReaction(objects[j]);
                     objects[j]->HitReaction(objects[i]);
                 }
+                else
+                {
+                    // 足止めスキルと当たっていない時、HitSlowDownSkillFlgをFalseにする
+                    if (objects[i]->GetObjectType() == ObjectType::enemy && objects[j]->GetObjectType() == ObjectType::slowdownskill)
+                    {
+                        ResetEnemySpeed(i);
+                    }
+                   /* else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
+                    {
+                        ResetEnemySpeed(j);
+                    }*/
+                }
             }
             else
             {
@@ -905,15 +929,39 @@ void GameMainScene::InGameUpdate()
                         objects[i]->HitReaction(objects[j]);
                         objects[j]->HitReaction(objects[i]);
                     }
+                    else
+                    {
+                        // 足止めスキルと当たっていない時、HitSlowDownSkillFlgをFalseにする
+                        if (objects[i]->GetObjectType() == ObjectType::enemy && objects[j]->GetObjectType() == ObjectType::slowdownskill)
+                        {
+                            ResetEnemySpeed(i);
+                        }
+                        else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
+                        {
+                            ResetEnemySpeed(j);
+                        }
+                    }
                 }
 
                 if (objects[i]->GetShape() == Shape::square && objects[j]->GetShape() == Shape::square)
                 {
                     //ヒットチェック
-                    if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()))
+                    if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()) == true)
                     {
                         objects[i]->HitReaction(objects[j]);
                         objects[j]->HitReaction(objects[i]);
+                    }
+                    else
+                    {
+                        // 足止めスキルと当たっていない時、HitSlowDownSkillFlgをFalseにする
+                        if (objects[i]->GetObjectType() == ObjectType::enemy && objects[j]->GetObjectType() == ObjectType::slowdownskill)
+                        {
+                            ResetEnemySpeed(i);
+                        }
+                        else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
+                        {
+                            ResetEnemySpeed(j);
+                        }
                     }
                 }
             }
@@ -935,7 +983,7 @@ void GameMainScene::InGameUpdate()
     //敵のEffectを生成
     EnmEffectGenerate();
 
-
+    
 
     /*
     //小さいSplitEnemyを生成
@@ -1377,4 +1425,14 @@ void GameMainScene::ResetCursorBSkill(int i)
     BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
 
     b_skill->SetHitCursorFlg(false);
+}
+
+void GameMainScene::ResetEnemySpeed(int i)
+{
+    EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+    if (enemy->GetHitSlowDownSkillFlg() == true)
+    {
+        enemy->SetHitSlowDownSkillFlg(false);
+        enemy->SetSpeed(enemy->GetEnemyDefaultSpeed());
+    }
 }

@@ -40,6 +40,9 @@ protected:
 	bool create_wall_effect;//壁にぶつかった時のエフェクト
 	bool create_damage_effect;//ダメージ受けた時のエフェクト
 
+	float default_speed; // スピードの初期値
+	bool hit_slowdown_skill; // 足止めスキルに当たっているか
+
 public:
 	EnemyBase()
 	{
@@ -62,6 +65,8 @@ public:
 		face_num =0;
 		face_exrate = 2.0;
 		face_shift_y = 18;
+		default_speed = 0;
+		hit_slowdown_skill = false;
 
 		// ResourceManagerのインスタンスを取得
 		ResourceManager* rm = ResourceManager::GetInstance();
@@ -113,5 +118,10 @@ public:
 	{
 		return enemy_color;
 	}
+
+	float GetEnemySpeed() { return speed; }
+	float GetEnemyDefaultSpeed() { return default_speed; }
+	bool GetHitSlowDownSkillFlg() { return hit_slowdown_skill; }
+	void SetHitSlowDownSkillFlg(bool flg) { hit_slowdown_skill = flg; }
 };
 

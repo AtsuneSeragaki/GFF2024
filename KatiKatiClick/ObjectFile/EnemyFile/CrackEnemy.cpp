@@ -9,10 +9,12 @@ CrackEnemy::CrackEnemy()
 	hp = 10;
 	width = 70.0f;
 	height = 70.0f;
-	speed = 1.5f;
+	default_speed = 1.5f;
+	speed = default_speed;
 	can_hit = false;
 	object_type = ObjectType::enemy;
 	shape = Shape::square;
+	hit_slowdown_skill = false;
 
 	count_img = 0;
 	change_img = 0;
@@ -153,6 +155,10 @@ void CrackEnemy::Draw() const
 	{
 		DrawRotaGraph((int)location.x, (int)location.y + face_shift_y, 2, 0, face_image[face_num], TRUE);
 	}
+
+	//DrawFormatString((int)location.x, (int)location.y - 5, 0xe9967a, "flg:%d", hit_slowdown_skill);
+	//DrawFormatString((int)location.x, (int)location.y + 5, 0xe9967a, "speed:%f", speed);
+
 }
 
 void CrackEnemy::HitReaction(ObjectBase* character)
@@ -190,9 +196,10 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		hp -= 20;
 		break;
 	case ObjectType::slowdownskill:
-		if (speed >= 1.5f)
+		if (speed >= default_speed)
 		{
 			speed -= 0.7f;
+			hit_slowdown_skill = true;
 		}
 		break;
 	default:

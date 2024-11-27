@@ -9,11 +9,13 @@ BurstEnemy::BurstEnemy()
 	location.y = 0.0f;
 	hp = 30;
 	radius = 20.0f;
-	speed = 1.0f;
+	default_speed = 1.0f;
+	speed = default_speed;
 	can_hit = true;
 	object_type = ObjectType::enemy;
 	shape = Shape::circle;
 	state = State::wait;
+	hit_slowdown_skill = false;
 
 	ResourceManager* rm = ResourceManager::GetInstance();
 	int tmp;
@@ -115,15 +117,7 @@ void BurstEnemy::Update()
 
 void BurstEnemy::Draw() const
 {
-	//DrawFormatString((int)location.x, (int)location.y, 0xe9967a, "hp:%d", hp);
-	//if (can_hit == true)
-	//{
-	//	DrawFormatString((int)location.x, (int)location.y-20, 0xe9967a, "true");
-	//}
-	//else
-	//{
-	//	DrawFormatString((int)location.x, (int)location.y - 20, 0xe9967a, "false");
-	//}
+	
 
 	//int ex_rate = radius / 10;
 	//DrawRotaGraph(location.x, location.y, (double)ex_rate, 0, enemy_image[chenge_img], TRUE);
@@ -136,6 +130,10 @@ void BurstEnemy::Draw() const
 
 	//当たり判定表示用
 	//DrawCircleAA(location.x, location.y, radius, 32, 0xffffff, FALSE);
+
+	//DrawFormatString((int)location.x, (int)location.y - 5, 0xe9967a, "flg:%d", hit_slowdown_skill);
+	//DrawFormatString((int)location.x, (int)location.y + 5, 0xe9967a, "speed:%f", speed);
+
 }
 
 void BurstEnemy::HitReaction(ObjectBase* character)
@@ -169,9 +167,10 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		hp -= 30;
 		break;
 	case ObjectType::slowdownskill:
-		if (speed >= 1.0f)
+		if (speed >= default_speed)
 		{
 			speed -= 0.7f;
+			hit_slowdown_skill = true;
 		}
 		break;
 	default:

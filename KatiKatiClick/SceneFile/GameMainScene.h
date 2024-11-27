@@ -114,6 +114,8 @@ private:
 	void HitCursorBSkill(int i);
 	// カーソルがスキルボタンの上に無い時の処理
 	void ResetCursorBSkill(int i);
+	// スキルが消えた後に敵のスピードをリセット
+	void ResetEnemySpeed(int i);
 
 protected:
 	template <class T>
