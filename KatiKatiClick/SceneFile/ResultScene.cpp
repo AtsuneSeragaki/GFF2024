@@ -27,6 +27,14 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 
+	std::vector<int> tmp;
+	tmp = rm->GetImages("Resource/Result/star_silver.png");
+	images.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Result/star_gold.png");
+	images.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Result/fire.png");
+	images.push_back(tmp[0]);
+
 	// 音データ読み込み
 	int tmp_bgm;
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Title/bgm.mp3");

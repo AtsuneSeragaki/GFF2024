@@ -2,6 +2,7 @@
 
 #include "AbstractScene.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
+#include <vector>
 
 #define BOX_WIDTH  100
 #define BOX_HEIGHT 50
@@ -17,6 +18,7 @@ private:
 	int star_num;      // 星の数
 	int bgm; // BGMデータ
 	bool is_bgm_active; // BGMが流れているか？
+	std::vector<int> images;
 
 public:
 	ResultScene(bool is_game_clear,int goal_num);
