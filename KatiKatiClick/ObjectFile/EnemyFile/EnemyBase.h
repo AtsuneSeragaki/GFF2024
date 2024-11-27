@@ -6,6 +6,7 @@
 
 enum class State
 {
+	none,
 	wait,//動き出すまでの待機
 	move,//動く
 	goal,//ゴールしたとき
@@ -101,6 +102,18 @@ public:
 	void SetStateGameOver() {
 		speed = 5;
 		state = State::goal;
+	}
+	//Opening用
+	void SetStateOpening(bool can_move) {
+		speed = 3;
+		if (can_move == true)
+		{
+			state = State::goal;
+		}
+		else
+		{
+			state = State::none;
+		}
 	}
 	bool GetCreateWallEffect() { return create_wall_effect; }
 	void OffCreateWallEffect() { create_wall_effect=false; }
