@@ -79,6 +79,8 @@ private:
 
 	int gameover_alpha;//ゲームオーバーの時に使用
 
+	bool slowdown_active; // 足止めスキルがあるか？
+
 public:
 	GameMainScene();
 	~GameMainScene();
@@ -116,6 +118,8 @@ private:
 	void HitCursorBSkill(int i);
 	// カーソルがスキルボタンの上に無い時の処理
 	void ResetCursorBSkill(int i);
+	// スキルが消えた後に敵のスピードをリセット
+	void ResetEnemySpeed(int i);
 
 protected:
 	template <class T>
