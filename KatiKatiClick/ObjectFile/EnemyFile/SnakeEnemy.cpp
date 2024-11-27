@@ -186,8 +186,9 @@ void SnakeEnemy::HitReaction(ObjectBase* character)
 		if (speed >= default_speed)
 		{
 			speed -= 0.7f;
-			hit_slowdown_skill = true;
+			
 		}
+		hit_slowdown_skill = true;
 		break;
 	default:
 		break;

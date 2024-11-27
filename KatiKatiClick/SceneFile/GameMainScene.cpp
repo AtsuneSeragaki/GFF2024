@@ -94,7 +94,7 @@ GameMainScene::GameMainScene()
 
     gameover_alpha = -50;
 
-    
+    slowdown_active = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -783,19 +783,23 @@ void GameMainScene::InGameUpdate()
         return;            //この行より下の処理はしない
     }
 
-    // 足止めスキルがあるか？
-    bool slowdown_active = false;
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::slowdownskill)
+        {
+            slowdown_active = true;
+        }
+        else
+        {
+            slowdown_active = false;
+        }
+    }
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
         // ポーズ中のボタンは処理を飛ばす
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
-
-        if (objects[i]->GetObjectType() == ObjectType::slowdownskill)
-        {
-            slowdown_active = true;
-        }
 
         if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
         {
@@ -936,10 +940,10 @@ void GameMainScene::InGameUpdate()
                         {
                             ResetEnemySpeed(i);
                         }
-                        else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
+                        /*else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
                         {
                             ResetEnemySpeed(j);
-                        }
+                        }*/
                     }
                 }
 
@@ -958,10 +962,10 @@ void GameMainScene::InGameUpdate()
                         {
                             ResetEnemySpeed(i);
                         }
-                        else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
+                        /*else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
                         {
                             ResetEnemySpeed(j);
-                        }
+                        }*/
                     }
                 }
             }

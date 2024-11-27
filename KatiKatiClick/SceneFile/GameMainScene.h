@@ -77,6 +77,8 @@ private:
 
 	int gameover_alpha;//ゲームオーバーの時に使用
 
+	bool slowdown_active; // 足止めスキルがあるか？
+
 public:
 	GameMainScene();
 	~GameMainScene();

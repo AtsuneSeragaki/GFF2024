@@ -94,8 +94,6 @@ void SplitEnemy::Update()
 			state = State::death;
 		}
 
-
-
 		break;
 	case State::goal:
 		if (wait_time-- < 0)
@@ -214,8 +212,9 @@ void SplitEnemy::HitReaction(ObjectBase* character)
 		if (speed >= default_speed)
 		{
 			speed -= 0.7f;
-			hit_slowdown_skill = true;
+			
 		}
+		hit_slowdown_skill = true;
 		break;
 	default:
 		break;

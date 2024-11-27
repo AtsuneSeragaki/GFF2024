@@ -66,7 +66,7 @@ void SlowDownSkill::Initialize()
 
 void SlowDownSkill::Draw() const
 {
-	DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xffffff, TRUE);
+	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0xffffff, TRUE);
 	// 描画ブレンドモードをアルファブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, blend_num);
 	DrawExtendGraph(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, image, TRUE);
