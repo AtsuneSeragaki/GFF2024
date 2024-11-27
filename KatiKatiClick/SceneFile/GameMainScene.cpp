@@ -90,11 +90,15 @@ GameMainScene::GameMainScene()
     click_left_button_flg = false;
     click_title_button_flg = false;
     going_title = false;
+    wait_going_title = false;
+    //click_no_button_flg = false;
+    //no_button_wait_count = 0;
+
     is_bgm_active = false;
 
     gameover_alpha = -50;
 
-    
+    slowdown_active = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -546,6 +550,22 @@ void GameMainScene::InGameUpdate()
                 // カーソルとポーズ中のボタンのみ更新する
                 objects[i]->Update();
 
+                //if (click_no_button_flg)
+                //{
+                //    // "いいえ"ボタンのアニメーション待ち時間
+                //    no_button_wait_count++;
+                //    if (no_button_wait_count < 5)
+                //    {
+                //        return;
+                //    }
+                //    else
+                //    {
+                //        no_button_wait_count = 0;
+                //        click_title_button_flg = false;
+                //        click_no_button_flg = false;
+                //    }
+                //}
+
                 // "はい"ボタンがクリックされたか
                 YesButton* yes_button = dynamic_cast<YesButton*>(objects[i]);
                 if (yes_button != nullptr)
@@ -605,7 +625,14 @@ void GameMainScene::InGameUpdate()
                             going_title = yes_button->GetGoingTitleFlg();
                         }
 
-                        if (wait_going_title)
+                        // "いいえ"ボタンがクリックされたか
+                        //NoButton* no_button = dynamic_cast<NoButton*>(objects[j]);
+                        //if (no_button != nullptr)
+                        //{
+                        //    click_no_button_flg = no_button->GetClickFlg();
+                        //}
+
+                        if (wait_going_title/* || click_no_button_flg*/)
                         {
                             return;
                         }
@@ -620,7 +647,6 @@ void GameMainScene::InGameUpdate()
                                     click_title_button_flg = false;
                                 }
                             }
-
                         }
                     }
                 }
@@ -783,12 +809,28 @@ void GameMainScene::InGameUpdate()
         return;            //この行より下の処理はしない
     }
 
+    for (int i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::slowdownskill)
+        {
+            slowdown_active = true;
+        }
+        else
+        {
+            slowdown_active = false;
+        }
+    }
 
     //更新処理
     for (int i = 0; i < objects.size(); i++)
     {
         // ポーズ中のボタンは処理を飛ばす
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
+
+        if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
+        {
+            ResetEnemySpeed(i);
+        }
 
         if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
@@ -893,6 +935,18 @@ void GameMainScene::InGameUpdate()
                     objects[i]->HitReaction(objects[j]);
                     objects[j]->HitReaction(objects[i]);
                 }
+                else
+                {
+                    // 足止めスキルと当たっていない時、HitSlowDownSkillFlgをFalseにする
+                    if (objects[i]->GetObjectType() == ObjectType::enemy && objects[j]->GetObjectType() == ObjectType::slowdownskill)
+                    {
+                        ResetEnemySpeed(i);
+                    }
+                   /* else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
+                    {
+                        ResetEnemySpeed(j);
+                    }*/
+                }
             }
             else
             {
@@ -905,15 +959,39 @@ void GameMainScene::InGameUpdate()
                         objects[i]->HitReaction(objects[j]);
                         objects[j]->HitReaction(objects[i]);
                     }
+                    else
+                    {
+                        // 足止めスキルと当たっていない時、HitSlowDownSkillFlgをFalseにする
+                        if (objects[i]->GetObjectType() == ObjectType::enemy && objects[j]->GetObjectType() == ObjectType::slowdownskill)
+                        {
+                            ResetEnemySpeed(i);
+                        }
+                        /*else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
+                        {
+                            ResetEnemySpeed(j);
+                        }*/
+                    }
                 }
 
                 if (objects[i]->GetShape() == Shape::square && objects[j]->GetShape() == Shape::square)
                 {
                     //ヒットチェック
-                    if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()))
+                    if (objects[i]->HitBox(objects[j]->GetLocation(), objects[j]->GetHeight(), objects[j]->GetWidth()) == true)
                     {
                         objects[i]->HitReaction(objects[j]);
                         objects[j]->HitReaction(objects[i]);
+                    }
+                    else
+                    {
+                        // 足止めスキルと当たっていない時、HitSlowDownSkillFlgをFalseにする
+                        if (objects[i]->GetObjectType() == ObjectType::enemy && objects[j]->GetObjectType() == ObjectType::slowdownskill)
+                        {
+                            ResetEnemySpeed(i);
+                        }
+                        /*else if (objects[j]->GetObjectType() == ObjectType::enemy && objects[i]->GetObjectType() == ObjectType::slowdownskill)
+                        {
+                            ResetEnemySpeed(j);
+                        }*/
                     }
                 }
             }
@@ -935,7 +1013,7 @@ void GameMainScene::InGameUpdate()
     //敵のEffectを生成
     EnmEffectGenerate();
 
-
+    
 
     /*
     //小さいSplitEnemyを生成
@@ -1377,4 +1455,14 @@ void GameMainScene::ResetCursorBSkill(int i)
     BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
 
     b_skill->SetHitCursorFlg(false);
+}
+
+void GameMainScene::ResetEnemySpeed(int i)
+{
+    EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+    if (enemy->GetHitSlowDownSkillFlg() == true)
+    {
+        enemy->SetHitSlowDownSkillFlg(false);
+        enemy->SetSpeed(enemy->GetEnemyDefaultSpeed());
+    }
 }
