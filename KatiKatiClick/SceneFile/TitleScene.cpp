@@ -199,66 +199,68 @@ void TitleScene::Draw() const
 	{
 		opening_anim->Draw();
 	}
+	else
+	{
+		// 背景の雲
+		DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
+		DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
 
-	// 背景の雲
-	DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
-	DrawRotaGraph(LANE_WIDTH*3-60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
+		// タイトルロゴ
+		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
 
-	// タイトルロゴ
-	DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
-
-	// スタートボタン画像の描画
-	DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
-	// エンドボタン画像の描画
-	DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+		// スタートボタン画像の描画
+		DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+		// エンドボタン画像の描画
+		DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
 
 
-	//switch (on_button)
-	//{
-	//case 0:
-	//	// スタートにカーソルが重なっているとき
-	//	DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0x999999, TRUE);
-	//	DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
-	//	DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
-	//	DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
+		//switch (on_button)
+		//{
+		//case 0:
+		//	// スタートにカーソルが重なっているとき
+		//	DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0x999999, TRUE);
+		//	DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
+		//	DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
+		//	DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
 
-	//	// スタートボタンにカーソルが重なっているとき
-	//	// 描画輝度のセット
-	//	SetDrawBright(128, 128, 128);
-	//	//  スタートボタンボタン画像の描画
-	//	//DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
-	//	// 描画輝度を元に戻す
-	//	SetDrawBright(255, 255, 255);
+		//	// スタートボタンにカーソルが重なっているとき
+		//	// 描画輝度のセット
+		//	SetDrawBright(128, 128, 128);
+		//	//  スタートボタンボタン画像の描画
+		//	//DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+		//	// 描画輝度を元に戻す
+		//	SetDrawBright(255, 255, 255);
 
-	//	break;
+		//	break;
 
-	//case 1:
-	//	// エンドにカーソルが重なっているとき
-	//	DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
-	//	DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
-	//	DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0x999999, TRUE);
-	//	DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
+		//case 1:
+		//	// エンドにカーソルが重なっているとき
+		//	DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
+		//	DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
+		//	DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0x999999, TRUE);
+		//	DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
 
-	//	// エンドボタンにカーソルが重なっているとき
-	//	// 描画輝度のセット
-	//	SetDrawBright(128, 128, 128);
-	//	// エンドボタンボタン画像の描画
-	//	//DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
-	//	// 描画輝度を元に戻す
-	//	SetDrawBright(255, 255, 255);
+		//	// エンドボタンにカーソルが重なっているとき
+		//	// 描画輝度のセット
+		//	SetDrawBright(128, 128, 128);
+		//	// エンドボタンボタン画像の描画
+		//	//DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+		//	// 描画輝度を元に戻す
+		//	SetDrawBright(255, 255, 255);
 
-	//	break;
+		//	break;
 
-	//default:
-	//	// ボタンの上にカーソルが重なっていないとき
-	//	DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
-	//	DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
-	//	DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
-	//	DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
-	//	break;
-	//}
-	
-	cursor->Draw();
+		//default:
+		//	// ボタンの上にカーソルが重なっていないとき
+		//	DrawBoxAA(x1 - (float)BOX_WIDTH / 2, y1 - (float)BOX_HEIGHT / 2, x1 + (float)BOX_WIDTH / 2, y1 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
+		//	DrawString((x1 - (float)BOX_WIDTH / 2) + 30, (y1 - (float)BOX_HEIGHT / 2) + 20, "START", 0x000000);
+		//	DrawBoxAA(x2 - (float)BOX_WIDTH / 2, y2 - (float)BOX_HEIGHT / 2, x2 + (float)BOX_WIDTH / 2, y2 + (float)BOX_HEIGHT / 2, 0xffffff, TRUE);
+		//	DrawString((x2 - (float)BOX_WIDTH / 2) + 35, (y2 - (float)BOX_HEIGHT / 2) + 20, "END", 0x000000);
+		//	break;
+		//}
+
+		cursor->Draw();
+	}
 }
 
 AbstractScene* TitleScene::Change()
