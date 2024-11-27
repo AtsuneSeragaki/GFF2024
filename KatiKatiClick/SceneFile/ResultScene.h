@@ -10,8 +10,8 @@
 #define STAR_WIDTH 40.0f
 #define STAR_HEIGHT 40.0f
 
-#define STAR_X 95.0f
-#define STAR_Y 260.0f
+#define STAR_X 50.0f
+#define STAR_Y 250.0f
 
 #define PI    3.1415926535897932384626433832795f
 
