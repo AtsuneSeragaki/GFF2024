@@ -21,6 +21,7 @@ public:
 	void Update();
 	void Draw() const;
 	void PizzaFall();
+	bool GetAnimEnd() { return anim_end; }
 
 protected:
 	template <class T>

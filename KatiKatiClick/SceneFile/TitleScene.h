@@ -2,6 +2,7 @@
 
 #include "AbstractScene.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
+#include "../OpeningFile/OpeningAnim.h"
 
 #define BOX_WIDTH  100
 #define BOX_HEIGHT 50
@@ -10,6 +11,7 @@ class TitleScene : public AbstractScene
 {
 private:
 	Cursor* cursor;
+	OpeningAnim* opening_anim;
 	float x1, x2, y1, y2; // ボタンの座標
 	int select; // プレイヤーが選んだメニュー
 	int on_button; // カーソルがボタンの上にあるか

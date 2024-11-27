@@ -14,6 +14,7 @@ TitleScene::TitleScene()
 	y2 = 300.0f;
 
 	cursor = new Cursor;
+	opening_anim = new OpeningAnim;
 
 	select = -1;
 
@@ -43,6 +44,8 @@ TitleScene::TitleScene()
 
 TitleScene::~TitleScene()
 {
+	delete cursor;
+	delete opening_anim;
 }
 
 void TitleScene::Update()
@@ -52,6 +55,12 @@ void TitleScene::Update()
 		is_bgm_active = true;
 		// BGM再生
 		PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+	}
+
+	if (opening_anim->GetAnimEnd() == false)
+	{
+		opening_anim->Update();
+		return;
 	}
 
 	cursor->Update();
@@ -95,6 +104,11 @@ void TitleScene::Draw() const
 {
 
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0xbdf4ff, TRUE);
+
+	if (opening_anim->GetAnimEnd() == false)
+	{
+		opening_anim->Draw();
+	}
 
 	DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
 	DrawRotaGraph(LANE_WIDTH*3-60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
