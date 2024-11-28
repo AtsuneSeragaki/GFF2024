@@ -39,15 +39,15 @@ TitleScene::TitleScene()
 	cloud_img.push_back(tmp_img[0]);
 
 	// スタートボタン画像の読み込み
-	tmp_img = rm->GetImages("Resource/Images/Opening/StartButton.png", 2, 2, 1, 130, 70);
-	for (int i = 0; i < 2; i++)
+	tmp_img = rm->GetImages("Resource/Images/Opening/StartButton.png", 3, 3, 1, 130, 70);
+	for (int i = 0; i < 3; i++)
 	{
 		start_button_img.push_back(tmp_img[i]);
 	}
 
 	// エンドボタン画像の読み込み
-	tmp_img = rm->GetImages("Resource/Images/Opening/EndButton.png", 2, 2, 1, 130, 70);
-	for (int i = 0; i < 2; i++)
+	tmp_img = rm->GetImages("Resource/Images/Opening/EndButton.png", 3, 3, 1, 130, 70);
+	for (int i = 0; i < 3; i++)
 	{
 		end_button_img.push_back(tmp_img[i]);
 	}
@@ -92,17 +92,17 @@ void TitleScene::Update()
 	if (select != -1)
 	{
 		button_anim_count++;
-		if (button_anim_count < 10)
+		if (button_anim_count < 4)
 		{
 			if (select == 0)
 			{
 				// スタートボタンの画像切り替え
-				start_img_num = 1;
+				start_img_num = button_anim_count / 2 + 1;
 			}
 			else
 			{
 				// エンドボタンの画像切り替え
-				end_img_num = 1;
+				end_img_num = button_anim_count / 2 + 1;
 			}
 		}
 		else
