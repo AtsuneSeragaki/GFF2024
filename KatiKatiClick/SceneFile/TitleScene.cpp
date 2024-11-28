@@ -39,18 +39,22 @@ TitleScene::TitleScene()
 	cloud_img.push_back(tmp_img[0]);
 
 	// スタートボタン画像の読み込み
-	tmp_img = rm->GetImages("Resource/Images/Opening/StartButton.png", 2, 2, 1, 130, 70);
-	for (int i = 0; i < 2; i++)
+	tmp_img = rm->GetImages("Resource/Images/Opening/StartButton.png", 3, 3, 1, 130, 70);
+	for (int i = 0; i < 3; i++)
 	{
 		start_button_img.push_back(tmp_img[i]);
 	}
 
 	// エンドボタン画像の読み込み
-	tmp_img = rm->GetImages("Resource/Images/Opening/EndButton.png", 2, 2, 1, 130, 70);
-	for (int i = 0; i < 2; i++)
+	tmp_img = rm->GetImages("Resource/Images/Opening/EndButton.png", 3, 3, 1, 130, 70);
+	for (int i = 0; i < 3; i++)
 	{
 		end_button_img.push_back(tmp_img[i]);
 	}
+
+	//tmp_img = rm->GetImages("Resource/Images/Opening/End002.png");
+	//end_button_img.push_back(tmp_img[0]);
+
 
 	is_bgm_active = false;
 	
@@ -92,17 +96,17 @@ void TitleScene::Update()
 	if (select != -1)
 	{
 		button_anim_count++;
-		if (button_anim_count < 10)
+		if (button_anim_count < 4)
 		{
 			if (select == 0)
 			{
 				// スタートボタンの画像切り替え
-				start_img_num = 1;
+				start_img_num = button_anim_count / 2 + 1;
 			}
 			else
 			{
 				// エンドボタンの画像切り替え
-				end_img_num = 1;
+				end_img_num = button_anim_count / 2 + 1;
 			}
 		}
 		else
@@ -194,24 +198,58 @@ void TitleScene::Draw() const
 {
 	// 背景色（水色）
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0xbdf4ff, TRUE);
+	// 背景の雲
+	DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
+	DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
+
 
 	if (opening_anim->GetAnimEnd() == false)
 	{
+		int disp_num = opening_anim->GetDisplay_num();
+		switch (disp_num)
+		{
+		case 1:
+			// タイトルロゴ
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			
+			break;
+		case 2:
+			// タイトルロゴ
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			// スタートボタン画像の描画
+			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+
+			break;
+		case 3:
+			// タイトルロゴ
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			// スタートボタン画像の描画
+			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+			// エンドボタン画像の描画
+			DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+
+			break;
+		default:
+			break;
+		}
+
 		opening_anim->Draw();
 	}
 	else
 	{
 		// 背景の雲
-		DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
-		DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
+		//DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
+		//DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
 
 		// タイトルロゴ
 		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
 
 		// スタートボタン画像の描画
 		DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+		//DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[3], TRUE);
 		// エンドボタン画像の描画
 		DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+		//DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[3], TRUE);
 
 
 		//switch (on_button)
@@ -259,8 +297,10 @@ void TitleScene::Draw() const
 		//	break;
 		//}
 
+
 		cursor->Draw();
 	}
+
 }
 
 AbstractScene* TitleScene::Change()
