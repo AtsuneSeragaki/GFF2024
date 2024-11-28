@@ -69,6 +69,7 @@
     <ClCompile Include="SceneFile\ResultScene.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\PauseBase.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.cpp" />
+    <ClCompile Include="OpeningFile\OpeningAnim.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="SceneFile\ResultScene.h" />
     <ClInclude Include="ObjectFile\PauseFile\PauseBase.h" />
     <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.h" />
+    <ClInclude Include="OpeningFile\OpeningAnim.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">

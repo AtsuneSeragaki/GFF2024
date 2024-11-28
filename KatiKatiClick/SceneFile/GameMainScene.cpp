@@ -90,6 +90,10 @@ GameMainScene::GameMainScene()
     click_left_button_flg = false;
     click_title_button_flg = false;
     going_title = false;
+    wait_going_title = false;
+    //click_no_button_flg = false;
+    //no_button_wait_count = 0;
+
     is_bgm_active = false;
 
     gameover_alpha = -50;
@@ -546,6 +550,22 @@ void GameMainScene::InGameUpdate()
                 // カーソルとポーズ中のボタンのみ更新する
                 objects[i]->Update();
 
+                //if (click_no_button_flg)
+                //{
+                //    // "いいえ"ボタンのアニメーション待ち時間
+                //    no_button_wait_count++;
+                //    if (no_button_wait_count < 5)
+                //    {
+                //        return;
+                //    }
+                //    else
+                //    {
+                //        no_button_wait_count = 0;
+                //        click_title_button_flg = false;
+                //        click_no_button_flg = false;
+                //    }
+                //}
+
                 // "はい"ボタンがクリックされたか
                 YesButton* yes_button = dynamic_cast<YesButton*>(objects[i]);
                 if (yes_button != nullptr)
@@ -605,7 +625,14 @@ void GameMainScene::InGameUpdate()
                             going_title = yes_button->GetGoingTitleFlg();
                         }
 
-                        if (wait_going_title)
+                        // "いいえ"ボタンがクリックされたか
+                        //NoButton* no_button = dynamic_cast<NoButton*>(objects[j]);
+                        //if (no_button != nullptr)
+                        //{
+                        //    click_no_button_flg = no_button->GetClickFlg();
+                        //}
+
+                        if (wait_going_title/* || click_no_button_flg*/)
                         {
                             return;
                         }
@@ -620,7 +647,6 @@ void GameMainScene::InGameUpdate()
                                     click_title_button_flg = false;
                                 }
                             }
-
                         }
                     }
                 }
