@@ -291,8 +291,10 @@ void TitleScene::Draw() const
 		//	break;
 		//}
 
+
 		cursor->Draw();
 	}
+
 }
 
 AbstractScene* TitleScene::Change()

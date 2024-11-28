@@ -156,7 +156,7 @@ void OpeningAnim::Update()
 
 void OpeningAnim::Draw() const
 {
-    DrawRotaGraph(pizza_pos.x, pizza_pos.y, 0.1, pizza_angle, pizza_img[0], TRUE);
+    DrawRotaGraph(pizza_pos.x, pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
 
     for (int i = 0; i < objects.size(); i++)
     {
