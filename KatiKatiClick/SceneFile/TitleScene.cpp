@@ -198,16 +198,48 @@ void TitleScene::Draw() const
 {
 	// 背景色（水色）
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0xbdf4ff, TRUE);
+	// 背景の雲
+	DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
+	DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
+
 
 	if (opening_anim->GetAnimEnd() == false)
 	{
+		int disp_num = opening_anim->GetDisplay_num();
+		switch (disp_num)
+		{
+		case 1:
+			// タイトルロゴ
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			
+			break;
+		case 2:
+			// タイトルロゴ
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			// スタートボタン画像の描画
+			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+
+			break;
+		case 3:
+			// タイトルロゴ
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			// スタートボタン画像の描画
+			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+			// エンドボタン画像の描画
+			DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+
+			break;
+		default:
+			break;
+		}
+
 		opening_anim->Draw();
 	}
 	else
 	{
 		// 背景の雲
-		DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
-		DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
+		//DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
+		//DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
 
 		// タイトルロゴ
 		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
@@ -265,8 +297,10 @@ void TitleScene::Draw() const
 		//	break;
 		//}
 
+
 		cursor->Draw();
 	}
+
 }
 
 AbstractScene* TitleScene::Change()

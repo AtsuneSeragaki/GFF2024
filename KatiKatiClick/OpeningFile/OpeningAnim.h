@@ -10,9 +10,12 @@ private:
 	std::vector<std::vector<int>> op_enm_array;
 	std::vector<int> pizza_img;
 	Vector2D pizza_pos;
-	int pizza_angle;
+	double pizza_angle;
 	int anim_num;
 	bool anim_end;
+	float check_enm_y;
+
+	int display_num;
 
 public:
 	OpeningAnim();
@@ -22,6 +25,7 @@ public:
 	void Draw() const;
 	void PizzaFall();
 	bool GetAnimEnd() { return anim_end; }
+	int GetDisplay_num(){ return display_num; }
 
 protected:
 	template <class T>
