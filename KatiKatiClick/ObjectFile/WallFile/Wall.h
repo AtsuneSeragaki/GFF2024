@@ -37,5 +37,7 @@ public:
     void Draw()const override;
     void HitReaction(ObjectBase* character) override;
 
+    void MoveCenter();
+
 };
 

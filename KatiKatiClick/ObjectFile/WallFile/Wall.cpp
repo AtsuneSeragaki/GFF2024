@@ -201,3 +201,12 @@ void Wall::HitReaction(ObjectBase* character)
 		}
 	}
 }
+
+void Wall::MoveCenter()
+{
+	//真ん中へ向かう
+	if (SCREEN_WIDTH / 2)
+	{
+
+	}
+}

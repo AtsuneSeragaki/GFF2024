@@ -16,7 +16,8 @@
 
 GameMainScene::GameMainScene()
 {
-    game_state = GameState::in_game;//プレイ中に設定
+    //game_state = GameState::in_game;//プレイ中に設定
+    game_state = GameState::start;//プレイ中に設定
 
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
@@ -29,7 +30,15 @@ GameMainScene::GameMainScene()
         wall_cnt++;
         //壁生成
         float y2 = SCREEN_HEIGHT - GET_LANE_HEIGHT(3)-(i* (float)ONE_LANE_HEIGHT / 4.0f)-10.0f;
-        CreateObject<Wall>(Vector2D((float)SCREEN_WIDTH / 2.0f,y2));
+        //１と３は右へ
+        if (wall_cnt != 1)
+        {
+            CreateObject<Wall>(Vector2D(360.0f+193.0f, y2));
+        }
+        else
+        {
+            CreateObject<Wall>(Vector2D(-193.0f, y2));
+        }
     }
 
     CreateObject<PauseButton>(Vector2D(330.0f, 765.0f));         // ポーズボタン生成
@@ -83,6 +92,16 @@ GameMainScene::GameMainScene()
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
     ChangeVolumeSoundMem(180, gameclear_se);
+
+    //画像読込
+    std::vector<int> tmp_img;
+    tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
+    pizza_img.push_back(tmp_img[0]);
+
+    pizza_pos.x = SCREEN_WIDTH / 2;
+    pizza_pos.y = 0.0f;
+    pizza_angle = 0.0;
+    anim_num = 0;
 
     background_location_y = 0.0f;
 
@@ -210,6 +229,11 @@ void GameMainScene::Draw() const
     //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
     //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
 
+    //pizza表示
+    if (game_state == GameState::start)
+    {
+        DrawRotaGraph(pizza_pos.x, pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
+    }
 
     // UI下のレンガ画像
     DrawRotaGraphF(180.0f, 680.0f, 1.0, 0.0, background_image[2], TRUE);
@@ -1047,6 +1071,20 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InStartUpdate()
 {
+    //pizzaがはんぶんぐらいから回転しながら上から下に
+    //下に行ったら右左から壁が飛んでくる
+    //巻物で焼きあがるまでpizzaを守ろう！さあ！クリックだ！って言う
+    
+    if (pizza_pos.y < SCREEN_HEIGHT + 100)
+    {
+        pizza_pos.y += 7;
+        pizza_angle += 0.2;
+    }
+    else {
+        //左右から壁
+
+    }
+
 }
 
 void GameMainScene::InGameClearUpdate()
