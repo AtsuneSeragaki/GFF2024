@@ -52,6 +52,10 @@ TitleScene::TitleScene()
 		end_button_img.push_back(tmp_img[i]);
 	}
 
+	//tmp_img = rm->GetImages("Resource/Images/Opening/End002.png");
+	//end_button_img.push_back(tmp_img[0]);
+
+
 	is_bgm_active = false;
 	
 	start_img_num = 0;
@@ -210,8 +214,10 @@ void TitleScene::Draw() const
 
 		// スタートボタン画像の描画
 		DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+		//DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[3], TRUE);
 		// エンドボタン画像の描画
 		DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+		//DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[3], TRUE);
 
 
 		//switch (on_button)
