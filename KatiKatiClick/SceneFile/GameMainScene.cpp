@@ -243,12 +243,10 @@ void GameMainScene::Draw() const
     if (game_state == GameState::start)
     {
         DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
-
-        if (anim_num == 1)
-        {
-            DrawRotaGraph((int)makimono_pos.x, (int)makimono_pos.y, 1, 0, makimono_img[0], TRUE);
-        }
     }
+
+    //巻物表示
+    DrawRotaGraph((int)makimono_pos.x, (int)makimono_pos.y, 1, 0, makimono_img[0], TRUE);
 
     // UI下のレンガ画像
     DrawRotaGraphF(180.0f, 680.0f, 1.0, 0.0, background_image[2], TRUE);
@@ -423,6 +421,13 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InGameUpdate()
 {
+    if (makimono_pos.x >= -193.0f)
+    {
+        makimono_pos.x -= 5;
+
+    }
+
+
     if (is_bgm_active == 0 && is_game_clear == false)
     {
         is_bgm_active = 1;
