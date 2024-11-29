@@ -31,13 +31,15 @@ GameMainScene::GameMainScene()
         //壁生成
         float y2 = SCREEN_HEIGHT - GET_LANE_HEIGHT(3)-(i* (float)ONE_LANE_HEIGHT / 4.0f)-10.0f;
         //１と３は右へ
-        if (wall_cnt != 1)
+        if (i != 1)
         {
-            CreateObject<Wall>(Vector2D(360.0f+193.0f, y2));
+            Wall *wall = CreateObject<Wall>(Vector2D(360.0f+193.0f, y2));
+            wall->SetWaitTime(i * 10);
         }
         else
         {
-            CreateObject<Wall>(Vector2D(-193.0f, y2));
+           Wall *wall2 = CreateObject<Wall>(Vector2D(-193.0f, y2));
+           wall2->SetWaitTime(i * 10);
         }
     }
 
@@ -98,10 +100,18 @@ GameMainScene::GameMainScene()
     tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
     pizza_img.push_back(tmp_img[0]);
 
+    tmp_img = rm->GetImages("Resource/Images/Explanation/Makimono.png");
+    makimono_img.push_back(tmp_img[0]);
+
+
+    /*スタートのピザ用*/
     pizza_pos.x = SCREEN_WIDTH / 2;
     pizza_pos.y = 0.0f;
     pizza_angle = 0.0;
     anim_num = 0;
+    
+    makimono_pos.x = 360.0f + 193.0f;
+    makimono_pos.y = 300.0f;
 
     background_location_y = 0.0f;
 
@@ -232,7 +242,12 @@ void GameMainScene::Draw() const
     //pizza表示
     if (game_state == GameState::start)
     {
-        DrawRotaGraph(pizza_pos.x, pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
+        DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
+
+        if (anim_num == 1)
+        {
+            DrawRotaGraph((int)makimono_pos.x, (int)makimono_pos.y, 1, 0, makimono_img[0], TRUE);
+        }
     }
 
     // UI下のレンガ画像
@@ -1074,17 +1089,68 @@ void GameMainScene::InStartUpdate()
     //pizzaがはんぶんぐらいから回転しながら上から下に
     //下に行ったら右左から壁が飛んでくる
     //巻物で焼きあがるまでpizzaを守ろう！さあ！クリックだ！って言う
-    
-    if (pizza_pos.y < SCREEN_HEIGHT + 100)
+    int wallmove_end_cnt = 0;
+
+    switch (anim_num)
     {
-        pizza_pos.y += 7;
-        pizza_angle += 0.2;
-    }
-    else {
-        //左右から壁
+    case 0:
+        //ピザ落下
+        if (pizza_pos.y < 700)
+        {
+            pizza_pos.y += 7;
+            pizza_angle += 0.1;
+        }
+        else {
 
+
+            //左右から壁
+            for (int i = 0; i < objects.size(); i++)
+            {
+                if (objects[i]->GetObjectType() != ObjectType::wall)continue;
+
+                objects[i]->Update();
+                //objects[i]がエネミーだったら判定
+                Wall* wall = dynamic_cast<Wall*>(objects[i]);
+                if (wall != nullptr)
+                {
+                    if (wall->GetMoveOnce())
+                    {
+                        wallmove_end_cnt++;
+                    }
+                }
+
+                if (wallmove_end_cnt > 2)
+                {
+                    anim_num=1;
+                }
+            }
+
+        }
+
+        break;
+    case 1:
+
+        if (makimono_pos.x <= SCREEN_WIDTH / 2)
+        {
+            makimono_pos.x = (float)SCREEN_WIDTH / 2 - 15.0f;
+        }
+        else {
+            makimono_pos.x -= 5;
+        }
+
+        if (MouseInput::GetMouseState() == eMouseInputState::eClick)
+        {
+            anim_num = 2;
+        }
+        break;
+    case 2:
+        game_state = GameState::in_game;
+        break;
+    default:
+        break;
     }
 
+    
 }
 
 void GameMainScene::InGameClearUpdate()

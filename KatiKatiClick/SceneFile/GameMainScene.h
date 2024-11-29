@@ -86,6 +86,8 @@ private:
 	Vector2D pizza_pos;
 	double pizza_angle;
 	int anim_num;
+	std::vector<int> makimono_img;//ルール説明用
+	Vector2D makimono_pos;
 
 public:
 	GameMainScene();
