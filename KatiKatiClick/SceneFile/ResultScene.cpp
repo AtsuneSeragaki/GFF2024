@@ -44,6 +44,12 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Title/bgm.mp3");
 	bgm = tmp_bgm;
 
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/star_silver.mp3");
+	star_click_se[0] = tmp_bgm;
+
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/star_gold.mp3");
+	star_click_se[1] = tmp_bgm;
+
 	// 音量変更
 	ChangeVolumeSoundMem(190, bgm);
 
@@ -405,35 +411,81 @@ void ResultScene::HitCheck()
 		// 星
 		if (HitBoxCircle(star_x[0], star_y[0], STAR_WIDTH, STAR_HEIGHT, cursor->GetLocation(), cursor->GetRadius()))
 		{
-			if (star_gold[0] == true && star_hp[0] != 0)
+			if (star_gold[0] == true && star_hp[0] >= 1)
 			{
 				star_hp[0]--;
+
+				PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			}
 			else
 			{
-				//鉄の音
+				if (star_hp[0] == 0 && star_gold_y[0] <= STAR_Y - 20.0f)
+				{
+					//鉄の音
+					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
+				}
+				else if(star_hp[0] == -1)
+				{
+					//鉄の音
+					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
+				}
+				else
+				{
+					PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
+				}
+				
 			}
 		}
 		else if (HitBoxCircle(star_x[1], star_y[1], STAR_WIDTH_2, STAR_HEIGHT_2, cursor->GetLocation(), cursor->GetRadius()))
 		{
-			if (star_gold[1] == true && star_hp[1] != 0)
+			if (star_gold[1] == true && star_hp[1] >= 1)
 			{
 				star_hp[1]--;
+
+				PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			}
 			else
 			{
-				//鉄の音
+				if (star_hp[1] == 0 && star_gold_y[1] <= (STAR_Y - 40.0f) - 20.0f)
+				{
+					//鉄の音
+					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
+				}
+				else if (star_hp[1] == -1)
+				{
+					//鉄の音
+					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
+				}
+				else
+				{
+					PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
+				}
 			}
 		}
 		else if (HitBoxCircle(star_x[2], star_y[2], STAR_WIDTH, STAR_HEIGHT, cursor->GetLocation(), cursor->GetRadius()))
 		{
-			if (star_gold[2] == true && star_hp[2] != 0)
+			if (star_gold[2] == true && star_hp[2] >= 1)
 			{
 				star_hp[2]--;
+
+				PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			}
 			else
 			{
-				//鉄の音
+				if (star_hp[2] == 0 && star_gold_y[2] <= STAR_Y - 20.0f)
+				{
+					//鉄の音
+					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
+				}
+				else if (star_hp[2] == -1)
+				{
+					//鉄の音
+					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
+				}
+				else
+				{
+					PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
+				}
 			}
 		}
 	}

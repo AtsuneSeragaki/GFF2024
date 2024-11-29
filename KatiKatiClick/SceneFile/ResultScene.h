@@ -30,8 +30,8 @@ private:
 	int star_hp[3];              // 星のHP
 	float star_x[3];             // 星のX座標
 	float star_y[3];             // 星のY座標
-	float star_gold_x[3];             // 星のX座標
-	float star_gold_y[3];             // 星のY座標
+	float star_gold_x[3];        // 星のX座標
+	float star_gold_y[3];        // 星のY座標
 	int star_images[2];          // 星の画像
 	int fire_image;              // 火の画像
 	int pizza_image;             // ピザの画像
@@ -49,6 +49,7 @@ private:
 	int star_wait_time[3];       // 火がついた後の星の待機時間
 	float fire_x[3], fire_y[3];  // 火の表示位置(星の中心座標に足す分)
 	float cnt[3];                // 星が戻ってくるときのアニメーション用カウント
+	int star_click_se[2];              // 星を叩いた時の効果音
 
 public:
 	ResultScene(bool is_game_clear,int goal_num);
