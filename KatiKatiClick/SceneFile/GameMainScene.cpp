@@ -100,9 +100,10 @@ GameMainScene::GameMainScene()
     tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
     pizza_img.push_back(tmp_img[0]);
 
-    tmp_img = rm->GetImages("Resource/Images/Explanation/Makimono.png");
-    makimono_img.push_back(tmp_img[0]);
-
+    tmp_img = rm->GetImages("Resource/Images/Explanation/setumei.png");
+    bigperpar_img.push_back(tmp_img[0]);
+    tmp_img = rm->GetImages("Resource/Images/Explanation/paper.png");
+    little_perpar_img.push_back(tmp_img[0]);
 
     /*スタートのピザ用*/
     pizza_pos.x = SCREEN_WIDTH / 2;
@@ -110,8 +111,11 @@ GameMainScene::GameMainScene()
     pizza_angle = 0.0;
     anim_num = 0;
     
-    makimono_pos.x = 360.0f + 193.0f;
-    makimono_pos.y = 300.0f;
+    //makimono_pos.x = 360.0f + 193.0f;
+    //makimono_pos.y = 300.0f;
+    perpar_pos.x = SCREEN_WIDTH / 2;
+    perpar_pos.y = 0.0f;
+
 
     background_location_y = 0.0f;
 
@@ -239,10 +243,17 @@ void GameMainScene::Draw() const
     if (game_state == GameState::start)
     {
         DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
+        //レシート表示
+        DrawRotaGraph((int)perpar_pos.x, (int)perpar_pos.y, 1, 0, little_perpar_img[0], TRUE);
+        if (anim_num == 1)
+        {
+            //説明の紙表示
+            DrawGraph(0, 0, bigperpar_img[0], TRUE);
+            
+        }
+        
     }
 
-    //巻物表示
-    DrawRotaGraph((int)makimono_pos.x, (int)makimono_pos.y, 1, 0, makimono_img[0], TRUE);
 
     // UI下のレンガ画像
     DrawRotaGraphF(180.0f, 680.0f, 1.0, 0.0, background_image[2], TRUE);
@@ -417,11 +428,7 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InGameUpdate()
 {
-    if (makimono_pos.x >= -193.0f)
-    {
-        makimono_pos.x -= 5;
 
-    }
 
 
     if (is_bgm_active == 0 && is_game_clear == false)
@@ -1120,10 +1127,16 @@ void GameMainScene::InStartUpdate()
                     }
                 }
 
-                if (wallmove_end_cnt > 2)
+                perpar_pos.y +=1;
+                if (perpar_pos.y > 600)
                 {
-                    anim_num=1;
+                    anim_num = 1;
                 }
+
+                //if (wallmove_end_cnt > 2)
+                //{
+                //    anim_num=1;
+                //}
             }
 
         }
@@ -1132,13 +1145,13 @@ void GameMainScene::InStartUpdate()
     case 1:
         //0xfbddc1
 
-        if (makimono_pos.x <= SCREEN_WIDTH / 2)
-        {
-            makimono_pos.x = (float)SCREEN_WIDTH / 2 - 15.0f;
-        }
-        else {
-            makimono_pos.x -= 5;
-        }
+        //if (makimono_pos.x <= SCREEN_WIDTH / 2)
+        //{
+        //    makimono_pos.x = (float)SCREEN_WIDTH / 2 - 15.0f;
+        //}
+        //else {
+        //    makimono_pos.x -= 5;
+        //}
 
         if (MouseInput::GetMouseState() == eMouseInputState::eClick)
         {
