@@ -254,6 +254,12 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 			old_height = height + 10.0f;
 		}
 
+		if (hp >= 10)
+		{
+			face_exrate = 1.5;
+			face_shift_y = 13;
+		}
+
 		hp -= 10;
 		width -= 20.0f;
 		height -= 20.0f;

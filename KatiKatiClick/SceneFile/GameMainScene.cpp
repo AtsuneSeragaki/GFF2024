@@ -1130,6 +1130,7 @@ void GameMainScene::InStartUpdate()
 
         break;
     case 1:
+        //0xfbddc1
 
         if (makimono_pos.x <= SCREEN_WIDTH / 2)
         {
@@ -1141,10 +1142,15 @@ void GameMainScene::InStartUpdate()
 
         if (MouseInput::GetMouseState() == eMouseInputState::eClick)
         {
-            anim_num = 2;
+            anim_num = 3;
         }
+
         break;
     case 2:
+        //321カウント
+
+        break;
+    case 3:
         game_state = GameState::in_game;
         break;
     default:
