@@ -3,23 +3,22 @@
 #include "GameMainScene.h"
 #include "../UtilityFile/ResourceManager.h"
 #include "../UtilityFile/Define.h"
-#include "../UtilityFile/Define.h"
 #include "DxLib.h"
 #include <math.h>
 
 
 ResultScene::ResultScene(bool is_game_clear, int goal_num)
 {
-	x1 = 85.0f + 20.0f;
-	x2 = 275.0f - 20.0f;
-	y1 = 570.0f;
-	y2 = 570.0f;
+	//x1 = 85.0f + 20.0f;
+	//x2 = 275.0f - 20.0f;
+	//y1 = 570.0f;
+	//y2 = 570.0f;
 
 	cursor = new Cursor;
 
 	select = -1;
 
-	on_button = -1;
+	//on_button = -1;
 
 	is_clear = is_game_clear;
 
@@ -38,6 +37,18 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	fire_image = tmp[0];
 	tmp = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
 	pizza_image = tmp[0];
+	// リトライボタン画像の読み込み
+	tmp = rm->GetImages("Resource/Images/Result/RetryButton.png", 3, 3, 1, 130, 70);
+	for (int i = 0; i < 3; i++)
+	{
+		retry_button_img.push_back(tmp[i]);
+	}
+	// タイトルボタン画像の読み込み
+	tmp = rm->GetImages("Resource/Images/Result/TitleButton.png", 3, 3, 1, 130, 70);
+	for (int i = 0; i < 3; i++)
+	{
+		title_button_img.push_back(tmp[i]);
+	}
 
 	// 音データ読み込み
 	int tmp_bgm;
@@ -114,6 +125,18 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	cnt[0] = 2.7f;
 	cnt[1] = 5.2f;
 	cnt[2] = 2.7f;
+
+	retry_img_num = 0;
+	title_img_num = 0;
+	change_wait_time = 0;
+
+	// ボタン座標の設定
+	retry_x = GET_LANE_WIDTH(2.5f);
+	retry_y = GET_LANE_HEIGHT(7.2f);
+	title_x = GET_LANE_WIDTH(7.5f);
+	title_y = GET_LANE_HEIGHT(7.2f);
+
+	change_screen_flg = false;
 }
 
 ResultScene::~ResultScene()
@@ -129,14 +152,39 @@ void ResultScene::Update()
 		PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
 	}
 
+	// カーソル更新処理
 	cursor->Update();
-
-	HitCheck();
-
-	StarMove();
 
 	ChangePizzaAngle();
 
+	StarMove();
+
+	// プレイヤーがボタンをクリックしたか？
+	if (select != -1)
+	{
+		change_wait_time++;
+		if (change_wait_time < 60)
+		{
+			if (change_wait_time < 10)
+			{
+				// ボタン押下アニメション
+				ButtonAnimation();
+			}
+		}
+		else
+		{
+			// 画面遷移して良い
+			change_screen_flg = true;
+		}
+
+		return;
+	}
+
+	// ボタンとカーソルの当たり判定
+	ButtonHitCheck();
+
+	// 星とカーソルの当たり判定
+	StarHitCheck();
 }
 
 void ResultScene::Draw() const
@@ -248,32 +296,36 @@ void ResultScene::Draw() const
 	}
 
 	// ボタンの描画
-	switch (on_button)
-	{
-	case 0:
-		DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0x999999, TRUE);
-		DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
-		DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0xffffff, TRUE);
-		DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
-		break;
+	//switch (on_button)
+	//{
+	//case 0:
+	//	DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0x999999, TRUE);
+	//	DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
+	//	DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0xffffff, TRUE);
+	//	DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
+	//	break;
 
-	case 1:
-		DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0xffffff, TRUE);
-		DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
-		DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0x999999, TRUE);
-		DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
-		break;
+	//case 1:
+	//	DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0xffffff, TRUE);
+	//	DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
+	//	DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0x999999, TRUE);
+	//	DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
+	//	break;
 
-	default:
-		DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0xffffff, TRUE);
-		DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
-		DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0xffffff, TRUE);
-		DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
-		break;
-	}
+	//default:
+	//	DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0xffffff, TRUE);
+	//	DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
+	//	DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0xffffff, TRUE);
+	//	DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
+	//	break;
+	//}
+
 
 	// リザルト結果表示ゾーンの描画
 	DrawBox(40, 300, 320, 500, 0xffffff, TRUE);
+
+	// ボタンの描画
+	DrawButton();
 
 	// ピザの描画
 	DrawRotaGraph2(183, 690, 250, 250, 0.2f, pizza_angle, pizza_image, TRUE);
@@ -284,28 +336,32 @@ void ResultScene::Draw() const
 
 AbstractScene* ResultScene::Change()
 {
-	switch (select)
+	if (change_screen_flg)
 	{
-	case 0:
-		// BGMを止める
-		StopSoundMem(bgm);
-		is_bgm_active = false;
+		switch (select)
+		{
+		case 0:
+			// BGMを止める
+			StopSoundMem(bgm);
+			is_bgm_active = false;
 
-		// ゲームメイン画面に遷移
-		return new GameMainScene();
-		break;
+			// ゲームメイン画面に遷移
+			return new GameMainScene();
+			break;
 
-	case 1:
-		// BGMを止める
-		StopSoundMem(bgm);
-		is_bgm_active = false;
+		case 1:
+			// BGMを止める
+			StopSoundMem(bgm);
+			is_bgm_active = false;
 
-		// タイトル画面に遷移
-		return new TitleScene();
-		break;
+			// タイトル画面に遷移
+			return new TitleScene();
+			break;
 
-	default:
-		break;
+		default:
+			return this;
+			break;
+		}
 	}
 
 	return this;
@@ -412,25 +468,12 @@ void ResultScene::ChangePizzaAngle()
 	}
 }
 
-void ResultScene::HitCheck()
+// 星とカーソルの当たり判定
+void ResultScene::StarHitCheck()
 {
 	if (cursor->GetPState() == P_State::attack && cursor->GetCanHit() == true)
-	{// プレイヤーがクリックしたとき、ボタン or 星の上でクリックされたか？
-
-		// ボタン
-		if (HitBoxCircle(x1, y1, BOX_WIDTH, BOX_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
-		{
-			select = 0;
-		}
-		else
-		{
-			if (HitBoxCircle(x2, y2, BOX_WIDTH, BOX_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
-			{
-				select = 1;
-			}
-		}
-
-		// 星
+	{
+		// プレイヤーがクリックしたとき、星の上でクリックされたか？
 		if (HitBoxCircle(star_x[0], star_y[0], STAR_WIDTH, STAR_HEIGHT, cursor->GetLocation(), cursor->GetRadius()))
 		{
 			if (star_gold[0] == true && star_hp[0] >= 1)
@@ -511,25 +554,25 @@ void ResultScene::HitCheck()
 			}
 		}
 	}
-	else
-	{// カーソルがボタンの上にあるか？
+	//else
+	//{// カーソルがボタンの上にあるか？
 
-		if (HitBoxCircle(x1, y1, BOX_WIDTH, BOX_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
-		{
-			on_button = 0;
-		}
-		else
-		{
-			if (HitBoxCircle(x2, y2, BOX_WIDTH, BOX_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
-			{
-				on_button = 1;
-			}
-			else
-			{
-				on_button = -1;
-			}
-		}
-	}
+	//	if (HitBoxCircle(x1, y1, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
+	//	{
+	//		on_button = 0;
+	//	}
+	//	else
+	//	{
+	//		if (HitBoxCircle(x2, y2, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
+	//		{
+	//			on_button = 1;
+	//		}
+	//		else
+	//		{
+	//			on_button = -1;
+	//		}
+	//	}
+	//}
 }
 
 void ResultScene::StarMove()
@@ -720,5 +763,102 @@ void ResultScene::StarBackAnim(int i)
 	else
 	{
 		cnt[i] += 1.0f;
+	}
+}
+
+// ボタンとカーソルの当たり判定
+void ResultScene::ButtonHitCheck()
+{
+	if (cursor->GetPState() == P_State::attack && cursor->GetCanHit() == true)
+	{
+		// リトライボタンをクリックしたか調べる
+		if (HitBoxCircle(retry_x, retry_y, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
+		{
+			select = 0;
+		}
+		else
+		{
+			if (HitBoxCircle(title_x, title_y, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
+			{
+				// タイトルボタンをクリックしたか調べる
+				select = 1;
+			}
+		}
+	}
+}
+
+// ボタン押下アニメション処理
+void ResultScene::ButtonAnimation()
+{
+	if (select == 0)
+	{
+		if (change_wait_time < 8)
+		{
+			// リトライボタンの画像切り替え
+			retry_img_num = change_wait_time / 4 + 1;
+		}
+		else
+		{
+			retry_img_num = 1;
+		}
+	}
+	else
+	{
+		if (change_wait_time < 8)
+		{
+			// タイトルボタンの画像切り替え
+			title_img_num = change_wait_time / 4 + 1;
+		}
+		else
+		{
+			title_img_num = 1;
+		}
+	}
+
+}
+
+// ボタンの描画
+void ResultScene::DrawButton() const
+{
+	if (change_wait_time > 8)
+	{
+		switch (select)
+		{
+		case 0:
+			// リトライボタンを暗くする
+			// 描画輝度のセット
+			SetDrawBright(128, 128, 128);
+			// リトライボタン画像の描画
+			DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
+			// 描画輝度を元に戻す
+			SetDrawBright(255, 255, 255);
+
+			// タイトルボタン画像の描画
+			DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+			break;
+
+		case 1:
+			// リトライボタン画像の描画
+			DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
+
+			// タイトルボタンを暗くする
+			// 描画輝度のセット
+			SetDrawBright(128, 128, 128);
+			// タイトルボタン画像の描画
+			DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+			// 描画輝度を元に戻す
+			SetDrawBright(255, 255, 255);
+			break;
+
+		default:
+			break;
+		}
+	}
+	else
+	{
+		// リトライボタン画像の描画
+		DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
+		// タイトルボタン画像の描画
+		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
 	}
 }
