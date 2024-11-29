@@ -89,6 +89,13 @@ private:
 	std::vector<int> bigperpar_img;//ルール説明紙
 	std::vector<int> little_perpar_img;//ルール説明紙
 	Vector2D perpar_pos;
+	int perpar_alpha;
+
+	std::vector<int> pizzabox_img;
+	Vector2D pizzabox_pos;
+
+	int start_cnt;//321する用
+	int fps_cnt;//60fカウントする用
 
 public:
 	GameMainScene();
