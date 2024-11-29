@@ -485,6 +485,7 @@ void ResultScene::StarMove()
 				fire_extrate[0] = 0.0f;
 				star_wait_time[0] = 45;
 				cnt[0] = 2.7f;
+				star_move[0] = 0.0f;
 			}
 		}
 		else
@@ -543,6 +544,7 @@ void ResultScene::StarMove()
 				fire_extrate[1] = 0.0f;
 				star_wait_time[1] = 45;
 				cnt[1] = 5.2f;
+				star_move[1] = 0.0f;
 			}
 		}
 		else
@@ -600,6 +602,7 @@ void ResultScene::StarMove()
 				fire_extrate[2] = 0.0f;
 				star_wait_time[2] = 45;
 				cnt[2] = 2.7f;
+				star_move[2] = 0.0f;
 			}
 		}
 		else
