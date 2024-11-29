@@ -62,6 +62,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 		star_move[i] = 5.0f;
 		star_wait_time[i] = 45;
 		is_fire_max[i] = false;
+		
 	}
 
 	star_y[0] = STAR_Y;
@@ -93,7 +94,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	for (int i = 0; i < goal_num; i++)
 	{
 		star_gold[i] = true;
-		star_hp[i] = 1;
+		star_hp[i] = 5;
 		fire_extrate[i] = 0.05f;
 	}
 
@@ -104,7 +105,9 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	fire_x[2] = -9.0f;
 	fire_y[2] = 30.0f;
 
-	cnt = 0;
+	cnt[0] = 2.7f;
+	cnt[1] = 5.2f;
+	cnt[2] = 2.7f;
 }
 
 ResultScene::~ResultScene()
@@ -137,7 +140,7 @@ void ResultScene::Draw() const
 
 	DrawString(160, 75, "RESULT", 0xffffff);
 
-	DrawFormatString(0, 0, 0xffffff,"%f",star_y[1]);
+	//DrawFormatString(0, 0, 0xffffff,"%d", star_wait_time[0]);
 
 	// ゲームクリア、ゲームオーバーの描画
 	if (is_clear == true)
@@ -462,25 +465,26 @@ void ResultScene::StarMove()
 	{
 		if (star_back[0] == true)
 		{
-			star_gold_x[0] += (2.0f - star_move[0]);
+			star_gold_x[0] = (star_x[0] - 36.0f) + sin(PI * 2.0f / 90.0f * cnt[0]) * 36.0f;
 			star_gold_y[0] += (2.0f - star_move[0]);
-
-			cnt++; 
 
 			if (star_move[0] < 1.8f)
 			{
 				star_move[0] += 0.001f;
 			}
 
+			StarBackAnim(0);
+
 			if (star_gold_y[0] >= STAR_Y)
 			{
-				star_hp[0] = 1;
+				star_hp[0] = 5;
 				star_gold_x[0] = STAR_X;
 				star_gold_y[0] = STAR_Y;
 				star_back[0] = false;
 				is_fire_max[0] = false;
 				fire_extrate[0] = 0.0f;
 				star_wait_time[0] = 45;
+				cnt[0] = 2.7f;
 			}
 		}
 		else
@@ -493,7 +497,7 @@ void ResultScene::StarMove()
 				star_move[0] -= 0.5f;
 			}
 		
-			if (star_gold_x[0] <= -300.0f)
+			if (star_gold_y[0] <= -300.0f)
 			{
 				star_back[0] = true;
 				star_move[0] = 0.0f;
@@ -519,6 +523,7 @@ void ResultScene::StarMove()
 	{
 		if (star_back[1] == true)
 		{
+			star_gold_x[1] = star_x[1] + sin(PI * 2.0f / 90.0f * cnt[1]) * 20.0f;
 			star_gold_y[1] += (2.0f - star_move[1]);
 
 			if (star_move[1] < 1.8f)
@@ -526,14 +531,18 @@ void ResultScene::StarMove()
 				star_move[1] += 0.001f;
 			}
 
+			StarBackAnim(1);
+
 			if (star_gold_y[1] >= (STAR_Y - 40.0f))
 			{
-				star_hp[1] = 1;
+				star_hp[1] = 5;
+				star_gold_x[1] = STAR_X + 85.0f;
 				star_gold_y[1] = STAR_Y - 40.0f;
 				star_back[1] = false;
 				is_fire_max[1] = false;
 				fire_extrate[1] = 0.0f;
 				star_wait_time[1] = 45;
+				cnt[1] = 5.2f;
 			}
 		}
 		else
@@ -545,7 +554,7 @@ void ResultScene::StarMove()
 				star_move[1] -= 0.5f;
 			}
 
-			if (star_gold_y[1] <= -300.0f)
+			if (star_gold_y[1] <= -305.0f)
 			{
 				star_back[1] = true;
 				star_move[1] = 0.0f;
@@ -571,7 +580,7 @@ void ResultScene::StarMove()
 	{
 		if (star_back[2] == true)
 		{
-			star_gold_x[2] -= (2.0f + star_move[2]);
+			star_gold_x[2] = (star_x[2] + 36.0f) + sin(PI * 2.0f / 90.0f * cnt[2]) * 36.0f;
 			star_gold_y[2] += (2.0f + star_move[2]);
 
 			if (star_move[2] < 1.8f)
@@ -579,15 +588,18 @@ void ResultScene::StarMove()
 				star_move[2] += 0.001f;
 			}
 
-			if (star_gold_x[2] <= (STAR_X + 85.0f * 2.0f))
+			StarBackAnim(2);
+
+			if (star_gold_y[2] >= STAR_Y)
 			{
-				star_hp[2] = 1;
+				star_hp[2] = 5;
 				star_gold_x[2] = STAR_X + 85.0f * 2.0f;
 				star_gold_y[2] = STAR_Y;
 				star_back[2] = false;
 				is_fire_max[2] = false;
 				fire_extrate[2] = 0.0f;
 				star_wait_time[2] = 45;
+				cnt[2] = 2.7f;
 			}
 		}
 		else
@@ -600,7 +612,7 @@ void ResultScene::StarMove()
 				star_move[2] -= 0.5f;
 			}
 
-			if (star_gold_x[2] >= 660.0f)
+			if (star_gold_y[2] <= -300.0f)
 			{
 				star_back[2] = true;
 				star_move[2] = 0.0f;
@@ -619,5 +631,17 @@ void ResultScene::StarMove()
 	else if (is_fire_max[2] == true && star_wait_time[2] > 0)
 	{
 		star_wait_time[2]--;
+	}
+}
+
+void ResultScene::StarBackAnim(int i)
+{
+	if (cnt[i] >= 90.0f)
+	{
+		cnt[i] = 0.0f;
+	}
+	else
+	{
+		cnt[i] += 1.0f;
 	}
 }

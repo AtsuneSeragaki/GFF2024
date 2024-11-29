@@ -48,7 +48,7 @@ private:
 	float star_move[3];          // 星の移動量を少しずつ変える
 	int star_wait_time[3];       // 火がついた後の星の待機時間
 	float fire_x[3], fire_y[3];  // 火の表示位置(星の中心座標に足す分)
-	int cnt;
+	float cnt[3];                // 星が戻ってくるときのアニメーション用カウント
 
 public:
 	ResultScene(bool is_game_clear,int goal_num);
@@ -70,4 +70,7 @@ private:
 	
 	// プレイヤーにクリックされた時の星の動き処理
 	void StarMove();
+
+	// 星が帰ってくるときのアニメーション処理
+	void StarBackAnim(int i);
 };
