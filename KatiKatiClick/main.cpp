@@ -27,7 +27,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先画面を裏にする
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 
-	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new ResultScene(true, 3)));
+	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new TitleScene()));
 	FPS fp;
 	//ループ前にFPS計測を初期化
 	fp.Reset_FPS();
