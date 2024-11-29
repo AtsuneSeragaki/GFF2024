@@ -168,10 +168,21 @@ void ResultScene::Draw() const
 			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
 		}
 
+		//DrawBox(star_x[0] - STAR_WIDTH / 2,star_y[0] - STAR_HEIGHT / 2, star_x[0] + STAR_WIDTH / 2, star_y[0] + STAR_HEIGHT / 2, 0xffffff, TRUE);
+
+		// 火の描画
+		for (int i = 0; i < star_num; i++)
+		{
+			if (star_hp[i] == 0 && star_back[i] == false)
+			{
+				DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
+			}
+		}
+
 		// 金の星描画
 		for (int i = 0; i < star_num; i++)
 		{
-			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+			DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
 		}
 		break;
 
@@ -182,10 +193,21 @@ void ResultScene::Draw() const
 			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
 		}
 
+		//DrawBox(star_x[0] - STAR_WIDTH / 2,star_y[0] - STAR_HEIGHT / 2, star_x[0] + STAR_WIDTH / 2, star_y[0] + STAR_HEIGHT / 2, 0xffffff, TRUE);
+
+		// 火の描画
+		for (int i = 0; i < star_num; i++)
+		{
+			if (star_hp[i] == 0 && star_back[i] == false)
+			{
+				DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
+			}
+		}
+
 		// 金の星描画
 		for (int i = 0; i < star_num; i++)
 		{
-			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+			DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
 		}
 		break;
 
