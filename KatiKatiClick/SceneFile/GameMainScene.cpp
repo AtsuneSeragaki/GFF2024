@@ -234,10 +234,6 @@ void GameMainScene::Draw() const
         }
     }
 
-    //UI設置仮
-    // DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0xffec80, TRUE);
-    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
-    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
 
     //pizza表示
     if (game_state == GameState::start)
