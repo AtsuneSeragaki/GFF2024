@@ -54,6 +54,9 @@ Wall::Wall()
 	// 音量変更
 	ChangeVolumeSoundMem(255, se);
 	ChangeVolumeSoundMem(255, se_2);
+
+	move_once = false;
+	wait_time = 0;
 }
 
 Wall::~Wall()
@@ -67,6 +70,16 @@ void Wall::Initialize()
 
 void Wall::Update()
 {
+	if (move_once == false)
+	{
+		if (wait_time < 0)
+		{
+			MoveCenter();
+		}
+		else {
+			wait_time -= 1;
+		}
+	}
 
 	if (can_shake == true)
 	{
@@ -200,4 +213,33 @@ void Wall::HitReaction(ObjectBase* character)
 			can_hit = false;
 		}
 	}
+}
+
+void Wall::MoveCenter()
+{
+	float speed = 7.0f;
+	//真ん中へ向かう
+	if (location.x < SCREEN_WIDTH / 2)
+	{
+		location.x += speed;
+		//xが真ん中より大きくなったら
+		if (location.x > SCREEN_WIDTH / 2)
+		{
+			location.x = SCREEN_WIDTH / 2;
+			//とめる
+			move_once = true;
+		}
+	}
+	if (location.x > SCREEN_WIDTH / 2)
+	{
+		location.x -= speed;
+		//xが小さくなったら
+		if (location.x < SCREEN_WIDTH / 2)
+		{
+			location.x = SCREEN_WIDTH / 2;
+			//とめる
+			move_once = true;
+		}
+	}
+
 }

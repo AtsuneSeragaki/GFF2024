@@ -16,7 +16,8 @@
 
 GameMainScene::GameMainScene()
 {
-    game_state = GameState::in_game;//プレイ中に設定
+    //game_state = GameState::in_game;//プレイ中に設定
+    game_state = GameState::start;//プレイ中に設定
 
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
@@ -29,7 +30,17 @@ GameMainScene::GameMainScene()
         wall_cnt++;
         //壁生成
         float y2 = SCREEN_HEIGHT - GET_LANE_HEIGHT(3)-(i* (float)ONE_LANE_HEIGHT / 4.0f)-10.0f;
-        CreateObject<Wall>(Vector2D((float)SCREEN_WIDTH / 2.0f,y2));
+        //１と３は右へ
+        if (i != 1)
+        {
+            Wall *wall = CreateObject<Wall>(Vector2D(360.0f+193.0f, y2));
+            wall->SetWaitTime(i * 10);
+        }
+        else
+        {
+           Wall *wall2 = CreateObject<Wall>(Vector2D(-193.0f, y2));
+           wall2->SetWaitTime(i * 10);
+        }
     }
 
     CreateObject<PauseButton>(Vector2D(330.0f, 765.0f));         // ポーズボタン生成
@@ -83,6 +94,24 @@ GameMainScene::GameMainScene()
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
     ChangeVolumeSoundMem(180, gameclear_se);
+
+    //画像読込
+    std::vector<int> tmp_img;
+    tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
+    pizza_img.push_back(tmp_img[0]);
+
+    tmp_img = rm->GetImages("Resource/Images/Explanation/Makimono.png");
+    makimono_img.push_back(tmp_img[0]);
+
+
+    /*スタートのピザ用*/
+    pizza_pos.x = SCREEN_WIDTH / 2;
+    pizza_pos.y = 0.0f;
+    pizza_angle = 0.0;
+    anim_num = 0;
+    
+    makimono_pos.x = 360.0f + 193.0f;
+    makimono_pos.y = 300.0f;
 
     background_location_y = 0.0f;
 
@@ -205,11 +234,15 @@ void GameMainScene::Draw() const
         }
     }
 
-    //UI設置仮
-    // DrawBox(0, 0, SCREEN_WIDTH, ONE_LANE_HEIGHT, 0xffec80, TRUE);
-    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x999999, TRUE);
-    //DrawBox(0, SCREEN_HEIGHT - GET_LANE_HEIGHT(3), SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, FALSE);
 
+    //pizza表示
+    if (game_state == GameState::start)
+    {
+        DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
+    }
+
+    //巻物表示
+    DrawRotaGraph((int)makimono_pos.x, (int)makimono_pos.y, 1, 0, makimono_img[0], TRUE);
 
     // UI下のレンガ画像
     DrawRotaGraphF(180.0f, 680.0f, 1.0, 0.0, background_image[2], TRUE);
@@ -384,6 +417,13 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InGameUpdate()
 {
+    if (makimono_pos.x >= -193.0f)
+    {
+        makimono_pos.x -= 5;
+
+    }
+
+
     if (is_bgm_active == 0 && is_game_clear == false)
     {
         is_bgm_active = 1;
@@ -1047,6 +1087,71 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InStartUpdate()
 {
+    //pizzaがはんぶんぐらいから回転しながら上から下に
+    //下に行ったら右左から壁が飛んでくる
+    //巻物で焼きあがるまでpizzaを守ろう！さあ！クリックだ！って言う
+    int wallmove_end_cnt = 0;
+
+    switch (anim_num)
+    {
+    case 0:
+        //ピザ落下
+        if (pizza_pos.y < 700)
+        {
+            pizza_pos.y += 7;
+            pizza_angle += 0.1;
+        }
+        else {
+
+
+            //左右から壁
+            for (int i = 0; i < objects.size(); i++)
+            {
+                if (objects[i]->GetObjectType() != ObjectType::wall)continue;
+
+                objects[i]->Update();
+                //objects[i]がエネミーだったら判定
+                Wall* wall = dynamic_cast<Wall*>(objects[i]);
+                if (wall != nullptr)
+                {
+                    if (wall->GetMoveOnce())
+                    {
+                        wallmove_end_cnt++;
+                    }
+                }
+
+                if (wallmove_end_cnt > 2)
+                {
+                    anim_num=1;
+                }
+            }
+
+        }
+
+        break;
+    case 1:
+
+        if (makimono_pos.x <= SCREEN_WIDTH / 2)
+        {
+            makimono_pos.x = (float)SCREEN_WIDTH / 2 - 15.0f;
+        }
+        else {
+            makimono_pos.x -= 5;
+        }
+
+        if (MouseInput::GetMouseState() == eMouseInputState::eClick)
+        {
+            anim_num = 2;
+        }
+        break;
+    case 2:
+        game_state = GameState::in_game;
+        break;
+    default:
+        break;
+    }
+
+    
 }
 
 void GameMainScene::InGameClearUpdate()

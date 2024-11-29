@@ -27,6 +27,8 @@ private:
     int se; // 効果音
     int se_2; // 効果音
 
+    bool move_once;//movecenterを一度だけ奴用
+    int wait_time;//
 
 public:
     Wall();
@@ -36,6 +38,10 @@ public:
     void Update()override;
     void Draw()const override;
     void HitReaction(ObjectBase* character) override;
+
+    void MoveCenter();
+    void SetWaitTime(int set_time) { wait_time = set_time; }
+    bool GetMoveOnce() { return move_once; }
 
 };
 
