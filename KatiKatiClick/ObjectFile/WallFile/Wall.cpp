@@ -243,3 +243,10 @@ void Wall::MoveCenter()
 	}
 
 }
+
+void Wall::SetCenter()
+{
+	location.x = SCREEN_WIDTH / 2;
+	//とめる
+	move_once = true;
+}
