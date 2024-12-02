@@ -49,7 +49,9 @@ private:
 	int star_wait_time[3];       // 火がついた後の星の待機時間
 	float fire_x[3], fire_y[3];  // 火の表示位置(星の中心座標に足す分)
 	float cnt[3];                // 星が戻ってくるときのアニメーション用カウント
-	int star_click_se[2];              // 星を叩いた時の効果音
+	int star_click_se[2];        // 星を叩いた時の効果音
+	float star_gold_width[3];    // 金の星の横幅
+	float star_gold_height[3];   // 金の星の高さ
 
 	std::vector<int> retry_button_img;	// リトライボタンの画像
 	std::vector<int> title_button_img;	// タイトルボタンの画像
@@ -64,6 +66,8 @@ private:
 	float title_y;				// タイトルボタンのy座標
 
 	bool change_screen_flg;		// 画面遷移しても良いか？
+
+	bool is_star_min[3];        // 星のサイズが最小か？
 
 public:
 	ResultScene(bool is_game_clear,int goal_num);
@@ -99,4 +103,7 @@ private:
 
 	// ボタンの描画
 	void DrawButton() const;
+
+	// 星がはまるアニメーション用
+	void ChangeStarSize(int i);
 };
