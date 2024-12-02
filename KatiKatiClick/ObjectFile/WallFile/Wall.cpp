@@ -242,13 +242,7 @@ void Wall::MoveCenter()
 			move_once = true;
 		}
 
-		//一度だけSEを鳴らす
-		if (move_se_once == true)
-		{
-			move_se_once = false;
-			// 衝突効果音再生
-			PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
-		}
+
 	}
 	if (location.x > SCREEN_WIDTH / 2)
 	{

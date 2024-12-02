@@ -11,6 +11,9 @@ private:
 	std::vector<int> pizza_img;
 	Vector2D pizza_pos;
 	double pizza_angle;
+	int pizza_se;
+	int se_cnt;//se鳴らす間
+	bool se_flg;
 	int anim_num;
 	bool anim_end;
 	float check_enm_y;

@@ -90,15 +90,17 @@ private:
 	std::vector<int> little_perpar_img;//ルール説明紙
 	Vector2D perpar_pos;
 	int perpar_alpha;
-	
-
+	int perpar_se;//紙がめくれる音
+	bool perpar_se_once;//se一回だけ鳴らす用
 	std::vector<int> pizzabox_img;
 	Vector2D pizzabox_pos;
 	std::vector<int> inkan_img;//印鑑画像
 	Vector2D inkan_pos;
 	double inkan_size;
 	bool inkan_flg;//印鑑表示するか
+	int stamp_se;//スタンプの音
 	int perpar_wait_cnt;//紙表示を長くするよう
+
 
 public:
 	GameMainScene();

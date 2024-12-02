@@ -76,6 +76,10 @@ OpeningAnim::OpeningAnim()
     tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
     pizza_img.push_back(tmp_img[0]);
 
+    int tmp_s;
+    tmp_s = rm->GetSounds("Resource/Sounds/Title/pizza_fall.mp3");
+    pizza_se = tmp_s;
+
     display_num = 0;
     check_enm_y = 0.0f;
 
@@ -84,6 +88,8 @@ OpeningAnim::OpeningAnim()
     pizza_pos.y = 0.0f;
     pizza_angle = 0.0;
     anim_end = false;
+    se_cnt = 20;
+    se_flg = true;
 }
 
 OpeningAnim::~OpeningAnim()
@@ -107,6 +113,17 @@ void OpeningAnim::Update()
         return;
     }
 
+    if (se_flg == true)
+    {
+        if (se_cnt++ > 20)
+        {
+            se_cnt = 0;
+            if (CheckSoundMem(pizza_se) == FALSE) {
+                PlaySoundMem(pizza_se, DX_PLAYTYPE_BACK, TRUE);
+            }
+        }
+    }
+
     switch (anim_num)
     {
     case 0:
@@ -121,6 +138,11 @@ void OpeningAnim::Update()
         }
         pizza_angle += 0.1;
         pizza_pos.y += 5.0f;
+
+        if (pizza_pos.y > 700)
+        {
+            se_flg = false;
+        }
 
         check_enm_y = objects[0]->GetLocation().y;
         //画像の中心座標＋画像サイズの半分より下に行ったら画像表示

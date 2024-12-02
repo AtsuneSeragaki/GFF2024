@@ -91,6 +91,11 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Time/GameClear.mp3");
     gameclear_se = tmp_s;
 
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/perpar.mp3");
+    perpar_se = tmp_s;
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/stamp2.mp3");
+    stamp_se = tmp_s;
+
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
     ChangeVolumeSoundMem(180, gameclear_se);
@@ -122,12 +127,14 @@ GameMainScene::GameMainScene()
     perpar_pos.x = SCREEN_WIDTH / 2;
     perpar_pos.y = 0.0f;
     perpar_wait_cnt = 0;
+    perpar_se_once = false;
     pizzabox_pos.x = SCREEN_WIDTH / 2;
     pizzabox_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3.5);
     inkan_pos.x = SCREEN_WIDTH / 2;
     inkan_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(5.5);
     inkan_size = 2.5;
     inkan_flg = false;
+
 
     background_location_y = 0.0f;
 
@@ -1134,6 +1141,13 @@ void GameMainScene::InStartUpdate()
         //紙が落ちてきたら
         if (perpar_pos.y > 200)
         {
+            if (perpar_se_once == false) {
+                perpar_se_once = true;
+                if (CheckSoundMem(perpar_se) == FALSE) {
+                    PlaySoundMem(perpar_se, DX_PLAYTYPE_BACK, TRUE);
+                }
+            }
+
             if (perpar_alpha > 255)
             {
                 //クリックされるまで待つ
@@ -1143,14 +1157,22 @@ void GameMainScene::InStartUpdate()
                     inkan_flg = true;
                 }
 
+                //スタンプ表示
                 if (inkan_flg == true)
                 {
+                    if (CheckSoundMem(stamp_se)==FALSE)
+                    {
+                        //スタンプ音
+                        PlaySoundMem(stamp_se, DX_PLAYTYPE_BACK, TRUE);
+                    }
+
                     if (inkan_size > 1.8)
                     {
                         inkan_size -= 0.2;
                     }
                     else
                     {
+                        
                         //10フレーム待ってから移動
                         if (perpar_wait_cnt++ > 15)
                         {
@@ -1161,6 +1183,7 @@ void GameMainScene::InStartUpdate()
             }
             else
             {
+ 
                 perpar_alpha += 3;
                 //クリックされるまで待つ
                 if (MouseInput::GetMouseState() == eMouseInputState::eClick)
