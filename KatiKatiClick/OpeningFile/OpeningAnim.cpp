@@ -85,7 +85,6 @@ OpeningAnim::OpeningAnim()
     enm_se = tmp_s;
 
 
-
     ChangeVolumeSoundMem(200,enm_se);
 
 

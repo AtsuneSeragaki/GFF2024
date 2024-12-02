@@ -5,6 +5,8 @@ class BurstEnemy :
 {
 private:
     int death_cnt;//死ぬまでのカウント
+    int angle;
+    float radian, result;
 public:
     BurstEnemy();
     ~BurstEnemy();
