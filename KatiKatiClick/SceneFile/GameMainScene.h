@@ -90,6 +90,7 @@ private:
 	std::vector<int> little_perpar_img;//ルール説明紙
 	Vector2D perpar_pos;
 	int perpar_alpha;
+	
 
 	std::vector<int> pizzabox_img;
 	Vector2D pizzabox_pos;
@@ -97,9 +98,7 @@ private:
 	Vector2D inkan_pos;
 	double inkan_size;
 	bool inkan_flg;//印鑑表示するか
-
-	int start_cnt;//321する用
-	int fps_cnt;//60fカウントする用
+	int perpar_wait_cnt;//紙表示を長くするよう
 
 public:
 	GameMainScene();
