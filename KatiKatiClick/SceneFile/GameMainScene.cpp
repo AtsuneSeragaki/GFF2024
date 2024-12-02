@@ -137,6 +137,7 @@ GameMainScene::GameMainScene()
     is_bgm_active = false;
 
     gameover_alpha = -50;
+    gameclear_alpha = -50;
 
     slowdown_active = false;
 }
@@ -376,18 +377,12 @@ void GameMainScene::Draw() const
         }
     }
 
-    if (is_game_clear)
+    if (game_state == GameState::gameclear)
     {
-        DrawString(30, 350, "GAME CLEAR", 0x000000);
-       // DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameclear_alpha);
+        DrawBox(0, 0, 360, 800, GetColor(255, 255, 255), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
-
-    if (is_game_over)
-    {
-        DrawString(30, 350, "GAME OVER", 0x000000);
-       // DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
-    }
-
 
     if (game_state == GameState::gameover)
     {
@@ -410,12 +405,12 @@ AbstractScene* GameMainScene::Change()
         return new TitleScene;
     }
 
-    if (is_game_clear == true  && change_wait_time == 0)
+    if (is_game_clear == true/*  && change_wait_time == 0*/)
     {
         // BGMを止める
         StopSoundMem(bgm);
         is_bgm_active = 0;
-        change_wait_time = 120;
+        //change_wait_time = 120;
         // リザルト画面に遷移する
         return new ResultScene(is_game_clear,wall_cnt);
     }
@@ -430,19 +425,11 @@ AbstractScene* GameMainScene::Change()
         return new ResultScene(is_game_clear, wall_cnt);
     }
 
-    /*if (change_wait_time <= 0)
-    {
-        return new GameMainScene;
-    }*/
-
     return this;
 }
 
 void GameMainScene::InGameUpdate()
 {
-
-
-
     if (is_bgm_active == 0 && is_game_clear == false)
     {
         is_bgm_active = 1;
@@ -817,24 +804,27 @@ void GameMainScene::InGameUpdate()
     {
         if (ui_timer->GetSeconds() == 0)
         {
-            if (change_wait_time == 120)
-            {
-                // BGMを止める
-                StopSoundMem(bgm);
-                is_bgm_active = 0;
+            // ゲームクリア状態にする
+            game_state = GameState::gameclear;
 
-                PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
-                PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
-            }
-            
-            // 制限時間が0ならゲームクリア
-            is_game_clear = true;
+            //if (change_wait_time == 120)
+            //{
+            //    // BGMを止める
+            //    StopSoundMem(bgm);
+            //    is_bgm_active = 0;
+
+            //    PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+            //    PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
+            //}
+            //
+            //// 制限時間が0ならゲームクリア
+            //is_game_clear = true;
 
             // シーン切り替え待ちカウントを減らす
-            change_wait_time--;
+            //change_wait_time--;
 
             // カーソルのみ更新
-            CursorUpdate();
+            //CursorUpdate();
 
             return;
         }
@@ -885,6 +875,7 @@ void GameMainScene::InGameUpdate()
     {
         // ポーズ中のボタンは処理を飛ばす
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
+        if (objects[i]->GetObjectType() == ObjectType::choicebutton) continue;
 
         if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
         {
@@ -1237,6 +1228,23 @@ void GameMainScene::InStartUpdate()
 
 void GameMainScene::InGameClearUpdate()
 {
+    if (gameclear_alpha == -50)
+    {
+        // BGMを止める
+        StopSoundMem(bgm);
+        is_bgm_active = 0;
+
+        // クリアseを鳴らす
+        PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+        PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
+    }
+
+    gameclear_alpha += 2;
+    if (gameclear_alpha > 300)
+    {
+        is_game_clear = true;
+    }
+    CursorUpdate();        // カーソルのみ更新
 }
 
 void GameMainScene::InGameOverUpdate()
