@@ -40,6 +40,7 @@ public:
     void HitReaction(ObjectBase* character) override;
 
     void MoveCenter();
+    void SetCenter();//スキップ使用時にすぐ真ん中に寄せるよう
     void SetWaitTime(int set_time) { wait_time = set_time; }
     bool GetMoveOnce() { return move_once; }
 

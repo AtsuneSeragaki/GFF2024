@@ -79,8 +79,7 @@ void Cursor::Update()
 
 	if (state == P_State::attack)
 	{
-
-
+		//カーソルアニメーション
 		if (count > 5)
 		{
 			angle = -1;
