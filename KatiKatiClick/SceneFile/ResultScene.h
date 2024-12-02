@@ -83,8 +83,20 @@ private:
 
 	double gstar_effect_extrate[3];    // 金の星表示するエフェクト画像の拡大率
 
+	int result_img;                // リザルト画像
+
+	std::vector<int> num_img;      // 数字画像
+
+	int game_clear_img;            // ゲームクリア画像	
+
+	int game_over_img;             // ゲームオーバー画像
+
+	int kill_enemy_num;            // 倒した敵の数
+
+	int get_coin_num;              // 獲得したコインの数
+
 public:
-	ResultScene(bool is_game_clear,int goal_num);
+	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);
 	~ResultScene();
 
 	void Update() override;

@@ -140,6 +140,9 @@ GameMainScene::GameMainScene()
     gameclear_alpha = -50;
 
     slowdown_active = false;
+
+    kill_enemy_cnt = 0;
+    get_coin_cnt = 0;
 }
 
 GameMainScene::~GameMainScene()
@@ -390,7 +393,10 @@ void GameMainScene::Draw() const
         DrawBox(0, 0, 360, 800, GetColor(0, 0, 0), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
-    //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
+    
+    //DrawFormatString(30, 350, 0xffffff, "%d",kill_enemy_cnt);
+    //DrawFormatString(60, 350, 0xffffff, "%d", get_coin_cnt);
+
 }
 
 AbstractScene* GameMainScene::Change()
@@ -412,7 +418,7 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
         //change_wait_time = 120;
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear,wall_cnt);
+        return new ResultScene(is_game_clear,wall_cnt,kill_enemy_cnt, get_coin_cnt);
     }
 
     if (is_game_over == true)
@@ -422,7 +428,7 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
 
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear, wall_cnt);
+        return new ResultScene(is_game_clear, wall_cnt,kill_enemy_cnt,get_coin_cnt);
     }
 
     return this;
@@ -430,6 +436,7 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InGameUpdate()
 {
+    // BGMを再生
     if (is_bgm_active == 0 && is_game_clear == false)
     {
         is_bgm_active = 1;
@@ -911,6 +918,7 @@ void GameMainScene::InGameUpdate()
         if (objects[i]->GetIsDelete() == true)
         {
             if (objects[i]->GetObjectType() == ObjectType::wall) { wall_cnt -= 1; }
+            if (objects[i]->GetObjectType() == ObjectType::enemy) { kill_enemy_cnt++; }
             objects.erase(objects.begin() + i);
         }
     }
@@ -1533,6 +1541,7 @@ void GameMainScene::CoinGenerate(int i, int j)
         coins.back()->SetUICoinsLocation(ui_coins->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
+        get_coin_cnt++;
         //hitflgをオフにする
         enemy_i->SetFalseHitCursor();
     }
@@ -1549,6 +1558,7 @@ void GameMainScene::CoinGenerate(int i, int j)
         coins.back()->SetUICoinsLocation(ui_coins->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
+        get_coin_cnt++;
         //hitflgをオフにする
         enemy_j->SetFalseHitCursor();
     }

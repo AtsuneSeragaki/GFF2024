@@ -7,8 +7,8 @@ BSlowDownSkill::BSlowDownSkill()
 {
 	location.x = 0.0f;
 	location.y = 0.0f;
-	width = BUTTON_WIDTH;
-	height = BUTTON_HEIGHT;
+	width = SKILL_BUTTON_WIDTH;
+	height = SKILL_BUTTON_HEIGHT;
 	object_type = ObjectType::b_slowdownskill;
 	can_hit = true;
 	shape = Shape::square;
@@ -67,8 +67,8 @@ void BSlowDownSkill::Initialize()
 {
 	location.x = 330.0f;
 	location.y = 650.0f;
-	width = BUTTON_WIDTH;
-	height = BUTTON_HEIGHT;
+	width = SKILL_BUTTON_WIDTH;
+	height = SKILL_BUTTON_HEIGHT;
 	object_type = ObjectType::b_slowdownskill;
 	can_hit = true;
 	shape = Shape::square;
