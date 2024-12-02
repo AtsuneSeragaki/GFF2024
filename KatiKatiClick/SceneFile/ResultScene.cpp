@@ -7,7 +7,7 @@
 #include <math.h>
 
 
-ResultScene::ResultScene(bool is_game_clear, int goal_num)
+ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coin_num)
 {
 	//x1 = 85.0f + 20.0f;
 	//x2 = 275.0f - 20.0f;
@@ -59,6 +59,21 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	for (int i = 0; i < 3; i++)
 	{
 		gstar_effect_img[i] = gstar_click_effect[0];
+	}
+
+	tmp = rm->GetImages("Resource/Images/Result/Result.png");
+	result_img = tmp[0];
+
+	tmp = rm->GetImages("Resource/Images/Result/gameclear.png");
+	game_clear_img = tmp[0];
+
+	tmp = rm->GetImages("Resource/Images/Result/gameover.png");
+	game_over_img = tmp[0];
+
+	tmp = rm->GetImages("Resource/Images/Result/Num1.png",10, 10, 1, 32, 32);
+	for (int i = 0; i < 10; i++)
+	{
+		num_img.push_back(tmp[i]);
 	}
 	
 	// 音データ読み込み
@@ -233,18 +248,20 @@ void ResultScene::Draw() const
 	// 背景描画
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x333333,TRUE);
 
-	DrawString(160, 75, "RESULT", 0xffffff);
+	//DrawString(160, 75, "RESULT", 0xffffff);
 
 	//DrawFormatString(0, 0, 0xffffff,"%d", is_gstar_click[0]);
 
 	// ゲームクリア、ゲームオーバーの描画
 	if (is_clear == true)
 	{
-		DrawString(140, 110, "GAME CLEAR", 0xffffff);
+		//DrawString(140, 110, "GAME CLEAR", 0xffffff);
+		DrawGraph(60, 65, game_clear_img, TRUE);
 	}
 	else
 	{
-		DrawString(145, 120, "GAME OVER", 0xffffff);
+		//DrawString(145, 120, "GAME OVER", 0xffffff);
+		DrawGraph(60, 65, game_over_img, TRUE);
 	}
 
 	// 星の数に応じた星の描画
@@ -369,7 +386,19 @@ void ResultScene::Draw() const
 	}
 
 	// リザルト結果表示ゾーンの描画
-	DrawBox(40, 300, 320, 500, 0xffffff, TRUE);
+	//DrawBox(40, 300, 320, 500, 0xffffff, TRUE);
+	DrawGraph(30, 300, result_img, TRUE);
+
+	// 倒した敵の数の描画
+	//DrawGraph(228, 323, num_img[0], TRUE);
+	DrawExtendGraph(228, 323, 228 + 25, 323 + 25, num_img[0], TRUE);
+
+	// 獲得したコインの枚数の描画
+	//DrawGraph(272, 385, num_img[0], TRUE);
+	DrawExtendGraph(272, 385, 272 + 25, 385 + 25, num_img[0], TRUE);
+
+	// スコアの描画
+	DrawExtendGraph(260, 445, 260 + 32, 445 + 32, num_img[0], TRUE);
 
 	// ボタンの描画
 	DrawButton();

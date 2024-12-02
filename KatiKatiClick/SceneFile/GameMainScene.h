@@ -97,6 +97,10 @@ private:
 	int start_cnt;//321する用
 	int fps_cnt;//60fカウントする用
 
+	int kill_enemy_cnt;  // 倒した敵の数をカウント
+
+	int get_coin_cnt; // 獲得したコインの数をカウント
+
 public:
 	GameMainScene();
 	~GameMainScene();
