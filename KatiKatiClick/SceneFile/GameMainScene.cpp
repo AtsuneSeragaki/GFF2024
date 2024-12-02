@@ -1238,17 +1238,17 @@ void GameMainScene::InStartUpdate()
         if (perpar_alpha < 0)
         {
             inkan_flg = false;
-            //321カウント
-            if (fps_cnt++ > 30)
-            {
-                fps_cnt = 0;
-                start_cnt--;
-            }
+            ////321カウント
+            //if (fps_cnt++ > 30)
+            //{
+            //    fps_cnt = 0;
+            //    start_cnt--;
+            //}
 
-            if (start_cnt < 0)
-            {
+            //if (start_cnt < 0)
+            //{
                 anim_num = 3;
-            }
+            //}
         }
         else
         {
