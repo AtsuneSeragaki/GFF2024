@@ -93,6 +93,10 @@ private:
 
 	std::vector<int> pizzabox_img;
 	Vector2D pizzabox_pos;
+	std::vector<int> inkan_img;//印鑑画像
+	Vector2D inkan_pos;
+	double inkan_size;
+	bool inkan_flg;//印鑑表示するか
 
 	int start_cnt;//321する用
 	int fps_cnt;//60fカウントする用

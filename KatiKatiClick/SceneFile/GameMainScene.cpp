@@ -106,6 +106,8 @@ GameMainScene::GameMainScene()
     little_perpar_img.push_back(tmp_img[0]);
     tmp_img = rm->GetImages("Resource/Images/Opening/pizza_box.png");
     pizzabox_img.push_back(tmp_img[0]);
+    tmp_img = rm->GetImages("Resource/Images/Explanation/inkan.png");
+    inkan_img.push_back(tmp_img[0]);
 
 
     /*スタートのピザ用*/
@@ -123,6 +125,10 @@ GameMainScene::GameMainScene()
     fps_cnt = 0;
     pizzabox_pos.x = SCREEN_WIDTH / 2;
     pizzabox_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3.5);
+    inkan_pos.x = SCREEN_WIDTH / 2;
+    inkan_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(5.5);
+    inkan_size = 1.5;
+    inkan_flg = false;
 
     background_location_y = 0.0f;
 
@@ -250,8 +256,12 @@ void GameMainScene::Draw() const
     if (game_state == GameState::start)
     {
         DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
-        //レシート表示
-        DrawRotaGraph((int)perpar_pos.x, (int)perpar_pos.y, 1, 0, little_perpar_img[0], TRUE);
+
+        if (anim_num == 0||anim_num==1) {
+            //レシート表示
+            DrawRotaGraph((int)perpar_pos.x, (int)perpar_pos.y, 1, 0, little_perpar_img[0], TRUE);
+            
+        }
         
         DrawRotaGraph((int)pizzabox_pos.x, (int)pizzabox_pos.y, 1, 0, pizzabox_img[0], TRUE);
 
@@ -259,6 +269,9 @@ void GameMainScene::Draw() const
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, perpar_alpha);
         //説明の紙表示
         DrawGraph(0, 0, bigperpar_img[0], TRUE);
+        if (inkan_flg == true) {
+            DrawRotaGraph((int)inkan_pos.x, (int)inkan_pos.y, inkan_size, 0, inkan_img[0], TRUE);
+        }
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         
@@ -1110,6 +1123,11 @@ void GameMainScene::InStartUpdate()
     //pizzaがはんぶんぐらいから回転しながら上から下に
     //下に行ったら右左から壁が飛んでくる
     //巻物で焼きあがるまでpizzaを守ろう！さあ！クリックだ！って言う
+
+    // カーソルのみ更新
+    CursorUpdate();
+
+
     int wallmove_end_cnt = 0;
 
     switch (anim_num)
@@ -1124,8 +1142,24 @@ void GameMainScene::InStartUpdate()
                 //クリックされるまで待つ
                 if (MouseInput::GetMouseState() == eMouseInputState::eClick)
                 {
+                    //if (effect_width > 44)
+                    //{
+                    //    effect_width -= 3;
+                    //    effect_height -= 3;
+                    //}
                     //クリックされたらスタンプを押す
-                    anim_num = 2;
+                    inkan_flg = true;
+                }
+
+                if (inkan_flg == true)
+                {
+                    if (inkan_size > 1.0)
+                    {
+                        inkan_size -= 0.2;
+                    }
+                    else {
+                        anim_num = 2;
+                    }
                 }
             }
             else
@@ -1204,6 +1238,7 @@ void GameMainScene::InStartUpdate()
 
         if (perpar_alpha < 0)
         {
+            inkan_flg = false;
             //321カウント
             if (fps_cnt++ > 30)
             {
