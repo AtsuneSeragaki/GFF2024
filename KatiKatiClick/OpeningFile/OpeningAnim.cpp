@@ -4,6 +4,9 @@
 #include "../UtilityFile/MouseInput.h"
 #include "../ObjectFile/EnemyFile/EnemyBase.h"
 #include "../ObjectFile/EnemyFile/CrackEnemy.h"
+#include "../ObjectFile/EnemyFile/SplitEnemy.h"
+#include "../ObjectFile/EnemyFile/FrogEnemy.h"
+#include "../ObjectFile/EnemyFile/SnakeEnemy.h"
 #include "DxLib.h"
 
 
@@ -12,9 +15,9 @@ OpeningAnim::OpeningAnim()
     op_enm_array =
     {
         {1,1,1,1,1},
-        {1,1,1,1,1},
-        {1,1,1,1,1},
-        {1,1,1,1,1},
+        {1,3,1,3,1},
+        {2,1,2,1,2},
+        {1,4,1,4,1},
     };
 
     for (int i = 0; i < op_enm_array.size(); i++)
@@ -32,38 +35,25 @@ OpeningAnim::OpeningAnim()
                 crack_enemy->SetStateOpening(true);
             }
 
-            /*
-
-            if (enemy_array[i][j] == (int)Enemys::BurstEnemy)
+            if (op_enm_array[i][j] == 2)
             {
-                EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                burst_enemy->SetWaitTime(i * 60);
+                EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, -100.0f - (i * 70)));//エネミー生成
+                split_enemy->SetStateOpening(true);
             }
 
-            if (enemy_array[i][j] == (int)Enemys::SplitEnemy)
+            if (op_enm_array[i][j] == 3)
             {
-                EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                split_enemy->SetWaitTime(i * 60);
-            }
-
-            if (enemy_array[i][j] == (int)Enemys::FrogEnemy)
-            {
-                EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                frog_enemy->SetWaitTime(i * 60);
+                EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, -100.0f - (i * 70)));//エネミー生成
+                frog_enemy->SetStateOpening(true);
             }
 
 
-            if (enemy_array[i][j] == (int)Enemys::SnakeEnemy)
+            if (op_enm_array[i][j] == 4)
             {
-                for (int k = 0; k < 3; k++)
-                {
-                    EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                    //i*60待ってから出てくる
-                    snake_enemy->SetWaitTime((i * 60) + (k * 40));
-                }
+               EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, -100.0f - (i * 70)));//エネミー生成
+               snake_enemy->SetStateOpening(true);
             }
 
-            */
 
         }
     }
@@ -76,9 +66,24 @@ OpeningAnim::OpeningAnim()
     tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
     pizza_img.push_back(tmp_img[0]);
 
+    tmp_img = rm->GetImages("Resource/Images/Barrier/smoke.png", 4, 4, 1, 64, 32);
+    for (int i = 0; i < 4; i++)
+    {
+        smoke_img.push_back(tmp_img[i]);
+    }
+
     int tmp_s;
     tmp_s = rm->GetSounds("Resource/Sounds/Title/pizza_fall.mp3");
     pizza_se = tmp_s;
+    tmp_s = rm->GetSounds("Resource/Sounds/Title/enm_dash.mp3");
+    enm_se = tmp_s;
+    enm_se2 = tmp_s;
+
+
+
+    ChangeVolumeSoundMem(200,enm_se);
+    ChangeVolumeSoundMem(200,enm_se2);
+
 
     display_num = 0;
     check_enm_y = 0.0f;
@@ -170,6 +175,10 @@ void OpeningAnim::Update()
             anim_num = -1;
         }
 
+        if (CheckSoundMem(enm_se) == FALSE) {
+            PlaySoundMem(enm_se, DX_PLAYTYPE_BACK, TRUE);
+            PlaySoundMem(enm_se2, DX_PLAYTYPE_BACK, TRUE);
+        }
         break;
     default:
         break;

@@ -17,8 +17,11 @@ private:
 	int anim_num;
 	bool anim_end;
 	float check_enm_y;
-
+	int enm_se;//エネミーのSE
+	int enm_se2;//エネミーのSE
 	int display_num;
+
+	std::vector<int> smoke_img;
 
 public:
 	OpeningAnim();

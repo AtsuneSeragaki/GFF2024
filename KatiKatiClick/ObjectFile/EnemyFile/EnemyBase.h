@@ -117,6 +117,7 @@ public:
 		if (can_move == true)
 		{
 			state = State::goal;
+
 		}
 		else
 		{

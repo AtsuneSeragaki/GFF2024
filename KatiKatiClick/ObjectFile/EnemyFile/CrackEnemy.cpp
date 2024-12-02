@@ -94,13 +94,15 @@ void CrackEnemy::Update()
 
 		break;
 	case State::goal:
+
 		if (wait_time-- < 0)
 		{
 			if (location.y < SCREEN_HEIGHT+height)
 			{
 				location.y += speed;
 			}
-			else {
+			else
+			{
 				//720より下に行ったら削除
 				can_delete = true;
 			}
