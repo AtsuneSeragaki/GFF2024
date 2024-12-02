@@ -18,10 +18,14 @@ private:
 	bool anim_end;
 	float check_enm_y;
 	int enm_se;//エネミーのSE
-	int enm_se2;//エネミーのSE
 	int display_num;
 
 	std::vector<int> smoke_img;
+	int right_smoke_num;
+	int left_smoke_num;
+	Vector2D right_smoke_pos;
+	Vector2D left_smoke_pos;
+	int smoke_cnt;
 
 public:
 	OpeningAnim();

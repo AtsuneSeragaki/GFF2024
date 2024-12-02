@@ -113,7 +113,7 @@ public:
 	}
 	//Opening用
 	void SetStateOpening(bool can_move) {
-		speed = 5;
+		speed = 8;
 		if (can_move == true)
 		{
 			state = State::goal;

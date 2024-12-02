@@ -94,6 +94,9 @@ void CrackEnemy::Update()
 
 		break;
 	case State::goal:
+		//５カウントずつ幅の大きさを変えて歩いているように
+
+
 
 		if (wait_time-- < 0)
 		{
