@@ -45,11 +45,11 @@ GameMainScene::GameMainScene()
 
     CreateObject<PauseButton>(Vector2D(330.0f, 765.0f));         // ポーズボタン生成
 
-    CreateObject<RightButton>(Vector2D(330.0f, 500.0f));         // ポーズ中右向き矢印ボタン生成
-    CreateObject<LeftButton>(Vector2D(30.0f, 500.0f));          // ポーズ中左向き矢印ボタン生成
-    CreateObject<TitleButton>(Vector2D(180.0f, 560.0f));         // タイトルへ戻るボタン生成
-    CreateObject<YesButton>(Vector2D(100.0f, 330.0f));         // "はい"ボタン生成
-    CreateObject<NoButton>(Vector2D(260.0f, 330.0f));         // "いいえ"ボタン生成
+    CreateObject<RightButton>(Vector2D(330.0f, 520.0f));         // ポーズ中右向き矢印ボタン生成
+    CreateObject<LeftButton>(Vector2D(30.0f, 520.0f));          // ポーズ中左向き矢印ボタン生成
+    CreateObject<TitleButton>(Vector2D(180.0f, 580.0f));         // タイトルへ戻るボタン生成
+    CreateObject<YesButton>(Vector2D(100.0f, 400.0f));         // "はい"ボタン生成
+    CreateObject<NoButton>(Vector2D(260.0f, 400.0f));         // "いいえ"ボタン生成
 
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 

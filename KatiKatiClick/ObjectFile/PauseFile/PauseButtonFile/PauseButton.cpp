@@ -44,11 +44,15 @@ PauseButton::PauseButton()
 	}
 
 	// マウス画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/Mouse.png", 2, 2, 1, 48, 48);
+	tmp = rm->GetImages("Resource/Images/Pause/Mouse.png", 2, 2, 1, 30, 48);
 	for (int i = 0; i < 2; i++)
 	{
 		mouse_image.push_back(tmp[i]);
 	}
+
+	// マウスのアピール画像
+	tmp = rm->GetImages("Resource/Images/Pause/Appeal.png");
+	appeal_image.push_back(tmp[0]);
 
 	image_num = 0;
 	page_num = 0;
@@ -124,21 +128,27 @@ void PauseButton::Draw() const
 	if (is_pause)
 	{
 		// 灰色背景
-		DrawBoxAA(0.0f, 0.0f, 360.0f, 590.0f, 0xdddddd, TRUE);
+		DrawBoxAA(0.0f, 0.0f, 360.0f, 610.0f, 0xdddddd, TRUE);
 
 		// "遊び方"テキスト画像描画
 		DrawRotaGraphF(180.0f, 25.0f, 1.0, 0.0, heading_image[0], TRUE);
 
 		// 説明テキスト画像描画
-		DrawRotaGraphF(180.0f, 90.0f, 1.0, 0.0, text_image[page_num], TRUE);
+		DrawRotaGraphF(180.0f, 110.0f, 1.0, 0.0, text_image[page_num], TRUE);
 
 		// 説明画像描画
-		DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, help_image[page_num], TRUE);
+		DrawRotaGraphF(180.0f, 320.0f, 1.0, 0.0, help_image[page_num], TRUE);
 
 		if (page_num <= 2)
 		{
 			// マウス画像の描画
-			DrawRotaGraphF(320.0f, 440.0f, 1.0, 0.0, mouse_image[mouse_image_num], TRUE);
+			DrawRotaGraphF(330.0f, 460.0f, 1.0, 0.0, mouse_image[mouse_image_num], TRUE);
+
+			if (mouse_image_num == 0)
+			{
+				// マウスのアピール画像の描画
+				DrawRotaGraphF(310.0f, 440.0f, 1.0, 0.0, appeal_image[0], TRUE);
+			}
 		}
 
 		for (int i = 0; i < 5; i++)
@@ -146,18 +156,16 @@ void PauseButton::Draw() const
 			if (i != page_num)
 			{
 				// 黒丸
-				DrawCircleAA(150.0f + i * 15.0f, 500.0f, 5, 32, 0x000000, TRUE);
+				DrawCircleAA(150.0f + i * 15.0f, 510.0f, 5, 32, 0x000000, TRUE);
 			}
 			else
 			{
 				// 白丸
-				DrawCircleAA(150.0f + i * 15.0f, 500.0f, 5, 32, 0xffffff, TRUE);
-				DrawCircleAA(150.0f + i * 15.0f, 500.0f, 5, 32, 0x000000, FALSE, 1.0f);
+				DrawCircleAA(150.0f + i * 15.0f, 510.0f, 5, 32, 0xffffff, TRUE);
+				DrawCircleAA(150.0f + i * 15.0f, 510.0f, 5, 32, 0x000000, FALSE, 1.0f);
 			}
 		}
 	}
-
-	//DrawFormatString(200, 200, 0x00000, "overlap %d", cursor_overlap_flg);
 
 	// ポーズボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
