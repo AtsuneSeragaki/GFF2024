@@ -69,6 +69,20 @@ private:
 
 	bool is_star_min[3];        // 星のサイズが最小か？
 
+	int fire_se;                // 点火する時の音
+
+	std::vector<int> gstar_click_effect;  // 金の星をクリックしたときに出るエフェクト画像
+
+	int gstar_effect_img[3];          // 金の星エフェクト画像
+
+	bool is_gstar_click[3];        // 金の星がクリックされたか
+
+	int gstar_effect_num[3];       // 金の星表示するエフェクト画像の番号
+
+	int gstar_effect_change_num[3];    // 金の星表示するエフェクト画像の切り替え時間
+
+	double gstar_effect_extrate[3];    // 金の星表示するエフェクト画像の拡大率
+
 public:
 	ResultScene(bool is_game_clear,int goal_num);
 	~ResultScene();
@@ -106,4 +120,7 @@ private:
 
 	// 星がはまるアニメーション用
 	void ChangeStarSize(int i);
+
+	// 金の星をクリックしたときに出るエフェクト画像の切り替え
+	void GStarClickEffect();
 };
