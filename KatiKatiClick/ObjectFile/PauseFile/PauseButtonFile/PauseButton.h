@@ -11,7 +11,8 @@ private:
     std::vector<int> heading_image;     // "遊び方"テキスト画像
     std::vector<int> text_image;        // 説明テキスト画像
     std::vector<int> help_image;        // 説明画像
-    std::vector<int> mouse_image;      // マウス画像
+    std::vector<int> mouse_image;       // マウス画像
+    std::vector<int> appeal_image;      // マウスのアピール画像
     int image_num;                      // 画像番号
     int page_num;                       // 説明ページ画像番号
     int mouse_image_num;                // マウスの画像番号

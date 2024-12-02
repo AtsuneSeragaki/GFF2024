@@ -75,7 +75,7 @@ void YesButton::Draw() const
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//  ダイアログボックス画像の描画
-	DrawRotaGraphF(180.0f, 300.0f, 1.0, 0.0, box_image[0], TRUE);
+	DrawRotaGraphF(180.0f, location.y - 35.0f, 1.0, 0.0, box_image[0], TRUE);
 
 	//  "はい"ボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
