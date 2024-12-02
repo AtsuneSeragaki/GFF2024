@@ -20,5 +20,13 @@
 
 #define LANE_WIDTH_HALF (LANE_WIDTH / 2)
 
+#define ONE_LANE_WIDTH (SCREEN_WIDTH / 10)	// 縦切りのレーンの幅
+
+#define GET_LANE_WIDTH(num) (ONE_LANE_WIDTH * num)
+
 //デグリーからラジアンに変換
 #define DEGREE_RADIAN(_deg) (M_PI*(_deg)/180.0)
+
+// タイトル画面とリザルト画面のボタンの大きさ
+#define BUTTON_WIDTH  130.0f
+#define BUTTON_HEIGHT 70.0f

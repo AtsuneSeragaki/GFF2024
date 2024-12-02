@@ -6,8 +6,8 @@
 
 #define PI    3.1415926535897932384626433832795f  // 円周率
 
-#define BOX_WIDTH  100.0f       // ボタンの幅
-#define BOX_HEIGHT 50.0f        // ボタンの高さ
+//#define BOX_WIDTH  100.0f       // ボタンの幅
+//#define BOX_HEIGHT 50.0f        // ボタンの高さ
 
 #define STAR_WIDTH  60.0f       // 星の横幅(1,3)
 #define STAR_HEIGHT 60.0f       // 星の高さ(1,3)
@@ -22,9 +22,9 @@ class ResultScene : public AbstractScene
 {
 private:
 	Cursor* cursor;              // カーソルオブジェクト
-	float x1,y1,x2,y2;           // ボタンの座標
+	//float x1,y1,x2,y2;           // ボタンの座標
 	int select;                  // プレイヤーが選んだメニュー
-	int on_button;               // カーソルがボタンの上にあるか
+	//int on_button;               // カーソルがボタンの上にあるか
 	bool is_clear;               // クリアしたか？
 	int star_num;                // 星の数
 	int star_hp[3];              // 星のHP
@@ -51,6 +51,20 @@ private:
 	float cnt[3];                // 星が戻ってくるときのアニメーション用カウント
 	int star_click_se[2];              // 星を叩いた時の効果音
 
+	std::vector<int> retry_button_img;	// リトライボタンの画像
+	std::vector<int> title_button_img;	// タイトルボタンの画像
+
+	int retry_img_num;			// リトライボタン画像番号
+	int title_img_num;			// タイトルボタン画像番号
+	int change_wait_time;		// シーン切り替えの待ち時間
+
+	float retry_x;				// リトライボタンのx座標
+	float retry_y;				// リトライボタンのy座標
+	float title_x;				// タイトルボタンのx座標
+	float title_y;				// タイトルボタンのy座標
+
+	bool change_screen_flg;		// 画面遷移しても良いか？
+
 public:
 	ResultScene(bool is_game_clear,int goal_num);
 	~ResultScene();
@@ -62,16 +76,27 @@ public:
 private:
 
 	//四角と円の当たり判定処理
-	void HitCheck();
 	float DistanceSqrf(float box_x, float box_y, float circle_x, float circle_y);
 	bool HitBoxCircle(float box_x, float box_y, float width, float height, Vector2D location, float radius);
 
 	// ピザの角度を変更する処理
 	void ChangePizzaAngle();
 	
+	// 星とカーソルの当たり判定
+	void StarHitCheck();
+
 	// プレイヤーにクリックされた時の星の動き処理
 	void StarMove();
 
 	// 星が帰ってくるときのアニメーション処理
 	void StarBackAnim(int i);
+
+	// ボタンとカーソルの当たり判定
+	void ButtonHitCheck();
+
+	// ボタン押下アニメション処理
+	void ButtonAnimation();
+
+	// ボタンの描画
+	void DrawButton() const;
 };

@@ -702,7 +702,7 @@ void GameMainScene::InGameUpdate()
                             Cursor* cursor = dynamic_cast<Cursor*>(objects[i]);
                             if (cursor != nullptr)
                             {
-                                if (cursor->GetPState() == P_State::attack)
+                                if (cursor->GetCanHit())
                                 {
                                     click_title_button_flg = false;
                                 }

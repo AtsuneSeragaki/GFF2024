@@ -87,6 +87,7 @@ void TitleScene::Update()
 	// カーソルの更新処理
 	cursor->Update();
 
+	// プレイヤーがボタンをクリックしたか？
 	if (select != -1)
 	{
 		change_wait_time++;
@@ -199,6 +200,7 @@ AbstractScene* TitleScene::Change()
 			break;
 
 		default:
+			return this;
 			break;
 		}
 	}
@@ -222,10 +224,10 @@ bool TitleScene::HitBoxCircle(float box_x, float box_y, Vector2D location, float
 	bool hit_result = false;//当たったか
 
 	//自分が四角だったら
-	box_left = box_x - BUTTON_BOX_WIDTH / 2;
-	box_top =  box_y - BUTTON_BOX_HEIGHT / 2;
-	box_right = box_x + BUTTON_BOX_WIDTH / 2;
-	box_bottom = box_y + BUTTON_BOX_HEIGHT / 2;
+	box_left = box_x - BUTTON_WIDTH / 2;
+	box_top =  box_y - BUTTON_HEIGHT / 2;
+	box_right = box_x + BUTTON_WIDTH / 2;
+	box_bottom = box_y + BUTTON_HEIGHT / 2;
 
 	circle_x = location.x;
 	circle_y = location.y;

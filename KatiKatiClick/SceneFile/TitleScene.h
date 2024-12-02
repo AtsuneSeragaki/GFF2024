@@ -4,12 +4,6 @@
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../OpeningFile/OpeningAnim.h"
 
-//#define BOX_WIDTH  130
-//#define BOX_HEIGHT 70
-
-#define BUTTON_BOX_WIDTH  130
-#define BUTTON_BOX_HEIGHT 70
-
 class TitleScene : public AbstractScene
 {
 private:
