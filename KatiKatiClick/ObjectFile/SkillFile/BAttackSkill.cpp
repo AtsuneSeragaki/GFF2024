@@ -7,8 +7,8 @@ BAttackSkill::BAttackSkill()
 {
 	location.x = 10.0f;
 	location.y = 700.0f;
-	width = BUTTON_WIDTH;
-	height = BUTTON_HEIGHT;
+	width = SKILL_BUTTON_WIDTH;
+	height = SKILL_BUTTON_HEIGHT;
 	object_type = ObjectType::b_attackskill;
 	can_hit = true;
 	shape = Shape::square;
@@ -64,8 +64,8 @@ void BAttackSkill::Initialize()
 {
 	location.x = 130.0f;
 	location.y = 650.0f;
-	width = BUTTON_WIDTH;
-	height = BUTTON_HEIGHT;
+	width = SKILL_BUTTON_WIDTH;
+	height = SKILL_BUTTON_HEIGHT;
 	object_type = ObjectType::b_attackskill;
 	can_hit = true;
 	shape = Shape::square;
@@ -118,13 +118,13 @@ void BAttackSkill::Draw() const
 	switch (bskill_state)
 	{
 	case BSkillState::close:
-		DrawGraph(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, image, TRUE);
+		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffffff, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10,(int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\nclose", 0x000000);
 		break;
 
 	case BSkillState::possible:
-		DrawGraph(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, image, TRUE);
+		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		if (effect_width > 44)
 		{
 			DrawExtendGraph(location.x + 15 - effect_width / 2, location.y - 13 - effect_height / 2, location.x + 15 + effect_width / 2, location.y - 13 + effect_height / 2, effect_image, TRUE);
@@ -134,7 +134,7 @@ void BAttackSkill::Draw() const
 		break;
 
 	case BSkillState::active:
-		DrawGraph(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, image, TRUE);
+		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\nactive", 0x000000);
 		break;
