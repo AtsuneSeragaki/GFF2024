@@ -14,17 +14,17 @@ OpeningAnim::OpeningAnim()
 {
     op_enm_array =
     {
-        {0,1,1,1,0},
-        {0,3,1,3,0},
-        {0,1,2,1,0},
-        {0,4,2,4,0},
+        {1,1,1,1,1},
+        {1,3,1,3,1},
+        {1,1,2,1,1},
+        {1,4,2,4,1},
     };
 
-    right_smoke_pos.x = ((float)SCREEN_WIDTH / 6) * (float)4 + 40.0f + (float)4 * 10.0f;
-    right_smoke_pos.y = -170.0f;
+    right_smoke_pos.x = ((float)SCREEN_WIDTH / 6) * (float)5 + 40.0f + (float)4 * 10.0f;
+    right_smoke_pos.y = -110.0f;
 
-    left_smoke_pos.x = ((float)SCREEN_WIDTH / 6) * (float)0 + 40.0f;
-    left_smoke_pos.y = -170.0f;
+    left_smoke_pos.x = ((float)SCREEN_WIDTH / 6)-80.0f;
+    left_smoke_pos.y = -110.0f;
 
     for (int i = 0; i < op_enm_array.size(); i++)
     {
@@ -209,20 +209,24 @@ void OpeningAnim::Draw() const
 {
     DrawRotaGraphF(pizza_pos.x, pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
 
-    for (int i = 0; i < 4; i++)
-    {
-        //-100.0f - (i * 70))
-        DrawRotaGraphF(right_smoke_pos.x-10.0f, right_smoke_pos.y - (i * 70), 2.5, 0, smoke_img[right_smoke_num], TRUE);
-    }
+    DrawRotaGraphF(right_smoke_pos.x - 100.0f, right_smoke_pos.y - (4.3 * 70), 4, 0, smoke_img[right_smoke_num], TRUE);
+    DrawRotaGraphF(left_smoke_pos.x + 100.0f, left_smoke_pos.y - (4.3 * 70), 4, 0, smoke_img[left_smoke_num], TRUE);
 
-    for (int i = 0; i < 4; i++)
-    {
-        DrawRotaGraphF(left_smoke_pos.x + 10.0f, left_smoke_pos.y - (i * 70), 2.5, 0, smoke_img[left_smoke_num], TRUE);
-    }
 
     for (int i = 0; i < objects.size(); i++)
     {
         objects[i]->Draw();
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        //-100.0f - (i * 70))
+        DrawRotaGraphF(right_smoke_pos.x - 20.0f, right_smoke_pos.y - (i * 70), 2.5, 0, smoke_img[right_smoke_num], TRUE);
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        DrawRotaGraphF(left_smoke_pos.x + 20.0f, left_smoke_pos.y - (i * 70), 2.5, 0, smoke_img[left_smoke_num], TRUE);
     }
 
 
