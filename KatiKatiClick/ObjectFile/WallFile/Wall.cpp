@@ -50,13 +50,17 @@ Wall::Wall()
 	se = tmp_s;
 	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Wall/wall2.mp3");
 	se_2 = tmp_s;
+	tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Wall/wallmove.mp3");
+	move_se = tmp_s;
 
 	// 音量変更
 	ChangeVolumeSoundMem(255, se);
 	ChangeVolumeSoundMem(255, se_2);
+	ChangeVolumeSoundMem(150, move_se);
 
 	move_once = false;
 	wait_time = 0;
+	move_se_once = true;
 }
 
 Wall::~Wall()
@@ -217,6 +221,14 @@ void Wall::HitReaction(ObjectBase* character)
 
 void Wall::MoveCenter()
 {
+	//一度だけSEを鳴らす
+	if (move_se_once == true)
+	{
+		move_se_once = false;
+		// 衝突効果音再生
+		PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
+	}
+
 	float speed = 7.0f;
 	//真ん中へ向かう
 	if (location.x < SCREEN_WIDTH / 2)
@@ -228,6 +240,14 @@ void Wall::MoveCenter()
 			location.x = SCREEN_WIDTH / 2;
 			//とめる
 			move_once = true;
+		}
+
+		//一度だけSEを鳴らす
+		if (move_se_once == true)
+		{
+			move_se_once = false;
+			// 衝突効果音再生
+			PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
 		}
 	}
 	if (location.x > SCREEN_WIDTH / 2)
