@@ -416,8 +416,8 @@ void GameMainScene::Draw() const
     }
     
 
-  /* DrawFormatString(30, 350, 0xffffff, "%d", kill_enemy_cnt);
-   DrawFormatString(60, 350, 0xffffff, "%d", num_2);*/
+   //DrawFormatString(30, 350, 0xffffff, "%d", kill_enemy_cnt);
+   //DrawFormatString(60, 350, 0xffffff, "%d", num_2);
 
 }
 
@@ -940,7 +940,15 @@ void GameMainScene::InGameUpdate()
         if (objects[i]->GetIsDelete() == true)
         {
             if (objects[i]->GetObjectType() == ObjectType::wall) { wall_cnt -= 1; }
-            if (objects[i]->GetObjectType() == ObjectType::enemy) { kill_enemy_cnt++; }
+            if (objects[i]->GetObjectType() == ObjectType::enemy) 
+            {
+                EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+
+                if (enemy->GetState() != State::goal)
+                {
+                    kill_enemy_cnt++;
+                }
+            }
             objects.erase(objects.begin() + i);
         }
     }
