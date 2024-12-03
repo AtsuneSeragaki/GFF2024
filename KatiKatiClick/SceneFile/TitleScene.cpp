@@ -71,7 +71,7 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
-	fade->Update();
+	//fade->Update();
 
 	if (is_bgm_active == false)
 	{
@@ -183,7 +183,7 @@ void TitleScene::Draw() const
 	}
 
 
-	fade->Draw();
+	//fade->Draw();
 }
 
 AbstractScene* TitleScene::Change()
