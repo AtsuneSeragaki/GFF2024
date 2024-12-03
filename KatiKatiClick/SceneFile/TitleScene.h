@@ -3,10 +3,12 @@
 #include "AbstractScene.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
 #include "../OpeningFile/OpeningAnim.h"
+#include "../FadeFile/Fade.h"
 
 class TitleScene : public AbstractScene
 {
 private:
+	Fade* fade;
 	Cursor* cursor;
 	OpeningAnim* opening_anim;
 	int select;							// プレイヤーが選んだメニュー

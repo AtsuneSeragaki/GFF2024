@@ -10,6 +10,7 @@ TitleScene::TitleScene()
 {
 	cursor = new Cursor;
 	opening_anim = new OpeningAnim;
+	fade = new Fade;
 	select = -1;
 
 	// ResourceManagerのインスタンスを取得
@@ -70,6 +71,8 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
+	fade->Update();
+
 	if (is_bgm_active == false)
 	{
 		is_bgm_active = true;
@@ -179,6 +182,8 @@ void TitleScene::Draw() const
 		cursor->Draw();
 	}
 
+
+	fade->Draw();
 }
 
 AbstractScene* TitleScene::Change()
