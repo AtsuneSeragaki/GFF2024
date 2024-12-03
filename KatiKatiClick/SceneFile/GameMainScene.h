@@ -107,6 +107,8 @@ private:
 
 	int get_coin_cnt; // 獲得したコインの数をカウント
 
+	int hit_wall_enemy_cnt; // 壁に当たった敵の数カウント
+
 public:
 	GameMainScene();
 	~GameMainScene();
@@ -146,6 +148,8 @@ private:
 	void ResetCursorBSkill(int i);
 	// スキルが消えた後に敵のスピードをリセット
 	void ResetEnemySpeed(int i);
+	// 倒した敵の数を求めるための計算処理
+	int CalculationKillEnemyNum();
 
 protected:
 	template <class T>

@@ -45,9 +45,9 @@ GameMainScene::GameMainScene()
 
     CreateObject<PauseButton>(Vector2D(330.0f, 765.0f));         // ポーズボタン生成
 
-    CreateObject<RightButton>(Vector2D(330.0f, 520.0f));         // ポーズ中右向き矢印ボタン生成
-    CreateObject<LeftButton>(Vector2D(30.0f, 520.0f));          // ポーズ中左向き矢印ボタン生成
-    CreateObject<TitleButton>(Vector2D(180.0f, 580.0f));         // タイトルへ戻るボタン生成
+    CreateObject<RightButton>(Vector2D(330.0f, 600.0f));         // ポーズ中右向き矢印ボタン生成
+    CreateObject<LeftButton>(Vector2D(30.0f, 600.0f));          // ポーズ中左向き矢印ボタン生成
+    CreateObject<TitleButton>(Vector2D(180.0f, 650.0f));         // タイトルへ戻るボタン生成
     CreateObject<YesButton>(Vector2D(100.0f, 400.0f));         // "はい"ボタン生成
     CreateObject<NoButton>(Vector2D(260.0f, 400.0f));         // "いいえ"ボタン生成
 
@@ -155,6 +155,8 @@ GameMainScene::GameMainScene()
 
     kill_enemy_cnt = 0;
     get_coin_cnt = 0;
+
+    hit_wall_enemy_cnt = 0;
 }
 
 GameMainScene::~GameMainScene()
@@ -413,8 +415,8 @@ void GameMainScene::Draw() const
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     
-    //DrawFormatString(30, 350, 0xffffff, "%d",kill_enemy_cnt);
-    //DrawFormatString(60, 350, 0xffffff, "%d", get_coin_cnt);
+   // DrawFormatString(30, 350, 0xffffff, "%d",kill_enemy_cnt);
+   // DrawFormatString(60, 350, 0xffffff, "%d", hit_wall_enemy_cnt);
 
 }
 
@@ -1705,4 +1707,26 @@ void GameMainScene::ResetEnemySpeed(int i)
         enemy->SetHitSlowDownSkillFlg(false);
         enemy->SetSpeed(enemy->GetEnemyDefaultSpeed());
     }
+}
+
+int GameMainScene::CalculationKillEnemyNum()
+{
+    int num = 0;
+    int wall_hp = 0;
+
+    if (wall_cnt > 0)
+    {
+        for (int i = 0; i < objects.size() - 1; i++)
+        {
+            if (objects[i]->GetObjectType() == ObjectType::wall)
+            {
+                Wall* wall = dynamic_cast<Wall*>(objects[i]);
+                wall_hp += wall->GetHp();
+            }
+        }
+    }   
+
+    num = kill_enemy_cnt - ((3 - wall_cnt) * 2 + ((3 - wall_cnt) * 2 - wall_hp));
+
+    return num;
 }

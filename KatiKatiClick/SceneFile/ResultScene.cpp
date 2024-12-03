@@ -145,7 +145,14 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	for (int i = 0; i < goal_num; i++)
 	{
 		star_gold[i] = true;
-		star_hp[i] = 5;
+		if (i == 1)
+		{
+			star_hp[i] = 10;
+		}
+		else
+		{
+			star_hp[i] = 5;
+		}
 		fire_extrate[i] = 0.05f;
 	}
 
@@ -183,6 +190,15 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	gstar_effect_extrate[0] = 2.0f;
 	gstar_effect_extrate[1] = 3.0f;
 	gstar_effect_extrate[2] = 2.0f;
+
+	get_coin_num = coin_num;
+	kill_enemy_num = enemy_num;
+
+	get_coin_num_2 = 0;
+	kill_enemy_num_2 = 0;
+	score = (kill_enemy_num + get_coin_num) * 10;
+	//score = 12355;
+	score_2 = 0;
 }
 
 ResultScene::~ResultScene()
@@ -241,6 +257,8 @@ void ResultScene::Update()
 	StarHitCheck();
 
 	GStarClickEffect();
+
+	AddNum();
 }
 
 void ResultScene::Draw() const
@@ -391,14 +409,72 @@ void ResultScene::Draw() const
 
 	// 倒した敵の数の描画
 	//DrawGraph(228, 323, num_img[0], TRUE);
-	DrawExtendGraph(228, 323, 228 + 25, 323 + 25, num_img[0], TRUE);
+	if (kill_enemy_num < 10)
+	{
+		DrawExtendGraph(228, 323, 228 + 25, 323 + 25, num_img[kill_enemy_num_2], TRUE);
+	}
+	else if (kill_enemy_num < 100)
+	{
+		DrawExtendGraph(218, 323, 218 + 25, 323 + 25, num_img[kill_enemy_num_2 / 10], TRUE);
+		DrawExtendGraph(238, 323, 238 + 25, 323 + 25, num_img[kill_enemy_num_2 % 10], TRUE);
+	}
+	else
+	{
+		DrawExtendGraph(208, 323, 208 + 25, 323 + 25, num_img[kill_enemy_num_2 / 100], TRUE);
+		DrawExtendGraph(228, 323, 228 + 25, 323 + 25, num_img[kill_enemy_num_2 % 100 / 10], TRUE);
+		DrawExtendGraph(248, 323, 248 + 25, 323 + 25, num_img[kill_enemy_num_2 % 100 % 10], TRUE);
+	}
 
 	// 獲得したコインの枚数の描画
 	//DrawGraph(272, 385, num_img[0], TRUE);
-	DrawExtendGraph(272, 385, 272 + 25, 385 + 25, num_img[0], TRUE);
+	if (get_coin_num < 10)
+	{
+		DrawExtendGraph(272, 385, 272 + 25, 385 + 25, num_img[get_coin_num_2], TRUE);
+	}
+	else if (get_coin_num < 100)
+	{
+		DrawExtendGraph(262, 385, 262 + 25, 385 + 25, num_img[get_coin_num_2 / 10], TRUE);
+		DrawExtendGraph(282, 385, 282 + 25, 385 + 25, num_img[get_coin_num_2 % 10], TRUE);
+	}
+	else
+	{
+		DrawExtendGraph(252, 385, 252 + 25, 385 + 25, num_img[get_coin_num_2 / 100], TRUE);
+		DrawExtendGraph(272, 385, 272 + 25, 385 + 25, num_img[get_coin_num_2 % 100 / 10], TRUE);
+		DrawExtendGraph(292, 385, 292 + 25, 385 + 25, num_img[get_coin_num_2 % 100 % 10], TRUE);
+	}
 
 	// スコアの描画
-	DrawExtendGraph(260, 445, 260 + 32, 445 + 32, num_img[0], TRUE);
+	if (score < 10)
+	{
+		DrawExtendGraph(217, 445, 217 + 32, 445 + 32, num_img[score_2], TRUE);
+	}
+	else if (score < 100)
+	{
+		DrawExtendGraph(200, 445, 200 + 32, 445 + 32, num_img[score_2 / 10], TRUE);
+		DrawExtendGraph(230, 445, 230 + 32, 445 + 32, num_img[score_2 % 10], TRUE);
+	}
+	else if(score < 1000)
+	{
+		DrawExtendGraph(185, 445, 185 + 32, 445 + 32, num_img[score_2 / 100], TRUE);
+		DrawExtendGraph(215, 445, 215 + 32, 445 + 32, num_img[score_2 % 100 / 10], TRUE);
+		DrawExtendGraph(245, 445, 245 + 32, 445 + 32, num_img[score_2 % 100 % 10], TRUE);
+	}
+	else if (score < 10000)
+	{
+		DrawExtendGraph(170, 445, 170 + 32, 445 + 32, num_img[score_2 / 1000], TRUE);
+		DrawExtendGraph(200, 445, 200 + 32, 445 + 32, num_img[score_2 % 1000 / 100], TRUE);
+		DrawExtendGraph(230, 445, 230 + 32, 445 + 32, num_img[score_2 % 1000 % 100 / 10], TRUE);
+		DrawExtendGraph(260, 445, 260 + 32, 445 + 32, num_img[score_2 % 1000 % 100 % 10], TRUE);
+	}
+	else 
+	{
+		DrawExtendGraph(167, 445, 167 + 32, 445 + 32, num_img[score_2 / 10000], TRUE);
+		DrawExtendGraph(192, 445, 192 + 32, 445 + 32, num_img[score_2 % 10000 / 1000], TRUE);
+		DrawExtendGraph(217, 445, 217 + 32, 445 + 32, num_img[score_2 % 10000 % 1000 / 100], TRUE);
+		DrawExtendGraph(242, 445, 242 + 32, 445 + 32, num_img[score_2 % 10000 % 1000 % 100 / 10], TRUE);
+		DrawExtendGraph(267, 445, 267 + 32, 445 + 32, num_img[score_2 % 10000 % 1000 % 100 % 10], TRUE);
+
+	}
 
 	// ボタンの描画
 	DrawButton();
@@ -741,7 +817,7 @@ void ResultScene::StarMove()
 
 			if (star_gold_y[1] >= (STAR_Y - 40.0f))
 			{
-				star_hp[1] = 5;
+				star_hp[1] = 10;
 				star_gold_x[1] = STAR_X + 85.0f;
 				star_gold_y[1] = STAR_Y - 40.0f;
 				star_back[1] = false;
@@ -1027,4 +1103,65 @@ void ResultScene::GStarClickEffect()
 			}
 		}
 	}
+}
+
+void ResultScene::AddNum()
+{
+	if (get_coin_num_2 != get_coin_num)
+	{
+		if (get_coin_num < 100)
+		{
+			get_coin_num_2++;
+		}
+		else
+		{
+			get_coin_num_2 += 3;
+		}
+
+		if (get_coin_num_2 >= get_coin_num)
+		{
+			get_coin_num_2 = get_coin_num;
+		}
+	}
+
+
+	if (kill_enemy_num_2 != kill_enemy_num)
+	{
+		if (kill_enemy_num < 100)
+		{
+			kill_enemy_num_2++;
+		}
+		else
+		{
+			kill_enemy_num_2 += 3;
+		}
+
+		if (kill_enemy_num_2 >= kill_enemy_num)
+		{
+			kill_enemy_num_2 = kill_enemy_num;
+		}
+	}
+
+
+	if (score_2 != score)
+	{
+		if (score < 100)
+		{
+			score_2++;
+		}
+		else if(score < 1000)
+		{
+			score_2 += 35;
+		}
+		else
+		{
+			score_2 += 145;
+		}
+
+		if (score_2 >= score)
+		{
+			score_2 = score;
+		}
+	}
+
 }

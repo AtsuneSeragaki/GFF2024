@@ -95,6 +95,14 @@ private:
 
 	int get_coin_num;              // 獲得したコインの数
 
+	int kill_enemy_num_2;          // 倒した敵の数増える用
+
+	int get_coin_num_2;            // 獲得したコインの数増える用
+
+	int score;                     // スコア
+
+	int score_2;                   // スコア増える用
+
 public:
 	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);
 	~ResultScene();
@@ -135,4 +143,7 @@ private:
 
 	// 金の星をクリックしたときに出るエフェクト画像の切り替え
 	void GStarClickEffect();
+
+	// 数字増やす
+	void AddNum();
 };
