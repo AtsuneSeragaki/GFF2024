@@ -1675,17 +1675,22 @@ void GameMainScene::ResetEnemySpeed(int i)
 
 int GameMainScene::CalculationKillEnemyNum()
 {
-    int num;
+    int num = 0;
+    int wall_hp = 0;
 
-    for (int i = 0; i < objects.size() - 1; i++)
+    if (wall_cnt > 0)
     {
-        if (objects[i]->GetObjectType() == ObjectType::wall)
+        for (int i = 0; i < objects.size() - 1; i++)
         {
-            Wall* wall = dynamic_cast<Wall*>(objects[i]);
+            if (objects[i]->GetObjectType() == ObjectType::wall)
+            {
+                Wall* wall = dynamic_cast<Wall*>(objects[i]);
+                wall_hp += wall->GetHp();
+            }
         }
-    }
+    }   
 
-    num = kill_enemy_cnt - ((3 - wall_cnt) * 2);
+    num = kill_enemy_cnt - ((3 - wall_cnt) * 2 + ((3 - wall_cnt) * 2 - wall_hp));
 
     return num;
 }
