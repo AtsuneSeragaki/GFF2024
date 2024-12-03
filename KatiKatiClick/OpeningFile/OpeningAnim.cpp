@@ -72,6 +72,10 @@ OpeningAnim::OpeningAnim()
     tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
     pizza_img.push_back(tmp_img[0]);
 
+    tmp_img = rm->GetImages("Resource/Images/Explanation/skip.png");
+    skip_img.push_back(tmp_img[0]);
+
+
     tmp_img = rm->GetImages("Resource/Images/Barrier/smoke.png", 8, 8, 1, 32, 32);
     for (int i = 0; i < 8; i++)
     {
@@ -79,7 +83,7 @@ OpeningAnim::OpeningAnim()
     }
 
     int tmp_s;
-    tmp_s = rm->GetSounds("Resource/Sounds/Title/pizza_fall.mp3");
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Enemy/GameOver.mp3");
     pizza_se = tmp_s;
     tmp_s = rm->GetSounds("Resource/Sounds/Title/enm_dash.mp3");
     enm_se = tmp_s;
@@ -230,6 +234,7 @@ void OpeningAnim::Draw() const
     }
 
 
+    DrawRotaGraph(SCREEN_WIDTH/2, SCREEN_HEIGHT-50,1, 0, skip_img[0], TRUE);
 
 }
 

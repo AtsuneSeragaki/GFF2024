@@ -26,6 +26,7 @@ private:
 	Vector2D right_smoke_pos;
 	Vector2D left_smoke_pos;
 	int smoke_cnt;
+	std::vector<int> skip_img;//文字表示用
 
 public:
 	OpeningAnim();
