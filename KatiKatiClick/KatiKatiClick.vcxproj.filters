@@ -40,7 +40,7 @@
     <ClCompile Include="ObjectFile\UIFile\UIBase.cpp">
       <Filter>ソースファイル\BaseFile</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFile\UIFile\UICoin.cpp">
+    <ClCompile Include="ObjectFile\UIFile\UICoins.cpp">
       <Filter>ソースファイル\UIFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFile\EnemyFile\CrackEnemy.cpp" />
