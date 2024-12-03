@@ -101,7 +101,7 @@ private:
 	bool inkan_flg;//印鑑表示するか
 	int stamp_se;//スタンプの音
 	int perpar_wait_cnt;//紙表示を長くするよう
-
+	int black_alpha;
 
 	int kill_enemy_cnt;  // 倒した敵の数をカウント
 
@@ -127,7 +127,7 @@ private:
 private:
 	void Initialize();
 	void EnemyGenerate(int num);
-	void GameOver_Enm_Generate();
+	void GameOverEnmGenerate();
 	void EnmGenerateTimeCheck();
 
 	void EnmMiniGenerate();

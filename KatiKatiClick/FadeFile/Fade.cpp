@@ -15,12 +15,16 @@ Fade::Fade()
 	tmp_img = rm->GetImages("Resource/Images/Explanation/enemy.png");
 	enm_img.push_back(tmp_img[0]);
 
-	upperbox_down_y = -10.0f;
-	bottombox_up_y = (float)SCREEN_HEIGHT+10.0f;
-	rightbox_shiftx = (float)SCREEN_WIDTH+220.0f;
-	leftbox_shiftx = -220.0f;
+	bool fade_in;//trueだったらフェードイン
+
+	upperbox_down_y = -110.0f;
+	bottombox_up_y = (float)SCREEN_HEIGHT+110.0f;
+	rightbox_shiftx = (float)SCREEN_WIDTH+230.0f;
+	leftbox_shiftx = -230.0f;
 
 	enm_display_flg = true;
+	fade_end = false;
+	wait_time = 30;
 }
 
 Fade::~Fade()
@@ -31,15 +35,25 @@ Fade::~Fade()
 void Fade::Update()
 {
 	//400/10->40fぐらいでつく
-	upperbox_down_y += 10.0f;
-	bottombox_up_y -= 10.0f;
+	upperbox_down_y += 15.0f;
+	bottombox_up_y -= 15.0f;
 	//180->
-	rightbox_shiftx -= 10.0f;
-	leftbox_shiftx += 10.0f;
+	rightbox_shiftx -= 12.0f;
+	leftbox_shiftx += 12.0f;
 
 	if (leftbox_shiftx > 150)
 	{
 		enm_display_flg = false;
+	}
+
+	if (leftbox_shiftx > SCREEN_WIDTH / 2)
+	{
+		wait_time--;
+	}
+
+	if (leftbox_shiftx > SCREEN_WIDTH / 2 && wait_time<0)
+	{
+		fade_end = true;
 	}
 }
 

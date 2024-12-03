@@ -14,10 +14,14 @@ private:
 
 	bool enm_display_flg;//エネミー画像表示するか
 
+	bool fade_end;//フェードが終わったか
+	int wait_time;
+
 public:
 	Fade();
 	~Fade();
 	void Update();
 	void Draw() const;
+	bool CheckFadeEnd() { return fade_end; }
 };
 

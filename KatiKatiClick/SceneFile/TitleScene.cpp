@@ -10,7 +10,7 @@ TitleScene::TitleScene()
 {
 	cursor = new Cursor;
 	opening_anim = new OpeningAnim;
-	fade = new Fade;
+	fade = new Fade();
 	select = -1;
 
 	// ResourceManagerのインスタンスを取得
@@ -71,7 +71,6 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
-	//fade->Update();
 
 	if (is_bgm_active == false)
 	{
@@ -94,7 +93,7 @@ void TitleScene::Update()
 	if (select != -1)
 	{
 		change_wait_time++;
-		if (change_wait_time < 60)
+		if (change_wait_time < 40)
 		{
 			if (change_wait_time < 10)
 			{
@@ -105,7 +104,11 @@ void TitleScene::Update()
 		else
 		{
 			// 画面遷移して良い
-			change_screen_flg = true;
+			fade->Update();
+			if (fade->CheckFadeEnd() == true)
+			{
+				change_screen_flg = true;
+			}
 		}
 
 		return;
@@ -182,8 +185,11 @@ void TitleScene::Draw() const
 		cursor->Draw();
 	}
 
-
-	//fade->Draw();
+	// プレイヤーがボタンをクリックしたか？
+	if (select != -1 && change_wait_time > 40)
+	{
+		fade->Draw();
+	}
 }
 
 AbstractScene* TitleScene::Change()

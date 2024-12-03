@@ -134,6 +134,7 @@ GameMainScene::GameMainScene()
     inkan_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(5.5);
     inkan_size = 2.5;
     inkan_flg = false;
+    black_alpha = 255;
 
 
     background_location_y = 0.0f;
@@ -288,6 +289,12 @@ void GameMainScene::Draw() const
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
+        DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
         
     }
 
@@ -881,7 +888,7 @@ void GameMainScene::InGameUpdate()
     //壁の数が０になったら
     if (wall_cnt <= 0)
     {
-        GameOver_Enm_Generate();
+        GameOverEnmGenerate();
         game_state = GameState::gameover;//stateをゲームオーバーに
         return;            //この行より下の処理はしない
     }
@@ -1139,100 +1146,103 @@ void GameMainScene::InStartUpdate()
     switch (anim_num)
     {
     case 0:
-        //紙が落ちてきたら
-        if (perpar_pos.y > 200)
-        {
-            if (perpar_se_once == false) {
-                perpar_se_once = true;
-                if (CheckSoundMem(perpar_se) == FALSE) {
-                    PlaySoundMem(perpar_se, DX_PLAYTYPE_BACK, TRUE);
-                }
-            }
+        black_alpha -= 5;
 
-            if (perpar_alpha > 255)
+        if (black_alpha < 150) {
+            //紙が落ちてきたら
+            if (perpar_pos.y > 200)
             {
-                //クリックされるまで待つ
-                if (MouseInput::GetMouseState() == eMouseInputState::eClick)
-                {
-                    //クリックされたらスタンプを押す
-                    inkan_flg = true;
+                if (perpar_se_once == false) {
+                    perpar_se_once = true;
+                    if (CheckSoundMem(perpar_se) == FALSE) {
+                        PlaySoundMem(perpar_se, DX_PLAYTYPE_BACK, TRUE);
+                    }
                 }
 
-                //スタンプ表示
-                if (inkan_flg == true)
+                if (perpar_alpha > 255)
                 {
-                    if (CheckSoundMem(stamp_se)==FALSE)
+                    //クリックされるまで待つ
+                    if (MouseInput::GetMouseState() == eMouseInputState::eClick)
                     {
-                        //スタンプ音
-                        PlaySoundMem(stamp_se, DX_PLAYTYPE_BACK, TRUE);
+                        //クリックされたらスタンプを押す
+                        inkan_flg = true;
                     }
 
-                    if (inkan_size > 1.8)
+                    //スタンプ表示
+                    if (inkan_flg == true)
                     {
-                        inkan_size -= 0.2;
-                    }
-                    else
-                    {
-                        
-                        //10フレーム待ってから移動
-                        if (perpar_wait_cnt++ > 15)
+                        if (CheckSoundMem(stamp_se) == FALSE)
                         {
-                            anim_num = 1;
+                            //スタンプ音
+                            PlaySoundMem(stamp_se, DX_PLAYTYPE_BACK, TRUE);
                         }
+
+                        if (inkan_size > 1.8)
+                        {
+                            inkan_size -= 0.2;
+                        }
+                        else
+                        {
+
+                            //10フレーム待ってから移動
+                            if (perpar_wait_cnt++ > 15)
+                            {
+                                anim_num = 1;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+
+                    perpar_alpha += 3;
+                    //クリックされるまで待つ
+                    if (MouseInput::GetMouseState() == eMouseInputState::eClick)
+                    {
+                        perpar_alpha = 256;
                     }
                 }
             }
             else
             {
- 
-                perpar_alpha += 3;
-                //クリックされるまで待つ
-                if (MouseInput::GetMouseState() == eMouseInputState::eClick)
-                {
-                    perpar_alpha = 256;
-                }
+                perpar_pos.y += 2;
             }
-        }
-        else
-        {
-            perpar_pos.y += 2;
-        }
 
-        if (pizza_pos.y > 600)
-        {
-            pizzabox_pos.y += 5;
-        }
-
-        //ピザ落下
-        if (pizza_pos.y < 700)
-        {
-            pizza_pos.y += 5.0f;
-            pizza_angle += 0.1;
-        }
-        else
-        {
-            //左右から壁
-            for (int i = 0; i < objects.size(); i++)
+            if (pizza_pos.y > 600)
             {
-                if (objects[i]->GetObjectType() != ObjectType::wall)continue;
-
-                objects[i]->Update();
-                //objects[i]がエネミーだったら判定
-                Wall* wall = dynamic_cast<Wall*>(objects[i]);
-                if (wall != nullptr)
-                {
-                    if (wall->GetMoveOnce())
-                    {
-                        wallmove_end_cnt++;
-                    }
-                }
-
-
-
+                pizzabox_pos.y += 5;
             }
 
-        }
+            //ピザ落下
+            if (pizza_pos.y < 700)
+            {
+                pizza_pos.y += 5.0f;
+                pizza_angle += 0.1;
+            }
+            else
+            {
+                //左右から壁
+                for (int i = 0; i < objects.size(); i++)
+                {
+                    if (objects[i]->GetObjectType() != ObjectType::wall)continue;
 
+                    objects[i]->Update();
+                    //objects[i]がエネミーだったら判定
+                    Wall* wall = dynamic_cast<Wall*>(objects[i]);
+                    if (wall != nullptr)
+                    {
+                        if (wall->GetMoveOnce())
+                        {
+                            wallmove_end_cnt++;
+                        }
+                    }
+
+
+
+                }
+
+            }
+        }
 
         break;
     case 1:
@@ -1366,7 +1376,7 @@ void GameMainScene::EnemyGenerate(int num)
     
 }
 
-void GameMainScene::GameOver_Enm_Generate()
+void GameMainScene::GameOverEnmGenerate()
 {
     int wait_time = 20;
 
