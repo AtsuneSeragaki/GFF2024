@@ -422,8 +422,9 @@ void GameMainScene::Draw() const
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     
-   // DrawFormatString(30, 350, 0xffffff, "%d",kill_enemy_cnt);
-   // DrawFormatString(60, 350, 0xffffff, "%d", hit_wall_enemy_cnt);
+
+   //DrawFormatString(30, 350, 0xffffff, "%d", kill_enemy_cnt);
+   //DrawFormatString(60, 350, 0xffffff, "%d", num_2);
 
 }
 
@@ -446,7 +447,7 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
         //change_wait_time = 120;
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear,wall_cnt,kill_enemy_cnt, get_coin_cnt);
+        return new ResultScene(is_game_clear,wall_cnt, CalculationKillEnemyNum(), get_coin_cnt);
     }
 
     if (is_game_over == true)
@@ -456,7 +457,7 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
 
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear, wall_cnt,kill_enemy_cnt,get_coin_cnt);
+        return new ResultScene(is_game_clear, wall_cnt, CalculationKillEnemyNum(),get_coin_cnt);
     }
 
     return this;
@@ -946,7 +947,15 @@ void GameMainScene::InGameUpdate()
         if (objects[i]->GetIsDelete() == true)
         {
             if (objects[i]->GetObjectType() == ObjectType::wall) { wall_cnt -= 1; }
-            if (objects[i]->GetObjectType() == ObjectType::enemy) { kill_enemy_cnt++; }
+            if (objects[i]->GetObjectType() == ObjectType::enemy) 
+            {
+                EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
+
+                if (enemy->GetState() != State::goal)
+                {
+                    kill_enemy_cnt++;
+                }
+            }
             objects.erase(objects.begin() + i);
         }
     }
@@ -1098,8 +1107,6 @@ void GameMainScene::InGameUpdate()
 
     //敵のEffectを生成
     EnmEffectGenerate();
-
-    
 
     /*
     //小さいSplitEnemyを生成
@@ -1736,7 +1743,21 @@ int GameMainScene::CalculationKillEnemyNum()
         }
     }   
 
-    num = kill_enemy_cnt - ((3 - wall_cnt) * 2 + ((3 - wall_cnt) * 2 - wall_hp));
+    switch (wall_cnt)
+    {
+    case 1:
+        num = kill_enemy_cnt - (4 + (2 - wall_hp));
+        break;
+    case 2:
+        num = kill_enemy_cnt - (2 + (4 - wall_hp));
+        break;
+    case 3:
+        num = kill_enemy_cnt - (6 - wall_hp);
+        break;
+    default:
+        num = kill_enemy_cnt - 6;
+        break;
+    }
 
     return num;
 }

@@ -169,6 +169,5 @@ protected:
 		objects.back()->SetLocation(set_location);
 		return new_instance;
 	}
-	
 };
 
