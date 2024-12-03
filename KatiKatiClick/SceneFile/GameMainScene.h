@@ -144,7 +144,7 @@ private:
 	// スキルが消えた後に敵のスピードをリセット
 	void ResetEnemySpeed(int i);
 	// 倒した敵の数を求めるための計算処理
-	void CalculationKillEnemyNum();
+	int CalculationKillEnemyNum();
 
 protected:
 	template <class T>

@@ -1672,3 +1672,20 @@ void GameMainScene::ResetEnemySpeed(int i)
         enemy->SetSpeed(enemy->GetEnemyDefaultSpeed());
     }
 }
+
+int GameMainScene::CalculationKillEnemyNum()
+{
+    int num;
+
+    for (int i = 0; i < objects.size() - 1; i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::wall)
+        {
+            Wall* wall = dynamic_cast<Wall*>(objects[i]);
+        }
+    }
+
+    num = kill_enemy_cnt - ((3 - wall_cnt) * 2);
+
+    return num;
+}
