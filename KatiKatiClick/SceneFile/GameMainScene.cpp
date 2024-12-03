@@ -45,11 +45,11 @@ GameMainScene::GameMainScene()
 
     CreateObject<PauseButton>(Vector2D(330.0f, 765.0f));         // ポーズボタン生成
 
-    CreateObject<RightButton>(Vector2D(330.0f, 500.0f));         // ポーズ中右向き矢印ボタン生成
-    CreateObject<LeftButton>(Vector2D(30.0f, 500.0f));          // ポーズ中左向き矢印ボタン生成
-    CreateObject<TitleButton>(Vector2D(180.0f, 560.0f));         // タイトルへ戻るボタン生成
-    CreateObject<YesButton>(Vector2D(100.0f, 330.0f));         // "はい"ボタン生成
-    CreateObject<NoButton>(Vector2D(260.0f, 330.0f));         // "いいえ"ボタン生成
+    CreateObject<RightButton>(Vector2D(330.0f, 520.0f));         // ポーズ中右向き矢印ボタン生成
+    CreateObject<LeftButton>(Vector2D(30.0f, 520.0f));          // ポーズ中左向き矢印ボタン生成
+    CreateObject<TitleButton>(Vector2D(180.0f, 580.0f));         // タイトルへ戻るボタン生成
+    CreateObject<YesButton>(Vector2D(100.0f, 400.0f));         // "はい"ボタン生成
+    CreateObject<NoButton>(Vector2D(260.0f, 400.0f));         // "いいえ"ボタン生成
 
     //goal = CreateObject<Goal>(Vector2D((float)SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - GET_LANE_HEIGHT(2)));//ゴール生成
 
@@ -149,8 +149,12 @@ GameMainScene::GameMainScene()
     is_bgm_active = false;
 
     gameover_alpha = -50;
+    gameclear_alpha = -50;
 
     slowdown_active = false;
+
+    kill_enemy_cnt = 0;
+    get_coin_cnt = 0;
 }
 
 GameMainScene::~GameMainScene()
@@ -395,18 +399,12 @@ void GameMainScene::Draw() const
         }
     }
 
-    if (is_game_clear)
+    if (game_state == GameState::gameclear)
     {
-        DrawString(30, 350, "GAME CLEAR", 0x000000);
-       // DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameclear_alpha);
+        DrawBox(0, 0, 360, 800, GetColor(255, 255, 255), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
-
-    if (is_game_over)
-    {
-        DrawString(30, 350, "GAME OVER", 0x000000);
-       // DrawFormatString(30, 370, 0x000000, "start : %d sec", change_wait_time / 60 + 1);
-    }
-
 
     if (game_state == GameState::gameover)
     {
@@ -414,7 +412,10 @@ void GameMainScene::Draw() const
         DrawBox(0, 0, 360, 800, GetColor(0, 0, 0), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
-    //DrawFormatString(30, 350, 0xffffff, "%d",is_spos_select);
+    
+    //DrawFormatString(30, 350, 0xffffff, "%d",kill_enemy_cnt);
+    //DrawFormatString(60, 350, 0xffffff, "%d", get_coin_cnt);
+
 }
 
 AbstractScene* GameMainScene::Change()
@@ -429,14 +430,14 @@ AbstractScene* GameMainScene::Change()
         return new TitleScene;
     }
 
-    if (is_game_clear == true  && change_wait_time == 0)
+    if (is_game_clear == true/*  && change_wait_time == 0*/)
     {
         // BGMを止める
         StopSoundMem(bgm);
         is_bgm_active = 0;
-        change_wait_time = 120;
+        //change_wait_time = 120;
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear,wall_cnt);
+        return new ResultScene(is_game_clear,wall_cnt,kill_enemy_cnt, get_coin_cnt);
     }
 
     if (is_game_over == true)
@@ -446,22 +447,15 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
 
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear, wall_cnt);
+        return new ResultScene(is_game_clear, wall_cnt,kill_enemy_cnt,get_coin_cnt);
     }
-
-    /*if (change_wait_time <= 0)
-    {
-        return new GameMainScene;
-    }*/
 
     return this;
 }
 
 void GameMainScene::InGameUpdate()
 {
-
-
-
+    // BGMを再生
     if (is_bgm_active == 0 && is_game_clear == false)
     {
         is_bgm_active = 1;
@@ -836,24 +830,27 @@ void GameMainScene::InGameUpdate()
     {
         if (ui_timer->GetSeconds() == 0)
         {
-            if (change_wait_time == 120)
-            {
-                // BGMを止める
-                StopSoundMem(bgm);
-                is_bgm_active = 0;
+            // ゲームクリア状態にする
+            game_state = GameState::gameclear;
 
-                PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
-                PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
-            }
-            
-            // 制限時間が0ならゲームクリア
-            is_game_clear = true;
+            //if (change_wait_time == 120)
+            //{
+            //    // BGMを止める
+            //    StopSoundMem(bgm);
+            //    is_bgm_active = 0;
+
+            //    PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+            //    PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
+            //}
+            //
+            //// 制限時間が0ならゲームクリア
+            //is_game_clear = true;
 
             // シーン切り替え待ちカウントを減らす
-            change_wait_time--;
+            //change_wait_time--;
 
             // カーソルのみ更新
-            CursorUpdate();
+            //CursorUpdate();
 
             return;
         }
@@ -904,6 +901,7 @@ void GameMainScene::InGameUpdate()
     {
         // ポーズ中のボタンは処理を飛ばす
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
+        if (objects[i]->GetObjectType() == ObjectType::choicebutton) continue;
 
         if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
         {
@@ -939,6 +937,7 @@ void GameMainScene::InGameUpdate()
         if (objects[i]->GetIsDelete() == true)
         {
             if (objects[i]->GetObjectType() == ObjectType::wall) { wall_cnt -= 1; }
+            if (objects[i]->GetObjectType() == ObjectType::enemy) { kill_enemy_cnt++; }
             objects.erase(objects.begin() + i);
         }
     }
@@ -1273,6 +1272,23 @@ void GameMainScene::InStartUpdate()
 
 void GameMainScene::InGameClearUpdate()
 {
+    if (gameclear_alpha == -50)
+    {
+        // BGMを止める
+        StopSoundMem(bgm);
+        is_bgm_active = 0;
+
+        // クリアseを鳴らす
+        PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
+        PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
+    }
+
+    gameclear_alpha += 2;
+    if (gameclear_alpha > 300)
+    {
+        is_game_clear = true;
+    }
+    CursorUpdate();        // カーソルのみ更新
 }
 
 void GameMainScene::InGameOverUpdate()
@@ -1561,6 +1577,7 @@ void GameMainScene::CoinGenerate(int i, int j)
         coins.back()->SetUICoinsLocation(ui_coins->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
+        get_coin_cnt++;
         //hitflgをオフにする
         enemy_i->SetFalseHitCursor();
     }
@@ -1577,6 +1594,7 @@ void GameMainScene::CoinGenerate(int i, int j)
         coins.back()->SetUICoinsLocation(ui_coins->GetLocation());
         // コインの加算
         ui_coins->IncreaseCoins();
+        get_coin_cnt++;
         //hitflgをオフにする
         enemy_j->SetFalseHitCursor();
     }

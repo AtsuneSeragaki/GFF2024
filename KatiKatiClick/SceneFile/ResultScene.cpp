@@ -7,7 +7,7 @@
 #include <math.h>
 
 
-ResultScene::ResultScene(bool is_game_clear, int goal_num)
+ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coin_num)
 {
 	//x1 = 85.0f + 20.0f;
 	//x2 = 275.0f - 20.0f;
@@ -50,6 +50,32 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 		title_button_img.push_back(tmp[i]);
 	}
 
+	tmp = rm->GetImages("Resource/Images/Result/StarEffect1.png", 3, 3, 1, 32, 32);
+	for (int i = 0; i < 3; i++)
+	{
+		gstar_click_effect.push_back(tmp[i]);
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		gstar_effect_img[i] = gstar_click_effect[0];
+	}
+
+	tmp = rm->GetImages("Resource/Images/Result/Result.png");
+	result_img = tmp[0];
+
+	tmp = rm->GetImages("Resource/Images/Result/gameclear.png");
+	game_clear_img = tmp[0];
+
+	tmp = rm->GetImages("Resource/Images/Result/gameover.png");
+	game_over_img = tmp[0];
+
+	tmp = rm->GetImages("Resource/Images/Result/Num1.png",10, 10, 1, 32, 32);
+	for (int i = 0; i < 10; i++)
+	{
+		num_img.push_back(tmp[i]);
+	}
+	
 	// 音データ読み込み
 	int tmp_bgm;
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Title/bgm.mp3");
@@ -61,8 +87,13 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/star_gold.mp3");
 	star_click_se[1] = tmp_bgm;
 
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/fire.mp3");
+	fire_se = tmp_bgm;
+
 	// 音量変更
 	ChangeVolumeSoundMem(190, bgm);
+
+	ChangeVolumeSoundMem(200, fire_se);
 
 	is_bgm_active = false;
 
@@ -79,7 +110,10 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 		star_move[i] = 5.0f;
 		star_wait_time[i] = 45;
 		is_fire_max[i] = false;
-		
+		is_star_min[i] = false;
+		is_gstar_click[i] = false;
+		gstar_effect_num[i] = 0;
+		gstar_effect_change_num[i] = 0;
 	}
 
 	star_y[0] = STAR_Y;
@@ -99,14 +133,14 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	star_extrate[2] = 0.15f;
 
 	// テスト用
-	star_gold_extrate[0] = 0.15f;
+	/*star_gold_extrate[0] = 0.15f;
 	star_gold_extrate[1] = 0.2f;
-	star_gold_extrate[2] = 0.15f;
+	star_gold_extrate[2] = 0.15f;*/
 
 	// 実際に使うやつ
-	/*star_gold_extrate[0] = 0.55f;
-	star_gold_extrate[1] = 0.6f;
-	star_gold_extrate[2] = 0.55f;*/
+	star_gold_extrate[0] = 0.45f;
+	star_gold_extrate[1] = 0.5f;
+	star_gold_extrate[2] = 0.45f;
 
 	for (int i = 0; i < goal_num; i++)
 	{
@@ -137,6 +171,18 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num)
 	title_y = GET_LANE_HEIGHT(7.2f);
 
 	change_screen_flg = false;
+
+	star_gold_width[0] = 150.0f;
+	star_gold_width[1] = 190.0f;
+	star_gold_width[2] = 150.0f;
+
+	star_gold_height[0] = 150.0f;
+	star_gold_height[1] = 190.0f;
+	star_gold_height[2] = 150.0f;
+
+	gstar_effect_extrate[0] = 2.0f;
+	gstar_effect_extrate[1] = 3.0f;
+	gstar_effect_extrate[2] = 2.0f;
 }
 
 ResultScene::~ResultScene()
@@ -157,6 +203,14 @@ void ResultScene::Update()
 
 	ChangePizzaAngle();
 
+	for (int i = 0; i < 3; i++)
+	{
+		if (is_star_min[i] == false && star_num > i)
+		{
+			ChangeStarSize(i);
+		}
+	}
+	
 	StarMove();
 
 	// プレイヤーがボタンをクリックしたか？
@@ -185,6 +239,8 @@ void ResultScene::Update()
 
 	// 星とカーソルの当たり判定
 	StarHitCheck();
+
+	GStarClickEffect();
 }
 
 void ResultScene::Draw() const
@@ -192,18 +248,20 @@ void ResultScene::Draw() const
 	// 背景描画
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x333333,TRUE);
 
-	DrawString(160, 75, "RESULT", 0xffffff);
+	//DrawString(160, 75, "RESULT", 0xffffff);
 
-	//DrawFormatString(0, 0, 0xffffff,"%d", star_wait_time[0]);
+	//DrawFormatString(0, 0, 0xffffff,"%d", is_gstar_click[0]);
 
 	// ゲームクリア、ゲームオーバーの描画
 	if (is_clear == true)
 	{
-		DrawString(140, 110, "GAME CLEAR", 0xffffff);
+		//DrawString(140, 110, "GAME CLEAR", 0xffffff);
+		DrawGraph(60, 65, game_clear_img, TRUE);
 	}
 	else
 	{
-		DrawString(145, 120, "GAME OVER", 0xffffff);
+		//DrawString(145, 120, "GAME OVER", 0xffffff);
+		DrawGraph(60, 65, game_over_img, TRUE);
 	}
 
 	// 星の数に応じた星の描画
@@ -227,11 +285,25 @@ void ResultScene::Draw() const
 			}
 		}
 
+		//if (is_star_min[0] == false)
+		//{
+		//	// 金の星描画
+		//	for (int i = 0; i < star_num; i++)
+		//	{
+		//		DrawRotaGraph2F(star_gold_width[i], star_gold_height[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+		//	}
+		//}
+		//else
+		//{
+		//	// 金の星描画
+		//	for (int i = 0; i < star_num; i++)
+		//	{
+		//		DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+		//	}
+		//}
+
 		// 金の星描画
-		for (int i = 0; i < star_num; i++)
-		{
-			DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
-		}
+	    DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
 		break;
 
 	case 2:
@@ -255,7 +327,14 @@ void ResultScene::Draw() const
 		// 金の星描画
 		for (int i = 0; i < star_num; i++)
 		{
-			DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+			if (i >= 1 && is_star_min[i - 1] == true)
+			{
+				DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+			}
+			else
+			{
+				DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
+			}
 		}
 		break;
 
@@ -281,8 +360,19 @@ void ResultScene::Draw() const
 		// 金の星描画
 		for (int i = 0; i < star_num; i++)
 		{
-			DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+			if (i >= 1 && is_star_min[i - 1] == true)
+			{
+				DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+			}
+			else
+			{
+				DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
+			}
 		}
+
+		
+
+		//DrawRotaGraph2F(star_x[0], star_y[0], 16.0f, 16.0f, 3.0f, star_angle[0], gstar_effect_img[0], TRUE);
 
 		break;
 
@@ -295,40 +385,34 @@ void ResultScene::Draw() const
 		break;
 	}
 
-	// ボタンの描画
-	//switch (on_button)
-	//{
-	//case 0:
-	//	DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0x999999, TRUE);
-	//	DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
-	//	DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0xffffff, TRUE);
-	//	DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
-	//	break;
-
-	//case 1:
-	//	DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0xffffff, TRUE);
-	//	DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
-	//	DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0x999999, TRUE);
-	//	DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
-	//	break;
-
-	//default:
-	//	DrawBoxAA(x1 - BOX_WIDTH / 2, y1 - BOX_HEIGHT / 2, x1 + BOX_WIDTH / 2, y1 + BOX_HEIGHT / 2, 0xffffff, TRUE);
-	//	DrawString((x1 - BOX_WIDTH / 2) + 30, (y1 - BOX_HEIGHT / 2) + 20, "RETRY", 0x000000);
-	//	DrawBoxAA(x2 - BOX_WIDTH / 2, y2 - BOX_HEIGHT / 2, x2 + BOX_WIDTH / 2, y2 + BOX_HEIGHT / 2, 0xffffff, TRUE);
-	//	DrawString((x2 - BOX_WIDTH / 2) + 30, (y2 - BOX_HEIGHT / 2) + 20, "TITLE", 0x000000);
-	//	break;
-	//}
-
-
 	// リザルト結果表示ゾーンの描画
-	DrawBox(40, 300, 320, 500, 0xffffff, TRUE);
+	//DrawBox(40, 300, 320, 500, 0xffffff, TRUE);
+	DrawGraph(30, 300, result_img, TRUE);
+
+	// 倒した敵の数の描画
+	//DrawGraph(228, 323, num_img[0], TRUE);
+	DrawExtendGraph(228, 323, 228 + 25, 323 + 25, num_img[0], TRUE);
+
+	// 獲得したコインの枚数の描画
+	//DrawGraph(272, 385, num_img[0], TRUE);
+	DrawExtendGraph(272, 385, 272 + 25, 385 + 25, num_img[0], TRUE);
+
+	// スコアの描画
+	DrawExtendGraph(260, 445, 260 + 32, 445 + 32, num_img[0], TRUE);
 
 	// ボタンの描画
 	DrawButton();
 
 	// ピザの描画
 	DrawRotaGraph2(183, 690, 250, 250, 0.2f, pizza_angle, pizza_image, TRUE);
+
+	for (int i = 0; i < star_num; i++)
+	{
+		if (is_gstar_click[i] == true)
+		{
+			DrawRotaGraph2F(star_x[i], star_y[i], 16.0f, 16.0f, gstar_effect_extrate[i], star_angle[i], gstar_effect_img[i], TRUE);
+		}
+	}
 
 	// カーソル描画
 	cursor->Draw();
@@ -476,103 +560,107 @@ void ResultScene::StarHitCheck()
 		// プレイヤーがクリックしたとき、星の上でクリックされたか？
 		if (HitBoxCircle(star_x[0], star_y[0], STAR_WIDTH, STAR_HEIGHT, cursor->GetLocation(), cursor->GetRadius()))
 		{
-			if (star_gold[0] == true && star_hp[0] >= 1)
+			if (star_gold[0] == true && is_star_min[0] == true && star_hp[0] >= 1)
 			{
 				star_hp[0]--;
 
+				is_gstar_click[0] = true;
+
+				if (star_hp[0] == 0)
+				{
+					PlaySoundMem(fire_se, DX_PLAYTYPE_BACK, TRUE);
+				}
+
 				PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			}
-			else
+			else if(star_num > 0  && is_star_min[0] == true)
 			{
-				if (star_hp[0] == 0 && star_gold_y[0] <= STAR_Y - 20.0f)
-				{
-					//鉄の音
-					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
-				}
-				else if(star_hp[0] == -1)
+				if (star_hp[0] == 0 && star_gold_y[0] <= STAR_Y - 40.0f)
 				{
 					//鉄の音
 					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
 				}
 				else
 				{
+					is_gstar_click[0] = true;
 					PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 				}
-				
+			}
+			else
+			{
+				//鉄の音
+				PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
 			}
 		}
 		else if (HitBoxCircle(star_x[1], star_y[1], STAR_WIDTH_2, STAR_HEIGHT_2, cursor->GetLocation(), cursor->GetRadius()))
 		{
-			if (star_gold[1] == true && star_hp[1] >= 1)
+			if (star_gold[1] == true && is_star_min[1] == true && star_hp[1] >= 1)
 			{
 				star_hp[1]--;
 
+				is_gstar_click[1] = true;
+	
+				if (star_hp[1] == 0)
+				{
+					PlaySoundMem(fire_se, DX_PLAYTYPE_BACK, TRUE);
+				}
+
 				PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			}
-			else
+			else if (star_num > 1 && is_star_min[1] == true)
 			{
-				if (star_hp[1] == 0 && star_gold_y[1] <= (STAR_Y - 40.0f) - 20.0f)
-				{
-					//鉄の音
-					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
-				}
-				else if (star_hp[1] == -1)
+				if (star_hp[1] == 0 && star_gold_y[1] <= (STAR_Y - 40.0f) - 40.0f)
 				{
 					//鉄の音
 					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
 				}
 				else
 				{
+					is_gstar_click[1] = true;
 					PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 				}
+			}
+			else
+			{
+				//鉄の音
+				PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
 			}
 		}
 		else if (HitBoxCircle(star_x[2], star_y[2], STAR_WIDTH, STAR_HEIGHT, cursor->GetLocation(), cursor->GetRadius()))
 		{
-			if (star_gold[2] == true && star_hp[2] >= 1)
+			if (star_gold[2] == true && is_star_min[2] == true && star_hp[2] >= 1)
 			{
 				star_hp[2]--;
 
+				is_gstar_click[2] = true;
+
+				if (star_hp[2] == 0)
+				{
+					PlaySoundMem(fire_se, DX_PLAYTYPE_BACK, TRUE);
+				}
+
 				PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			}
-			else
+			else if(star_num > 2 && is_star_min[2] == true)
 			{
-				if (star_hp[2] == 0 && star_gold_y[2] <= STAR_Y - 20.0f)
-				{
-					//鉄の音
-					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
-				}
-				else if (star_hp[2] == -1)
+				if (star_hp[2] == 0 && star_gold_y[2] <= STAR_Y - 40.0f)
 				{
 					//鉄の音
 					PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
 				}
 				else
 				{
+					is_gstar_click[2] = true;
 					PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 				}
 			}
+			else
+			{
+				//鉄の音
+				PlaySoundMem(star_click_se[0], DX_PLAYTYPE_BACK, TRUE);
+			}
 		}
 	}
-	//else
-	//{// カーソルがボタンの上にあるか？
-
-	//	if (HitBoxCircle(x1, y1, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
-	//	{
-	//		on_button = 0;
-	//	}
-	//	else
-	//	{
-	//		if (HitBoxCircle(x2, y2, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
-	//		{
-	//			on_button = 1;
-	//		}
-	//		else
-	//		{
-	//			on_button = -1;
-	//		}
-	//	}
-	//}
 }
 
 void ResultScene::StarMove()
@@ -860,5 +948,83 @@ void ResultScene::DrawButton() const
 		DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+	}
+}
+
+void ResultScene::ChangeStarSize(int i)
+{
+	switch (i)
+	{
+	case 0:
+		if (star_gold_extrate[i] <= 0.15f)
+		{
+			is_star_min[i] = true;
+			star_gold_extrate[i] = 0.15f;
+		}
+		else
+		{
+			star_gold_extrate[i] -= 0.028f;
+		}
+
+		break;
+
+	case 1:
+		if (star_gold_extrate[i] <= 0.2f)
+		{
+			is_star_min[i] = true;
+			star_gold_extrate[i] = 0.2f;
+		}
+		else if(is_star_min[i - 1] == true)
+		{
+			star_gold_extrate[i] -= 0.028f;
+		}
+
+		break;
+	case 2:
+		if (star_gold_extrate[i] <= 0.15f)
+		{
+			is_star_min[i] = true;
+			star_gold_extrate[i] = 0.15f;
+		}
+		else if (is_star_min[i - 1] == true)
+		{
+			star_gold_extrate[i] -= 0.028f;
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void ResultScene::GStarClickEffect()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (is_gstar_click[i] == true)
+		{
+			if (gstar_effect_num[i] >= 2)
+			{
+				gstar_effect_change_num[i]++;
+
+				if (gstar_effect_change_num[i] >= 5)
+				{
+					gstar_effect_change_num[i] = 0;
+					is_gstar_click[i] = false;
+					gstar_effect_num[i] = 0;
+					gstar_effect_img[i] = gstar_click_effect[gstar_effect_num[i]];
+				}
+			}
+			else
+			{
+				gstar_effect_change_num[i]++;
+
+				if (gstar_effect_change_num[i] >= 5)
+				{
+					gstar_effect_change_num[i] = 0;
+					gstar_effect_num[i]++;
+					gstar_effect_img[i] = gstar_click_effect[gstar_effect_num[i]];
+				}
+			}
+		}
 	}
 }

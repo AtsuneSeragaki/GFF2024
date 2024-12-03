@@ -77,7 +77,8 @@ private:
 
 	bool is_bgm_active; // BGM流れているか
 
-	int gameover_alpha;//ゲームオーバーの時に使用
+	int gameover_alpha;				//ゲームオーバーの時に使用
+	int gameclear_alpha;			//ゲームクリアの時に使用
 
 	bool slowdown_active; // 足止めスキルがあるか？
 
@@ -101,6 +102,10 @@ private:
 	int stamp_se;//スタンプの音
 	int perpar_wait_cnt;//紙表示を長くするよう
 
+
+	int kill_enemy_cnt;  // 倒した敵の数をカウント
+
+	int get_coin_cnt; // 獲得したコインの数をカウント
 
 public:
 	GameMainScene();
