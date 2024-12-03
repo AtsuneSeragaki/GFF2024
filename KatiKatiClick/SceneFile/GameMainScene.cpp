@@ -143,6 +143,8 @@ GameMainScene::GameMainScene()
 
     kill_enemy_cnt = 0;
     get_coin_cnt = 0;
+
+    hit_wall_enemy_cnt = 0;
 }
 
 GameMainScene::~GameMainScene()
@@ -394,8 +396,8 @@ void GameMainScene::Draw() const
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     
-    //DrawFormatString(30, 350, 0xffffff, "%d",kill_enemy_cnt);
-    //DrawFormatString(60, 350, 0xffffff, "%d", get_coin_cnt);
+   // DrawFormatString(30, 350, 0xffffff, "%d",kill_enemy_cnt);
+   // DrawFormatString(60, 350, 0xffffff, "%d", hit_wall_enemy_cnt);
 
 }
 
@@ -418,7 +420,7 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
         //change_wait_time = 120;
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear,wall_cnt,kill_enemy_cnt, get_coin_cnt);
+        return new ResultScene(is_game_clear,wall_cnt,kill_enemy_cnt - ((3 - wall_cnt) * 2), get_coin_cnt);
     }
 
     if (is_game_over == true)
@@ -428,7 +430,7 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
 
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear, wall_cnt,kill_enemy_cnt,get_coin_cnt);
+        return new ResultScene(is_game_clear, wall_cnt,kill_enemy_cnt - ((3 - wall_cnt) * 2),get_coin_cnt);
     }
 
     return this;

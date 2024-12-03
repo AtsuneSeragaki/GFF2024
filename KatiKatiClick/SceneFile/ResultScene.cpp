@@ -197,6 +197,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	get_coin_num_2 = 0;
 	kill_enemy_num_2 = 0;
 	score = (kill_enemy_num + get_coin_num) * 10;
+	//score = 12355;
 	score_2 = 0;
 }
 
@@ -426,11 +427,11 @@ void ResultScene::Draw() const
 
 	// 獲得したコインの枚数の描画
 	//DrawGraph(272, 385, num_img[0], TRUE);
-	if (kill_enemy_num < 10)
+	if (get_coin_num < 10)
 	{
 		DrawExtendGraph(272, 385, 272 + 25, 385 + 25, num_img[get_coin_num_2], TRUE);
 	}
-	else if (kill_enemy_num < 100)
+	else if (get_coin_num < 100)
 	{
 		DrawExtendGraph(262, 385, 262 + 25, 385 + 25, num_img[get_coin_num_2 / 10], TRUE);
 		DrawExtendGraph(282, 385, 282 + 25, 385 + 25, num_img[get_coin_num_2 % 10], TRUE);
@@ -458,12 +459,21 @@ void ResultScene::Draw() const
 		DrawExtendGraph(215, 445, 215 + 32, 445 + 32, num_img[score_2 % 100 / 10], TRUE);
 		DrawExtendGraph(245, 445, 245 + 32, 445 + 32, num_img[score_2 % 100 % 10], TRUE);
 	}
-	else
+	else if (score < 10000)
 	{
 		DrawExtendGraph(170, 445, 170 + 32, 445 + 32, num_img[score_2 / 1000], TRUE);
 		DrawExtendGraph(200, 445, 200 + 32, 445 + 32, num_img[score_2 % 1000 / 100], TRUE);
 		DrawExtendGraph(230, 445, 230 + 32, 445 + 32, num_img[score_2 % 1000 % 100 / 10], TRUE);
 		DrawExtendGraph(260, 445, 260 + 32, 445 + 32, num_img[score_2 % 1000 % 100 % 10], TRUE);
+	}
+	else 
+	{
+		DrawExtendGraph(167, 445, 167 + 32, 445 + 32, num_img[score_2 / 10000], TRUE);
+		DrawExtendGraph(192, 445, 192 + 32, 445 + 32, num_img[score_2 % 10000 / 1000], TRUE);
+		DrawExtendGraph(217, 445, 217 + 32, 445 + 32, num_img[score_2 % 10000 % 1000 / 100], TRUE);
+		DrawExtendGraph(242, 445, 242 + 32, 445 + 32, num_img[score_2 % 10000 % 1000 % 100 / 10], TRUE);
+		DrawExtendGraph(267, 445, 267 + 32, 445 + 32, num_img[score_2 % 10000 % 1000 % 100 % 10], TRUE);
+
 	}
 
 	// ボタンの描画
@@ -1103,10 +1113,6 @@ void ResultScene::AddNum()
 		{
 			get_coin_num_2++;
 		}
-		else if (get_coin_num < 100)
-		{
-			get_coin_num_2 += 2;
-		}
 		else
 		{
 			get_coin_num_2 += 3;
@@ -1125,10 +1131,6 @@ void ResultScene::AddNum()
 		{
 			kill_enemy_num_2++;
 		}
-		/*else if (kill_enemy_num < 100)
-		{
-			kill_enemy_num_2 += 2;
-		}*/
 		else
 		{
 			kill_enemy_num_2 += 3;
@@ -1143,13 +1145,9 @@ void ResultScene::AddNum()
 
 	if (score_2 != score)
 	{
-		if (score < 10)
+		if (score < 100)
 		{
 			score_2++;
-		}
-		else if (score < 100)
-		{
-			score_2 += 2;
 		}
 		else if(score < 1000)
 		{
@@ -1157,7 +1155,7 @@ void ResultScene::AddNum()
 		}
 		else
 		{
-			score_2 += 25;
+			score_2 += 145;
 		}
 
 		if (score_2 >= score)
