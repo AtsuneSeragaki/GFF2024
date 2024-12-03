@@ -446,7 +446,7 @@ void ResultScene::Draw() const
 	// スコアの描画
 	if (score < 10)
 	{
-		DrawExtendGraph(260, 445, 260 + 32, 445 + 32, num_img[score_2], TRUE);
+		DrawExtendGraph(217, 445, 217 + 32, 445 + 32, num_img[score_2], TRUE);
 	}
 	else if (score < 100)
 	{
