@@ -11,6 +11,9 @@ BurstEnemy::BurstEnemy()
 	radius = 20.0f;
 	default_speed = 1.0f;
 	speed = default_speed;
+	angle = 0;
+	radian = 0.0f;
+	result = 0.0f;
 	can_hit = true;
 	object_type = ObjectType::enemy;
 	shape = Shape::circle;
@@ -63,6 +66,18 @@ void BurstEnemy::Update()
 		break;
 	case State::move:
 		location.y += speed;
+
+
+		//cos動き
+		angle += 2;
+		if (angle > 360)
+		{
+			angle = 0;
+		}
+		radian = (float)angle * (float)M_PI / 180.0f;
+		result = cosf(radian);
+		location.x += result;
+
 
 		//UIより上か下だったら当たり判定をしない
 		if ( location.y > SCREEN_HEIGHT - GET_LANE_HEIGHT(2))
