@@ -132,7 +132,7 @@ void FrogEnemy::Update()
 	case State::goal:
 		if (wait_time-- < 0)
 		{
-			if (location.y < 720)
+			if (location.y < SCREEN_HEIGHT + height)
 			{
 				location.y += speed;
 			}

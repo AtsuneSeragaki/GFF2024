@@ -10,8 +10,8 @@ SnakeEnemy::SnakeEnemy()
 	location.x = 320.0f;
 	location.y = 0.0f;
 	hp = 10;
-	width = 50.0f;
-	height = 50.0f;
+	width = 70.0f;
+	height = 70.0f;
 	default_speed = 1.5f;
 	speed = default_speed;
 	can_hit = false;
@@ -108,7 +108,7 @@ void SnakeEnemy::Update()
 	case State::goal:
 		if (wait_time-- < 0)
 		{
-			if (location.y < 720)
+			if (location.y < SCREEN_HEIGHT + height)
 			{
 				location.y += speed;
 			}
@@ -139,7 +139,13 @@ void SnakeEnemy::Update()
 
 void SnakeEnemy::Draw() const
 {
-	DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[change_img], TRUE);
+	//DrawRotaGraph((int)location.x, (int)location.y, 2.0, 0, enemy_image[change_img], TRUE);
+	int left_top_x = (int)location.x - (int)width / 2;
+	int left_top_y = (int)location.y - (int)height / 2;
+	int right_bottom_x = (int)location.x + (int)width / 2;
+	int right_bottom_y = (int)location.y + (int)height / 2;
+	DrawExtendGraph(left_top_x + shape_change_x, left_top_y - shape_change_y, right_bottom_x - shape_change_x, right_bottom_y, enemy_image[change_img], TRUE);
+
 	if (state != State::death)
 	{
 		DrawRotaGraph((int)location.x, (int)location.y + face_shift_y, 2, 0, face_image[face_num], TRUE);

@@ -26,6 +26,9 @@ private:
 
     int se; // 効果音
     int se_2; // 効果音
+    int move_se;
+
+    bool move_se_once;//
 
     bool move_once;//movecenterを一度だけ奴用
     int wait_time;//

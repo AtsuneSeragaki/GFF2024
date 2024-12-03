@@ -45,9 +45,9 @@ GameMainScene::GameMainScene()
 
     CreateObject<PauseButton>(Vector2D(330.0f, 765.0f));         // ポーズボタン生成
 
-    CreateObject<RightButton>(Vector2D(330.0f, 520.0f));         // ポーズ中右向き矢印ボタン生成
-    CreateObject<LeftButton>(Vector2D(30.0f, 520.0f));          // ポーズ中左向き矢印ボタン生成
-    CreateObject<TitleButton>(Vector2D(180.0f, 580.0f));         // タイトルへ戻るボタン生成
+    CreateObject<RightButton>(Vector2D(330.0f, 600.0f));         // ポーズ中右向き矢印ボタン生成
+    CreateObject<LeftButton>(Vector2D(30.0f, 600.0f));          // ポーズ中左向き矢印ボタン生成
+    CreateObject<TitleButton>(Vector2D(180.0f, 650.0f));         // タイトルへ戻るボタン生成
     CreateObject<YesButton>(Vector2D(100.0f, 400.0f));         // "はい"ボタン生成
     CreateObject<NoButton>(Vector2D(260.0f, 400.0f));         // "いいえ"ボタン生成
 
@@ -91,6 +91,11 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Time/GameClear.mp3");
     gameclear_se = tmp_s;
 
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/perpar.mp3");
+    perpar_se = tmp_s;
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/stamp2.mp3");
+    stamp_se = tmp_s;
+
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
     ChangeVolumeSoundMem(180, gameclear_se);
@@ -106,6 +111,8 @@ GameMainScene::GameMainScene()
     little_perpar_img.push_back(tmp_img[0]);
     tmp_img = rm->GetImages("Resource/Images/Opening/pizza_box.png");
     pizzabox_img.push_back(tmp_img[0]);
+    tmp_img = rm->GetImages("Resource/Images/Explanation/inkan.png");
+    inkan_img.push_back(tmp_img[0]);
 
 
     /*スタートのピザ用*/
@@ -119,10 +126,15 @@ GameMainScene::GameMainScene()
     //makimono_pos.y = 300.0f;
     perpar_pos.x = SCREEN_WIDTH / 2;
     perpar_pos.y = 0.0f;
-    start_cnt = 3;
-    fps_cnt = 0;
+    perpar_wait_cnt = 0;
+    perpar_se_once = false;
     pizzabox_pos.x = SCREEN_WIDTH / 2;
     pizzabox_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3.5);
+    inkan_pos.x = SCREEN_WIDTH / 2;
+    inkan_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(5.5);
+    inkan_size = 2.5;
+    inkan_flg = false;
+
 
     background_location_y = 0.0f;
 
@@ -255,8 +267,12 @@ void GameMainScene::Draw() const
     if (game_state == GameState::start)
     {
         DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
-        //レシート表示
-        DrawRotaGraph((int)perpar_pos.x, (int)perpar_pos.y, 1, 0, little_perpar_img[0], TRUE);
+
+        if (anim_num == 0||anim_num==1) {
+            //レシート表示
+            DrawRotaGraph((int)perpar_pos.x, (int)perpar_pos.y, 1, 0, little_perpar_img[0], TRUE);
+            
+        }
         
         DrawRotaGraph((int)pizzabox_pos.x, (int)pizzabox_pos.y, 1, 0, pizzabox_img[0], TRUE);
 
@@ -264,11 +280,14 @@ void GameMainScene::Draw() const
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, perpar_alpha);
         //説明の紙表示
         DrawGraph(0, 0, bigperpar_img[0], TRUE);
+        //印鑑スタート表示
+        if (inkan_flg == true)
+        {
+            DrawRotaGraph((int)inkan_pos.x, (int)inkan_pos.y, inkan_size, 0.2, inkan_img[0], TRUE);
+        }
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         
-
-        DrawFormatString(0, 0,0xffffff,"cnt%d",start_cnt);
         
     }
 
@@ -1110,26 +1129,62 @@ void GameMainScene::InStartUpdate()
     //pizzaがはんぶんぐらいから回転しながら上から下に
     //下に行ったら右左から壁が飛んでくる
     //巻物で焼きあがるまでpizzaを守ろう！さあ！クリックだ！って言う
+
+    // カーソルのみ更新
+    CursorUpdate();
+
+
     int wallmove_end_cnt = 0;
 
     switch (anim_num)
     {
     case 0:
-
         //紙が落ちてきたら
         if (perpar_pos.y > 200)
         {
+            if (perpar_se_once == false) {
+                perpar_se_once = true;
+                if (CheckSoundMem(perpar_se) == FALSE) {
+                    PlaySoundMem(perpar_se, DX_PLAYTYPE_BACK, TRUE);
+                }
+            }
+
             if (perpar_alpha > 255)
             {
                 //クリックされるまで待つ
                 if (MouseInput::GetMouseState() == eMouseInputState::eClick)
                 {
                     //クリックされたらスタンプを押す
-                    anim_num = 2;
+                    inkan_flg = true;
+                }
+
+                //スタンプ表示
+                if (inkan_flg == true)
+                {
+                    if (CheckSoundMem(stamp_se)==FALSE)
+                    {
+                        //スタンプ音
+                        PlaySoundMem(stamp_se, DX_PLAYTYPE_BACK, TRUE);
+                    }
+
+                    if (inkan_size > 1.8)
+                    {
+                        inkan_size -= 0.2;
+                    }
+                    else
+                    {
+                        
+                        //10フレーム待ってから移動
+                        if (perpar_wait_cnt++ > 15)
+                        {
+                            anim_num = 1;
+                        }
+                    }
                 }
             }
             else
             {
+ 
                 perpar_alpha += 3;
                 //クリックされるまで待つ
                 if (MouseInput::GetMouseState() == eMouseInputState::eClick)
@@ -1153,14 +1208,9 @@ void GameMainScene::InStartUpdate()
         {
             pizza_pos.y += 5.0f;
             pizza_angle += 0.1;
-
-
-
         }
         else
         {
-
-
             //左右から壁
             for (int i = 0; i < objects.size(); i++)
             {
@@ -1186,35 +1236,21 @@ void GameMainScene::InStartUpdate()
 
         break;
     case 1:
-        //0xfbddc1
-
-        //if (makimono_pos.x <= SCREEN_WIDTH / 2)
-        //{
-        //    makimono_pos.x = (float)SCREEN_WIDTH / 2 - 15.0f;
-        //}
-        //else {
-        //    makimono_pos.x -= 5;
-        //}
-
-
-
-
-        break;
-    case 2:
 
         if (perpar_alpha < 0)
         {
-            //321カウント
-            if (fps_cnt++ > 30)
-            {
-                fps_cnt = 0;
-                start_cnt--;
-            }
+            inkan_flg = false;
+            ////321カウント
+            //if (fps_cnt++ > 30)
+            //{
+            //    fps_cnt = 0;
+            //    start_cnt--;
+            //}
 
-            if (start_cnt < 0)
-            {
-                anim_num = 3;
-            }
+            //if (start_cnt < 0)
+            //{
+                anim_num = 2;
+            //}
         }
         else
         {
@@ -1227,7 +1263,7 @@ void GameMainScene::InStartUpdate()
         }
 
         break;
-    case 3:
+    case 2:
         game_state = GameState::in_game;
         break;
     default:

@@ -128,26 +128,28 @@ void PauseButton::Draw() const
 	if (is_pause)
 	{
 		// 灰色背景
-		DrawBoxAA(0.0f, 0.0f, 360.0f, 610.0f, 0xdddddd, TRUE);
+		DrawBoxAA(0.0f, 0.0f, 360.0f, 700.0f, 0xdddddd, TRUE);
 
 		// "遊び方"テキスト画像描画
-		DrawRotaGraphF(180.0f, 25.0f, 1.0, 0.0, heading_image[0], TRUE);
+		DrawRotaGraphF(180.0f, 50.0f, 1.0, 0.0, heading_image[0], TRUE);
+		DrawLineAA(100.0f, 75.0f, 260.0f, 75.0f, 0x000000, 2.0f);
 
 		// 説明テキスト画像描画
-		DrawRotaGraphF(180.0f, 110.0f, 1.0, 0.0, text_image[page_num], TRUE);
+		DrawRotaGraphF(180.0f, 150.0f, 1.0, 0.0, text_image[page_num], TRUE);
 
 		// 説明画像描画
-		DrawRotaGraphF(180.0f, 320.0f, 1.0, 0.0, help_image[page_num], TRUE);
+		DrawRotaGraphF(180.0f, 370.0f, 1.0, 0.0, help_image[page_num], TRUE);
+		DrawBoxAA(10.0f, 200.0f, 350.0f, 540.0f, 0x333333, FALSE, 2.0f);
 
 		if (page_num <= 2)
 		{
 			// マウス画像の描画
-			DrawRotaGraphF(330.0f, 460.0f, 1.0, 0.0, mouse_image[mouse_image_num], TRUE);
+			DrawRotaGraphF(330.0f, 510.0f, 1.0, 0.0, mouse_image[mouse_image_num], TRUE);
 
 			if (mouse_image_num == 0)
 			{
 				// マウスのアピール画像の描画
-				DrawRotaGraphF(310.0f, 440.0f, 1.0, 0.0, appeal_image[0], TRUE);
+				DrawRotaGraphF(310.0f, 490.0f, 1.0, 0.0, appeal_image[0], TRUE);
 			}
 		}
 
@@ -156,16 +158,18 @@ void PauseButton::Draw() const
 			if (i != page_num)
 			{
 				// 黒丸
-				DrawCircleAA(150.0f + i * 15.0f, 510.0f, 5, 32, 0x000000, TRUE);
+				DrawCircleAA(140.0f + i * 20.0f, 560.0f, 5, 32, 0x000000, TRUE);
 			}
 			else
 			{
 				// 白丸
-				DrawCircleAA(150.0f + i * 15.0f, 510.0f, 5, 32, 0xffffff, TRUE);
-				DrawCircleAA(150.0f + i * 15.0f, 510.0f, 5, 32, 0x000000, FALSE, 1.0f);
+				DrawCircleAA(140.0f + i * 20.0f, 560.0f, 5, 32, 0xffffff, TRUE);
+				DrawCircleAA(140.0f + i * 20.0f, 560.0f, 5, 32, 0x000000, FALSE, 1.0f);
 			}
 		}
 	}
+
+	//DrawLineAA(180.0f, 0.0f, 180.0f, 800.0f, 0xff0000, 2.0f);
 
 	// ポーズボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
