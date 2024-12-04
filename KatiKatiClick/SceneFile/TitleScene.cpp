@@ -73,6 +73,7 @@ TitleScene::~TitleScene()
 {
 	delete cursor;
 	delete opening_anim;
+	delete fade;
 }
 
 void TitleScene::Update()

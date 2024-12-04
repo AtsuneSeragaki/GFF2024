@@ -201,7 +201,7 @@ void OpeningAnim::Update()
         }
         else {
             ase_display = false;
-            if (is_sweat_se_play == 1)
+            if (is_sweat_se_play != -1)
             {
                 StopSoundMem(sweat_se);
                 is_sweat_se_play = -1;
