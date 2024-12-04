@@ -2,6 +2,7 @@
 
 #include "AbstractScene.h"
 #include "../ObjectFile/PlayerFile/Cursor.h"
+#include "../FadeFile/Fade.h"
 #include <vector>
 
 #define PI    3.1415926535897932384626433832795f  // 円周率
@@ -22,7 +23,8 @@ class ResultScene : public AbstractScene
 {
 private:
 	Cursor* cursor;              // カーソルオブジェクト
-	//float x1,y1,x2,y2;           // ボタンの座標
+	Fade* fade;                  // フェードオブジェクト
+	//float x1,y1,x2,y2;        // ボタンの座標
 	int select;                  // プレイヤーが選んだメニュー
 	//int on_button;               // カーソルがボタンの上にあるか
 	bool is_clear;               // クリアしたか？
@@ -68,38 +70,25 @@ private:
 	bool is_star_min[3];        // 星のサイズが最小か？
 
 	int fire_se;                // 点火する時の音
-
 	std::vector<int> gstar_click_effect;  // 金の星をクリックしたときに出るエフェクト画像
-
 	int gstar_effect_img[3];          // 金の星エフェクト画像
-
 	bool is_gstar_click[3];        // 金の星がクリックされたか
-
 	int gstar_effect_num[3];       // 金の星表示するエフェクト画像の番号
-
 	int gstar_effect_change_num[3];    // 金の星表示するエフェクト画像の切り替え時間
-
 	double gstar_effect_extrate[3];    // 金の星表示するエフェクト画像の拡大率
-
 	int result_img;                // リザルト画像
-
 	std::vector<int> num_img;      // 数字画像
-
-	int game_clear_img;            // ゲームクリア画像	
-
+	int game_clear_img;            // ゲームクリア画像
 	int game_over_img;             // ゲームオーバー画像
-
 	int kill_enemy_num;            // 倒した敵の数
-
 	int get_coin_num;              // 獲得したコインの数
-
 	int kill_enemy_num_2;          // 倒した敵の数増える用
-
 	int get_coin_num_2;            // 獲得したコインの数増える用
-
 	int score;                     // スコア
-
 	int score_2;                   // スコア増える用
+
+	bool anim_start;            // アニメーションスタートしていいか？
+	int black_alpha;
 
 public:
 	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);

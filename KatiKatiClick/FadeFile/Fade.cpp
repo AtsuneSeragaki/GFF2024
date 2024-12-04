@@ -15,6 +15,13 @@ Fade::Fade()
 	tmp_img = rm->GetImages("Resource/Images/Explanation/enemy.png");
 	enm_img.push_back(tmp_img[0]);
 
+	int tmp_se;
+	tmp_se = rm->GetSounds("Resource/Sounds/Transition/trans.mp3");
+	fade_se = tmp_se;
+
+	// 音量変更
+	ChangeVolumeSoundMem(180, fade_se);
+
 	bool fade_in;//trueだったらフェードイン
 
 	upperbox_down_y = -110.0f;
@@ -34,6 +41,11 @@ Fade::~Fade()
 
 void Fade::Update()
 {
+	if (upperbox_down_y == -110.0f)
+	{
+		PlaySoundMem(fade_se, DX_PLAYTYPE_BACK, TRUE);
+	}
+
 	//400/10->40fぐらいでつく
 	upperbox_down_y += 15.0f;
 	bottombox_up_y -= 15.0f;
