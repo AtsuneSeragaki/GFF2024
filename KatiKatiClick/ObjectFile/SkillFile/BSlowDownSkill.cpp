@@ -20,22 +20,14 @@ BSlowDownSkill::BSlowDownSkill()
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_close.png");
+	tmp = rm->GetImages("Resource/Images/Skill/skill_button.png");
 	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_possible.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_active.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_close_d.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_possible_d.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/bslowdown_active_d.png");
+	tmp = rm->GetImages("Resource/Images/Skill/bslowdown.png");
 	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/spiderweb.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
-	effect_image = button_img[6];
+	effect_image = button_img[2];
 
 	// 効果音の読み込み
 	int tmp_s;
@@ -56,6 +48,10 @@ BSlowDownSkill::BSlowDownSkill()
 	effect_y = location.y - 5;
 	effect_width = 200;
 	effect_height = 200;
+
+	red = 168;
+	blue = 168;
+	green = 168;
 }
 
 BSlowDownSkill::~BSlowDownSkill()
@@ -105,20 +101,28 @@ void BSlowDownSkill::Update()
 
 void BSlowDownSkill::Draw() const
 {
+	//色をかぶせる
+	SetDrawBright(red, green, blue);
+	DrawGraphF(location.x - width / 2.0f, location.y - height / 2.0f, button_img[0], TRUE);
+	//カーソルがヒットしてなかったら色をかぶせない
+	if (hit_cursor == false) { SetDrawBright(255, 255, 255); }
+	DrawRotaGraphF(location.x + 15.0f, location.y-5.0f, 1, 0, button_img[1], TRUE);
+	SetDrawBright(255, 255, 255);
+
 	// 状態によって描画する内容を変える
 	switch (bskill_state)
 	{
 	case BSkillState::close:
-		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
+		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffffff, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "SlowDownSkill\nclose", 0x000000);
 		break;
 
 	case BSkillState::possible:
-		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
+		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		if (effect_width > 44)
 		{
-			DrawExtendGraph(location.x + 15 - effect_width / 2, location.y - 13 - effect_height / 2, location.x + 15 + effect_width / 2, location.y - 13 + effect_height / 2, effect_image, TRUE);
+			DrawExtendGraphF(location.x + 15.0f - effect_width / 2.0f, location.y - 13.0f - effect_height / 2.0f, location.x + 15.0f + effect_width / 2.0f, location.y - 13.0f + effect_height / 2.0f, effect_image, TRUE);
 		}
 		//DrawExtendGraph(effect_x - effect_width / 2, effect_y - effect_height / 2, effect_x + effect_width / 2, effect_y + effect_height / 2, effect_image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);
@@ -126,7 +130,7 @@ void BSlowDownSkill::Draw() const
 		break;
 
 	case BSkillState::active:
-		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
+		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "SlowDownSkill\nactive", 0x000000);
 		break;
@@ -181,15 +185,24 @@ void BSlowDownSkill::ChangeImage()
 		switch (bskill_state)
 		{
 		case BSkillState::close:
-			image = button_img[0];
+			//灰色をセット
+			red = 168;
+			blue = 168;
+			green = 168;
 			break;
 
 		case BSkillState::possible:
-			image = button_img[1];
+			//黄色をセット
+			red = 255;
+			green = 213;
+			blue = 21;
 			break;
 
 		case BSkillState::active:
-			image = button_img[2];
+			//緑をセット
+			red = 124;
+			green = 197;
+			blue = 51;
 			break;
 
 		default:
@@ -201,15 +214,24 @@ void BSlowDownSkill::ChangeImage()
 		switch (bskill_state)
 		{
 		case BSkillState::close:
-			image = button_img[3];
+			//暗い灰色をセット
+			red = 100;
+			green = 102;
+			blue = 95;
 			break;
 
 		case BSkillState::possible:
-			image = button_img[4];
+			//暗い黄色をセット
+			red = 151;
+			green = 129;
+			blue = 12;
 			break;
 
 		case BSkillState::active:
-			image = button_img[5];
+			//暗い緑をセット
+			red = 74;
+			green = 120;
+			blue = 29;
 			break;
 
 		default:
