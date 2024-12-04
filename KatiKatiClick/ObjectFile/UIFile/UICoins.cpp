@@ -6,7 +6,7 @@
 UICoins::UICoins()
 {
 	location.x = 230.0f;
-	location.y = 760.0f;
+	location.y = 765.0f;
 	coins_num = 0;
 
 	// ResourceManagerのインスタンスを取得
