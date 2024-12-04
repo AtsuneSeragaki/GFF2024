@@ -19,7 +19,7 @@ BAttackSkill::BAttackSkill()
 	// ボタン画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = rm->GetImages("Resource/Images/Skill/battack_close.png",1);
+	tmp = rm->GetImages("Resource/Images/Skill/skill_button.png",1);
 	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/battack.png",1);
 	button_img.push_back(tmp[0]);
@@ -105,13 +105,14 @@ void BAttackSkill::Update()
 
 void BAttackSkill::Draw() const
 {
-
+	//色をかぶせる
 	SetDrawBright(red, green, blue);
 	DrawGraphF(location.x - width / 2.0f, location.y - height / 2.0f, button_img[0], TRUE);
+	//カーソルがヒットしてなかったら色をかぶせない
 	if(hit_cursor==false){ SetDrawBright(255, 255, 255); }
-	DrawRotaGraphF(location.x+15.0f, location.y, 1, 0, button_img[1], TRUE);
-
+	DrawRotaGraphF(location.x+15.0f, location.y-5.0f, 1, 0, button_img[1], TRUE);
 	SetDrawBright(255, 255, 255);
+
 	// 状態によって描画する内容を変える
 	switch (bskill_state)
 	{
@@ -124,12 +125,10 @@ void BAttackSkill::Draw() const
 	case BSkillState::possible:
 		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 
-		SetDrawBright(255, 213, 21);
 		if (effect_width > 44)
 		{
 			DrawExtendGraphF(location.x + 15.0f - effect_width / 2.0f, location.y - 13.0f - effect_height / 2.0f, location.x + 15.0f + effect_width / 2.0f, location.y - 13.0f + effect_height / 2.0f, effect_image, TRUE);
 		}
-		SetDrawBright(255, 255, 255);
 
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\npossible", 0x000000);
@@ -226,18 +225,21 @@ void BAttackSkill::ChangeImage()
 		switch (bskill_state)
 		{
 		case BSkillState::close:
+			//暗い灰色をセット
 			red = 100;
 			green = 102;
 			blue = 95;
 			break;
 
 		case BSkillState::possible:
+			//暗い黄色をセット
 			red = 151;
 			green = 129;
 			blue = 12;
 			break;
 
 		case BSkillState::active:
+			//暗い緑をセット
 			red = 74;
 			green = 120;
 			blue = 29;
