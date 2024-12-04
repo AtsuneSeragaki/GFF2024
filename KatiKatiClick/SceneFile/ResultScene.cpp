@@ -35,8 +35,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	star_images[1] = tmp[0];
 	tmp = rm->GetImages("Resource/Images/Result/fire.png");
 	fire_image = tmp[0];
-	tmp = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
-	pizza_image = tmp[0];
+
 	// リトライボタン画像の読み込み
 	tmp = rm->GetImages("Resource/Images/Result/RetryButton.png", 3, 3, 1, 130, 70);
 	for (int i = 0; i < 3; i++)
@@ -97,7 +96,6 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 
 	is_bgm_active = false;
 
-	pizza_angle = 0.0f;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -217,7 +215,6 @@ void ResultScene::Update()
 	// カーソル更新処理
 	cursor->Update();
 
-	ChangePizzaAngle();
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -479,8 +476,6 @@ void ResultScene::Draw() const
 	// ボタンの描画
 	DrawButton();
 
-	// ピザの描画
-	DrawRotaGraph2(183, 690, 250, 250, 0.2f, pizza_angle, pizza_image, TRUE);
 
 	for (int i = 0; i < star_num; i++)
 	{
@@ -618,15 +613,6 @@ bool ResultScene::HitBoxCircle(float box_x, float box_y,float width,float height
 	return hit_result;
 }
 
-void ResultScene::ChangePizzaAngle()
-{
-	pizza_angle += 0.01f;
-
-	if (pizza_angle >= 180.0f)
-	{
-		pizza_angle = 0.0f;
-	}
-}
 
 // 星とカーソルの当たり判定
 void ResultScene::StarHitCheck()
