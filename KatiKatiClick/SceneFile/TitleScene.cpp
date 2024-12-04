@@ -62,7 +62,8 @@ TitleScene::TitleScene()
 	change_screen_flg = false;
 
 	// 音量変更
-	ChangeVolumeSoundMem(220, bgm);
+	bgm_volume = 200;
+	ChangeVolumeSoundMem(bgm_volume, bgm);
 
 	anim_start = false;
 	black_alpha = 255;
@@ -83,6 +84,8 @@ void TitleScene::Update()
 		// BGM再生
 		PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
 	}
+
+	
 
 	if (black_alpha > 0)
 	{
@@ -131,6 +134,20 @@ void TitleScene::Update()
 		{
 			// 画面遷移して良い
 			fade->Update();
+
+			// BGMを徐々に小さく
+			if (bgm_volume != 0)
+			{
+				bgm_volume -= 7;
+
+				if (bgm_volume <= 0)
+				{
+					bgm_volume = 0;
+				}
+
+				ChangeVolumeSoundMem(bgm_volume, bgm);
+			}
+
 			if (fade->CheckFadeEnd() == true)
 			{
 				change_screen_flg = true;

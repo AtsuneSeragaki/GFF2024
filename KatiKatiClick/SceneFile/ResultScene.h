@@ -90,6 +90,8 @@ private:
 	bool anim_start;            // アニメーションスタートしていいか？
 	int black_alpha;
 
+	int bgm_volume;  // BGMの音量
+
 public:
 	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);
 	~ResultScene();

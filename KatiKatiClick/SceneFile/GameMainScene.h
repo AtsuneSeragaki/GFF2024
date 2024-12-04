@@ -114,6 +114,10 @@ private:
 
 	int bgm_volume;  // BGMの音量
 
+	int sweat_se;    // 汗の音
+	int is_sweat_se_play; // 汗の音は流れているか
+	int pizza_se;
+
 public:
 	GameMainScene();
 	~GameMainScene();
