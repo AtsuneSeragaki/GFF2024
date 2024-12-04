@@ -6,6 +6,8 @@
 #include "DxLib.h"
 #include <math.h>
 
+bool TitleScene::is_fade = false;
+
 TitleScene::TitleScene()
 {
 	cursor = new Cursor;
@@ -20,6 +22,8 @@ TitleScene::TitleScene()
 	int tmp_bgm;
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/bgm.mp3");
 	bgm = tmp_bgm;
+
+	
 
 	//画像読込
 	std::vector<int> tmp_img;
@@ -61,6 +65,8 @@ TitleScene::TitleScene()
 
 	// 音量変更
 	ChangeVolumeSoundMem(220, bgm);
+
+	black_alpha = 255;
 }
 
 TitleScene::~TitleScene()
@@ -79,11 +85,31 @@ void TitleScene::Update()
 		PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
 	}
 
-	if (opening_anim->GetAnimEnd() == false)
+	if (black_alpha > 0)
 	{
-		// オープニング更新処理
-		opening_anim->Update();
-		return;
+		black_alpha -= 3;
+
+		if (black_alpha <= 0)
+		{
+			black_alpha = 0;
+		}
+	}
+
+	if (is_fade == false)
+	{
+		if (opening_anim->GetAnimEnd() == false)
+		{
+			// オープニング更新処理
+			opening_anim->Update();
+			return;
+		}
+	}
+	else
+	{
+		if (black_alpha <= 160)
+		{
+			is_fade = false;
+		}
 	}
 
 	// カーソルの更新処理
@@ -190,6 +216,14 @@ void TitleScene::Draw() const
 	{
 		fade->Draw();
 	}
+
+	
+	// 描画ブレンドモードをアルファブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+	// 描画ブレンドモードをノーブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 }
 
 AbstractScene* TitleScene::Change()

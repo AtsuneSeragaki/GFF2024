@@ -16,6 +16,8 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 
 	cursor = new Cursor;
 
+	fade = new Fade();
+
 	select = -1;
 
 	//on_button = -1;
@@ -199,10 +201,13 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	score = (kill_enemy_num + get_coin_num) * 10;
 	//score = 12355;
 	score_2 = 0;
+
+	black_alpha = 255;
 }
 
 ResultScene::~ResultScene()
 {
+	delete cursor;
 }
 
 void ResultScene::Update()
@@ -217,6 +222,16 @@ void ResultScene::Update()
 	// カーソル更新処理
 	cursor->Update();
 
+	if (black_alpha > 0)
+	{
+		black_alpha -= 3;
+
+		if (black_alpha <= 0)
+		{
+			black_alpha = 0;
+		}
+	}
+
 	ChangePizzaAngle();
 
 	for (int i = 0; i < 3; i++)
@@ -229,11 +244,21 @@ void ResultScene::Update()
 	
 	StarMove();
 
+	// ボタンとカーソルの当たり判定
+	ButtonHitCheck();
+
+	// 星とカーソルの当たり判定
+	StarHitCheck();
+
+	GStarClickEffect();
+
+	AddNum();
+
 	// プレイヤーがボタンをクリックしたか？
 	if (select != -1)
 	{
 		change_wait_time++;
-		if (change_wait_time < 60)
+		if (change_wait_time < 40)
 		{
 			if (change_wait_time < 10)
 			{
@@ -244,21 +269,15 @@ void ResultScene::Update()
 		else
 		{
 			// 画面遷移して良い
-			change_screen_flg = true;
+			fade->Update();
+			if (fade->CheckFadeEnd() == true)
+			{
+				change_screen_flg = true;
+			}
 		}
 
 		return;
 	}
-
-	// ボタンとカーソルの当たり判定
-	ButtonHitCheck();
-
-	// 星とカーソルの当たり判定
-	StarHitCheck();
-
-	GStarClickEffect();
-
-	AddNum();
 }
 
 void ResultScene::Draw() const
@@ -492,6 +511,12 @@ void ResultScene::Draw() const
 
 	// カーソル描画
 	cursor->Draw();
+
+	// プレイヤーがボタンをクリックしたか？
+	if (select != -1 && change_wait_time > 40)
+	{
+		fade->Draw();
+	}
 }
 
 AbstractScene* ResultScene::Change()
@@ -513,6 +538,8 @@ AbstractScene* ResultScene::Change()
 			// BGMを止める
 			StopSoundMem(bgm);
 			is_bgm_active = false;
+
+			TitleScene::is_fade = true;
 
 			// タイトル画面に遷移
 			return new TitleScene();
@@ -1113,6 +1140,10 @@ void ResultScene::AddNum()
 		{
 			get_coin_num_2++;
 		}
+		else if (get_coin_num < 500)
+		{
+			get_coin_num_2 += 2;
+		}
 		else
 		{
 			get_coin_num_2 += 3;
@@ -1130,6 +1161,10 @@ void ResultScene::AddNum()
 		if (kill_enemy_num < 100)
 		{
 			kill_enemy_num_2++;
+		}
+		else if (kill_enemy_num < 500)
+		{
+			kill_enemy_num_2 += 2;
 		}
 		else
 		{

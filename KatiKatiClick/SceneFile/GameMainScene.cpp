@@ -96,9 +96,15 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/stamp2.mp3");
     stamp_se = tmp_s;
 
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/bgm.mp3");
+    start_bgm = tmp_s;
+
+    // 音量変更
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
-    ChangeVolumeSoundMem(180, gameclear_se);
+    ChangeVolumeSoundMem(180, gameclear_se); 
+    ChangeVolumeSoundMem(180, start_bgm);
+    ChangeVolumeSoundMem(130, bgm);
 
     //画像読込
     std::vector<int> tmp_img;
@@ -158,6 +164,8 @@ GameMainScene::GameMainScene()
     get_coin_cnt = 0;
 
     hit_wall_enemy_cnt = 0;
+
+    is_start_bgm_play = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -1144,6 +1152,19 @@ void GameMainScene::InStartUpdate()
     //下に行ったら右左から壁が飛んでくる
     //巻物で焼きあがるまでpizzaを守ろう！さあ！クリックだ！って言う
 
+    /*if (is_start_bgm_play == false)
+    {
+        PlaySoundMem(start_bgm, DX_PLAYTYPE_BACK, TRUE);
+        is_start_bgm_play = true;
+    }*/
+
+    // BGMを再生
+    if (is_bgm_active == 0 && is_game_clear == false)
+    {
+        is_bgm_active = 1;
+        PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+    }
+
     // カーソルのみ更新
     CursorUpdate();
 
@@ -1281,6 +1302,7 @@ void GameMainScene::InStartUpdate()
 
         break;
     case 2:
+        StopSoundMem(start_bgm);
         game_state = GameState::in_game;
         break;
     default:

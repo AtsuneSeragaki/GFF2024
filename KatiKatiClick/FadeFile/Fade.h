@@ -17,6 +17,8 @@ private:
 	bool fade_end;//フェードが終わったか
 	int wait_time;
 
+	int fade_se;               // シーン切り替え時の効果音
+
 public:
 	Fade();
 	~Fade();

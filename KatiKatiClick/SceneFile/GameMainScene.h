@@ -102,6 +102,8 @@ private:
 	int stamp_se;//スタンプの音
 	int perpar_wait_cnt;//紙表示を長くするよう
 	int black_alpha;
+	int start_bgm;
+	bool is_start_bgm_play; // スタートBGMは流れているか？
 
 	int kill_enemy_cnt;  // 倒した敵の数をカウント
 

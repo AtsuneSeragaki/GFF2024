@@ -31,6 +31,9 @@ private:
 
 	bool change_screen_flg;		// 画面遷移しても良いか？
 
+	
+	int black_alpha;
+
 public:
 	TitleScene();
 	~TitleScene();
@@ -38,6 +41,8 @@ public:
 	void Update() override;
 	void Draw() const override;
 	AbstractScene* Change() override;
+
+	static bool is_fade;        // フェードしてきたか？
 
 private:
 	float DistanceSqrf(float box_x, float box_y, float circle_x, float circle_y);
