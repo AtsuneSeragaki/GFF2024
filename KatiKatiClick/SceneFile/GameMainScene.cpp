@@ -302,11 +302,6 @@ void GameMainScene::Draw() const
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         
-        // 描画ブレンドモードをアルファブレンドにする
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
-        DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
-        // 描画ブレンドモードをノーブレンドにする
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
         
     }
@@ -432,6 +427,15 @@ void GameMainScene::Draw() const
     {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameover_alpha);
         DrawBox(0, 0, 360, 800, GetColor(0, 0, 0), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
+
+    if (game_state == GameState::start)
+    {
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
+        DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+        // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     
@@ -1244,12 +1248,30 @@ void GameMainScene::InStartUpdate()
                     if (MouseInput::GetMouseState() == eMouseInputState::eClick)
                     {
                         perpar_alpha = 256;
+                        //左右から壁
+                        for (int i = 0; i < objects.size(); i++)
+                        {
+                            if (objects[i]->GetObjectType() != ObjectType::wall)continue;
+                            //objects[i]がエネミーだったら判定
+                            Wall* wall = dynamic_cast<Wall*>(objects[i]);
+                            if (wall != nullptr)
+                            {
+                                wall->SetCenter();
+                            }
+
+                        }
                     }
                 }
             }
             else
             {
                 perpar_pos.y += 2;
+                //クリックされたらスキップ
+                if (MouseInput::GetMouseState() == eMouseInputState::eClick)
+                {
+                    pizza_pos = 701.0f;
+                    perpar_pos.y = 201.0f;
+                }
             }
 
             //汗の表示
@@ -1289,6 +1311,7 @@ void GameMainScene::InStartUpdate()
 
                 pizza_pos.y += 5.0f;
                 pizza_angle += 0.1;
+
             }
             else
             {
@@ -1307,8 +1330,6 @@ void GameMainScene::InStartUpdate()
                             wallmove_end_cnt++;
                         }
                     }
-
-
 
                 }
 

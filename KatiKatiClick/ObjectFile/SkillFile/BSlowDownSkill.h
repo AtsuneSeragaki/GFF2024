@@ -10,6 +10,8 @@ private:
 	int red;//RGBのR
 	int green;//RGBのG
 	int blue;//RGBのB
+	int webs_alpha;
+
 public:
 	BSlowDownSkill();
 	~BSlowDownSkill();
