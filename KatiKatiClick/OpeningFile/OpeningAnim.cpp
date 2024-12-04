@@ -90,11 +90,13 @@ OpeningAnim::OpeningAnim()
     pizza_se = tmp_s;
     tmp_s = rm->GetSounds("Resource/Sounds/Title/enm_dash.mp3");
     enm_se = tmp_s;
+    tmp_s = rm->GetSounds("Resource/Sounds/Title/sweat.mp3");
+    sweat_se = tmp_s;
 
 
-    ChangeVolumeSoundMem(200,enm_se);
-    ChangeVolumeSoundMem(150,pizza_se);
-
+    ChangeVolumeSoundMem(160,enm_se);
+    ChangeVolumeSoundMem(100,pizza_se);
+    ChangeVolumeSoundMem(255, sweat_se);
 
     display_num = 0;
     check_enm_y = 0.0f;
@@ -109,6 +111,8 @@ OpeningAnim::OpeningAnim()
     se_flg = true;
     right_smoke_num = 1;
     left_smoke_num = 0;
+
+    is_sweat_se_play = -1;
 }
 
 OpeningAnim::~OpeningAnim()
@@ -183,9 +187,25 @@ void OpeningAnim::Update()
         if (pizza_pos.y > 500&& pizza_pos.y < 700)
         {
             ase_display = true;
+            
+            if (is_sweat_se_play == -1)
+            {
+                is_sweat_se_play = 0;
+            }
+
+            if (is_sweat_se_play == 0)
+            {
+                PlaySoundMem(sweat_se, DX_PLAYTYPE_BACK, TRUE);
+                is_sweat_se_play = 1;
+            }
         }
         else {
             ase_display = false;
+            if (is_sweat_se_play == 1)
+            {
+                StopSoundMem(sweat_se);
+                is_sweat_se_play = -1;
+            }
         }
 
         check_enm_y = objects[0]->GetLocation().y;

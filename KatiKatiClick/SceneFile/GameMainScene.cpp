@@ -96,10 +96,19 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/stamp2.mp3");
     stamp_se = tmp_s;
 
+    tmp_s = rm->GetSounds("Resource/Sounds/Title/sweat.mp3");
+    sweat_se = tmp_s;
+
+    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Enemy/GameOver.mp3");
+    pizza_se = tmp_s;
+
+    bgm_volume = 100;
+    ChangeVolumeSoundMem(bgm_volume, bgm);
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
     ChangeVolumeSoundMem(180, gameclear_se);
-    ChangeVolumeSoundMem(130, bgm);
+    ChangeVolumeSoundMem(255, sweat_se);
+    ChangeVolumeSoundMem(100, pizza_se);
 
     //画像読込
     std::vector<int> tmp_img;
@@ -158,6 +167,8 @@ GameMainScene::GameMainScene()
     get_coin_cnt = 0;
 
     hit_wall_enemy_cnt = 0;
+
+    is_sweat_se_play = -1;
 }
 
 GameMainScene::~GameMainScene()
@@ -425,7 +436,7 @@ void GameMainScene::Draw() const
     }
     
 
-   //DrawFormatString(30, 350, 0xffffff, "%d", kill_enemy_cnt);
+  // DrawFormatString(30, 350, 0xffffff, "%d", bgm_volume);
    //DrawFormatString(60, 350, 0xffffff, "%d", num_2);
 
 }
@@ -477,11 +488,33 @@ void GameMainScene::InGameUpdate()
     // ポーズ中はBGMの音量を小さくする
     if (is_pause)
     {
-        ChangeVolumeSoundMem(100, bgm);
+        // BGMを徐々に小さく
+        if (bgm_volume != 100)
+        {
+            bgm_volume--;
+
+            if (bgm_volume <= 100)
+            {
+                bgm_volume = 100;
+            }
+
+            ChangeVolumeSoundMem(bgm_volume, bgm);
+        }
     }
     else
     {
-        ChangeVolumeSoundMem(140, bgm);
+        // BGMを徐々に大きく
+        if (bgm_volume != 130)
+        {
+            bgm_volume++;
+
+            if (bgm_volume >= 130)
+            {
+                bgm_volume = 130;
+            }
+
+            ChangeVolumeSoundMem(bgm_volume, bgm);
+        }
     }
 
     for (int i = 0; i < coins.size(); i++)
@@ -1223,11 +1256,37 @@ void GameMainScene::InStartUpdate()
             if (pizza_pos.y > 400)
             {
                 ase_display = true;
+
+                if (is_sweat_se_play == -1)
+                {
+                    is_sweat_se_play = 0;
+                }
+
+                if (is_sweat_se_play == 0)
+                {
+                    PlaySoundMem(sweat_se, DX_PLAYTYPE_BACK, TRUE);
+                    is_sweat_se_play = 1;
+                }
+            }
+
+            if (pizza_pos.y >= 680)
+            {
+                if (is_sweat_se_play == 1)
+                {
+                    is_sweat_se_play = -1;
+                    StopSoundMem(sweat_se);
+                    StopSoundMem(pizza_se);
+                }
             }
 
             //ピザ落下
             if (pizza_pos.y < 700)
             {
+                if (pizza_pos.y == 0.0f)
+                {
+                    PlaySoundMem(pizza_se, DX_PLAYTYPE_BACK, TRUE);
+                }
+
                 pizza_pos.y += 5.0f;
                 pizza_angle += 0.1;
             }

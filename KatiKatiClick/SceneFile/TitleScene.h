@@ -31,9 +31,12 @@ private:
 
 	bool change_screen_flg;		// 画面遷移しても良いか？
 
-	
+	bool anim_start;            // アニメーションスタートしていいか？
 	int black_alpha;
 
+	int bgm_volume;  // BGMの音量
+
+	
 public:
 	TitleScene();
 	~TitleScene();
