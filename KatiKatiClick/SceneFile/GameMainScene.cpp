@@ -206,15 +206,15 @@ void GameMainScene::Draw() const
     {
         int param = 255 - (int)result * 2;
 
-        // 夕方色の背景
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xe7985d, TRUE);
+        // 明け方の色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
-        // 朝背景色
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
-        // 背景の太陽画像の描画
-        DrawRotaGraphF(180.0f, 200.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
+        // 夜背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
+        // 背景の月画像の描画
+        DrawRotaGraphF(180.0f, 200.0f - background_location_y, 0.5, 0.0, background_image[0], TRUE);
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
@@ -223,18 +223,18 @@ void GameMainScene::Draw() const
     {
         int param = ((int)result - 128) * 2;
 
-        // 夕方色の背景
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xe7985d, TRUE);
+        // 明け方の色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
-        // 夜背景色
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0x383a52, TRUE);
+        // 朝背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         
-        // 背景の月画像の描画
-        DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[0], TRUE);
+        // 背景の太陽画像の描画
+        DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
     }
 
     for (int i = 0; i < objects.size(); i++)
@@ -872,12 +872,12 @@ void GameMainScene::InGameUpdate()
         if (ui_timer->GetSeconds() > 30)
         {
             // 背景y座標のずらす値を増やす
-            background_location_y += 0.2f;
+            background_location_y += 0.1f;
         }
         else if (ui_timer->GetSeconds() < 30)
         {
             // 背景y座標のずらす値を増やす
-            background_location_y += 0.3f;
+            background_location_y += 0.2f;
 
         }
         else
