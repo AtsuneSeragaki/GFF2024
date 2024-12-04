@@ -30,6 +30,9 @@ private:
 	int smoke_cnt;
 	std::vector<int> skip_img;//文字表示用
 
+	int sweat_se;    // 汗の音
+	int is_sweat_se_play; // 汗の音は流れているか
+
 public:
 	OpeningAnim();
 	~OpeningAnim();

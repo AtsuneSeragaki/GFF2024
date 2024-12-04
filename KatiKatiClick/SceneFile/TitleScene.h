@@ -34,6 +34,9 @@ private:
 	bool anim_start;            // アニメーションスタートしていいか？
 	int black_alpha;
 
+	int bgm_volume;  // BGMの音量
+
+	
 public:
 	TitleScene();
 	~TitleScene();

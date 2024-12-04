@@ -91,7 +91,8 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	fire_se = tmp_bgm;
 
 	// 音量変更
-	ChangeVolumeSoundMem(190, bgm);
+	bgm_volume = 190;
+	ChangeVolumeSoundMem(bgm_volume, bgm);
 
 	ChangeVolumeSoundMem(200, fire_se);
 
@@ -223,7 +224,6 @@ void ResultScene::Update()
 
 	if (anim_start == true)
 	{
-
 		for (int i = 0; i < 3; i++)
 		{
 			if (is_star_min[i] == false && star_num > i)
@@ -260,6 +260,20 @@ void ResultScene::Update()
 			{
 				// 画面遷移して良い
 				fade->Update();
+
+				// BGMを徐々に小さく
+				if (bgm_volume != 0)
+				{
+					bgm_volume -= 6;
+
+					if (bgm_volume <= 0)
+					{
+						bgm_volume = 0;
+					}
+
+					ChangeVolumeSoundMem(bgm_volume, bgm);
+				}
+
 				if (fade->CheckFadeEnd() == true)
 				{
 					change_screen_flg = true;
