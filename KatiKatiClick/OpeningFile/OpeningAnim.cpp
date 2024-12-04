@@ -180,7 +180,7 @@ void OpeningAnim::Update()
             se_flg = false;
         }
 
-        if (pizza_pos.y > 500&& pizza_pos.y < 680)
+        if (pizza_pos.y > 500&& pizza_pos.y < 700)
         {
             ase_display = true;
         }
