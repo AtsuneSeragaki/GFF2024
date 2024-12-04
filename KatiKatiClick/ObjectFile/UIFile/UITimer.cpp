@@ -14,7 +14,7 @@ UITimer::UITimer()
 	std::vector<int> tmp;
 
 	// タイマー画像の読み込み
-	tmp = rm->GetImages("Resource/Images/Timer/Timer03.png");
+	tmp = rm->GetImages("Resource/Images/Timer/Timer.png");
 	timer_image.push_back(tmp[0]);
 
 	// コロン画像の読み込み
@@ -69,25 +69,21 @@ void UITimer::Update()
 
 void UITimer::Draw() const
 {
-	//DrawBox(10, 10, 150, 60, 0xfff4b3, TRUE);
-	//DrawBoxAA(10.0f, 10.0f, 150.0f, 60.0f, 0x000000, FALSE, 2.0f);
-
 	// 描画ブレンドモードをアルファブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 	// 白色四角
 	DrawBoxAA(location.x - 20.0f, location.y - 20.0f, 350.0f, location.y + 20.0f, 0xffffff, TRUE);
 	// 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	DrawBoxAA(location.x - 20.0f, location.y - 20.0f, 350.0f, location.y + 20.0f, 0x000000, FALSE, 2.0f);
-
+	// 黒色四角枠
+	DrawBoxAA(location.x - 20.0f, location.y - 20.0f, 350.0f, location.y + 20.0f, 0x000000, FALSE, 3.0f);
 
 	// バーの描画
 	DrawBoxAA(50.0f, location.y - 20.0f, 50.0f + now_time_bar_length, location.y + 20.0f, 0xff0000, TRUE);
-	DrawBoxAA(48.0f, location.y - 20.0f, 50.0f + time_bar_length, location.y + 20.0f, 0x000000, FALSE, 2.0f);
+	DrawBoxAA(48.0f, location.y - 20.0f, 50.0f + time_bar_length, location.y + 20.0f, 0x000000, FALSE, 3.0f);
 
 	// タイマー画像の描画
-	DrawRotaGraphF(location.x + 3.0f, location.y, 2.0, 0.0, timer_image[0], TRUE);
+	DrawRotaGraphF(location.x + 3.0f, location.y, 1.0, 0.0, timer_image[0], TRUE);
 	// 分の数字画像の描画
 	DrawRotaGraphF(location.x + 35.0f, location.y, 1.0, 0.0, num_image[image_minutes_num], TRUE);
 	// コロン画像の描画
