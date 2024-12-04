@@ -5,7 +5,7 @@
 
 UICoins::UICoins()
 {
-	location.x = 230.0f;
+	location.x = 227.0f;
 	location.y = 765.0f;
 	coins_num = 0;
 
@@ -36,7 +36,7 @@ UICoins::UICoins()
 
 	ChangeVolumeSoundMem(90, se);
 
-	box_width = 140.0f;
+	box_width = 134.0f;
 	box_location_x = SCREEN_WIDTH_HALF - box_width / 2;
 
 	for (int i = 0; i < 3; i++)
@@ -141,7 +141,7 @@ void UICoins::Draw() const
 	DrawBoxAA(box_location_x, location.y - 25.0f, box_location_x + box_width, location.y + 25.0f, 0x000000, FALSE, 3.0f);
 
 	// 財布画像の描画
-	DrawRotaGraphF(location.x - 85.0f, location.y, 1.0, 0.0, wallet_image[0], TRUE);
+	DrawRotaGraphF(location.x - 80.0f, location.y, 1.0, 0.0, wallet_image[0], TRUE);
 
 	for (int i = 0; i < 3; i++)
 	{
