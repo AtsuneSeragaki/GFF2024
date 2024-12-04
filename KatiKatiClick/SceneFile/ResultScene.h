@@ -87,6 +87,7 @@ private:
 	int score;                     // スコア
 	int score_2;                   // スコア増える用
 
+	bool anim_start;            // アニメーションスタートしていいか？
 	int black_alpha;
 
 public:

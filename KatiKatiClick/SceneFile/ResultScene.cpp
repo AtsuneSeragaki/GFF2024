@@ -15,6 +15,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	//y2 = 570.0f;
 
 	cursor = new Cursor;
+	fade = new Fade();
 
 	select = -1;
 
@@ -112,6 +113,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 		is_gstar_click[i] = false;
 		gstar_effect_num[i] = 0;
 		gstar_effect_change_num[i] = 0;
+		star_gold_extrate[i] = 0.0f;
 	}
 
 	star_y[0] = STAR_Y;
@@ -129,16 +131,6 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	star_extrate[0] = 0.15f;
 	star_extrate[1] = 0.2f;
 	star_extrate[2] = 0.15f;
-
-	// テスト用
-	/*star_gold_extrate[0] = 0.15f;
-	star_gold_extrate[1] = 0.2f;
-	star_gold_extrate[2] = 0.15f;*/
-
-	// 実際に使うやつ
-	star_gold_extrate[0] = 0.45f;
-	star_gold_extrate[1] = 0.5f;
-	star_gold_extrate[2] = 0.45f;
 
 	for (int i = 0; i < goal_num; i++)
 	{
@@ -197,6 +189,10 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	score = (kill_enemy_num + get_coin_num) * 10;
 	//score = 12355;
 	score_2 = 0;
+
+	black_alpha = 255;
+
+	anim_start = false;
 }
 
 ResultScene::~ResultScene()
@@ -215,47 +211,74 @@ void ResultScene::Update()
 	// カーソル更新処理
 	cursor->Update();
 
-
-	for (int i = 0; i < 3; i++)
+	if (black_alpha > 0)
 	{
-		if (is_star_min[i] == false && star_num > i)
+		black_alpha -= 5;
+
+		if (black_alpha <= 0)
 		{
-			ChangeStarSize(i);
+			black_alpha = 0;
 		}
 	}
-	
-	StarMove();
 
-	// プレイヤーがボタンをクリックしたか？
-	if (select != -1)
+	if (anim_start == true)
 	{
-		change_wait_time++;
-		if (change_wait_time < 60)
+
+		for (int i = 0; i < 3; i++)
 		{
-			if (change_wait_time < 10)
+			if (is_star_min[i] == false && star_num > i)
 			{
-				// ボタン押下アニメション
-				ButtonAnimation();
+				ChangeStarSize(i);
 			}
 		}
-		else
+
+		StarMove();
+
+		// ボタンとカーソルの当たり判定
+		ButtonHitCheck();
+
+		// 星とカーソルの当たり判定
+		StarHitCheck();
+
+		GStarClickEffect();
+
+		AddNum();
+
+		// プレイヤーがボタンをクリックしたか？
+		if (select != -1)
 		{
-			// 画面遷移して良い
-			change_screen_flg = true;
+			change_wait_time++;
+			if (change_wait_time < 40)
+			{
+				if (change_wait_time < 10)
+				{
+					// ボタン押下アニメション
+					ButtonAnimation();
+				}
+			}
+			else
+			{
+				// 画面遷移して良い
+				fade->Update();
+				if (fade->CheckFadeEnd() == true)
+				{
+					change_screen_flg = true;
+				}
+			}
+
+			return;
 		}
-
-		return;
 	}
-
-	// ボタンとカーソルの当たり判定
-	ButtonHitCheck();
-
-	// 星とカーソルの当たり判定
-	StarHitCheck();
-
-	GStarClickEffect();
-
-	AddNum();
+	else
+	{
+		if (black_alpha <= 10)
+		{
+			anim_start = true;
+			star_gold_extrate[0] = 0.45f;
+			star_gold_extrate[1] = 0.5f;
+			star_gold_extrate[2] = 0.45f;
+		}
+	}
 }
 
 void ResultScene::Draw() const
@@ -487,6 +510,29 @@ void ResultScene::Draw() const
 
 	// カーソル描画
 	cursor->Draw();
+
+	// プレイヤーがボタンをクリックしたか？
+	if (select != -1 && change_wait_time > 40)
+	{
+		fade->Draw();
+	}
+
+	if (is_clear == true)
+	{
+		// 描画ブレンドモードをアルファブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
+		DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0xffffff, TRUE);
+		// 描画ブレンドモードをノーブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
+	else
+	{
+		// 描画ブレンドモードをアルファブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
+		DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+		// 描画ブレンドモードをノーブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}	
 }
 
 AbstractScene* ResultScene::Change()
@@ -508,6 +554,8 @@ AbstractScene* ResultScene::Change()
 			// BGMを止める
 			StopSoundMem(bgm);
 			is_bgm_active = false;
+
+			TitleScene::is_fade = true;
 
 			// タイトル画面に遷移
 			return new TitleScene();
@@ -612,7 +660,6 @@ bool ResultScene::HitBoxCircle(float box_x, float box_y,float width,float height
 	}
 	return hit_result;
 }
-
 
 // 星とカーソルの当たり判定
 void ResultScene::StarHitCheck()

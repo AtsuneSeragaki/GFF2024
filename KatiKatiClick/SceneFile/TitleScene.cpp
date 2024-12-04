@@ -23,8 +23,6 @@ TitleScene::TitleScene()
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/bgm.mp3");
 	bgm = tmp_bgm;
 
-	
-
 	//画像読込
 	std::vector<int> tmp_img;
 	// タイトルロゴ画像読込
@@ -87,7 +85,7 @@ void TitleScene::Update()
 
 	if (black_alpha > 0)
 	{
-		black_alpha -= 3;
+		black_alpha -= 5;
 
 		if (black_alpha <= 0)
 		{

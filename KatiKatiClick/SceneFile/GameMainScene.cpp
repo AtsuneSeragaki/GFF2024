@@ -99,6 +99,7 @@ GameMainScene::GameMainScene()
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
     ChangeVolumeSoundMem(180, gameclear_se);
+    ChangeVolumeSoundMem(130, bgm);
 
     //画像読込
     std::vector<int> tmp_img;
@@ -1141,6 +1142,13 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InStartUpdate()
 {
+    // BGMを再生
+    if (is_bgm_active == 0)
+    {
+        is_bgm_active = 1;
+        PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+    }
+
     // カーソルのみ更新
     CursorUpdate();
 
