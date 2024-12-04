@@ -169,7 +169,7 @@
     <ClCompile Include="ObjectFile\SkillFile\SkillBase.cpp" />
     <ClCompile Include="ObjectFile\SkillFile\SlowDownSkill.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UIBase.cpp" />
-    <ClCompile Include="ObjectFile\UIFile\UICoin.cpp" />
+    <ClCompile Include="ObjectFile\UIFile\UICoins.cpp" />
     <ClCompile Include="ObjectFile\UIFile\UITimer.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SnakeEnemy.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\SplitEnemy.cpp" />

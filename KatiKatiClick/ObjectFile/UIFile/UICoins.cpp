@@ -1,5 +1,6 @@
 #include "UICoins.h"
 #include "../../UtilityFile/ResourceManager.h"
+#include "../../UtilityFile/Define.h"
 #include "DxLib.h"
 
 UICoins::UICoins()
@@ -14,7 +15,7 @@ UICoins::UICoins()
 
 	// コイン画像の読み込み
 	tmp = rm->GetImages("Resource/Images/Coin/Wallet.png");
-	coin_image.push_back(tmp[0]);
+	wallet_image.push_back(tmp[0]);
 
 	// 数字画像を読み込む
 	tmp = rm->GetImages("Resource/Images/Timer/Num.png", 10, 10, 1, 32, 32);
@@ -34,6 +35,9 @@ UICoins::UICoins()
 	se = tmp_s;
 
 	ChangeVolumeSoundMem(90, se);
+
+	box_width = 140.0f;
+	box_location_x = SCREEN_WIDTH_HALF - box_width / 2;
 }
 
 UICoins::~UICoins()
@@ -65,26 +69,25 @@ void UICoins::Update()
 
 void UICoins::Draw() const
 {
-	//DrawBox(170, 10, 280, 60, 0xfff4b3, TRUE);
-	//DrawBoxAA(170.0f, 10.0f, 280.0f, 60.0f, 0x000000, FALSE, 2.0f);
-
 	// 描画ブレンドモードをアルファブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 	// 白色四角
-	DrawBoxAA(location.x - 115.0f, location.y - 25.0f, location.x + 30.0f, location.y + 25.0f, 0xffffff, TRUE);
+	DrawBoxAA(box_location_x, location.y - 25.0f, box_location_x + box_width, location.y + 25.0f, 0xffffff, TRUE);
 	// 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	// 白色四角の枠
+	DrawBoxAA(box_location_x, location.y - 25.0f, box_location_x + box_width, location.y + 25.0f, 0x000000, FALSE, 2.0f);
 
-	DrawBoxAA(location.x - 115.0f, location.y - 25.0f, location.x + 30.0f, location.y + 25.0f, 0x000000, FALSE, 2.0f);
-
-	// コイン画像の描画
-	DrawRotaGraphF(location.x - 80.0f, location.y, 1.0, 0.0, coin_image[0], TRUE);
+	// 財布画像の描画
+	DrawRotaGraphF(location.x - 85.0f, location.y, 1.0, 0.0, wallet_image[0], TRUE);
 
 	for (int i = 0; i < 3; i++)
 	{
 		// 数字画像の描画
 		DrawRotaGraphF(location.x - i * 20.0f, location.y, 1.0, 0.0, num_image[image_num[i]], TRUE);
 	}
+
+	//DrawLineAA(180.0f, 0.0f, 180.0f, 800.0f, 0xff0000, 1.0f);
 
 }
 

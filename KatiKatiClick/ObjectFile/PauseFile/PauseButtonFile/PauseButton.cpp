@@ -169,7 +169,7 @@ void PauseButton::Draw() const
 		}
 	}
 
-	//DrawLineAA(180.0f, 0.0f, 180.0f, 800.0f, 0xff0000, 2.0f);
+	//DrawLineAA(180.0f, 0.0f, 180.0f, 800.0f, 0xff0000, 1.0f);
 
 	// ポーズボタン画像の描画
 	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);

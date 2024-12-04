@@ -96,27 +96,21 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/stamp2.mp3");
     stamp_se = tmp_s;
 
-    tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/bgm.mp3");
-    start_bgm = tmp_s;
-
-    // 音量変更
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
-    ChangeVolumeSoundMem(180, gameclear_se); 
-    ChangeVolumeSoundMem(180, start_bgm);
-    ChangeVolumeSoundMem(130, bgm);
+    ChangeVolumeSoundMem(180, gameclear_se);
 
     //画像読込
     std::vector<int> tmp_img;
-    tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
+    tmp_img = rm->GetImages("Resource/Images/Opening/character_hime_01_pink_brown.png");
     pizza_img.push_back(tmp_img[0]);
+    tmp_img = rm->GetImages("Resource/Images/Opening/fukidashi_ase_white.png");
+    ase_img.push_back(tmp_img[0]);
 
     tmp_img = rm->GetImages("Resource/Images/Explanation/setumei.png");
     bigperpar_img.push_back(tmp_img[0]);
     tmp_img = rm->GetImages("Resource/Images/Explanation/paper.png");
     little_perpar_img.push_back(tmp_img[0]);
-    tmp_img = rm->GetImages("Resource/Images/Opening/pizza_box.png");
-    pizzabox_img.push_back(tmp_img[0]);
     tmp_img = rm->GetImages("Resource/Images/Explanation/inkan.png");
     inkan_img.push_back(tmp_img[0]);
 
@@ -127,6 +121,7 @@ GameMainScene::GameMainScene()
     pizza_angle = 0.0;
     anim_num = 0;
     perpar_alpha = 0;
+    ase_display = false;
     
     //makimono_pos.x = 360.0f + 193.0f;
     //makimono_pos.y = 300.0f;
@@ -134,8 +129,6 @@ GameMainScene::GameMainScene()
     perpar_pos.y = 0.0f;
     perpar_wait_cnt = 0;
     perpar_se_once = false;
-    pizzabox_pos.x = SCREEN_WIDTH / 2;
-    pizzabox_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3.5);
     inkan_pos.x = SCREEN_WIDTH / 2;
     inkan_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(5.5);
     inkan_size = 2.5;
@@ -164,8 +157,6 @@ GameMainScene::GameMainScene()
     get_coin_cnt = 0;
 
     hit_wall_enemy_cnt = 0;
-
-    is_start_bgm_play = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -215,15 +206,15 @@ void GameMainScene::Draw() const
     {
         int param = 255 - (int)result * 2;
 
-        // 夕方色の背景
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xe7985d, TRUE);
+        // 明け方の色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
-        // 朝背景色
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
-        // 背景の太陽画像の描画
-        DrawRotaGraphF(180.0f, 200.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
+        // 夜背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
+        // 背景の月画像の描画
+        DrawRotaGraphF(180.0f, 200.0f - background_location_y, 0.5, 0.0, background_image[0], TRUE);
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
@@ -232,18 +223,18 @@ void GameMainScene::Draw() const
     {
         int param = ((int)result - 128) * 2;
 
-        // 夕方色の背景
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0xe7985d, TRUE);
+        // 明け方の色背景
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(207, 219, 250), TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
-        // 夜背景色
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0x383a52, TRUE);
+        // 朝背景色
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(252, 255, 179), TRUE);
         // 描画ブレンドモードをノーブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         
-        // 背景の月画像の描画
-        DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[0], TRUE);
+        // 背景の太陽画像の描画
+        DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
     }
 
     for (int i = 0; i < objects.size(); i++)
@@ -275,15 +266,17 @@ void GameMainScene::Draw() const
     //pizza表示
     if (game_state == GameState::start)
     {
-        DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
+        DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.5, 0, pizza_img[0], TRUE);
+        if (ase_display == true)
+        {
+            DrawRotaGraph((int)pizza_pos.x-30, (int)pizza_pos.y-50, 0.5, 0,ase_img[0], TRUE);
+        }
 
         if (anim_num == 0||anim_num==1) {
             //レシート表示
             DrawRotaGraph((int)perpar_pos.x, (int)perpar_pos.y, 1, 0, little_perpar_img[0], TRUE);
             
         }
-        
-        DrawRotaGraph((int)pizzabox_pos.x, (int)pizzabox_pos.y, 1, 0, pizzabox_img[0], TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, perpar_alpha);
@@ -879,12 +872,12 @@ void GameMainScene::InGameUpdate()
         if (ui_timer->GetSeconds() > 30)
         {
             // 背景y座標のずらす値を増やす
-            background_location_y += 0.2f;
+            background_location_y += 0.1f;
         }
         else if (ui_timer->GetSeconds() < 30)
         {
             // 背景y座標のずらす値を増やす
-            background_location_y += 0.3f;
+            background_location_y += 0.2f;
 
         }
         else
@@ -1148,26 +1141,8 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InStartUpdate()
 {
-    //pizzaがはんぶんぐらいから回転しながら上から下に
-    //下に行ったら右左から壁が飛んでくる
-    //巻物で焼きあがるまでpizzaを守ろう！さあ！クリックだ！って言う
-
-    /*if (is_start_bgm_play == false)
-    {
-        PlaySoundMem(start_bgm, DX_PLAYTYPE_BACK, TRUE);
-        is_start_bgm_play = true;
-    }*/
-
-    // BGMを再生
-    if (is_bgm_active == 0 && is_game_clear == false)
-    {
-        is_bgm_active = 1;
-        PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
-    }
-
     // カーソルのみ更新
     CursorUpdate();
-
 
     int wallmove_end_cnt = 0;
 
@@ -1236,9 +1211,10 @@ void GameMainScene::InStartUpdate()
                 perpar_pos.y += 2;
             }
 
-            if (pizza_pos.y > 600)
+            //汗の表示
+            if (pizza_pos.y > 400)
             {
-                pizzabox_pos.y += 5;
+                ase_display = true;
             }
 
             //ピザ落下
@@ -1278,17 +1254,7 @@ void GameMainScene::InStartUpdate()
         if (perpar_alpha < 0)
         {
             inkan_flg = false;
-            ////321カウント
-            //if (fps_cnt++ > 30)
-            //{
-            //    fps_cnt = 0;
-            //    start_cnt--;
-            //}
-
-            //if (start_cnt < 0)
-            //{
-                anim_num = 2;
-            //}
+            anim_num = 2;
         }
         else
         {
@@ -1302,7 +1268,6 @@ void GameMainScene::InStartUpdate()
 
         break;
     case 2:
-        StopSoundMem(start_bgm);
         game_state = GameState::in_game;
         break;
     default:

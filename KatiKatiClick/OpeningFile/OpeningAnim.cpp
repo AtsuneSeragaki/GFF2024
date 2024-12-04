@@ -69,8 +69,11 @@ OpeningAnim::OpeningAnim()
 
     //画像読込
     std::vector<int> tmp_img;
-    tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
+    tmp_img = rm->GetImages("Resource/Images/Opening/character_hime_01_pink_brown.png");
     pizza_img.push_back(tmp_img[0]);
+    tmp_img = rm->GetImages("Resource/Images/Opening/fukidashi_ase_white.png");
+    ase_img.push_back(tmp_img[0]);
+
 
     tmp_img = rm->GetImages("Resource/Images/Explanation/skip.png");
     skip_img.push_back(tmp_img[0]);
@@ -95,6 +98,7 @@ OpeningAnim::OpeningAnim()
 
     display_num = 0;
     check_enm_y = 0.0f;
+    ase_display = false;
 
     anim_num = 0;
     pizza_pos.x = SCREEN_WIDTH / 2;
@@ -146,6 +150,7 @@ void OpeningAnim::Update()
         PizzaFall();
         break;
     case 1:
+
         //エネミーがおいかけてくる
         for (int i = 0; i < objects.size(); i++)
         {
@@ -173,6 +178,14 @@ void OpeningAnim::Update()
         if (pizza_pos.y > 700)
         {
             se_flg = false;
+        }
+
+        if (pizza_pos.y > 500&& pizza_pos.y < 700)
+        {
+            ase_display = true;
+        }
+        else {
+            ase_display = false;
         }
 
         check_enm_y = objects[0]->GetLocation().y;
@@ -212,11 +225,16 @@ void OpeningAnim::Update()
 
 void OpeningAnim::Draw() const
 {
-    DrawRotaGraphF(pizza_pos.x, pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
+    DrawRotaGraphF(pizza_pos.x, pizza_pos.y, 0.5, 0, pizza_img[0], TRUE);
+
+    DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.5, 0, pizza_img[0], TRUE);
+    if (ase_display == true)
+    {
+        DrawRotaGraph((int)pizza_pos.x - 30, (int)pizza_pos.y - 50, 0.5, 0, ase_img[0], TRUE);
+    }
 
     DrawRotaGraphF(right_smoke_pos.x - 100.0f, right_smoke_pos.y - (4.3 * 70), 4, 0, smoke_img[right_smoke_num], TRUE);
     DrawRotaGraphF(left_smoke_pos.x + 100.0f, left_smoke_pos.y - (4.3 * 70), 4, 0, smoke_img[left_smoke_num], TRUE);
-
 
     for (int i = 0; i < objects.size(); i++)
     {
@@ -225,7 +243,6 @@ void OpeningAnim::Draw() const
 
     for (int i = 0; i < 4; i++)
     {
-        //-100.0f - (i * 70))
         DrawRotaGraphF(right_smoke_pos.x - 20.0f, right_smoke_pos.y - (i * 70), 2.5, 0, smoke_img[right_smoke_num], TRUE);
     }
 

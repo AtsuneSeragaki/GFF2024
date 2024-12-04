@@ -36,8 +36,6 @@ private:
 	float star_gold_y[3];        // 星のY座標
 	int star_images[2];          // 星の画像
 	int fire_image;              // 火の画像
-	int pizza_image;             // ピザの画像
-	double pizza_angle;          // ピザの角度
 	double star_gold_extrate[3]; // 金の星の拡大率
 	double star_angle[3];        // 星の角度
 	double star_extrate[3];      // 銀の星の拡大率
@@ -105,9 +103,6 @@ private:
 	float DistanceSqrf(float box_x, float box_y, float circle_x, float circle_y);
 	bool HitBoxCircle(float box_x, float box_y, float width, float height, Vector2D location, float radius);
 
-	// ピザの角度を変更する処理
-	void ChangePizzaAngle();
-	
 	// 星とカーソルの当たり判定
 	void StarHitCheck();
 
