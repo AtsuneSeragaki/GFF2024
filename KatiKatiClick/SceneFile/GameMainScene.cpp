@@ -102,15 +102,15 @@ GameMainScene::GameMainScene()
 
     //画像読込
     std::vector<int> tmp_img;
-    tmp_img = rm->GetImages("Resource/Images/Opening/pizza_margherita.png");
+    tmp_img = rm->GetImages("Resource/Images/Opening/character_hime_01_pink_brown.png");
     pizza_img.push_back(tmp_img[0]);
+    tmp_img = rm->GetImages("Resource/Images/Opening/fukidashi_ase_white.png");
+    ase_img.push_back(tmp_img[0]);
 
     tmp_img = rm->GetImages("Resource/Images/Explanation/setumei.png");
     bigperpar_img.push_back(tmp_img[0]);
     tmp_img = rm->GetImages("Resource/Images/Explanation/paper.png");
     little_perpar_img.push_back(tmp_img[0]);
-    tmp_img = rm->GetImages("Resource/Images/Opening/pizza_box.png");
-    pizzabox_img.push_back(tmp_img[0]);
     tmp_img = rm->GetImages("Resource/Images/Explanation/inkan.png");
     inkan_img.push_back(tmp_img[0]);
 
@@ -121,6 +121,7 @@ GameMainScene::GameMainScene()
     pizza_angle = 0.0;
     anim_num = 0;
     perpar_alpha = 0;
+    ase_display = false;
     
     //makimono_pos.x = 360.0f + 193.0f;
     //makimono_pos.y = 300.0f;
@@ -128,8 +129,6 @@ GameMainScene::GameMainScene()
     perpar_pos.y = 0.0f;
     perpar_wait_cnt = 0;
     perpar_se_once = false;
-    pizzabox_pos.x = SCREEN_WIDTH / 2;
-    pizzabox_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(3.5);
     inkan_pos.x = SCREEN_WIDTH / 2;
     inkan_pos.y = SCREEN_HEIGHT - GET_LANE_HEIGHT(5.5);
     inkan_size = 2.5;
@@ -267,15 +266,17 @@ void GameMainScene::Draw() const
     //pizza表示
     if (game_state == GameState::start)
     {
-        DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.3, pizza_angle, pizza_img[0], TRUE);
+        DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.5, 0, pizza_img[0], TRUE);
+        if (ase_display == true)
+        {
+            DrawRotaGraph((int)pizza_pos.x-30, (int)pizza_pos.y-50, 0.5, 0,ase_img[0], TRUE);
+        }
 
         if (anim_num == 0||anim_num==1) {
             //レシート表示
             DrawRotaGraph((int)perpar_pos.x, (int)perpar_pos.y, 1, 0, little_perpar_img[0], TRUE);
             
         }
-        
-        DrawRotaGraph((int)pizzabox_pos.x, (int)pizzabox_pos.y, 1, 0, pizzabox_img[0], TRUE);
 
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, perpar_alpha);
@@ -1140,13 +1141,8 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InStartUpdate()
 {
-    //pizzaがはんぶんぐらいから回転しながら上から下に
-    //下に行ったら右左から壁が飛んでくる
-    //巻物で焼きあがるまでpizzaを守ろう！さあ！クリックだ！って言う
-
     // カーソルのみ更新
     CursorUpdate();
-
 
     int wallmove_end_cnt = 0;
 
@@ -1215,9 +1211,10 @@ void GameMainScene::InStartUpdate()
                 perpar_pos.y += 2;
             }
 
-            if (pizza_pos.y > 600)
+            //汗の表示
+            if (pizza_pos.y > 400)
             {
-                pizzabox_pos.y += 5;
+                ase_display = true;
             }
 
             //ピザ落下
@@ -1257,17 +1254,7 @@ void GameMainScene::InStartUpdate()
         if (perpar_alpha < 0)
         {
             inkan_flg = false;
-            ////321カウント
-            //if (fps_cnt++ > 30)
-            //{
-            //    fps_cnt = 0;
-            //    start_cnt--;
-            //}
-
-            //if (start_cnt < 0)
-            //{
-                anim_num = 2;
-            //}
+            anim_num = 2;
         }
         else
         {

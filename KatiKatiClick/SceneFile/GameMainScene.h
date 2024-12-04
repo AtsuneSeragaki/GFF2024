@@ -93,8 +93,8 @@ private:
 	int perpar_alpha;
 	int perpar_se;//紙がめくれる音
 	bool perpar_se_once;//se一回だけ鳴らす用
-	std::vector<int> pizzabox_img;
-	Vector2D pizzabox_pos;
+	std::vector<int> ase_img;
+	bool ase_display;//汗を表示するフラグ
 	std::vector<int> inkan_img;//印鑑画像
 	Vector2D inkan_pos;
 	double inkan_size;
@@ -102,6 +102,7 @@ private:
 	int stamp_se;//スタンプの音
 	int perpar_wait_cnt;//紙表示を長くするよう
 	int black_alpha;
+
 
 	int kill_enemy_cnt;  // 倒した敵の数をカウント
 

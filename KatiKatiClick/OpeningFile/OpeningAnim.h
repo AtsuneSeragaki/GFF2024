@@ -6,6 +6,8 @@ class OpeningAnim
 {
 private:
 	std::vector<ObjectBase*> objects;
+	std::vector<int> ase_img;
+	bool ase_display;//汗を表示するフラグ
 
 	std::vector<std::vector<int>> op_enm_array;
 	std::vector<int> pizza_img;
