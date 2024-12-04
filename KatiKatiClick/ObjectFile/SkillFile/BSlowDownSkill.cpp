@@ -110,13 +110,13 @@ void BSlowDownSkill::Draw() const
 	{	SetDrawBright(255, 255, 255);
 	}
 	//coinの数描画
-	DrawRotaGraphF(location.x + 15.0f, location.y + 22.0f, 1, 0, button_img[1], TRUE);
+	DrawRotaGraphF(location.x + 15.0f, location.y - 5.0f, 1, 0, button_img[1], TRUE);
 	SetDrawBright(255, 255, 255);
 
 	if(hit_cursor==true)
 	{
 		// 描画ブレンドモードをアルファブレンドにする
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 170);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 	}
 	else {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
