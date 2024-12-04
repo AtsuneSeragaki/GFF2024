@@ -90,6 +90,7 @@ OpeningAnim::OpeningAnim()
 
 
     ChangeVolumeSoundMem(200,enm_se);
+    ChangeVolumeSoundMem(150,pizza_se);
 
 
     display_num = 0;
