@@ -284,7 +284,7 @@ void GameMainScene::Draw() const
             DrawRotaGraph((int)pizza_pos.x-30, (int)pizza_pos.y-50, 0.5, 0,ase_img[0], TRUE);
         }
 
-        if (anim_num == 0||anim_num==1) {
+        if (anim_num == 0) {
             //レシート表示
             DrawRotaGraph((int)perpar_pos.x, (int)perpar_pos.y, 1, 0, little_perpar_img[0], TRUE);
             

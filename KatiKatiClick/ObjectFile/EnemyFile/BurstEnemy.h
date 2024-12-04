@@ -7,6 +7,8 @@ private:
     int death_cnt;//死ぬまでのカウント
     int angle;
     float radian, result;
+
+    bool hit_attackskill;//attackスキルに当たったか
 public:
     BurstEnemy();
     ~BurstEnemy();
