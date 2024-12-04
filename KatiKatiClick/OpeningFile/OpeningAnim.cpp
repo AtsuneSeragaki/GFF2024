@@ -102,7 +102,7 @@ OpeningAnim::OpeningAnim()
 
     anim_num = 0;
     pizza_pos.x = SCREEN_WIDTH / 2;
-    pizza_pos.y = 0.0f;
+    pizza_pos.y = -20.0f;
     pizza_angle = 0.0;
     anim_end = false;
     se_cnt = 20;
@@ -233,8 +233,8 @@ void OpeningAnim::Draw() const
         DrawRotaGraph((int)pizza_pos.x - 30, (int)pizza_pos.y - 50, 0.5, 0, ase_img[0], TRUE);
     }
 
-    DrawRotaGraphF(right_smoke_pos.x - 100.0f, right_smoke_pos.y - (4.3 * 70), 4, 0, smoke_img[right_smoke_num], TRUE);
-    DrawRotaGraphF(left_smoke_pos.x + 100.0f, left_smoke_pos.y - (4.3 * 70), 4, 0, smoke_img[left_smoke_num], TRUE);
+    DrawRotaGraphF(right_smoke_pos.x - 100.0f, right_smoke_pos.y - (4.3f * 70.0f), 4, 0, smoke_img[right_smoke_num], TRUE);
+    DrawRotaGraphF(left_smoke_pos.x + 100.0f, left_smoke_pos.y - (4.3f * 70.0f), 4, 0, smoke_img[left_smoke_num], TRUE);
 
     for (int i = 0; i < objects.size(); i++)
     {

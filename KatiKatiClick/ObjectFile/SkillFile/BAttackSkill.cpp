@@ -21,20 +21,12 @@ BAttackSkill::BAttackSkill()
 	std::vector<int> tmp;
 	tmp = rm->GetImages("Resource/Images/Skill/battack_close.png",1);
 	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_close_d.png", 1);
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_possible_d.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_active_d.png");
+	tmp = rm->GetImages("Resource/Images/Skill/battack.png",1);
 	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/explosion.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
-	effect_image = button_img[6];
+	effect_image = button_img[2];
 
 	// 効果音の読み込み
 	int tmp_s;
@@ -53,6 +45,10 @@ BAttackSkill::BAttackSkill()
 
 	effect_width = 200;
 	effect_height = 200;
+
+	red = 168;
+	blue = 168;
+	green = 168;
 }
 
 BAttackSkill::~BAttackSkill()
@@ -77,15 +73,10 @@ void BAttackSkill::Initialize()
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
 	tmp = rm->GetImages("../../Resource/Images/battack_close.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_possible.png");
-	button_img.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Images/Skill/battack_active.png");
-	button_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Images/Skill/explosion.png");
 	button_img.push_back(tmp[0]);
 	image = button_img[0];
-	effect_image = button_img[3];
+	effect_image = button_img[4];
 
 	effect_x = location.x;
 	effect_y = location.y - 5;
@@ -114,27 +105,38 @@ void BAttackSkill::Update()
 
 void BAttackSkill::Draw() const
 {
+
+	SetDrawBright(red, green, blue);
+	DrawGraphF(location.x - width / 2.0f, location.y - height / 2.0f, button_img[0], TRUE);
+	if(hit_cursor==false){ SetDrawBright(255, 255, 255); }
+	DrawRotaGraphF(location.x+15.0f, location.y, 1, 0, button_img[1], TRUE);
+
+	SetDrawBright(255, 255, 255);
 	// 状態によって描画する内容を変える
 	switch (bskill_state)
 	{
 	case BSkillState::close:
-		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
+		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffffff, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10,(int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\nclose", 0x000000);
 		break;
 
 	case BSkillState::possible:
-		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
+		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
+
+		SetDrawBright(255, 213, 21);
 		if (effect_width > 44)
 		{
-			DrawExtendGraph(location.x + 15 - effect_width / 2, location.y - 13 - effect_height / 2, location.x + 15 + effect_width / 2, location.y - 13 + effect_height / 2, effect_image, TRUE);
+			DrawExtendGraphF(location.x + 15.0f - effect_width / 2.0f, location.y - 13.0f - effect_height / 2.0f, location.x + 15.0f + effect_width / 2.0f, location.y - 13.0f + effect_height / 2.0f, effect_image, TRUE);
 		}
+		SetDrawBright(255, 255, 255);
+
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\npossible", 0x000000);
 		break;
 
 	case BSkillState::active:
-		DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
+		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "AttackSkill\nactive", 0x000000);
 		break;
@@ -142,6 +144,8 @@ void BAttackSkill::Draw() const
 	default:
 		break;
 	}
+
+
 
 	// 解放に必要なコインの数を描画
 	//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 50, "coin:20", 0x000000);
@@ -193,15 +197,24 @@ void BAttackSkill::ChangeImage()
 		switch (bskill_state)
 		{
 		case BSkillState::close:
-			image = button_img[0];
+			//灰色をセット
+			red = 168;
+			blue = 168;
+			green = 168;
 			break;
 
 		case BSkillState::possible:
-			image = button_img[1];
+			//黄色をセット
+			red = 255;
+			green = 213;
+			blue = 21;
 			break;
 
 		case BSkillState::active:
-			image = button_img[2];
+			//緑をセット
+			red = 124;
+			green = 197;
+			blue = 51;
 			break;
 
 		default:
@@ -213,15 +226,21 @@ void BAttackSkill::ChangeImage()
 		switch (bskill_state)
 		{
 		case BSkillState::close:
-			image = button_img[3];
+			red = 100;
+			green = 102;
+			blue = 95;
 			break;
 
 		case BSkillState::possible:
-			image = button_img[4];
+			red = 151;
+			green = 129;
+			blue = 12;
 			break;
 
 		case BSkillState::active:
-			image = button_img[5];
+			red = 74;
+			green = 120;
+			blue = 29;
 			break;
 
 		default:

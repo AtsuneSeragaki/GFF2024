@@ -6,6 +6,9 @@ class BAttackSkill : public BSkillBase
 {
 private:
 	std::vector<int> button_img; // ボタン画像
+	int red;
+	int green;
+	int blue;
 
 public:
 	BAttackSkill();
