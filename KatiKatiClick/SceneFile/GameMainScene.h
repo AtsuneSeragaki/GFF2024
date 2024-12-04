@@ -112,6 +112,8 @@ private:
 
 	int hit_wall_enemy_cnt; // 壁に当たった敵の数カウント
 
+	int bgm_volume;  // BGMの音量
+
 public:
 	GameMainScene();
 	~GameMainScene();

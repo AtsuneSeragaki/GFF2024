@@ -64,6 +64,7 @@ TitleScene::TitleScene()
 	// 音量変更
 	ChangeVolumeSoundMem(220, bgm);
 
+	anim_start = false;
 	black_alpha = 255;
 }
 
@@ -90,10 +91,11 @@ void TitleScene::Update()
 		if (black_alpha <= 0)
 		{
 			black_alpha = 0;
+			is_fade = false;
 		}
 	}
 
-	if (is_fade == false)
+	if (anim_start == true)
 	{
 		if (opening_anim->GetAnimEnd() == false)
 		{
@@ -106,7 +108,7 @@ void TitleScene::Update()
 	{
 		if (black_alpha <= 160)
 		{
-			is_fade = false;
+			anim_start = true;
 		}
 	}
 
@@ -215,13 +217,14 @@ void TitleScene::Draw() const
 		fade->Draw();
 	}
 
-	
-	// 描画ブレンドモードをアルファブレンドにする
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
-	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
-	// 描画ブレンドモードをノーブレンドにする
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
+	if (is_fade == true)
+	{
+		// 描画ブレンドモードをアルファブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
+		DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+		// 描画ブレンドモードをノーブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
 
 AbstractScene* TitleScene::Change()

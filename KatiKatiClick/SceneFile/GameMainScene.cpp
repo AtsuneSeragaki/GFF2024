@@ -96,10 +96,11 @@ GameMainScene::GameMainScene()
     tmp_s = rm->GetSounds("Resource/Sounds/GameMain/Start/stamp2.mp3");
     stamp_se = tmp_s;
 
+    bgm_volume = 100;
+    ChangeVolumeSoundMem(bgm_volume, bgm);
     ChangeVolumeSoundMem(180, gameover_se);
     ChangeVolumeSoundMem(180,se);
     ChangeVolumeSoundMem(180, gameclear_se);
-    ChangeVolumeSoundMem(130, bgm);
 
     //画像読込
     std::vector<int> tmp_img;
@@ -158,6 +159,8 @@ GameMainScene::GameMainScene()
     get_coin_cnt = 0;
 
     hit_wall_enemy_cnt = 0;
+
+    
 }
 
 GameMainScene::~GameMainScene()
@@ -425,7 +428,7 @@ void GameMainScene::Draw() const
     }
     
 
-   //DrawFormatString(30, 350, 0xffffff, "%d", kill_enemy_cnt);
+   DrawFormatString(30, 350, 0xffffff, "%d", bgm_volume);
    //DrawFormatString(60, 350, 0xffffff, "%d", num_2);
 
 }
@@ -477,11 +480,33 @@ void GameMainScene::InGameUpdate()
     // ポーズ中はBGMの音量を小さくする
     if (is_pause)
     {
-        ChangeVolumeSoundMem(100, bgm);
+        // BGMを徐々に小さく
+        if (bgm_volume != 100)
+        {
+            bgm_volume--;
+
+            if (bgm_volume <= 100)
+            {
+                bgm_volume = 100;
+            }
+        }
+
+        ChangeVolumeSoundMem(bgm_volume, bgm);
     }
     else
     {
-        ChangeVolumeSoundMem(140, bgm);
+        // BGMを徐々に大きく
+        if (bgm_volume != 130)
+        {
+            bgm_volume++;
+
+            if (bgm_volume >= 130)
+            {
+                bgm_volume = 130;
+            }
+        }
+        
+        ChangeVolumeSoundMem(bgm_volume, bgm);
     }
 
     for (int i = 0; i < coins.size(); i++)
