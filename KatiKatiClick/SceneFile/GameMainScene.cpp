@@ -1212,6 +1212,8 @@ void GameMainScene::InStartUpdate()
                             if (perpar_wait_cnt++ > 15)
                             {
                                 anim_num = 1;
+                                StopSoundMem(sweat_se);
+                                StopSoundMem(pizza_se);
                             }
                         }
                     }
@@ -1251,7 +1253,7 @@ void GameMainScene::InStartUpdate()
 
             if (pizza_pos.y >= 680)
             {
-                if (is_sweat_se_play == 1)
+                if (is_sweat_se_play != -1)
                 {
                     is_sweat_se_play = -1;
                     StopSoundMem(sweat_se);

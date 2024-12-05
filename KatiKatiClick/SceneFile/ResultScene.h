@@ -7,9 +7,6 @@
 
 #define PI    3.1415926535897932384626433832795f  // 円周率
 
-//#define BOX_WIDTH  100.0f       // ボタンの幅
-//#define BOX_HEIGHT 50.0f        // ボタンの高さ
-
 #define STAR_WIDTH  60.0f       // 星の横幅(1,3)
 #define STAR_HEIGHT 60.0f       // 星の高さ(1,3)
 
@@ -17,17 +14,18 @@
 #define STAR_HEIGHT_2 100.0f    // 星の高さ(2)
 
 #define STAR_X 98.0f            // 星(1)のX座標
-#define STAR_Y 235.0f           // 星(1)のY座標
+#define STAR_Y 255.0f           // 星(1)のY座標
 
 class ResultScene : public AbstractScene
 {
 private:
 	Cursor* cursor;              // カーソルオブジェクト
 	Fade* fade;                  // フェードオブジェクト
-	//float x1,y1,x2,y2;        // ボタンの座標
+
 	int select;                  // プレイヤーが選んだメニュー
-	//int on_button;               // カーソルがボタンの上にあるか
+
 	bool is_clear;               // クリアしたか？
+
 	int star_num;                // 星の数
 	int star_hp[3];              // 星のHP
 	float star_x[3];             // 星のX座標
@@ -41,8 +39,10 @@ private:
 	double star_extrate[3];      // 銀の星の拡大率
 	bool star_gold[3];           // 金の星か？
 	bool star_back[3];           // 星が画面外に出て帰ってくるか？
+
 	int bgm;                     // BGMデータ
 	bool is_bgm_active;          // BGMが流れているか？
+
 	float fire_extrate[3];       // 火のY座標
 	bool is_fire_max[3];         // 火は最大サイズか？
 	float star_move[3];          // 星の移動量を少しずつ変える
@@ -91,6 +91,18 @@ private:
 	int black_alpha;
 
 	int bgm_volume;  // BGMの音量
+	int star_back_se; // 星がはまる時の効果音
+
+	std::vector<int> kirakira_img;  // キラキラ画像
+	int kirakira_alpha[4];          // キラキラの透明度
+	bool kirakira_alpha_puls[4];       // キラキラの透明度を加算するか？ 
+	int kirakira_anim_num[6];          // キラキラアニメーション画像の番号
+	int kirakira_anim_cnt[6];          // 次のキラキラアニメーション画像に変えるまでの時間
+	double kirakira_extrate;
+	bool kirakira_anim_num_puls[6];       // キラキラの透明度を加算するか？ 
+	bool star_click[3];                   // 星がクリックされたか？
+	int star_unclick_cnt[3];             // 星がクリックされていない時間
+	bool star_start_end;             // 最初のアニメーションが終わったか？
 
 public:
 	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);
@@ -132,4 +144,13 @@ private:
 
 	// 数字増やす
 	void AddNum();
+
+	// キラキラのアルファ値を変更
+	void ChangeKirakiraAlpha();
+
+	// キラキラアニメーション画像変更
+	void KirakiraAnimControl();
+
+	// 星がクリックされていない時の処理
+	void StarUnClickCount();
 };
