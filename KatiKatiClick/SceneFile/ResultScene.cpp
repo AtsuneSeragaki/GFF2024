@@ -605,7 +605,7 @@ void ResultScene::Draw() const
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
-	DrawFormatString(0, 0, 0x000000, "%d", kirakira_alpha[0]);
+	//DrawFormatString(0, 0, 0x000000, "%d", kirakira_alpha[0]);
 }
 
 AbstractScene* ResultScene::Change()
