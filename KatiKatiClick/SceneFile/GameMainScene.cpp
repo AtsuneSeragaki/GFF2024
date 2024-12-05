@@ -1271,7 +1271,7 @@ void GameMainScene::InStartUpdate()
 
             if (pizza_pos.y >= 680)
             {
-                if (is_sweat_se_play == 1)
+                if (is_sweat_se_play != -1)
                 {
                     is_sweat_se_play = -1;
                     StopSoundMem(sweat_se);

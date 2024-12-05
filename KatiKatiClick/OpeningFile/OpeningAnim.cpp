@@ -117,7 +117,6 @@ OpeningAnim::OpeningAnim()
 
 OpeningAnim::~OpeningAnim()
 {
-
     objects.clear();
     
 }
@@ -133,6 +132,9 @@ void OpeningAnim::Update()
     if (anim_num == -1)
     {
         anim_end = true;
+        StopSoundMem(sweat_se);
+        StopSoundMem(pizza_se);
+        StopSoundMem(enm_se);
         return;
     }
 
