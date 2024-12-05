@@ -14,7 +14,7 @@
 #define STAR_HEIGHT_2 100.0f    // 星の高さ(2)
 
 #define STAR_X 98.0f            // 星(1)のX座標
-#define STAR_Y 235.0f           // 星(1)のY座標
+#define STAR_Y 255.0f           // 星(1)のY座標
 
 class ResultScene : public AbstractScene
 {
@@ -96,9 +96,13 @@ private:
 	std::vector<int> kirakira_img;  // キラキラ画像
 	int kirakira_alpha[4];          // キラキラの透明度
 	bool kirakira_alpha_puls[4];       // キラキラの透明度を加算するか？ 
-	int kirakira_anim_num[4];          // キラキラアニメーション画像の番号
-	int kirakira_anim_cnt[4];          // 次のキラキラアニメーション画像に変えるまでの時間
+	int kirakira_anim_num[6];          // キラキラアニメーション画像の番号
+	int kirakira_anim_cnt[6];          // 次のキラキラアニメーション画像に変えるまでの時間
 	double kirakira_extrate;
+	bool kirakira_anim_num_puls[6];       // キラキラの透明度を加算するか？ 
+	bool star_click[3];                   // 星がクリックされたか？
+	int star_unclick_cnt[3];             // 星がクリックされていない時間
+	bool star_start_end;             // 最初のアニメーションが終わったか？
 
 public:
 	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);
@@ -146,4 +150,7 @@ private:
 
 	// キラキラアニメーション画像変更
 	void KirakiraAnimControl();
+
+	// 星がクリックされていない時の処理
+	void StarUnClickCount();
 };
