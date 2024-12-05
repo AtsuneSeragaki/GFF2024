@@ -881,26 +881,6 @@ void GameMainScene::InGameUpdate()
         {
             // ゲームクリア状態にする
             game_state = GameState::gameclear;
-
-            //if (change_wait_time == 120)
-            //{
-            //    // BGMを止める
-            //    StopSoundMem(bgm);
-            //    is_bgm_active = 0;
-
-            //    PlaySoundMem(se, DX_PLAYTYPE_BACK, TRUE);
-            //    PlaySoundMem(gameclear_se, DX_PLAYTYPE_BACK, TRUE);
-            //}
-            //
-            //// 制限時間が0ならゲームクリア
-            //is_game_clear = true;
-
-            // シーン切り替え待ちカウントを減らす
-            //change_wait_time--;
-
-            // カーソルのみ更新
-            //CursorUpdate();
-
             return;
         }
 
@@ -1236,6 +1216,8 @@ void GameMainScene::InStartUpdate()
                             if (perpar_wait_cnt++ > 15)
                             {
                                 anim_num = 1;
+                                StopSoundMem(sweat_se);
+                                StopSoundMem(pizza_se);
                             }
                         }
                     }
@@ -1293,7 +1275,7 @@ void GameMainScene::InStartUpdate()
 
             if (pizza_pos.y >= 680)
             {
-                if (is_sweat_se_play == 1)
+                if (is_sweat_se_play != -1)
                 {
                     is_sweat_se_play = -1;
                     StopSoundMem(sweat_se);

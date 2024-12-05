@@ -198,6 +198,8 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 
 ResultScene::~ResultScene()
 {
+	delete cursor;
+	delete fade;
 }
 
 void ResultScene::Update()
