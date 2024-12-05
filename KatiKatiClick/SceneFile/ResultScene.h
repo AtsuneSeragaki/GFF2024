@@ -7,9 +7,6 @@
 
 #define PI    3.1415926535897932384626433832795f  // 円周率
 
-//#define BOX_WIDTH  100.0f       // ボタンの幅
-//#define BOX_HEIGHT 50.0f        // ボタンの高さ
-
 #define STAR_WIDTH  60.0f       // 星の横幅(1,3)
 #define STAR_HEIGHT 60.0f       // 星の高さ(1,3)
 
@@ -24,10 +21,11 @@ class ResultScene : public AbstractScene
 private:
 	Cursor* cursor;              // カーソルオブジェクト
 	Fade* fade;                  // フェードオブジェクト
-	//float x1,y1,x2,y2;        // ボタンの座標
+
 	int select;                  // プレイヤーが選んだメニュー
-	//int on_button;               // カーソルがボタンの上にあるか
+
 	bool is_clear;               // クリアしたか？
+
 	int star_num;                // 星の数
 	int star_hp[3];              // 星のHP
 	float star_x[3];             // 星のX座標
@@ -41,8 +39,10 @@ private:
 	double star_extrate[3];      // 銀の星の拡大率
 	bool star_gold[3];           // 金の星か？
 	bool star_back[3];           // 星が画面外に出て帰ってくるか？
+
 	int bgm;                     // BGMデータ
 	bool is_bgm_active;          // BGMが流れているか？
+
 	float fire_extrate[3];       // 火のY座標
 	bool is_fire_max[3];         // 火は最大サイズか？
 	float star_move[3];          // 星の移動量を少しずつ変える
@@ -91,6 +91,14 @@ private:
 	int black_alpha;
 
 	int bgm_volume;  // BGMの音量
+	int star_back_se; // 星がはまる時の効果音
+
+	std::vector<int> kirakira_img;  // キラキラ画像
+	int kirakira_alpha[4];          // キラキラの透明度
+	bool kirakira_alpha_puls[4];       // キラキラの透明度を加算するか？ 
+	int kirakira_anim_num[4];          // キラキラアニメーション画像の番号
+	int kirakira_anim_cnt[4];          // 次のキラキラアニメーション画像に変えるまでの時間
+	double kirakira_extrate;
 
 public:
 	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);
@@ -132,4 +140,10 @@ private:
 
 	// 数字増やす
 	void AddNum();
+
+	// キラキラのアルファ値を変更
+	void ChangeKirakiraAlpha();
+
+	// キラキラアニメーション画像変更
+	void KirakiraAnimControl();
 };

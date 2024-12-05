@@ -75,6 +75,12 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	{
 		num_img.push_back(tmp[i]);
 	}
+
+	tmp = rm->GetImages("Resource/Images/Result/kirakira_effect.png",4,4,1,32,32);
+	for (int i = 0; i < 4; i++)
+	{
+		kirakira_img.push_back(tmp[i]);
+	}
 	
 	// 音データ読み込み
 	int tmp_bgm;
@@ -115,6 +121,14 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 		gstar_effect_num[i] = 0;
 		gstar_effect_change_num[i] = 0;
 		star_gold_extrate[i] = 0.0f;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		kirakira_alpha[i] = 0;
+		kirakira_alpha_puls[i] = true;
+		kirakira_anim_num[i] = 0;
+		kirakira_anim_cnt[i] = 0;
 	}
 
 	star_y[0] = STAR_Y;
@@ -194,6 +208,8 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	black_alpha = 255;
 
 	anim_start = false;
+
+	kirakira_extrate = 1.0f;
 }
 
 ResultScene::~ResultScene()
@@ -245,6 +261,10 @@ void ResultScene::Update()
 		GStarClickEffect();
 
 		AddNum();
+
+
+
+		//ChangeKirakiraAlpha();
 
 		// プレイヤーがボタンをクリックしたか？
 		if (select != -1)
@@ -302,19 +322,13 @@ void ResultScene::Draw() const
 	// 背景描画
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x333333,TRUE);
 
-	//DrawString(160, 75, "RESULT", 0xffffff);
-
-	//DrawFormatString(0, 0, 0xffffff,"%d", is_gstar_click[0]);
-
 	// ゲームクリア、ゲームオーバーの描画
 	if (is_clear == true)
 	{
-		//DrawString(140, 110, "GAME CLEAR", 0xffffff);
 		DrawGraph(60, 65, game_clear_img, TRUE);
 	}
 	else
 	{
-		//DrawString(145, 120, "GAME OVER", 0xffffff);
 		DrawGraph(60, 65, game_over_img, TRUE);
 	}
 
@@ -328,8 +342,6 @@ void ResultScene::Draw() const
 			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
 		}
 
-		//DrawBox(star_x[0] - STAR_WIDTH / 2,star_y[0] - STAR_HEIGHT / 2, star_x[0] + STAR_WIDTH / 2, star_y[0] + STAR_HEIGHT / 2, 0xffffff, TRUE);
-
 		// 火の描画
 		for (int i = 0; i < star_num; i++)
 		{
@@ -338,23 +350,6 @@ void ResultScene::Draw() const
 				DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
 			}
 		}
-
-		//if (is_star_min[0] == false)
-		//{
-		//	// 金の星描画
-		//	for (int i = 0; i < star_num; i++)
-		//	{
-		//		DrawRotaGraph2F(star_gold_width[i], star_gold_height[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
-		//	}
-		//}
-		//else
-		//{
-		//	// 金の星描画
-		//	for (int i = 0; i < star_num; i++)
-		//	{
-		//		DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
-		//	}
-		//}
 
 		// 金の星描画
 	    DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
@@ -366,8 +361,6 @@ void ResultScene::Draw() const
 		{
 			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
 		}
-
-		//DrawBox(star_x[0] - STAR_WIDTH / 2,star_y[0] - STAR_HEIGHT / 2, star_x[0] + STAR_WIDTH / 2, star_y[0] + STAR_HEIGHT / 2, 0xffffff, TRUE);
 
 		// 火の描画
 		for (int i = 0; i < star_num; i++)
@@ -394,39 +387,43 @@ void ResultScene::Draw() const
 
 	case 3:
 
-		// 銀の星描画
 		for (int i = 0; i < 3; i++)
 		{
-			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
-		}
+			// 銀の星描画
+			//DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
 
-		//DrawBox(star_x[0] - STAR_WIDTH / 2,star_y[0] - STAR_HEIGHT / 2, star_x[0] + STAR_WIDTH / 2, star_y[0] + STAR_HEIGHT / 2, 0xffffff, TRUE);
+			// キラキラの描画
+			if (star_hp[0] > 0)
+			{
+				
+					// 描画ブレンドモードをアルファブレンドにする
+					//SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[i]);
+					//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+					DrawRotaGraph2F(star_x[0], star_y[0], 250.0f, 250.0f, 10.0f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+					DrawRotaGraph2F(star_x[0] + 40.0f, star_y[0] - 25.0f, 250.0f, 250.0f, kirakira_extrate, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+					DrawRotaGraph2F(star_x[0] - 40.0f, star_y[0] + 25.0f, 250.0f, 250.0f, kirakira_extrate, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+					DrawRotaGraph2F(star_x[0] + 40.0f, star_y[0] + 25.0f, 250.0f, 250.0f, kirakira_extrate, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+					// 描画ブレンドモードをノーブレンドにする
+					//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+				
+			}
 
-		// 火の描画
-		for (int i = 0; i < star_num; i++)
-		{
+			// 火の描画
 			if (star_hp[i] == 0 && star_back[i] == false)
 			{
-				DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
+				//DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
 			}
-		}
 
-		// 金の星描画
-		for (int i = 0; i < star_num; i++)
-		{
+			// 金の星描画
 			if (i >= 1 && is_star_min[i - 1] == true)
 			{
-				DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+				//DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
 			}
 			else
 			{
-				DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
+				//DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
 			}
 		}
-
-		
-
-		//DrawRotaGraph2F(star_x[0], star_y[0], 16.0f, 16.0f, 3.0f, star_angle[0], gstar_effect_img[0], TRUE);
 
 		break;
 
@@ -440,11 +437,9 @@ void ResultScene::Draw() const
 	}
 
 	// リザルト結果表示ゾーンの描画
-	//DrawBox(40, 300, 320, 500, 0xffffff, TRUE);
 	DrawGraph(30, 300, result_img, TRUE);
 
 	// 倒した敵の数の描画
-	//DrawGraph(228, 323, num_img[0], TRUE);
 	if (kill_enemy_num < 10)
 	{
 		DrawExtendGraph(228, 323, 228 + 25, 323 + 25, num_img[kill_enemy_num_2], TRUE);
@@ -462,7 +457,6 @@ void ResultScene::Draw() const
 	}
 
 	// 獲得したコインの枚数の描画
-	//DrawGraph(272, 385, num_img[0], TRUE);
 	if (get_coin_num < 10)
 	{
 		DrawExtendGraph(272, 385, 272 + 25, 385 + 25, num_img[get_coin_num_2], TRUE);
@@ -1213,4 +1207,49 @@ void ResultScene::AddNum()
 		}
 	}
 
+}
+
+void ResultScene::ChangeKirakiraAlpha()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (star_hp[i] > 0)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				if (kirakira_alpha_puls[j] == true)
+				{
+					kirakira_alpha[j] += 1;
+
+					if (kirakira_alpha[j] >= 255)
+					{
+						kirakira_alpha_puls[j] = false;
+					}
+				}
+				else
+				{
+					kirakira_alpha[j] -= 1;
+
+					if (kirakira_alpha[j] <= 0)
+					{
+						kirakira_alpha_puls[j] = true;
+					}
+				}
+			}
+		}
+	}
+}
+
+void ResultScene::KirakiraAnimControl()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (star_hp[i] > 0)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+
+			}
+		}
+	}
 }
