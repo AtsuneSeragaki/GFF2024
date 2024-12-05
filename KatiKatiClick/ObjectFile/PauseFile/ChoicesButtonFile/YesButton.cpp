@@ -9,15 +9,15 @@ YesButton::YesButton()
 	can_hit = true;
 	object_type = ObjectType::choicebutton;
 	shape = Shape::square;
-	width = 80.0f;
-	height = 32.0f;
+	width = 90.0f;
+	height = 40.0f;
 
 	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
 
 	// "はい"ボタン画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/Button/YesButton.png", 2, 2, 1, 80, 32);
+	tmp = rm->GetImages("Resource/Images/Pause/Button/YesButton.png", 2, 2, 1, 96, 40);
 	for (int i = 0; i < 2; i++)
 	{
 		button_image.push_back(tmp[i]);
@@ -53,7 +53,7 @@ void YesButton::Update()
 	if (click_flg)
 	{
 		anim_count++;
-		if (anim_count < 5)
+		if (anim_count < 30)
 		{
 			// 押下時画像に変更
 			button_image_num = 1;
@@ -77,17 +77,32 @@ void YesButton::Draw() const
 	//  ダイアログボックス画像の描画
 	DrawRotaGraphF(180.0f, location.y - 35.0f, 1.0, 0.0, box_image[0], TRUE);
 
-	//  "はい"ボタン画像の描画
-	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
-
-	// カーソルが "はい"ボタンに重なっていたら
-	if (cursor_overlap_flg)
+	if (click_flg == false)
 	{
-		// ポーズボタンを暗くする
+		// カーソルが "はい"ボタンに重なっていたら
+		if (cursor_overlap_flg == false)
+		{
+			//  "はい"ボタン画像の描画
+			DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
+		}
+		else
+		{
+			//  "はい"ボタンを暗くする
+			// 描画輝度のセット
+			SetDrawBright(128, 128, 128);
+			//  "はい"ボタン画像の描画
+			DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+			// 描画輝度を元に戻す
+			SetDrawBright(255, 255, 255);
+		}
+	}
+	else
+	{
+		//  "はい"ボタンを暗くする
 		// 描画輝度のセット
 		SetDrawBright(128, 128, 128);
 		//  "はい"ボタン画像の描画
-		DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[0], TRUE);
+		DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[button_image_num], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 	}

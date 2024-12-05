@@ -89,7 +89,7 @@ void UICoins::Update()
 			}
 
 			move_num_image[i] = 2;
-			move_height = 5.0f;
+			move_height = 7.0f;
 		}
 		
 		// コインが増えた
@@ -109,7 +109,7 @@ void UICoins::Update()
 			}
 
 			move_num_image[i] = 1;
-			move_height = 5.0f;
+			move_height = 7.0f;
 		}
 	}
 
