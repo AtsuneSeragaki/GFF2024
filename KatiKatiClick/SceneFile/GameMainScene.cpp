@@ -1309,6 +1309,8 @@ void GameMainScene::InStartUpdate()
             //クリックされるまで待つ
             if (MouseInput::GetMouseState() == eMouseInputState::eClick)
             {
+                StopSoundMem(sweat_se);
+                StopSoundMem(pizza_se);
                 perpar_alpha = -1;
             }
         }
@@ -1316,6 +1318,8 @@ void GameMainScene::InStartUpdate()
         break;
     case 2:
         game_state = GameState::in_game;
+        StopSoundMem(sweat_se);
+        StopSoundMem(pizza_se);
         break;
     default:
         break;
