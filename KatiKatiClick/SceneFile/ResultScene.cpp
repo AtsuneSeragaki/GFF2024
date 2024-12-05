@@ -93,8 +93,8 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/star_gold.mp3");
 	star_click_se[1] = tmp_bgm;
 
-	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/fire.mp3");
-	fire_se = tmp_bgm;
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/star_back.mp3");
+	star_back_se = tmp_bgm;
 
 	// 音量変更
 	bgm_volume = 190;
@@ -209,9 +209,9 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 
 	// ボタン座標の設定
 	retry_x = GET_LANE_WIDTH(2.5f);
-	retry_y = GET_LANE_HEIGHT(7.2f);
+	retry_y = GET_LANE_HEIGHT(7.2f) + 50.0f;
 	title_x = GET_LANE_WIDTH(7.5f);
-	title_y = GET_LANE_HEIGHT(7.2f);
+	title_y = GET_LANE_HEIGHT(7.2f) + 50.0f;
 
 	change_screen_flg = false;
 
@@ -876,6 +876,7 @@ void ResultScene::StarMove()
 
 			if (star_gold_y[0] >= STAR_Y)
 			{
+				PlaySoundMem(star_back_se, DX_PLAYTYPE_BACK, TRUE);
 				star_hp[0] = 5;
 				star_gold_x[0] = STAR_X;
 				star_gold_y[0] = STAR_Y;
@@ -935,6 +936,7 @@ void ResultScene::StarMove()
 
 			if (star_gold_y[1] >= (STAR_Y - 40.0f))
 			{
+				PlaySoundMem(star_back_se, DX_PLAYTYPE_BACK, TRUE);
 				star_hp[1] = 10;
 				star_gold_x[1] = STAR_X + 85.0f;
 				star_gold_y[1] = STAR_Y - 40.0f;
@@ -993,6 +995,7 @@ void ResultScene::StarMove()
 
 			if (star_gold_y[2] >= STAR_Y)
 			{
+				PlaySoundMem(star_back_se, DX_PLAYTYPE_BACK, TRUE);
 				star_hp[2] = 5;
 				star_gold_x[2] = STAR_X + 85.0f * 2.0f;
 				star_gold_y[2] = STAR_Y;
@@ -1111,23 +1114,23 @@ void ResultScene::DrawButton() const
 			// 描画輝度のセット
 			SetDrawBright(128, 128, 128);
 			// リトライボタン画像の描画
-			DrawRotaGraphF(retry_x, retry_y + 50, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
+			DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
 			// 描画輝度を元に戻す
 			SetDrawBright(255, 255, 255);
 
 			// タイトルボタン画像の描画
-			DrawRotaGraphF(title_x, title_y + 50, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+			DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
 			break;
 
 		case 1:
 			// リトライボタン画像の描画
-			DrawRotaGraphF(retry_x, retry_y + 50, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
+			DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
 
 			// タイトルボタンを暗くする
 			// 描画輝度のセット
 			SetDrawBright(128, 128, 128);
 			// タイトルボタン画像の描画
-			DrawRotaGraphF(title_x, title_y + 50, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+			DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
 			// 描画輝度を元に戻す
 			SetDrawBright(255, 255, 255);
 			break;
@@ -1139,9 +1142,9 @@ void ResultScene::DrawButton() const
 	else
 	{
 		// リトライボタン画像の描画
-		DrawRotaGraphF(retry_x, retry_y + 50, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
+		DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
 		// タイトルボタン画像の描画
-		DrawRotaGraphF(title_x, title_y + 50, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
 	}
 }
 
