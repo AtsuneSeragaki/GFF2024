@@ -82,6 +82,8 @@ private:
 
 	bool slowdown_active; // 足止めスキルがあるか？
 
+	bool change_scene_flg;
+
 	//スタート用
 	std::vector<int> pizza_img;
 	Vector2D pizza_pos;

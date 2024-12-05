@@ -169,6 +169,8 @@ GameMainScene::GameMainScene()
     hit_wall_enemy_cnt = 0;
 
     is_sweat_se_play = -1;
+
+    change_scene_flg = false;
 }
 
 GameMainScene::~GameMainScene()
