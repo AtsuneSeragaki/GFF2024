@@ -116,7 +116,7 @@ void BSlowDownSkill::Draw() const
 	if(hit_cursor==true)
 	{
 		// 描画ブレンドモードをアルファブレンドにする
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 20);
 	}
 	else {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
