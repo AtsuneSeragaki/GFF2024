@@ -6,7 +6,10 @@ class BSlowDownSkill : public BSkillBase
 {
 private:
 	std::vector<int> button_img; // ボタン画像
-
+		//色を変える用
+	int red;//RGBのR
+	int green;//RGBのG
+	int blue;//RGBのB
 public:
 	BSlowDownSkill();
 	~BSlowDownSkill();

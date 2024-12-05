@@ -6,7 +6,7 @@
 UICoins::UICoins()
 {
 	location.x = 230.0f;
-	location.y = 760.0f;
+	location.y = 765.0f;
 	coins_num = 0;
 
 	// ResourceManagerのインスタンスを取得
@@ -75,8 +75,8 @@ void UICoins::Draw() const
 	DrawBoxAA(box_location_x, location.y - 25.0f, box_location_x + box_width, location.y + 25.0f, 0xffffff, TRUE);
 	// 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	// 白色四角の枠
-	DrawBoxAA(box_location_x, location.y - 25.0f, box_location_x + box_width, location.y + 25.0f, 0x000000, FALSE, 2.0f);
+	// 黒色四角枠
+	DrawBoxAA(box_location_x, location.y - 25.0f, box_location_x + box_width, location.y + 25.0f, 0x000000, FALSE, 3.0f);
 
 	// 財布画像の描画
 	DrawRotaGraphF(location.x - 85.0f, location.y, 1.0, 0.0, wallet_image[0], TRUE);
