@@ -47,7 +47,7 @@ GameMainScene::GameMainScene()
 
     CreateObject<RightButton>(Vector2D(330.0f, 600.0f));         // ポーズ中右向き矢印ボタン生成
     CreateObject<LeftButton>(Vector2D(30.0f, 600.0f));          // ポーズ中左向き矢印ボタン生成
-    CreateObject<TitleButton>(Vector2D(180.0f, 650.0f));         // タイトルへ戻るボタン生成
+    CreateObject<TitleButton>(Vector2D(180.0f, 660.0f));         // タイトルへ戻るボタン生成
     CreateObject<YesButton>(Vector2D(100.0f, 400.0f));         // "はい"ボタン生成
     CreateObject<NoButton>(Vector2D(260.0f, 400.0f));         // "いいえ"ボタン生成
 
