@@ -16,6 +16,9 @@ private:
     float box_width;                // UI表示領域の幅
     float box_location_x;           // UI表示領域boxのx座標
 
+    int move_num_image[3];          // 0:数字画像は動かない、1:上に動く、 2:下に動く
+    float move_height;              // 動く高さ
+
 public:
     UICoins();
     ~UICoins();

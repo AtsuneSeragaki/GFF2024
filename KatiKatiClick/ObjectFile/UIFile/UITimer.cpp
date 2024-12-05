@@ -17,10 +17,6 @@ UITimer::UITimer()
 	tmp = rm->GetImages("Resource/Images/Timer/Timer.png");
 	timer_image.push_back(tmp[0]);
 
-	// コロン画像の読み込み
-	tmp = rm->GetImages("Resource/Images/Timer/Colon.png");
-	colon_image.push_back(tmp[0]);
-
 	// 数字画像を読み込む
 	tmp = rm->GetImages("Resource/Images/Timer/Num.png", 10, 10, 1, 32, 32);
 	for (int i = 0; i < 10; i++)
@@ -86,8 +82,10 @@ void UITimer::Draw() const
 	DrawRotaGraphF(location.x + 3.0f, location.y, 1.0, 0.0, timer_image[0], TRUE);
 	// 分の数字画像の描画
 	DrawRotaGraphF(location.x + 35.0f, location.y, 1.0, 0.0, num_image[image_minutes_num], TRUE);
-	// コロン画像の描画
-	DrawRotaGraphF(location.x + 50.0f, location.y, 1.0, 0.0, colon_image[0], TRUE);
+
+	// コロンを黒色四角で描画
+	DrawBoxAA(location.x + 50.0f, location.y - 10.0f, location.x + 55.0f, location.y - 5.0f, 0x000000, TRUE);
+	DrawBoxAA(location.x + 50.0f, location.y + 10.0f, location.x + 55.0f, location.y + 5.0f, 0x000000, TRUE);
 
 	for (int i = 0; i < 2; i++)
 	{
