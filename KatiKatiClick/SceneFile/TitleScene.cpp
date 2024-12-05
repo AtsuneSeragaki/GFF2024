@@ -184,6 +184,7 @@ void TitleScene::Draw() const
 	DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
 	DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
 
+	double logo_size = 1.2;
 
 	if (opening_anim->GetAnimEnd() == false)
 	{
@@ -192,19 +193,19 @@ void TitleScene::Draw() const
 		{
 		case 1:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), logo_size, 0, titlelogo_img[0], TRUE);
 			
 			break;
 		case 2:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), logo_size, 0, titlelogo_img[0], TRUE);
 			// スタートボタン画像の描画
 			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
 
 			break;
 		case 3:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3),logo_size, 0, titlelogo_img[0], TRUE);
 			// スタートボタン画像の描画
 			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
 			// エンドボタン画像の描画
@@ -220,7 +221,7 @@ void TitleScene::Draw() const
 	else
 	{
 		// タイトルロゴ
-		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), 1, 0, titlelogo_img[0], TRUE);
+		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), logo_size, 0, titlelogo_img[0], TRUE);
 		
 		// ボタンの描画
 		DrawButton();
