@@ -104,7 +104,7 @@ void BSlowDownSkill::Draw() const
 {
 	//色をかぶせる
 	SetDrawBright(red, green, blue);
-	DrawGraphF(location.x - width / 2.0f, location.y - height / 2.0f, button_img[0], TRUE);
+	DrawGraphF(location.x - SKILL_BUTTON_WIDTH / 2.0f, location.y - height / 2.0f, button_img[0], TRUE);
 	SetDrawBright(255, 255, 255);
 
 	//カーソルがヒットしていたらマークに薄い黒を重ねる
@@ -113,13 +113,13 @@ void BSlowDownSkill::Draw() const
 		// 暗くする
 		SetDrawBright(150, 150, 150);
 		// マークの描画
-		DrawRotaGraphF(location.x + 15.0f, location.y - 5.0f, 1, 0, button_img[1], TRUE);
+		DrawRotaGraphF(location.x /*+ 15.0f*/, location.y - 5.0f, 1, 0, button_img[1], TRUE);
 		SetDrawBright(255, 255, 255);
 	}
 	else
 	{
 		// マークの描画
-		DrawRotaGraphF(location.x + 15.0f, location.y - 5.0f, 1, 0, button_img[1], TRUE);
+		DrawRotaGraphF(location.x /*+ 15.0f*/, location.y - 5.0f, 1, 0, button_img[1], TRUE);
 	}
 
 	//if(hit_cursor==true)
@@ -142,7 +142,7 @@ void BSlowDownSkill::Draw() const
 	{
 	case BSkillState::close:
 		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
-		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffffff, TRUE);
+		//DrawBoxAA(location.x - SKILL_BUTTON_WIDTH / 2, location.y - SKILL_BUTTON_HEIGHT / 2, location.x + SKILL_BUTTON_WIDTH / 2, location.y + SKILL_BUTTON_HEIGHT / 2, 0xffffff, FALSE);
 		//DrawString((int)location.x - (int)BUTTON_WIDTH / 2 + 10, (int)location.y - (int)BUTTON_HEIGHT / 2 + 10, "SlowDownSkill\nclose", 0x000000);
 		break;
 
@@ -150,7 +150,7 @@ void BSlowDownSkill::Draw() const
 		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		if (effect_width > 44)
 		{
-			DrawExtendGraphF(location.x + 15.0f - effect_width / 2.0f, location.y - 13.0f - effect_height / 2.0f, location.x + 15.0f + effect_width / 2.0f, location.y - 13.0f + effect_height / 2.0f, effect_image, TRUE);
+			DrawExtendGraphF(location.x /*+ 15.0f */- effect_width / 2.0f, location.y - 13.0f - effect_height / 2.0f, location.x /*+ 15.0f*/ + effect_width / 2.0f, location.y - 13.0f + effect_height / 2.0f, effect_image, TRUE);
 		}
 		//DrawExtendGraph(effect_x - effect_width / 2, effect_y - effect_height / 2, effect_x + effect_width / 2, effect_y + effect_height / 2, effect_image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);

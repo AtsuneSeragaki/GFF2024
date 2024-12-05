@@ -65,7 +65,7 @@ void EndScene::Update()
 
 	if (anim_start == true)
 	{
-		if (cnt <= 350)
+		if (cnt <= 410)
 		{
 			crackenemy->Update();
 		}

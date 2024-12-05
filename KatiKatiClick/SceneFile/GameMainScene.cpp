@@ -21,8 +21,8 @@ GameMainScene::GameMainScene()
 
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
-    CreateObject<BAttackSkill>(Vector2D(255.0f, 675.0f));        // アタックスキルボタン生成
-    CreateObject<BSlowDownSkill>(Vector2D(75.0f, 675.0f));     // 足止めスキルボタン生成
+    CreateObject<BAttackSkill>(Vector2D(270.0f, 675.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(90.0f, 675.0f));     // 足止めスキルボタン生成
     wall_cnt = 0;
 
     for (int i = 0; i < 3; i++)

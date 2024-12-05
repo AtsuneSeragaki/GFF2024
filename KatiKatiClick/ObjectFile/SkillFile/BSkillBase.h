@@ -2,7 +2,7 @@
 
 #include "../ObjectBase.h"
 
-#define SKILL_BUTTON_WIDTH  130.0f  // ボタンの幅
+#define SKILL_BUTTON_WIDTH  160.0f  // ボタンの幅
 #define SKILL_BUTTON_HEIGHT 100.0f  // ボタンの高さ
 
 enum class BSkillState
