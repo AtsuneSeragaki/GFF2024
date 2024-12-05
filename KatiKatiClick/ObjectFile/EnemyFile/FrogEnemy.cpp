@@ -263,6 +263,7 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 		hp -= 10;
 		width -= 20.0f;
 		height -= 20.0f;
+		create_damage_effect = true;//ダメージエフェクト生成
 
 
 		break;
@@ -270,6 +271,8 @@ void FrogEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 		hp -= 20;
+		create_damage_effect = true;//ダメージエフェクト生成
+
 		break;
 	case ObjectType::slowdownskill:
 		if (speed >= default_speed)

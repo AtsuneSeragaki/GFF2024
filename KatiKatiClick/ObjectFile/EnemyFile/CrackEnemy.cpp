@@ -193,12 +193,15 @@ void CrackEnemy::HitReaction(ObjectBase* character)
 		// 敵が押された時SE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 		hp -= 10;
-		
+		create_damage_effect = true;//ダメージエフェクト生成
+
 		break;
 	case ObjectType::attackskill:
 		// 敵がつぶれるSE再生
 		PlaySoundMem(se[0], DX_PLAYTYPE_BACK, TRUE);
 		hp -= 20;
+		create_damage_effect = true;//ダメージエフェクト生成
+
 		break;
 	case ObjectType::slowdownskill:
 		if (speed >= default_speed)

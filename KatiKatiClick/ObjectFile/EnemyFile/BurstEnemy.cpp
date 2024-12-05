@@ -20,6 +20,8 @@ BurstEnemy::BurstEnemy()
 	state = State::wait;
 	hit_slowdown_skill = false;
 
+	hit_attackskill = false;
+
 	ResourceManager* rm = ResourceManager::GetInstance();
 	int tmp;
 	tmp = rm->GetSounds("Resource/Sounds/GameMain/Click/hitenemy_b.mp3");
@@ -117,11 +119,14 @@ void BurstEnemy::Update()
 		}
 		break;
 	case State::death:
-		can_create_zone = true;
+		if (hit_attackskill == false) {
+			can_create_zone = true;
+		}
 		if (death_cnt-- < 0)
 		{
 			can_delete = true;
 		}
+		can_hit = false;
 		break;
 	default:
 		break;
@@ -180,6 +185,11 @@ void BurstEnemy::HitReaction(ObjectBase* character)
 		break;
 	case ObjectType::attackskill:
 		hp -= 30;
+		create_damage_effect = true;
+		state = State::death;
+		change_img=3;
+		radius += 30.0f;
+		hit_attackskill = true;
 		break;
 	case ObjectType::slowdownskill:
 		if (speed >= default_speed)

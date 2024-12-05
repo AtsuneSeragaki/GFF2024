@@ -52,6 +52,7 @@ BSlowDownSkill::BSlowDownSkill()
 	red = 168;
 	blue = 168;
 	green = 168;
+	webs_alpha=255;
 }
 
 BSlowDownSkill::~BSlowDownSkill()
@@ -104,10 +105,37 @@ void BSlowDownSkill::Draw() const
 	//色をかぶせる
 	SetDrawBright(red, green, blue);
 	DrawGraphF(location.x - width / 2.0f, location.y - height / 2.0f, button_img[0], TRUE);
-	//カーソルがヒットしてなかったら色をかぶせない
-	if (hit_cursor == false) { SetDrawBright(255, 255, 255); }
-	DrawRotaGraphF(location.x + 15.0f, location.y-5.0f, 1, 0, button_img[1], TRUE);
 	SetDrawBright(255, 255, 255);
+
+	//カーソルがヒットしていたらマークに薄い黒を重ねる
+	if (hit_cursor)
+	{
+		// 暗くする
+		SetDrawBright(150, 150, 150);
+		// マークの描画
+		DrawRotaGraphF(location.x + 15.0f, location.y - 5.0f, 1, 0, button_img[1], TRUE);
+		SetDrawBright(255, 255, 255);
+	}
+	else
+	{
+		// マークの描画
+		DrawRotaGraphF(location.x + 15.0f, location.y - 5.0f, 1, 0, button_img[1], TRUE);
+	}
+
+	//if(hit_cursor==true)
+	//{
+	//	// 描画ブレンドモードをアルファブレンドにする
+	//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 20);
+	//}
+	//else {
+	//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	//}
+	//DrawRotaGraphF(location.x + 15.0f, location.y - 15.0f, 3, 0, button_img[2], TRUE);
+	//// 描画ブレンドモードをノーブレンドにする
+	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	//SetDrawBright(255, 255, 255);
+
 
 	// 状態によって描画する内容を変える
 	switch (bskill_state)

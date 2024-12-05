@@ -104,7 +104,7 @@ OpeningAnim::OpeningAnim()
 
     anim_num = 0;
     pizza_pos.x = SCREEN_WIDTH / 2;
-    pizza_pos.y = -20.0f;
+    pizza_pos.y = -100.0f;
     pizza_angle = 0.0;
     anim_end = false;
     se_cnt = 20;
@@ -247,6 +247,10 @@ void OpeningAnim::Update()
 
 void OpeningAnim::Draw() const
 {
+    if (objects.back()->GetLocation().y < 700)
+    {
+        DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, skip_img[0], TRUE);
+    }
     DrawRotaGraphF(pizza_pos.x, pizza_pos.y, 0.5, 0, pizza_img[0], TRUE);
 
     DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.5, 0, pizza_img[0], TRUE);
@@ -274,7 +278,6 @@ void OpeningAnim::Draw() const
     }
 
 
-    DrawRotaGraph(SCREEN_WIDTH/2, SCREEN_HEIGHT-50,1, 0, skip_img[0], TRUE);
 
 }
 
