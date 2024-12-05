@@ -364,7 +364,7 @@ void ResultScene::Update()
 void ResultScene::Draw() const
 {
 	// 背景描画
-	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x333333,TRUE);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x686f82,TRUE);
 
 	// ゲームクリア、ゲームオーバーの描画
 	if (is_clear == true)
@@ -1318,7 +1318,7 @@ void ResultScene::KirakiraAnimControl()
 			{
 				kirakira_anim_cnt[j]++;
 
-				if (kirakira_anim_cnt[j] > 60)
+				if (kirakira_anim_cnt[j] > 50)
 				{
 					if (kirakira_anim_num_puls[j] == true)
 					{

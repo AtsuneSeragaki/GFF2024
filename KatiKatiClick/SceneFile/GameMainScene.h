@@ -16,6 +16,7 @@
 #include "../ObjectFile/PauseFile/PauseButtonFile/PauseButton.h"
 #include "../ObjectFile/ShapeZoneFile/HitCircleZone.h"
 #include "../ObjectFile/DamageEffect/DamageEffect.h"
+#include "../FadeFile/Fade.h"
 #include <vector>
 
 enum class GameState
@@ -39,6 +40,8 @@ private:
 	
 	UICoins* ui_coins;
 	UITimer* ui_timer;
+
+	Fade* fade;
 
 	int enm_generate_cnt;//エネミー生成カウント
 	
@@ -119,6 +122,8 @@ private:
 	int sweat_se;    // 汗の音
 	int is_sweat_se_play; // 汗の音は流れているか
 	int pizza_se;
+
+	int change_screen_flg;
 
 public:
 	GameMainScene();
