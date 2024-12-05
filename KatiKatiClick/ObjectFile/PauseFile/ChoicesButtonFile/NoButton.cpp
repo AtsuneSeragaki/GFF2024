@@ -9,8 +9,8 @@ NoButton::NoButton()
 	can_hit = true;
 	object_type = ObjectType::choicebutton;
 	shape = Shape::square;
-	width = 80.0f;
-	height = 32.0f;
+	width = 90.0f;
+	height = 40.0f;
 	
 	click_flg = false;
 	cursor_overlap_flg = false;
@@ -20,7 +20,7 @@ NoButton::NoButton()
 	std::vector<int> tmp;
 
 	// "いいえ"ボタン画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/Button/NoButton.png", 2, 2, 1, 80, 32);
+	tmp = rm->GetImages("Resource/Images/Pause/Button/NoButton.png", 2, 2, 1, 96, 40);
 	for (int i = 0; i < 2; i++)
 	{
 		button_image.push_back(tmp[i]);
@@ -85,6 +85,9 @@ void NoButton::Draw() const
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 	}
+
+	// 当たり判定確認
+	//DrawBoxAA(location.x - width / 2, location.y - height / 2, location.x + width / 2, location.y + height / 2, 0x000000,FALSE, 1.0f);
 }
 
 void NoButton::HitReaction(ObjectBase* character)

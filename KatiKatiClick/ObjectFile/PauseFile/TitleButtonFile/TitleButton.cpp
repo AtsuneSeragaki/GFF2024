@@ -9,15 +9,15 @@ TitleButton::TitleButton()
 	can_hit = true;
 	object_type = ObjectType::in_pausebutton;
 	shape = Shape::square;
-	width = 160.0f;
-	height = 32.0f;
+	width = 192.0f;
+	height = 40.0f;
 
 	// ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
 
 	// "タイトルへ戻る"ボタン画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/Button/TitleButton.png", 2, 2, 1, 160, 32);
+	tmp = rm->GetImages("Resource/Images/Pause/Button/TitleButton.png", 2, 2, 1, 192, 40);
 	for (int i = 0; i < 2; i++)
 	{
 		button_image.push_back(tmp[i]);
