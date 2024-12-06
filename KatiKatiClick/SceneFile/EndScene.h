@@ -14,6 +14,11 @@ private:
 
 	std::vector<int> cloud_img;			//雲の画像
 
+	int end_img;
+
+	int black_alpha;
+	bool anim_start;            // アニメーションスタートしていいか？
+
 public:
 	EndScene();
 	~EndScene();

@@ -16,6 +16,7 @@
 #include "../ObjectFile/PauseFile/PauseButtonFile/PauseButton.h"
 #include "../ObjectFile/ShapeZoneFile/HitCircleZone.h"
 #include "../ObjectFile/DamageEffect/DamageEffect.h"
+#include "../FadeFile/Fade.h"
 #include <vector>
 
 enum class GameState
@@ -39,6 +40,8 @@ private:
 	
 	UICoins* ui_coins;
 	UITimer* ui_timer;
+
+	Fade* fade;
 
 	int enm_generate_cnt;//エネミー生成カウント
 	
@@ -82,6 +85,8 @@ private:
 
 	bool slowdown_active; // 足止めスキルがあるか？
 
+	bool change_scene_flg;
+
 	//スタート用
 	std::vector<int> pizza_img;
 	Vector2D pizza_pos;
@@ -117,6 +122,8 @@ private:
 	int sweat_se;    // 汗の音
 	int is_sweat_se_play; // 汗の音は流れているか
 	int pizza_se;
+
+	int change_screen_flg;
 
 public:
 	GameMainScene();

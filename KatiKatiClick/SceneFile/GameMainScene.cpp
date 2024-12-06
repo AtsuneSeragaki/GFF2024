@@ -21,8 +21,8 @@ GameMainScene::GameMainScene()
 
     //CreateObject<CrackEnemy>(Vector2D(200.0f,300.0f));//エネミー生成
     CreateObject<Cursor>(Vector2D(0.0f,0.0f));                  //カーソル生成
-    CreateObject<BAttackSkill>(Vector2D(255.0f, 675.0f));        // アタックスキルボタン生成
-    CreateObject<BSlowDownSkill>(Vector2D(75.0f, 675.0f));     // 足止めスキルボタン生成
+    CreateObject<BAttackSkill>(Vector2D(270.0f, 675.0f));        // アタックスキルボタン生成
+    CreateObject<BSlowDownSkill>(Vector2D(90.0f, 675.0f));     // 足止めスキルボタン生成
     wall_cnt = 0;
 
     for (int i = 0; i < 3; i++)
@@ -55,6 +55,8 @@ GameMainScene::GameMainScene()
 
     ui_coins = new UICoins;     // コインUI生成
     ui_timer = new UITimer;     // タイマー生成
+
+    fade = new Fade();
 
     enm_generate_cnt = 200;
 
@@ -169,6 +171,8 @@ GameMainScene::GameMainScene()
     hit_wall_enemy_cnt = 0;
 
     is_sweat_se_play = -1;
+
+    change_scene_flg = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -439,7 +443,11 @@ void GameMainScene::Draw() const
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     
-
+    if (going_title)
+    {
+        fade->Draw();
+    }
+   
   // DrawFormatString(30, 350, 0xffffff, "%d", bgm_volume);
    //DrawFormatString(60, 350, 0xffffff, "%d", num_2);
 
@@ -447,11 +455,13 @@ void GameMainScene::Draw() const
 
 AbstractScene* GameMainScene::Change()
 {
-    if (going_title)
+    if (change_screen_flg)
     {
         // BGMを止める
         StopSoundMem(bgm);
         is_bgm_active = 0;
+
+        TitleScene::is_fade = true;
 
         // タイトルに遷移する
         return new TitleScene;
@@ -490,7 +500,7 @@ void GameMainScene::InGameUpdate()
     }
 
     // ポーズ中はBGMの音量を小さくする
-    if (is_pause)
+    if (is_pause == true && going_title == false)
     {
         // BGMを徐々に小さく
         if (bgm_volume != 100)
@@ -650,6 +660,33 @@ void GameMainScene::InGameUpdate()
     // 一時停止中の処理
     if (is_pause == true && is_game_over == false)
     {
+        if (going_title)
+        {
+            // 画面遷移して良い
+            fade->Update();
+
+            // BGMを徐々に小さく
+            if (bgm_volume != 0)
+            {
+                bgm_volume -= 3;
+
+                if (bgm_volume <= 0)
+                {
+                    bgm_volume = 0;
+                }
+
+                ChangeVolumeSoundMem(bgm_volume, bgm);
+            }
+
+
+            if (fade->CheckFadeEnd() == true)
+            {
+                change_screen_flg = true;
+            }
+
+            //return;
+        }
+
         // 更新処理
         for (int i = 0; i < objects.size(); i++)
         {
