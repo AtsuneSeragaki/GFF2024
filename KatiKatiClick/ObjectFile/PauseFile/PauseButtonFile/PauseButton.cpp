@@ -37,7 +37,7 @@ PauseButton::PauseButton()
 	}
 
 	// 説明画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/HelpImage.png", 5, 3, 2, 340, 340);
+	tmp = rm->GetImages("Resource/Images/Pause/HelpImage.png", 5, 5, 1, 340, 340);
 	for (int i = 0; i < 5; i++)
 	{
 		help_image.push_back(tmp[i]);
@@ -139,7 +139,7 @@ void PauseButton::Draw() const
 
 		// 説明画像描画
 		DrawRotaGraphF(180.0f, 370.0f, 1.0, 0.0, help_image[page_num], TRUE);
-		DrawBoxAA(10.0f, 200.0f, 350.0f, 540.0f, 0x333333, FALSE, 2.0f);
+		DrawBoxAA(10.0f, 200.0f, 350.0f, 540.0f, 0x222222, FALSE, 2.0f);
 
 		if (page_num <= 2)
 		{
