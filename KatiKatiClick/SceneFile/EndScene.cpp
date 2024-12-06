@@ -115,12 +115,12 @@ void EndScene::Draw() const
 
 	if (cnt >= 200)
 	{
-		DrawRotaGraph(180, 0 + 200 * 2, 0.5f, 0, woman_img, TRUE);
-		DrawRotaGraph(137, 355, 0.1f, 0, end_img[1], TRUE);
+		DrawRotaGraph(185, 0 + 200 * 2, 0.5f, 0, woman_img, TRUE);
+		DrawRotaGraph(142, 355, 0.1f, 0, end_img[1], TRUE);
 	}
 	else
 	{
-		DrawRotaGraph(180, 0 + cnt * 2, 0.5f, 0, woman_img, TRUE);
+		DrawRotaGraph(185, 0 + cnt * 2, 0.5f, 0, woman_img, TRUE);
 	}
 
 	// 描画ブレンドモードをアルファブレンドにする
