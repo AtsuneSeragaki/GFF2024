@@ -96,6 +96,9 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/star_back.mp3");
 	star_back_se = tmp_bgm;
 
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/fire.mp3");
+	fire_se = tmp_bgm;
+
 	// 音量変更
 	bgm_volume = 190;
 	ChangeVolumeSoundMem(bgm_volume, bgm);
