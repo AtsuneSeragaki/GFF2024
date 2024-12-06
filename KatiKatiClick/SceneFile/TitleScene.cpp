@@ -85,7 +85,8 @@ void TitleScene::Update()
 		PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
 	}
 
-	
+	// カーソルの更新処理
+	cursor->Update();
 
 	if (black_alpha > 0)
 	{
@@ -115,8 +116,6 @@ void TitleScene::Update()
 		}
 	}
 
-	// カーソルの更新処理
-	cursor->Update();
 
 	// プレイヤーがボタンをクリックしたか？
 	if (select != -1)
