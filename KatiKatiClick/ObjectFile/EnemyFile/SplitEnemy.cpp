@@ -200,6 +200,7 @@ void SplitEnemy::HitReaction(ObjectBase* character)
 			width -= 10;
 			height -= 10;
 			hp -= 10;
+			face_shift_y -= 5;
 		}
 		create_damage_effect = true;//ダメージエフェクト生成
 
