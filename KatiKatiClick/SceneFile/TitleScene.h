@@ -35,7 +35,9 @@ private:
 	int black_alpha;
 
 	int bgm_volume;  // BGMの音量
-
+	
+	Vector2D cloud_pos;
+	Vector2D cloud_pos2;
 	
 public:
 	TitleScene();
