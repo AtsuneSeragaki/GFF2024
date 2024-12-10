@@ -19,7 +19,7 @@ PauseButton::PauseButton()
 	std::vector<int> tmp;
 
 	// ポーズボタン画像を読み込む
-	tmp = rm->GetImages("Resource/Images/Pause/PauseButton.png", 2, 2, 1, 16, 16);
+	tmp = rm->GetImages("Resource/Images/Pause/PauseButton.png", 2, 2, 1, 48, 48);
 	for (int i = 0; i < 2; i++)
 	{
 		button_image.push_back(tmp[i]);
@@ -60,6 +60,8 @@ PauseButton::PauseButton()
 	animation_count = 0;
 
 	cursor_overlap_flg = false;
+	button_animation_count = 0;
+	button_animation_flg = false;
 }
 
 PauseButton::~PauseButton()
@@ -74,13 +76,26 @@ void PauseButton::Initialize()
 
 void PauseButton::Update()
 {
+	// ポーズボタン押下アニメション
+	if (button_animation_flg == true)
+	{
+		button_animation_count++;
+		if (button_animation_count < 10)
+		{
+			image_num = 1;
+		}
+		else
+		{
+			button_animation_count = 0;
+			image_num = 0;
+			button_animation_flg = false;
+		}
+	}
+
 	cursor_overlap_flg = false;
 
 	if (is_pause == false)
 	{
-		// 画像を停止ボタンにする
-		image_num = 0;
-
 		if (page_num != 0)
 		{
 			// ページを0に戻す
@@ -91,9 +106,6 @@ void PauseButton::Update()
 	}
 	else
 	{
-		// 画像を再生ボタンにする
-		image_num = 1;
-
 		// マウスのアニメーション処理
 		if (page_num <= 2)
 		{
@@ -128,7 +140,7 @@ void PauseButton::Draw() const
 	if (is_pause)
 	{
 		// 灰色背景
-		DrawBoxAA(0.0f, 0.0f, 360.0f, 700.0f, 0xdddddd, TRUE);
+		DrawBoxAA(0.0f, 0.0f, 360.0f, 695.0f, 0xdddddd, TRUE);
 
 		// "遊び方"テキスト画像描画
 		DrawRotaGraphF(180.0f, 50.0f, 1.0, 0.0, heading_image[0], TRUE);
@@ -139,7 +151,7 @@ void PauseButton::Draw() const
 
 		// 説明画像描画
 		DrawRotaGraphF(180.0f, 370.0f, 1.0, 0.0, help_image[page_num], TRUE);
-		DrawBoxAA(10.0f, 200.0f, 350.0f, 540.0f, 0x222222, FALSE, 2.0f);
+		DrawBoxAA(8.0f, 198.0f, 352.0f, 542.0f, 0x777777, FALSE, 3.0f);
 
 		if (page_num <= 2)
 		{
@@ -172,7 +184,7 @@ void PauseButton::Draw() const
 	//DrawLineAA(180.0f, 0.0f, 180.0f, 800.0f, 0xff0000, 1.0f);
 
 	// ポーズボタン画像の描画
-	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
+	DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[image_num], TRUE);
 
 	// カーソルがポーズボタンに重なっていたら
 	if (cursor_overlap_flg)
@@ -181,7 +193,7 @@ void PauseButton::Draw() const
 		// 描画輝度のセット
 		SetDrawBright(128, 128, 128);
 		// ポーズボタン画像の描画
-		DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[image_num], TRUE);
+		DrawRotaGraphF(location.x, location.y, 1.0, 0.0, button_image[image_num], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 	}
@@ -201,6 +213,9 @@ void PauseButton::HitReaction(ObjectBase* character)
 			// 一時停止を解除する
 			is_pause = false;
 		}
+
+		// ポーズボタン押下アニメション開始
+		button_animation_flg = true;
 	}
 }
 

@@ -17,6 +17,12 @@ TitleButton::TitleButton()
 	std::vector<int> tmp;
 
 	// "タイトルへ戻る"ボタン画像を読み込む
+	//tmp = rm->GetImages("Resource/Images/Pause/Button/TitleButton.png", 2, 2, 1, 192, 40);
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	button_image.push_back(tmp[i]);
+	//}
+
 	tmp = rm->GetImages("Resource/Images/Pause/Button/TitleButton.png", 2, 2, 1, 192, 40);
 	for (int i = 0; i < 2; i++)
 	{

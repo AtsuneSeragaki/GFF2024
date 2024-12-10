@@ -17,6 +17,8 @@ private:
     int page_num;                       // 説明ページ画像番号
     int mouse_image_num;                // マウスの画像番号
     int animation_count;                // マウスのアニメーションカウント
+    int button_animation_count;         // ポーズボタンのアニメーションカウント
+    bool button_animation_flg;          // ポーズボタンアニメーション開始か？
 
 public:
     PauseButton();
