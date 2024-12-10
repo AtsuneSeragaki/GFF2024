@@ -173,6 +173,12 @@ GameMainScene::GameMainScene()
     is_sweat_se_play = -1;
 
     change_scene_flg = false;
+
+    skill_area_width = 0.0f;
+    skill_area_height = 0.0f;
+    is_skill_area_max = false;
+
+    skill_area_alpha = 0;
 }
 
 GameMainScene::~GameMainScene()
@@ -253,6 +259,11 @@ void GameMainScene::Draw() const
         DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
     }
 
+    if (is_spos_select == true)
+    {
+        DrawSkillArea();
+    }
+    
     for (int i = 0; i < objects.size(); i++)
     {
         if (objects[i]->GetObjectType() == ObjectType::slowdownskill)
@@ -320,7 +331,7 @@ void GameMainScene::Draw() const
 
         if (objects[i]->GetObjectType() == ObjectType::wall)
         {
-            objects[i]->Draw();
+           //objects[i]->Draw();
         }
     }
 
@@ -350,7 +361,7 @@ void GameMainScene::Draw() const
         {
             if (objects[i]->GetObjectType() == ObjectType::wall)
             {
-                objects[i]->Draw();
+                //objects[i]->Draw();
                 // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
             }
         }
@@ -448,8 +459,19 @@ void GameMainScene::Draw() const
         fade->Draw();
     }
    
+    if (is_spos_select)
+    {
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+        DrawBox(0, 560, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
+
   // DrawFormatString(30, 350, 0xffffff, "%d", bgm_volume);
    //DrawFormatString(60, 350, 0xffffff, "%d", num_2);
+
+    
 
 }
 
@@ -560,6 +582,8 @@ void GameMainScene::InGameUpdate()
     // スキル置く場所選択中の処理
     if (is_spos_select == true)
     {
+        ChangeDrawSKillArea();
+
         int i, j;
         float x, y;
 
@@ -622,7 +646,7 @@ void GameMainScene::InGameUpdate()
 
         if (MouseInput::GetMouseState() == eMouseInputState::eClick)
         {
-            if (y <= 470.0f)
+            if (y <= 560.0f)
             {
                 if (is_attack_active == true)
                 {
@@ -1854,4 +1878,53 @@ int GameMainScene::CalculationKillEnemyNum()
     }
 
     return num;
+}
+
+void GameMainScene::ChangeDrawSKillArea()
+{
+    if (is_skill_area_max)
+    {
+        skill_area_alpha -= 5;
+
+        if (skill_area_alpha <= 0)
+        {
+            is_skill_area_max = false;
+        }
+    }
+    else
+    {
+        skill_area_alpha += 5;
+
+        if (skill_area_alpha >= 255)
+        {
+            is_skill_area_max = true;
+        }
+    }
+}
+
+void GameMainScene::DrawSkillArea()const
+{
+    float x = 0.0f;
+    float y = 0.0f;
+
+    int i = 0;
+
+    for (i = 0; i < objects.size(); i++)
+    {
+        if (objects[i]->GetObjectType() == ObjectType::cursor)
+        {
+            break;
+        }
+    }
+
+    Cursor* player = dynamic_cast<Cursor*>(objects[i]);
+
+    x = player->GetLocation().x;
+    y = player->GetLocation().y;
+
+    // 描画ブレンドモードをアルファブレンドにする
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, skill_area_alpha);
+    DrawBoxAA(x - 160.0f / 2.0f, y - 160.0f / 2.0f, x + 160.0f / 2.0f, y + 160.0f / 2.0f, 0x00ff00, FALSE,5.0f);
+    // 描画ブレンドモードをノーブレンドにする
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
