@@ -76,8 +76,8 @@ void RightButton::Update()
 void RightButton::Draw() const
 {
 	// 矢印ボタン画像の描画
-	DrawRotaGraphF(location.x, location.y, 2.5, 0.0, button_image[button_image_num], TRUE);
-	DrawRotaGraphF(location.x, location.y, 2.3, 0.0, arrow_image[0], TRUE, TRUE);
+	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[button_image_num], TRUE);
+	DrawRotaGraphF(location.x, location.y, 2.8, 0.0, arrow_image[0], TRUE, TRUE);
 
 	// カーソルが 矢印ボタンに重なっていたら
 	//if (cursor_overlap_flg)
