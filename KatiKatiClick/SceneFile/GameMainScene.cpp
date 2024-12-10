@@ -331,7 +331,7 @@ void GameMainScene::Draw() const
 
         if (objects[i]->GetObjectType() == ObjectType::wall)
         {
-           //objects[i]->Draw();
+           objects[i]->Draw();
         }
     }
 
@@ -361,7 +361,7 @@ void GameMainScene::Draw() const
         {
             if (objects[i]->GetObjectType() == ObjectType::wall)
             {
-                //objects[i]->Draw();
+                objects[i]->Draw();
                 // DrawFormatString(30 + i * 20, 350, 0xffffff, "%f", );
             }
         }
@@ -1777,6 +1777,7 @@ void GameMainScene::SkillPause(int i)
     if (b_skill->GetSkillState() == BSkillState::active)
     {
         is_spos_select = true;
+        skill_area_alpha = 0;
 
         // ポーズ状態にする
         if (b_skill->GetObjectType() == ObjectType::b_attackskill)
@@ -1889,6 +1890,7 @@ void GameMainScene::ChangeDrawSKillArea()
         if (skill_area_alpha <= 0)
         {
             is_skill_area_max = false;
+            skill_area_alpha = 0;
         }
     }
     else
@@ -1898,6 +1900,7 @@ void GameMainScene::ChangeDrawSKillArea()
         if (skill_area_alpha >= 255)
         {
             is_skill_area_max = true;
+            skill_area_alpha = 255;
         }
     }
 }

@@ -373,7 +373,7 @@ void ResultScene::Update()
 void ResultScene::Draw() const
 {
 	// 背景描画
-	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x686f82,TRUE);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246,TRUE);
 
 	// ゲームクリア、ゲームオーバーの描画
 	if (is_clear == true)
@@ -407,6 +407,17 @@ void ResultScene::Draw() const
 
 		// 金の星描画
 	    DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
+
+		if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
+		{
+			// 描画ブレンドモードをアルファブレンドにする
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
+			DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+			DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
+			// 描画ブレンドモードをノーブレンドにする
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		}
+
 		break;
 
 	case 2:
@@ -437,6 +448,27 @@ void ResultScene::Draw() const
 				DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
 			}
 		}
+
+		if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
+		{
+			// 描画ブレンドモードをアルファブレンドにする
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
+			DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+			DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
+			// 描画ブレンドモードをノーブレンドにする
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		}
+
+		if (star_click[1] == false && star_x[1] == star_gold_x[1] && star_hp[1] > 0)
+		{
+			// 描画ブレンドモードをアルファブレンドにする
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[1]);
+			DrawRotaGraph2F(star_gold_x[1] - 38.0f, star_gold_y[1] - 10.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[2]], TRUE);
+			DrawRotaGraph2F(star_gold_x[1] + 34.0f, star_gold_y[1] + 37.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[3]], TRUE);
+			// 描画ブレンドモードをノーブレンドにする
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		}
+
 		break;
 
 	case 3:
@@ -463,47 +495,47 @@ void ResultScene::Draw() const
 			}
 
 			// キラキラの描画
-			if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
-			{
-				//// 描画ブレンドモードをアルファブレンドにする
-				//SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
-				//DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
-				//DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
-				//// 描画ブレンドモードをノーブレンドにする
-				//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-				//DrawBox();
-			}
-			
 			//if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
 			//{
-			//	// 描画ブレンドモードをアルファブレンドにする
-			//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
-			//	DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
-			//	DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
-			//	// 描画ブレンドモードをノーブレンドにする
-			//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-			//}
+			//	//// 描画ブレンドモードをアルファブレンドにする
+			//	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
+			//	//DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+			//	//DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
+			//	//// 描画ブレンドモードをノーブレンドにする
+			//	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-			//if (star_click[1] == false && star_x[1] == star_gold_x[1] && star_hp[1] > 0)
-			//{
-			//	// 描画ブレンドモードをアルファブレンドにする
-			//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[1]);
-			//	DrawRotaGraph2F(star_gold_x[1] - 38.0f, star_gold_y[1] - 10.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[2]], TRUE);
-			//	DrawRotaGraph2F(star_gold_x[1] + 34.0f, star_gold_y[1] + 37.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[3]], TRUE);
-			//	// 描画ブレンドモードをノーブレンドにする
-			//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			//	//DrawBox();
 			//}
+			
+			if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
+			{
+				// 描画ブレンドモードをアルファブレンドにする
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
+				DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+				DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
+				// 描画ブレンドモードをノーブレンドにする
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			}
 
-			//if (star_click[2] == false && star_x[2] == star_gold_x[2] && star_hp[2] > 0)
-			//{
-			//	// 描画ブレンドモードをアルファブレンドにする
-			//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[2]);
-			//	DrawRotaGraph2F(star_gold_x[2] - 25.0f, star_gold_y[2] - 20.0f, 16.0f, 16.0f, 0.8f, star_angle[2], kirakira_img[kirakira_anim_num[4]], TRUE);
-			//	DrawRotaGraph2F(star_gold_x[2] + 22.0f, star_gold_y[2] + 34.0f, 16.0f, 16.0f, 0.8f, star_angle[2], kirakira_img[kirakira_anim_num[5]], TRUE);
-			//	// 描画ブレンドモードをノーブレンドにする
-			//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-			//}
+			if (star_click[1] == false && star_x[1] == star_gold_x[1] && star_hp[1] > 0)
+			{
+				// 描画ブレンドモードをアルファブレンドにする
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[1]);
+				DrawRotaGraph2F(star_gold_x[1] - 38.0f, star_gold_y[1] - 10.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[2]], TRUE);
+				DrawRotaGraph2F(star_gold_x[1] + 34.0f, star_gold_y[1] + 37.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[3]], TRUE);
+				// 描画ブレンドモードをノーブレンドにする
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			}
+
+			if (star_click[2] == false && star_x[2] == star_gold_x[2] && star_hp[2] > 0)
+			{
+				// 描画ブレンドモードをアルファブレンドにする
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[2]);
+				DrawRotaGraph2F(star_gold_x[2] - 25.0f, star_gold_y[2] - 20.0f, 16.0f, 16.0f, 0.8f, star_angle[2], kirakira_img[kirakira_anim_num[4]], TRUE);
+				DrawRotaGraph2F(star_gold_x[2] + 22.0f, star_gold_y[2] + 34.0f, 16.0f, 16.0f, 0.8f, star_angle[2], kirakira_img[kirakira_anim_num[5]], TRUE);
+				// 描画ブレンドモードをノーブレンドにする
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			}
 		}
 
 

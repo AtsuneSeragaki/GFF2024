@@ -97,7 +97,7 @@ void EndScene::Update()
 void EndScene::Draw() const
 {
 	// 背景色（水色）
-	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x686f82, TRUE);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
 	// 背景の雲
 	//DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
 	//DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
