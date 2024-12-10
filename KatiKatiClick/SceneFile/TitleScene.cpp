@@ -29,6 +29,9 @@ TitleScene::TitleScene()
 	tmp_img = rm->GetImages("Resource/Images/Opening/TitleLogo.png");
 	titlelogo_img.push_back(tmp_img[0]);
 
+	tmp_img = rm->GetImages("Resource/Images/Explanation/select.png");
+	select_img.push_back(tmp_img[0]);
+
 	// 雲画像読み込み
 	tmp_img = rm->GetImages("Resource/Images/Opening/cloud.png");
 	cloud_img.push_back(tmp_img[0]);
@@ -60,10 +63,10 @@ TitleScene::TitleScene()
 	end_y = GET_LANE_HEIGHT(6.5f);
 
 	//雲の配置
-	cloud_pos.x = SCREEN_WIDTH+150;
+	cloud_pos.x = SCREEN_WIDTH+100;
 	cloud_pos.y = GET_LANE_HEIGHT(1);
-	cloud_pos2.x = -150;
-	cloud_pos2.y = GET_LANE_HEIGHT(9);
+	cloud_pos2.x = -100;
+	cloud_pos2.y = GET_LANE_HEIGHT(8);
 
 	change_screen_flg = false;
 
@@ -126,13 +129,13 @@ void TitleScene::Update()
 	if (cloud_pos.x < -100) {
 		cloud_pos.x = SCREEN_WIDTH+100;
 	}
-	cloud_pos.x -= 0.5;
+	cloud_pos.x -= 0.2;
 
 	if (cloud_pos2.x > SCREEN_WIDTH+100)
 	{
 		cloud_pos2.x = -100;
 	}
-	cloud_pos2.x += 0.5;
+	cloud_pos2.x += 0.2;
 
 	// プレイヤーがボタンをクリックしたか？
 	if (select != -1)
@@ -197,6 +200,7 @@ void TitleScene::Draw() const
 	// 背景色（水色）
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
 
+
 	double logo_size = 1.0;
 
 	if (opening_anim->GetAnimEnd() == false)
@@ -223,6 +227,8 @@ void TitleScene::Draw() const
 			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
 			// エンドボタン画像の描画
 			DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+			//選択の文字
+			DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, select_img[0], TRUE);
 
 			break;
 		default:
@@ -233,6 +239,9 @@ void TitleScene::Draw() const
 	}
 	else
 	{
+		//選択の文字
+		DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, select_img[0], TRUE);
+
 		// 背景の雲
 		DrawRotaGraph(cloud_pos.x, cloud_pos.y, 4, 0, cloud_img[0], TRUE);
 		DrawRotaGraph(cloud_pos2.x, cloud_pos2.y, 4, 0, cloud_img[0], TRUE);
