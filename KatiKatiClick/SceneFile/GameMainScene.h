@@ -125,6 +125,14 @@ private:
 
 	int change_screen_flg;
 
+	float skill_area_width;
+
+	float skill_area_height;
+
+	bool is_skill_area_max;
+
+	int skill_area_alpha;
+
 public:
 	GameMainScene();
 	~GameMainScene();
@@ -166,6 +174,9 @@ private:
 	void ResetEnemySpeed(int i);
 	// 倒した敵の数を求めるための計算処理
 	int CalculationKillEnemyNum();
+	// スキル範囲(予想)
+	void DrawSkillArea() const;
+	void ChangeDrawSKillArea();
 
 protected:
 	template <class T>
