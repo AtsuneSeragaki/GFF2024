@@ -132,7 +132,7 @@ void EndScene::Draw() const
 
 AbstractScene* EndScene::Change()
 {
-	if (cnt == 420)
+	if (cnt == 417)
 	{
 		StopSoundMem(bgm);
 		is_bgm_active = false;
