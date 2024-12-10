@@ -195,7 +195,7 @@ void TitleScene::Update()
 void TitleScene::Draw() const
 {
 	// 背景色（水色）
-	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x686f82, TRUE);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
 
 	double logo_size = 1.0;
 

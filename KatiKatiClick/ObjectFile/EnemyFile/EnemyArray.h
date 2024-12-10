@@ -11,7 +11,7 @@ enum class Enemys
 	SnakeEnemy,
 };
 
-
+/*
 std::vector<std::vector<int>> enemy_array =
 {
 	{0,1,0,1,0},
@@ -70,10 +70,9 @@ std::vector<std::vector<int>> enemy_array =
 	{2,0,2,0,2},
 
 };
-
+*/
 
 //元
-/*
 std::vector<std::vector<int>> enemy_array =
 {
 	{0,1,0,1,0},
@@ -132,7 +131,6 @@ std::vector<std::vector<int>> enemy_array =
 	{2,0,2,0,2},
 
 };
-*/
 
 
 std::vector<std::vector<int>> gameover_enm_array =
