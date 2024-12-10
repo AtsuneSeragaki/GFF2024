@@ -1440,7 +1440,7 @@ void ResultScene::StarUnClickCount()
 			}
 			break;
 		case 2:
-			if (star_unclick_cnt[2] > 200)
+			if (star_unclick_cnt[2] > 150)
 			{
 				star_unclick_cnt[2] = 0;
 				star_click[2] = false;
