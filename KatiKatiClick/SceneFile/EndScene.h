@@ -14,7 +14,9 @@ private:
 
 	std::vector<int> cloud_img;			//雲の画像
 
-	int end_img;
+	int end_img[2];
+
+	int woman_img;
 
 	int black_alpha;
 	bool anim_start;            // アニメーションスタートしていいか？

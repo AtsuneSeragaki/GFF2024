@@ -96,6 +96,9 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/star_back.mp3");
 	star_back_se = tmp_bgm;
 
+	tmp_bgm = rm->GetSounds("Resource/Sounds/Result/fire.mp3");
+	fire_se = tmp_bgm;
+
 	// 音量変更
 	bgm_volume = 190;
 	ChangeVolumeSoundMem(bgm_volume, bgm);
@@ -1156,6 +1159,11 @@ void ResultScene::ChangeStarSize(int i)
 		if (star_gold_extrate[i] <= 0.15f)
 		{
 			is_star_min[i] = true;
+			is_gstar_click[i] = true;
+			star_click[i] = true;
+			kirakira_alpha[i] = 0;
+			star_unclick_cnt[i] = 0;
+			PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			star_gold_extrate[i] = 0.15f;
 		}
 		else
@@ -1169,6 +1177,11 @@ void ResultScene::ChangeStarSize(int i)
 		if (star_gold_extrate[i] <= 0.2f)
 		{
 			is_star_min[i] = true;
+			is_gstar_click[i] = true;
+			star_click[i] = true;
+			kirakira_alpha[i] = 0;
+			star_unclick_cnt[i] = 0;
+			PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			star_gold_extrate[i] = 0.2f;
 		}
 		else if(is_star_min[i - 1] == true)
@@ -1181,6 +1194,11 @@ void ResultScene::ChangeStarSize(int i)
 		if (star_gold_extrate[i] <= 0.15f)
 		{
 			is_star_min[i] = true;
+			is_gstar_click[i] = true;
+			star_click[i] = true;
+			kirakira_alpha[i] = 0;
+			star_unclick_cnt[i] = 0;
+			PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
 			star_gold_extrate[i] = 0.15f;
 		}
 		else if (is_star_min[i - 1] == true)
@@ -1318,7 +1336,7 @@ void ResultScene::KirakiraAnimControl()
 			{
 				kirakira_anim_cnt[j]++;
 
-				if (kirakira_anim_cnt[j] > 50)
+				if (kirakira_anim_cnt[j] > 30)
 				{
 					if (kirakira_anim_num_puls[j] == true)
 					{
