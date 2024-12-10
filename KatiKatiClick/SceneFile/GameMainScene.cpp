@@ -234,7 +234,7 @@ void GameMainScene::Draw() const
         // 描画ブレンドモードをアルファブレンドにする
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, param);
         // 夜背景色
-        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, GetColor(104, 111, 130), TRUE);
+        DrawBoxAA(0.0f, 0.0f, 360.0f, 560.0f, 0x072246, TRUE);
         // 背景の月画像の描画
         DrawRotaGraphF(180.0f, 200.0f - background_location_y, 0.5, 0.0, background_image[0], TRUE);
         // 描画ブレンドモードをノーブレンドにする
