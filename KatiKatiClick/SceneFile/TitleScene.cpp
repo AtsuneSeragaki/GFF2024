@@ -29,6 +29,9 @@ TitleScene::TitleScene()
 	tmp_img = rm->GetImages("Resource/Images/Opening/TitleLogo.png");
 	titlelogo_img.push_back(tmp_img[0]);
 
+	tmp_img = rm->GetImages("Resource/Images/Explanation/select.png");
+	select_img.push_back(tmp_img[0]);
+
 	// 雲画像読み込み
 	tmp_img = rm->GetImages("Resource/Images/Opening/cloud.png");
 	cloud_img.push_back(tmp_img[0]);
@@ -58,6 +61,12 @@ TitleScene::TitleScene()
 	start_y = GET_LANE_HEIGHT(6.5f);
 	end_x = SCREEN_WIDTH / 1.3;
 	end_y = GET_LANE_HEIGHT(6.5f);
+
+	//雲の配置
+	cloud_pos.x = SCREEN_WIDTH+100;
+	cloud_pos.y = GET_LANE_HEIGHT(1);
+	cloud_pos2.x = -100;
+	cloud_pos2.y = GET_LANE_HEIGHT(8);
 
 	change_screen_flg = false;
 
@@ -116,6 +125,17 @@ void TitleScene::Update()
 		}
 	}
 
+	//雲の移動
+	if (cloud_pos.x < -100) {
+		cloud_pos.x = SCREEN_WIDTH+100;
+	}
+	cloud_pos.x -= 0.4;
+
+	if (cloud_pos2.x > SCREEN_WIDTH+100)
+	{
+		cloud_pos2.x = -100;
+	}
+	cloud_pos2.x += 0.4;
 
 	// プレイヤーがボタンをクリックしたか？
 	if (select != -1)
@@ -178,10 +198,8 @@ void TitleScene::Update()
 void TitleScene::Draw() const
 {
 	// 背景色（水色）
-	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x686f82, TRUE);
-	// 背景の雲
-	DrawRotaGraph(60, GET_LANE_HEIGHT(4), 2, 0, cloud_img[0], TRUE);
-	DrawRotaGraph(LANE_WIDTH * 3 - 60, GET_LANE_HEIGHT(2), 2, 0, cloud_img[0], TRUE);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
+
 
 	double logo_size = 1.0;
 
@@ -209,6 +227,8 @@ void TitleScene::Draw() const
 			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
 			// エンドボタン画像の描画
 			DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+			//選択の文字
+			DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, select_img[0], TRUE);
 
 			break;
 		default:
@@ -219,11 +239,24 @@ void TitleScene::Draw() const
 	}
 	else
 	{
+		//選択の文字
+		DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, select_img[0], TRUE);
+
+		// 描画ブレンドモードをアルファブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		// 背景の雲
+		DrawRotaGraph(cloud_pos.x, cloud_pos.y, 4, 0, cloud_img[0], TRUE);
+		DrawRotaGraph(cloud_pos2.x, cloud_pos2.y, 4, 0, cloud_img[0], TRUE);
+		// 描画ブレンドモードをノーブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+
 		// タイトルロゴ
 		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8), logo_size, 0, titlelogo_img[0], TRUE);
 		
 		// ボタンの描画
 		DrawButton();
+
 
 		cursor->Draw();
 	}
