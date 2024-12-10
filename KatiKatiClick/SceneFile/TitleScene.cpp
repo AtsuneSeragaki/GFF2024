@@ -129,13 +129,13 @@ void TitleScene::Update()
 	if (cloud_pos.x < -100) {
 		cloud_pos.x = SCREEN_WIDTH+100;
 	}
-	cloud_pos.x -= 0.2;
+	cloud_pos.x -= 0.4;
 
 	if (cloud_pos2.x > SCREEN_WIDTH+100)
 	{
 		cloud_pos2.x = -100;
 	}
-	cloud_pos2.x += 0.2;
+	cloud_pos2.x += 0.4;
 
 	// プレイヤーがボタンをクリックしたか？
 	if (select != -1)
@@ -242,9 +242,13 @@ void TitleScene::Draw() const
 		//選択の文字
 		DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, select_img[0], TRUE);
 
+		// 描画ブレンドモードをアルファブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 		// 背景の雲
 		DrawRotaGraph(cloud_pos.x, cloud_pos.y, 4, 0, cloud_img[0], TRUE);
 		DrawRotaGraph(cloud_pos2.x, cloud_pos2.y, 4, 0, cloud_img[0], TRUE);
+		// 描画ブレンドモードをノーブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 
 		// タイトルロゴ
