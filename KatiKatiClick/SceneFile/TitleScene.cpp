@@ -43,7 +43,7 @@ TitleScene::TitleScene()
 	cloud_img.push_back(tmp_img[0]);
 
 	// スタートボタン画像の読み込み
-	tmp_img = rm->GetImages("Resource/Images/Opening/StartButton.png", 3, 3, 1, 130, 70);
+	tmp_img = rm->GetImages("Resource/Images/Opening/PlayButton.png", 3, 3, 1, 130, 70);
 	for (int i = 0; i < 3; i++)
 	{
 		start_button_img.push_back(tmp_img[i]);
