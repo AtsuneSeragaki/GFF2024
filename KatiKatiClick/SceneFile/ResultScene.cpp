@@ -30,10 +30,13 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 
 	// 画像データの読み込み
 	std::vector<int> tmp;
+	tmp = rm->GetImages("Resource/Images/Result/star_gold.png",4,4,1,100,100);
+	for (int i = 0; i < 4; i++)
+	{
+		star_gold_images.push_back(tmp[i]);
+	}
 	tmp = rm->GetImages("Resource/Images/Result/star_silver.png");
-	star_images[0] = tmp[0];
-	tmp = rm->GetImages("Resource/Images/Result/star_gold.png");
-	star_images[1] = tmp[0];
+	star_silver_image = tmp[0];
 	tmp = rm->GetImages("Resource/Images/Result/fire.png");
 	fire_image = tmp[0];
 
@@ -111,8 +114,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	for (int i = 0; i < 3; i++)
 	{
 		star_hp[i] = -1;
-		star_x[i] = STAR_X + 85.0f * (float)i;
-		star_gold_x[i] = STAR_X + 85.0f * (float)i;
+		
 		star_gold[i] = false;
 		star_back[i] = false;
 		fire_extrate[i] = 0.0f;
@@ -127,6 +129,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 		star_click[i] = true;
 		star_unclick_cnt[i] = 0;
 		kirakira_alpha[i] = 0;
+		kirakira_wait_time[i] = 0;
 	}
 
 	//for (int i = 0; i < 4; i++)
@@ -137,6 +140,13 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	//	kirakira_anim_cnt[i] = 0;
 	//}
 
+	star_x[0] = STAR_X;
+	star_gold_x[0] = STAR_X;
+	star_x[1] = STAR_X + 85.0f;
+	star_gold_x[1] = STAR_X + 85.0f;
+	star_x[2] = STAR_X + 170.0f;
+	star_gold_x[2] = STAR_X + 170.0f;
+
 	kirakira_alpha_puls[0] = false;
 	kirakira_alpha_puls[1] = false;
 	kirakira_alpha_puls[2] = false;
@@ -146,9 +156,6 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	kirakira_anim_num[0] = 0;
 	kirakira_anim_num[1] = 1;
 	kirakira_anim_num[2] = 2;
-	kirakira_anim_num[3] = 0;
-	kirakira_anim_num[4] = 1;
-	kirakira_anim_num[5] = 2;
 
 
 	kirakira_anim_cnt[0] = 0;
@@ -177,9 +184,9 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	star_angle[1] = 0.0f;
 	star_angle[2] = PI / 180.0f * 15.0f;
 
-	star_extrate[0] = 0.15f;
-	star_extrate[1] = 0.2f;
-	star_extrate[2] = 0.15f;
+	star_extrate[0] = 0.75f;
+	star_extrate[1] = 1.0f;
+	star_extrate[2] = 0.75f;
 
 	for (int i = 0; i < goal_num; i++)
 	{
@@ -199,7 +206,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	fire_y[0] = 30.0f;
 	fire_x[1] = 0.0f;
 	fire_y[1] = 40.0f;
-	fire_x[2] = -9.0f;
+	fire_x[2] = -8.0f;
 	fire_y[2] = 30.0f;
 
 	cnt[0] = 2.7f;
@@ -246,6 +253,10 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	kirakira_extrate = 1.0f;
 
 	star_start_end = false;
+
+	star_img_num[0] = 0;
+	star_img_num[1] = 0;
+	star_img_num[2] = 0;
 }
 
 ResultScene::~ResultScene()
@@ -363,9 +374,9 @@ void ResultScene::Update()
 		if (black_alpha <= 10)
 		{
 			anim_start = true;
-			star_gold_extrate[0] = 0.45f;
-			star_gold_extrate[1] = 0.5f;
-			star_gold_extrate[2] = 0.45f;
+			star_gold_extrate[0] = 2.55f;
+			star_gold_extrate[1] = 2.5f;
+			star_gold_extrate[2] = 2.55f;
 		}
 	}
 }
@@ -393,7 +404,7 @@ void ResultScene::Draw() const
 		// 銀の星描画
 		for (int i = 0; i < 3; i++)
 		{
-			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
+			DrawRotaGraph2F(star_x[i], star_y[i], 50.0f, 50.0f, star_extrate[i], star_angle[i], star_silver_image, TRUE);
 		}
 
 		// 火の描画
@@ -403,20 +414,22 @@ void ResultScene::Draw() const
 			{
 				DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
 			}
+
+			//DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
 		}
 
 		// 金の星描画
-	    DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
+	    DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 50.0f, 50.0f, star_gold_extrate[0], star_angle[0], star_gold_images[star_img_num[0]], TRUE);
 
-		if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
-		{
-			// 描画ブレンドモードをアルファブレンドにする
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
-			DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
-			DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
-			// 描画ブレンドモードをノーブレンドにする
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		}
+		//if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
+		//{
+		//	// 描画ブレンドモードをアルファブレンドにする
+		//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
+		//	DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+		//	DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
+		//	// 描画ブレンドモードをノーブレンドにする
+		//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		//}
 
 		break;
 
@@ -424,7 +437,7 @@ void ResultScene::Draw() const
 		// 銀の星描画
 		for (int i = 0; i < 3; i++)
 		{
-			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
+			DrawRotaGraph2F(star_x[i], star_y[i], 50.0f, 50.0f, star_extrate[i], star_angle[i], star_silver_image, TRUE);
 		}
 
 		// 火の描画
@@ -434,6 +447,8 @@ void ResultScene::Draw() const
 			{
 				DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
 			}
+
+			//DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
 		}
 
 		// 金の星描画
@@ -441,33 +456,33 @@ void ResultScene::Draw() const
 		{
 			if (i >= 1 && is_star_min[i - 1] == true)
 			{
-				DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+				DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 50.0f, 50.0f, star_gold_extrate[i], star_angle[i], star_gold_images[star_img_num[i]], TRUE);
 			}
 			else
 			{
-				DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
+				DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 50.0f, 50.0f, star_gold_extrate[0], star_angle[0], star_gold_images[star_img_num[0]], TRUE);
 			}
 		}
 
-		if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
-		{
-			// 描画ブレンドモードをアルファブレンドにする
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
-			DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
-			DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
-			// 描画ブレンドモードをノーブレンドにする
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		}
+		//if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
+		//{
+		//	// 描画ブレンドモードをアルファブレンドにする
+		//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
+		//	DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+		//	DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
+		//	// 描画ブレンドモードをノーブレンドにする
+		//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		//}
 
-		if (star_click[1] == false && star_x[1] == star_gold_x[1] && star_hp[1] > 0)
-		{
-			// 描画ブレンドモードをアルファブレンドにする
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[1]);
-			DrawRotaGraph2F(star_gold_x[1] - 38.0f, star_gold_y[1] - 10.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[2]], TRUE);
-			DrawRotaGraph2F(star_gold_x[1] + 34.0f, star_gold_y[1] + 37.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[3]], TRUE);
-			// 描画ブレンドモードをノーブレンドにする
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		}
+		//if (star_click[1] == false && star_x[1] == star_gold_x[1] && star_hp[1] > 0)
+		//{
+		//	// 描画ブレンドモードをアルファブレンドにする
+		//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[1]);
+		//	DrawRotaGraph2F(star_gold_x[1] - 38.0f, star_gold_y[1] - 10.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[2]], TRUE);
+		//	DrawRotaGraph2F(star_gold_x[1] + 34.0f, star_gold_y[1] + 37.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[3]], TRUE);
+		//	// 描画ブレンドモードをノーブレンドにする
+		//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		//}
 
 		break;
 
@@ -476,7 +491,7 @@ void ResultScene::Draw() const
 		for (int i = 0; i < 3; i++)
 		{
 			// 銀の星描画
-			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
+			DrawRotaGraph2F(star_x[i], star_y[i], 50.0f, 50.0f, star_extrate[i], star_angle[i], star_silver_image, TRUE);
 
 			// 火の描画
 			if (star_hp[i] == 0 && star_back[i] == false)
@@ -484,14 +499,16 @@ void ResultScene::Draw() const
 				DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
 			}
 
+			//DrawRotaGraph2F(star_gold_x[i] + fire_x[i], star_gold_y[i] + fire_y[i], 250.0f, 363.5f, fire_extrate[i], star_angle[i], fire_image, TRUE);
+
 			// 金の星描画
 			if (i >= 1 && is_star_min[i - 1] == true)
 			{
-				DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 250.0f, 250.0f, star_gold_extrate[i], star_angle[i], star_images[1], TRUE);
+				DrawRotaGraph2F(star_gold_x[i], star_gold_y[i], 50.0f, 50.0f, star_gold_extrate[i], star_angle[i], star_gold_images[star_img_num[i]], TRUE);
 			}
 			else
 			{
-				DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 250.0f, 250.0f, star_gold_extrate[0], star_angle[0], star_images[1], TRUE);
+				DrawRotaGraph2F(star_gold_x[0], star_gold_y[0], 50.0f, 50.0f, star_gold_extrate[0], star_angle[0], star_gold_images[star_img_num[0]], TRUE);
 			}
 
 			// キラキラの描画
@@ -507,35 +524,35 @@ void ResultScene::Draw() const
 			//	//DrawBox();
 			//}
 			
-			if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
-			{
-				// 描画ブレンドモードをアルファブレンドにする
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
-				DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
-				DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
-				// 描画ブレンドモードをノーブレンドにする
-				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-			}
+			//if (star_click[0] == false && star_x[0] == star_gold_x[0] && star_hp[0] > 0)
+			//{
+			//	// 描画ブレンドモードをアルファブレンドにする
+			//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[0]);
+			//	DrawRotaGraph2F(star_gold_x[0] - 30.0f, star_gold_y[0] - 3.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[0]], TRUE);
+			//	DrawRotaGraph2F(star_gold_x[0] + 32.0f, star_gold_y[0] + 20.0f, 16.0f, 16.0f, 0.8f, star_angle[0], kirakira_img[kirakira_anim_num[1]], TRUE);
+			//	// 描画ブレンドモードをノーブレンドにする
+			//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			//}
 
-			if (star_click[1] == false && star_x[1] == star_gold_x[1] && star_hp[1] > 0)
-			{
-				// 描画ブレンドモードをアルファブレンドにする
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[1]);
-				DrawRotaGraph2F(star_gold_x[1] - 38.0f, star_gold_y[1] - 10.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[2]], TRUE);
-				DrawRotaGraph2F(star_gold_x[1] + 34.0f, star_gold_y[1] + 37.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[3]], TRUE);
-				// 描画ブレンドモードをノーブレンドにする
-				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-			}
+			//if (star_click[1] == false && star_x[1] == star_gold_x[1] && star_hp[1] > 0)
+			//{
+			//	// 描画ブレンドモードをアルファブレンドにする
+			//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[1]);
+			//	DrawRotaGraph2F(star_gold_x[1] - 38.0f, star_gold_y[1] - 10.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[2]], TRUE);
+			//	DrawRotaGraph2F(star_gold_x[1] + 34.0f, star_gold_y[1] + 37.0f, 16.0f, 16.0f, 1.0f, star_angle[1], kirakira_img[kirakira_anim_num[3]], TRUE);
+			//	// 描画ブレンドモードをノーブレンドにする
+			//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			//}
 
-			if (star_click[2] == false && star_x[2] == star_gold_x[2] && star_hp[2] > 0)
-			{
-				// 描画ブレンドモードをアルファブレンドにする
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[2]);
-				DrawRotaGraph2F(star_gold_x[2] - 25.0f, star_gold_y[2] - 20.0f, 16.0f, 16.0f, 0.8f, star_angle[2], kirakira_img[kirakira_anim_num[4]], TRUE);
-				DrawRotaGraph2F(star_gold_x[2] + 22.0f, star_gold_y[2] + 34.0f, 16.0f, 16.0f, 0.8f, star_angle[2], kirakira_img[kirakira_anim_num[5]], TRUE);
-				// 描画ブレンドモードをノーブレンドにする
-				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-			}
+			//if (star_click[2] == false && star_x[2] == star_gold_x[2] && star_hp[2] > 0)
+			//{
+			//	// 描画ブレンドモードをアルファブレンドにする
+			//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kirakira_alpha[2]);
+			//	DrawRotaGraph2F(star_gold_x[2] - 25.0f, star_gold_y[2] - 20.0f, 16.0f, 16.0f, 0.8f, star_angle[2], kirakira_img[kirakira_anim_num[4]], TRUE);
+			//	DrawRotaGraph2F(star_gold_x[2] + 22.0f, star_gold_y[2] + 34.0f, 16.0f, 16.0f, 0.8f, star_angle[2], kirakira_img[kirakira_anim_num[5]], TRUE);
+			//	// 描画ブレンドモードをノーブレンドにする
+			//	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			//}
 		}
 
 
@@ -545,7 +562,7 @@ void ResultScene::Draw() const
 		// 銀の星描画
 		for (int i = 0; i < 3; i++)
 		{
-			DrawRotaGraph2F(star_x[i], star_y[i], 250.0f, 250.0f, star_extrate[i], star_angle[i], star_images[0], TRUE);
+			DrawRotaGraph2F(star_x[i], star_y[i], 100.0f, 100.0f, star_extrate[i], star_angle[i], star_silver_image, TRUE);
 		}
 		break;
 	}
@@ -658,6 +675,12 @@ void ResultScene::Draw() const
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
+	/*DrawBox(star_x[0] , star_y[0] , star_x[0] + STAR_WIDTH , star_y[0] + STAR_HEIGHT, 0x000000, FALSE);*/
+	/*DrawCircle(STAR_GOLD_X, STAR_GOLD_Y, 2, 0x000000, TRUE);
+	DrawCircle(star_gold_x[1], star_gold_y[1], 2, 0x000000, TRUE);
+	DrawCircle(star_gold_x[2], star_gold_y[2], 2, 0x000000, TRUE);
+
+	DrawRotaGraph(0, 0, 1.0f, 0, star_gold_images[0], TRUE);*/
 	//DrawFormatString(0, 0, 0x000000, "%d", kirakira_alpha[0]);
 }
 
@@ -1050,7 +1073,7 @@ void ResultScene::StarMove()
 			{
 				PlaySoundMem(star_back_se, DX_PLAYTYPE_BACK, TRUE);
 				star_hp[2] = 5;
-				star_gold_x[2] = STAR_X + 85.0f * 2.0f;
+				star_gold_x[2] = STAR_X + 170.0f;
 				star_gold_y[2] = STAR_Y;
 				star_back[2] = false;
 				is_fire_max[2] = false;
@@ -1206,7 +1229,7 @@ void ResultScene::ChangeStarSize(int i)
 	switch (i)
 	{
 	case 0:
-		if (star_gold_extrate[i] <= 0.15f)
+		if (star_gold_extrate[i] <= 0.75f)
 		{
 			is_star_min[i] = true;
 			is_gstar_click[i] = true;
@@ -1214,17 +1237,17 @@ void ResultScene::ChangeStarSize(int i)
 			kirakira_alpha[i] = 0;
 			star_unclick_cnt[i] = 0;
 			PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
-			star_gold_extrate[i] = 0.15f;
+			star_gold_extrate[i] = 0.75f;
 		}
 		else
 		{
-			star_gold_extrate[i] -= 0.028f;
+			star_gold_extrate[i] -= 0.14f;
 		}
 
 		break;
 
 	case 1:
-		if (star_gold_extrate[i] <= 0.2f)
+		if (star_gold_extrate[i] <= 1.0f)
 		{
 			is_star_min[i] = true;
 			is_gstar_click[i] = true;
@@ -1232,16 +1255,16 @@ void ResultScene::ChangeStarSize(int i)
 			kirakira_alpha[i] = 0;
 			star_unclick_cnt[i] = 0;
 			PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
-			star_gold_extrate[i] = 0.2f;
+			star_gold_extrate[i] = 1.0f;
 		}
 		else if(is_star_min[i - 1] == true)
 		{
-			star_gold_extrate[i] -= 0.028f;
+			star_gold_extrate[i] -= 0.14f;
 		}
 
 		break;
 	case 2:
-		if (star_gold_extrate[i] <= 0.15f)
+		if (star_gold_extrate[i] <= 0.75f)
 		{
 			is_star_min[i] = true;
 			is_gstar_click[i] = true;
@@ -1249,11 +1272,11 @@ void ResultScene::ChangeStarSize(int i)
 			kirakira_alpha[i] = 0;
 			star_unclick_cnt[i] = 0;
 			PlaySoundMem(star_click_se[1], DX_PLAYTYPE_BACK, TRUE);
-			star_gold_extrate[i] = 0.15f;
+			star_gold_extrate[i] = 0.75f;
 		}
 		else if (is_star_min[i - 1] == true)
 		{
-			star_gold_extrate[i] -= 0.028f;
+			star_gold_extrate[i] -= 0.14f;
 		}
 		break;
 	default:
@@ -1380,36 +1403,43 @@ void ResultScene::KirakiraAnimControl()
 {
 	for (int i = 0; i < 3; i++)
 	{
-		if (star_hp[i] > 0)
+		kirakira_anim_cnt[i]++;
+
+		if (kirakira_anim_cnt[i] > 10)
 		{
-			for (int j = 0; j < 6; j++)
+			/*if (star_img_num[i] > 0)
 			{
-				kirakira_anim_cnt[j]++;
-
-				if (kirakira_anim_cnt[j] > 30)
+				if (star_img_num[i] < 3)
 				{
-					if (kirakira_anim_num_puls[j] == true)
-					{
-						kirakira_anim_num[j]++;
-
-						if (kirakira_anim_num[j] >= 2)
-						{
-							kirakira_anim_num_puls[j] = false;
-						}
-					}
-					else
-					{
-						kirakira_anim_num[j]--;
-
-						if (kirakira_anim_num[j] <= 0)
-						{
-							kirakira_anim_num_puls[j] = true;
-						}
-					}
-
-					kirakira_anim_cnt[j] = 0;
+					star_img_num[i]++;
 				}
+				else
+				{
+					star_img_num[i] = 0;
+				}
+				
+				kirakira_anim_cnt[i] = 0;
 			}
+			else
+			{
+				kirakira_wait_time[i]++;
+
+				if (kirakira_wait_time[i] > 20)
+				{
+					star_img_num[i] = 1;
+					kirakira_wait_time[i] = 0;
+				}
+			}*/
+
+			if (star_img_num[i] < 3)
+			{
+				star_img_num[i]++;
+			}
+			else
+			{
+				star_img_num[i] = 0;
+			}
+			kirakira_anim_cnt[i] = 0;
 		}
 	}
 }
