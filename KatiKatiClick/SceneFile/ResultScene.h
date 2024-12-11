@@ -7,14 +7,17 @@
 
 #define PI    3.1415926535897932384626433832795f  // 円周率
 
-#define STAR_WIDTH  60.0f       // 星の横幅(1,3)
-#define STAR_HEIGHT 60.0f       // 星の高さ(1,3)
+#define STAR_WIDTH  75.0f       // 星の横幅(1,3)
+#define STAR_HEIGHT 75.0f       // 星の高さ(1,3)
 
 #define STAR_WIDTH_2  100.0f    // 星の横幅(2)
 #define STAR_HEIGHT_2 100.0f    // 星の高さ(2)
 
-#define STAR_X 98.0f            // 星(1)のX座標
-#define STAR_Y 255.0f           // 星(1)のY座標
+#define STAR_X 100.0f            // 星(1)のX座標
+#define STAR_Y 250.0f           // 星(1)のY座標
+
+#define STAR_GOLD_X 98.0f            // 星(1)のX座標
+#define STAR_GOLD_Y 255.0f           // 星(1)のY座標
 
 class ResultScene : public AbstractScene
 {
@@ -32,7 +35,9 @@ private:
 	float star_y[3];             // 星のY座標
 	float star_gold_x[3];        // 星のX座標
 	float star_gold_y[3];        // 星のY座標
-	int star_images[2];          // 星の画像
+	int star_silver_image;       // 銀の星の画像
+	std::vector<int> star_gold_images; // 金の星の画像
+	int star_img_num[3];            // 描画する金の星の画像番号
 	int fire_image;              // 火の画像
 	double star_gold_extrate[3]; // 金の星の拡大率
 	double star_angle[3];        // 星の角度
@@ -96,13 +101,15 @@ private:
 	std::vector<int> kirakira_img;  // キラキラ画像
 	int kirakira_alpha[4];          // キラキラの透明度
 	bool kirakira_alpha_puls[4];       // キラキラの透明度を加算するか？ 
-	int kirakira_anim_num[6];          // キラキラアニメーション画像の番号
+	int kirakira_anim_num[3];          // キラキラアニメーション画像の番号
 	int kirakira_anim_cnt[6];          // 次のキラキラアニメーション画像に変えるまでの時間
 	double kirakira_extrate;
 	bool kirakira_anim_num_puls[6];       // キラキラの透明度を加算するか？ 
 	bool star_click[3];                   // 星がクリックされたか？
 	int star_unclick_cnt[3];             // 星がクリックされていない時間
 	bool star_start_end;             // 最初のアニメーションが終わったか？
+
+	int kirakira_wait_time[3];
 
 public:
 	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);

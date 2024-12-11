@@ -43,6 +43,9 @@ EndScene::EndScene()
 
 	anim_start = false;
 	black_alpha = 255;
+
+	text_cnt = 0;
+	text_flg = true;
 }
 
 EndScene::~EndScene()
@@ -74,14 +77,27 @@ void EndScene::Update()
 		//crackenemy->Update();
 	}
 
+
 	if (anim_start == true)
 	{
-		if (cnt <= 410)
-		{
-			/*crackenemy->Update();*/
-		}
-
 		cnt++;
+
+		/*if (cnt >= 240)
+		{
+			text_cnt++;
+			if (text_cnt > 30)
+			{
+				if (text_flg)
+				{
+					text_flg = false;
+				}
+				else
+				{
+					text_flg = true;
+				}
+				text_cnt = 0;
+			}
+		}*/
 	}
 	else
 	{
@@ -117,6 +133,11 @@ void EndScene::Draw() const
 	{
 		DrawRotaGraph(185, 0 + 200 * 2, 0.5f, 0, woman_img, TRUE);
 		DrawRotaGraph(142, 355, 0.1f, 0, end_img[1], TRUE);
+
+		if (cnt >= 240)
+		{
+			DrawGraph(80, 450, end_img[0], TRUE);
+		}
 	}
 	else
 	{

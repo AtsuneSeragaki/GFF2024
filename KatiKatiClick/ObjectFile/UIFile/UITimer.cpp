@@ -80,8 +80,13 @@ void UITimer::Draw() const
 
 	// タイマー画像の描画
 	DrawRotaGraphF(location.x + 3.0f, location.y, 1.0, 0.0, timer_image[0], TRUE);
+
+	// 描画輝度のセット
+	SetDrawBright(0, 0, 0);
 	// 分の数字画像の描画
 	DrawRotaGraphF(location.x + 35.0f, location.y, 1.0, 0.0, num_image[image_minutes_num], TRUE);
+	// 描画輝度を元に戻す
+	SetDrawBright(255, 255, 255);
 
 	// コロンを黒色四角で描画
 	DrawBoxAA(location.x + 50.0f, location.y - 10.0f, location.x + 55.0f, location.y - 5.0f, 0x000000, TRUE);
@@ -89,8 +94,12 @@ void UITimer::Draw() const
 
 	for (int i = 0; i < 2; i++)
 	{
+		// 描画輝度のセット
+		SetDrawBright(0, 0, 0);
 		// 数字画像の描画
 		DrawRotaGraphF((location.x + 90.0f) - i * 20, location.y, 1.0, 0.0, num_image[image_seconds_num[i]], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
 	}
 }
 

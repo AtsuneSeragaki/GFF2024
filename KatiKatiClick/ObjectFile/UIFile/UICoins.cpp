@@ -143,6 +143,8 @@ void UICoins::Draw() const
 	// 財布画像の描画
 	DrawRotaGraphF(location.x - 80.0f, location.y, 1.0, 0.0, wallet_image[0], TRUE);
 
+	// 描画輝度のセット
+	SetDrawBright(0, 0, 0);
 	for (int i = 0; i < 3; i++)
 	{
 		// 数字画像の描画
@@ -163,6 +165,8 @@ void UICoins::Draw() const
 			break;
 		}
 	}
+	// 描画輝度を元に戻す
+	SetDrawBright(255, 255, 255);
 
 	//DrawLineAA(180.0f, 0.0f, 180.0f, 800.0f, 0xff0000, 1.0f);
 }

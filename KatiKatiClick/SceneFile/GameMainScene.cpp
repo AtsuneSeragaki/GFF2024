@@ -157,6 +157,7 @@ GameMainScene::GameMainScene()
     wait_going_title = false;
     //click_no_button_flg = false;
     //no_button_wait_count = 0;
+    click_outside_yes_button = false;
 
     is_bgm_active = false;
 
@@ -711,6 +712,11 @@ void GameMainScene::InGameUpdate()
             //return;
         }
 
+        if (click_outside_yes_button == true)
+        {
+            click_outside_yes_button = false;
+        }
+
         // 更新処理
         for (int i = 0; i < objects.size(); i++)
         {
@@ -827,6 +833,9 @@ void GameMainScene::InGameUpdate()
                                 if (cursor->GetCanHit())
                                 {
                                     click_title_button_flg = false;
+                                    i = 0;
+                                    j = i + 1;
+                                    click_outside_yes_button = true;
                                 }
                             }
                         }
@@ -864,6 +873,7 @@ void GameMainScene::InGameUpdate()
                             }
                         }
 
+                        if (click_outside_yes_button == true) continue;
                         if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
                         //もしshapeが違かったら
@@ -926,6 +936,7 @@ void GameMainScene::InGameUpdate()
                         }
                     }
                 }
+
             }
         }
 
