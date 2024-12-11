@@ -111,6 +111,9 @@ private:
 
 	int kirakira_wait_time[3];
 
+	bool overlap_retry_button_flg;	// リトライボタンにカーソルが重なったか？
+	bool overlap_title_button_flg;	// タイトルボタンにカーソルが重なったか？
+
 public:
 	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);
 	~ResultScene();
