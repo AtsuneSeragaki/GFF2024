@@ -562,7 +562,7 @@ void ResultScene::Draw() const
 		// 銀の星描画
 		for (int i = 0; i < 3; i++)
 		{
-			DrawRotaGraph2F(star_x[i], star_y[i], 100.0f, 100.0f, star_extrate[i], star_angle[i], star_silver_image, TRUE);
+			DrawRotaGraph2F(star_x[i], star_y[i], 50.0f, 50.0f, star_extrate[i], star_angle[i], star_silver_image, TRUE);
 		}
 		break;
 	}
