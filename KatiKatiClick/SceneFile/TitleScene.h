@@ -20,6 +20,10 @@ private:
 	std::vector<int> start_button_img;	//スタートボタンの画像
 	std::vector<int> end_button_img;	//エンドボタンの画像
 	std::vector<int> select_img;	//選択の画像
+	std::vector<int> star_img;	//選択の画像
+
+	int star_cnt;
+	int star_num;
 
 	int start_img_num;			// スタートボタン画像番号
 	int end_img_num;			// エンドボタン画像番号

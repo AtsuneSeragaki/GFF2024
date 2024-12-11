@@ -29,6 +29,12 @@ TitleScene::TitleScene()
 	tmp_img = rm->GetImages("Resource/Images/Opening/TitleLogo.png");
 	titlelogo_img.push_back(tmp_img[0]);
 
+
+	tmp_img = rm->GetImages("Resource/Images/Opening/star.png",2,2,1,360,222);
+	for (int i = 0; i < 2; i++)
+	{
+		star_img.push_back(tmp_img[i]);
+	}
 	tmp_img = rm->GetImages("Resource/Images/Explanation/select.png");
 	select_img.push_back(tmp_img[0]);
 
@@ -76,6 +82,9 @@ TitleScene::TitleScene()
 
 	anim_start = false;
 	black_alpha = 255;
+
+	star_cnt = 0;
+	star_num = 0;
 }
 
 TitleScene::~TitleScene()
@@ -105,6 +114,19 @@ void TitleScene::Update()
 		{
 			black_alpha = 0;
 			is_fade = false;
+		}
+	}
+
+	//星の画像切り替え
+	if (star_cnt++ > 60)
+	{
+		star_cnt = 0;
+		if (star_num == 0)
+		{
+			star_num = 1;
+		}
+		else {
+			star_num = 0;
 		}
 	}
 
@@ -199,6 +221,9 @@ void TitleScene::Draw() const
 {
 	// 背景色（水色）
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
+
+
+	DrawGraph(0, 10,star_img[star_num], TRUE);
 
 
 	double logo_size = 1.0;
