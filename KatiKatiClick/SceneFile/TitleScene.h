@@ -23,7 +23,7 @@ private:
 	std::vector<int> star_img;	//選択の画像
 
 	int star_cnt;
-	int star_num;
+	int star_alpha[20];
 
 	int play_img_num;			// プレイボタン画像番号
 	int end_img_num;			// エンドボタン画像番号
@@ -46,6 +46,9 @@ private:
 
 	bool overlap_play_button_flg;	// プレイボタンにカーソルが重なったか？
 	bool overlap_end_button_flg;	// エンドボタンにカーソルが重なったか？
+	Vector2D star_pos[20];
+	Vector2D star_size[20];
+
 	
 public:
 	TitleScene();
@@ -65,5 +68,6 @@ private:
 	void ButtonHitCheck();			// ボタンとカーソルの当たり判定
 	void MoveCloud();				// 雲の移動
 
+	void StarVisible();				//星の表示
 };
 
