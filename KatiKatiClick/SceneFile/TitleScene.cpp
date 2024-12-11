@@ -99,13 +99,11 @@ TitleScene::TitleScene()
 			star_alpha[i] = 0;
 		}
 	}
-	star_num = 0;
 
 	overlap_play_button_flg = false;
 	overlap_end_button_flg = false;
 }
 
-}
 
 TitleScene::~TitleScene()
 {
