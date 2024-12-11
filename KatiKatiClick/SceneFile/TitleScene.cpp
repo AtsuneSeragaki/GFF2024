@@ -84,7 +84,22 @@ TitleScene::TitleScene()
 	black_alpha = 255;
 
 	star_cnt = 0;
-	star_num = 0;
+
+	for (int i = 0; i < 20; i++)
+	{
+		star_pos[i].x=(float)(rand()*(SCREEN_WIDTH-0+1.0)/(1.0+RAND_MAX));
+		star_pos[i].y=(float)(rand()*(GET_LANE_HEIGHT(2) - 0 + 1.0) / (1.0 + RAND_MAX));
+
+		star_size[i] = 2;
+		if (i > 10)
+		{
+			star_alpha[i] = 255;
+		}
+		else {
+			star_alpha[i] = 0;
+		}
+	}
+
 }
 
 TitleScene::~TitleScene()
@@ -117,18 +132,7 @@ void TitleScene::Update()
 		}
 	}
 
-	//星の画像切り替え
-	if (star_cnt++ > 60)
-	{
-		star_cnt = 0;
-		if (star_num == 0)
-		{
-			star_num = 1;
-		}
-		else {
-			star_num = 0;
-		}
-	}
+	StarVisible();
 
 	if (anim_start == true)
 	{
@@ -151,13 +155,13 @@ void TitleScene::Update()
 	if (cloud_pos.x < -100) {
 		cloud_pos.x = SCREEN_WIDTH+100;
 	}
-	cloud_pos.x -= 0.4;
+	cloud_pos.x -= 0.4f;
 
 	if (cloud_pos2.x > SCREEN_WIDTH+100)
 	{
 		cloud_pos2.x = -100;
 	}
-	cloud_pos2.x += 0.4;
+	cloud_pos2.x += 0.4f;
 
 	// プレイヤーがボタンをクリックしたか？
 	if (select != -1)
@@ -222,8 +226,24 @@ void TitleScene::Draw() const
 	// 背景色（水色）
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
 
+	//黄色の星
+	for (int i = 0; i < 10; i++)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, star_alpha[i]);
+		DrawBoxAA(star_pos[i].x, star_pos[i].y, star_pos[i].x + star_size[i].x, star_pos[i].y + star_size[i].y, 0xFFCC33, TRUE);
+		// 描画ブレンドモードをノーブレンドにする
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 
-	DrawGraph(0, 10,star_img[star_num], TRUE);
+	//白の星
+	for (int i = 10; i < 20; i++)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, star_alpha[i]);
+		DrawBoxAA(star_pos[i].x, star_pos[i].y, star_pos[i].x + star_size[i].x, star_pos[i].y + star_size[i].y, 0xffffff, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
+
+	//DrawGraph(0, 10,star_img[star_num], TRUE);
 
 
 	double logo_size = 1.0;
@@ -235,19 +255,19 @@ void TitleScene::Draw() const
 		{
 		case 1:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8), logo_size, 0, titlelogo_img[0], TRUE);
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), logo_size, 0, titlelogo_img[0], TRUE);
 			
 			break;
 		case 2:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8), logo_size, 0, titlelogo_img[0], TRUE);
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), logo_size, 0, titlelogo_img[0], TRUE);
 			// スタートボタン画像の描画
 			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
 
 			break;
 		case 3:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8),logo_size, 0, titlelogo_img[0], TRUE);
+			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3),logo_size, 0, titlelogo_img[0], TRUE);
 			// スタートボタン画像の描画
 			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
 			// エンドボタン画像の描画
@@ -270,14 +290,14 @@ void TitleScene::Draw() const
 		// 描画ブレンドモードをアルファブレンドにする
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 		// 背景の雲
-		DrawRotaGraph(cloud_pos.x, cloud_pos.y, 4, 0, cloud_img[0], TRUE);
-		DrawRotaGraph(cloud_pos2.x, cloud_pos2.y, 4, 0, cloud_img[0], TRUE);
+		DrawRotaGraphF(cloud_pos.x, cloud_pos.y, 4, 0, cloud_img[0], TRUE);
+		DrawRotaGraphF(cloud_pos2.x, cloud_pos2.y, 4, 0, cloud_img[0], TRUE);
 		// 描画ブレンドモードをノーブレンドにする
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 
 		// タイトルロゴ
-		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8), logo_size, 0, titlelogo_img[0], TRUE);
+		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(3), logo_size, 0, titlelogo_img[0], TRUE);
 		
 		// ボタンの描画
 		DrawButton();
@@ -493,4 +513,32 @@ void TitleScene::DrawButton() const
 		// エンドボタン画像の描画
 		DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
 	}
+}
+
+void TitleScene::StarVisible()
+{
+
+	if (star_cnt++ > 240)
+	{
+		star_cnt = 0;
+	}
+
+	//星の画像切り替え
+	if (star_cnt <= 120)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			star_alpha[i] += 2;
+			star_alpha[i+10] -= 2;
+		}
+
+	}
+	else {
+		for (int i = 0; i < 10; i++)
+		{
+			star_alpha[i] -= 2;
+			star_alpha[i+10] += 2;
+		}
+	}
+
 }

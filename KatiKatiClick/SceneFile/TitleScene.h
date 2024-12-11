@@ -23,7 +23,7 @@ private:
 	std::vector<int> star_img;	//選択の画像
 
 	int star_cnt;
-	int star_num;
+	int star_alpha[20];
 
 	int start_img_num;			// スタートボタン画像番号
 	int end_img_num;			// エンドボタン画像番号
@@ -44,6 +44,8 @@ private:
 	Vector2D cloud_pos;
 	Vector2D cloud_pos2;
 
+	Vector2D star_pos[20];
+	Vector2D star_size[20];
 
 	
 public:
@@ -61,5 +63,6 @@ private:
 	bool HitBoxCircle(float box_x,float box_y,Vector2D location,float radius);//四角と円の当たり判定
 	void ButtonAnimation();			// ボタン押下アニメション処理
 	void DrawButton() const;		// ボタンの描画
+	void StarVisible();				//星の表示
 };
 
