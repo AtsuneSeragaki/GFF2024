@@ -21,6 +21,10 @@ private:
 	int black_alpha;
 	bool anim_start;            // アニメーションスタートしていいか？
 
+	int text_cnt;
+
+	bool text_flg;
+
 public:
 	EndScene();
 	~EndScene();
