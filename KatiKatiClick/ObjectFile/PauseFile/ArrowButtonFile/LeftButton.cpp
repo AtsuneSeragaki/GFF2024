@@ -75,22 +75,24 @@ void LeftButton::Update()
 
 void LeftButton::Draw() const
 {
-	// 矢印ボタン画像の描画
-	DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[button_image_num], TRUE);
-	DrawRotaGraphF(location.x, location.y, 2.8, 0.0, arrow_image[0], TRUE);
-
-	// カーソルが 矢印ボタンに重なっていたら
-	//if (cursor_overlap_flg)
-	//{
-	//	// ポーズボタンを暗くする
-	//	// 描画輝度のセット
-	//	SetDrawBright(160, 160, 160);
-	//	// 矢印ボタン画像の描画
-	//	DrawRotaGraphF(location.x, location.y, 2.5, 0.0, button_image[button_image_num], TRUE);
-	//	DrawRotaGraphF(location.x, location.y, 2.3, 0.0, arrow_image[0], TRUE);
-	//	// 描画輝度を元に戻す
-	//	SetDrawBright(255, 255, 255);
-	//}
+	if (cursor_overlap_flg == false)
+	{
+		// 矢印ボタン画像の描画
+		DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[button_image_num], TRUE);
+		DrawRotaGraphF(location.x, location.y, 2.8, 0.0, arrow_image[0], TRUE);
+	}
+	else
+	{
+		// カーソルが矢印ボタンに重なっていたら
+		// ポーズボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(160, 160, 160);
+		// 矢印ボタン画像の描画
+		DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[button_image_num], TRUE);
+		DrawRotaGraphF(location.x, location.y, 2.8, 0.0, arrow_image[0], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+	}
 
 	//DrawCircleAA(location.x, location.y, radius, 32, 0xff0000f, FALSE);
 }
