@@ -31,6 +31,8 @@ RightButton::RightButton()
 
 	anim_count = 0;
 	button_image_num = 0;
+
+	arrow_y = 600.0f;
 }
 
 RightButton::~RightButton()
@@ -63,11 +65,13 @@ void RightButton::Update()
 		{
 			// 押下時画像に変更
 			button_image_num = 1;
+			arrow_y = location.y + 3.0f;
 		}
 		else
 		{
 			anim_count = 0;
 			button_image_num = 0;
+			arrow_y = location.y;
 			can_hit = true;
 		}
 	}
@@ -79,7 +83,7 @@ void RightButton::Draw() const
 	{
 		// 矢印ボタン画像の描画
 		DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[button_image_num], TRUE);
-		DrawRotaGraphF(location.x, location.y, 2.8, 0.0, arrow_image[0], TRUE, TRUE);
+		DrawRotaGraphF(location.x, arrow_y, 2.8, 0.0, arrow_image[0], TRUE, TRUE);
 	}
 	else
 	{
@@ -89,7 +93,7 @@ void RightButton::Draw() const
 		SetDrawBright(128, 128, 128);
 		// 矢印ボタン画像の描画
 		DrawRotaGraphF(location.x, location.y, 3.0, 0.0, button_image[button_image_num], TRUE);
-		DrawRotaGraphF(location.x, location.y, 2.8, 0.0, arrow_image[0], TRUE, TRUE);
+		DrawRotaGraphF(location.x, arrow_y, 2.8, 0.0, arrow_image[0], TRUE, TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 	}
