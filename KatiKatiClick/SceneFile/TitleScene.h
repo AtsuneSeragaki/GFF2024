@@ -17,7 +17,7 @@ private:
 
 	std::vector<int> cloud_img;			//雲の画像
 	std::vector<int> titlelogo_img;		//タイトルロゴの画像
-	std::vector<int> start_button_img;	//スタートボタンの画像
+	std::vector<int> play_button_img;	//プレイボタンの画像
 	std::vector<int> end_button_img;	//エンドボタンの画像
 	std::vector<int> select_img;	//選択の画像
 	std::vector<int> star_img;	//選択の画像
@@ -25,12 +25,12 @@ private:
 	int star_cnt;
 	int star_num;
 
-	int start_img_num;			// スタートボタン画像番号
+	int play_img_num;			// プレイボタン画像番号
 	int end_img_num;			// エンドボタン画像番号
 	int change_wait_time;		// シーン切り替えの待ち時間
 
-	float start_x;				// スタートボタンのx座標
-	float start_y;				// スタートボタンのy座標
+	float play_x;				// プレイボタンのx座標
+	float play_y;				// プレイボタンのy座標
 	float end_x;				// エンドボタンのx座標
 	float end_y;				// エンドボタンのy座標
 
@@ -44,7 +44,8 @@ private:
 	Vector2D cloud_pos;
 	Vector2D cloud_pos2;
 
-
+	bool overlap_play_button_flg;	// プレイボタンにカーソルが重なったか？
+	bool overlap_end_button_flg;	// エンドボタンにカーソルが重なったか？
 	
 public:
 	TitleScene();
@@ -61,5 +62,8 @@ private:
 	bool HitBoxCircle(float box_x,float box_y,Vector2D location,float radius);//四角と円の当たり判定
 	void ButtonAnimation();			// ボタン押下アニメション処理
 	void DrawButton() const;		// ボタンの描画
+	void ButtonHitCheck();			// ボタンとカーソルの当たり判定
+	void MoveCloud();				// 雲の移動
+
 };
 

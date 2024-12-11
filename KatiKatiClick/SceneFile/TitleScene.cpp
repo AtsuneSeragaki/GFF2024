@@ -42,11 +42,11 @@ TitleScene::TitleScene()
 	tmp_img = rm->GetImages("Resource/Images/Opening/cloud.png");
 	cloud_img.push_back(tmp_img[0]);
 
-	// スタートボタン画像の読み込み
+	// プレイボタン画像の読み込み
 	tmp_img = rm->GetImages("Resource/Images/Opening/PlayButton.png", 3, 3, 1, 130, 70);
 	for (int i = 0; i < 3; i++)
 	{
-		start_button_img.push_back(tmp_img[i]);
+		play_button_img.push_back(tmp_img[i]);
 	}
 
 	// エンドボタン画像の読み込み
@@ -58,14 +58,14 @@ TitleScene::TitleScene()
 
 	is_bgm_active = false;
 	
-	start_img_num = 0;
+	play_img_num = 0;
 	end_img_num = 0;
 	change_wait_time = 0;
 
 	// ボタン座標の設定
-	start_x = SCREEN_WIDTH / 4.2;
-	start_y = GET_LANE_HEIGHT(6.5f);
-	end_x = SCREEN_WIDTH / 1.3;
+	play_x = SCREEN_WIDTH / 4.2f;
+	play_y = GET_LANE_HEIGHT(6.5f);
+	end_x = SCREEN_WIDTH / 1.3f;
 	end_y = GET_LANE_HEIGHT(6.5f);
 
 	//雲の配置
@@ -85,17 +85,20 @@ TitleScene::TitleScene()
 
 	star_cnt = 0;
 	star_num = 0;
+
+	overlap_play_button_flg = false;
+	overlap_end_button_flg = false;
 }
 
 TitleScene::~TitleScene()
 {
 	delete cursor;
+	delete opening_anim;
 	delete fade;
 }
 
 void TitleScene::Update()
 {
-
 	if (is_bgm_active == false)
 	{
 		is_bgm_active = true;
@@ -148,20 +151,16 @@ void TitleScene::Update()
 	}
 
 	//雲の移動
-	if (cloud_pos.x < -100) {
-		cloud_pos.x = SCREEN_WIDTH+100;
-	}
-	cloud_pos.x -= 0.4;
+	MoveCloud();
 
-	if (cloud_pos2.x > SCREEN_WIDTH+100)
+	if (select == -1)
 	{
-		cloud_pos2.x = -100;
+		overlap_play_button_flg = false;
+		overlap_end_button_flg = false;
 	}
-	cloud_pos2.x += 0.4;
-
-	// プレイヤーがボタンをクリックしたか？
-	if (select != -1)
+	else
 	{
+		// プレイヤーがボタンをクリックしたら
 		change_wait_time++;
 		if (change_wait_time < 40)
 		{
@@ -194,27 +193,11 @@ void TitleScene::Update()
 				change_screen_flg = true;
 			}
 		}
-
 		return;
 	}
 
 	// カーソルとボタンの当たり判定
-	if (cursor->GetPState() == P_State::attack && cursor->GetCanHit() == true)
-	{
-		if (HitBoxCircle(start_x, start_y, cursor->GetLocation(), cursor->GetRadius()) == true)
-		{
-			// スタートボタンがクリックされた
-			select = 0;
-		}
-		else
-		{
-			if (HitBoxCircle(end_x, end_y, cursor->GetLocation(), cursor->GetRadius()) == true)
-			{
-				// エンドボタンがクリックされた
-				select = 1;
-			}
-		}
-	}
+	ButtonHitCheck();
 }
 
 void TitleScene::Draw() const
@@ -222,9 +205,7 @@ void TitleScene::Draw() const
 	// 背景色（水色）
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
 
-
 	DrawGraph(0, 10,star_img[star_num], TRUE);
-
 
 	double logo_size = 1.0;
 
@@ -235,25 +216,25 @@ void TitleScene::Draw() const
 		{
 		case 1:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8), logo_size, 0, titlelogo_img[0], TRUE);
+			DrawRotaGraphF(SCREEN_WIDTH / 2.0f, GET_LANE_HEIGHT(2.8f), logo_size, 0, titlelogo_img[0], TRUE);
 			
 			break;
 		case 2:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8), logo_size, 0, titlelogo_img[0], TRUE);
-			// スタートボタン画像の描画
-			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+			DrawRotaGraphF(SCREEN_WIDTH / 2.0f, GET_LANE_HEIGHT(2.8f), logo_size, 0, titlelogo_img[0], TRUE);
+			// プレイボタン画像の描画
+			DrawRotaGraphF(play_x, play_y, 1.0, 0.0, play_button_img[play_img_num], TRUE);
 
 			break;
 		case 3:
 			// タイトルロゴ
-			DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8),logo_size, 0, titlelogo_img[0], TRUE);
-			// スタートボタン画像の描画
-			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
+			DrawRotaGraphF(SCREEN_WIDTH / 2.0f, GET_LANE_HEIGHT(2.8f),logo_size, 0, titlelogo_img[0], TRUE);
+			// プレイボタン画像の描画
+			DrawRotaGraphF(play_x, play_y, 1.0, 0.0, play_button_img[play_img_num], TRUE);
 			// エンドボタン画像の描画
 			DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
 			//選択の文字
-			DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, select_img[0], TRUE);
+			DrawRotaGraphF(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 50.0f, 2, 0, select_img[0], TRUE);
 
 			break;
 		default:
@@ -270,19 +251,18 @@ void TitleScene::Draw() const
 		// 描画ブレンドモードをアルファブレンドにする
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 		// 背景の雲
-		DrawRotaGraph(cloud_pos.x, cloud_pos.y, 4, 0, cloud_img[0], TRUE);
-		DrawRotaGraph(cloud_pos2.x, cloud_pos2.y, 4, 0, cloud_img[0], TRUE);
+		DrawRotaGraphF(cloud_pos.x, cloud_pos.y, 4, 0, cloud_img[0], TRUE);
+		DrawRotaGraphF(cloud_pos2.x, cloud_pos2.y, 4, 0, cloud_img[0], TRUE);
 		// 描画ブレンドモードをノーブレンドにする
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-
 		// タイトルロゴ
-		DrawRotaGraph(SCREEN_WIDTH / 2, GET_LANE_HEIGHT(2.8), logo_size, 0, titlelogo_img[0], TRUE);
+		DrawRotaGraphF(SCREEN_WIDTH / 2.0f, GET_LANE_HEIGHT(2.8f), logo_size, 0, titlelogo_img[0], TRUE);
 		
 		// ボタンの描画
 		DrawButton();
 
-
+		// カーソル描画
 		cursor->Draw();
 	}
 
@@ -427,12 +407,12 @@ void TitleScene::ButtonAnimation()
 	{
 		if (change_wait_time < 8)
 		{
-			// スタートボタンの画像切り替え
-			start_img_num = change_wait_time / 4 + 1;
+			// プレイボタンの画像切り替え
+			play_img_num = change_wait_time / 4 + 1;
 		}
 		else
 		{
-			start_img_num = 1;
+			play_img_num = 1;
 		}
 	}
 	else
@@ -452,45 +432,81 @@ void TitleScene::ButtonAnimation()
 // ボタンの描画
 void TitleScene::DrawButton() const
 {
-	if (change_wait_time > 8)
+	if (overlap_play_button_flg == true)
 	{
-		switch (select)
+		// プレイボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		// プレイボタン画像の描画
+		DrawRotaGraphF(play_x, play_y, 1.0, 0.0, play_button_img[play_img_num], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+
+		// エンドボタン画像の描画
+		DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+	}
+	else if (overlap_end_button_flg == true)
+	{
+		// プレイボタン画像の描画
+		DrawRotaGraphF(play_x, play_y, 1.0, 0.0, play_button_img[play_img_num], TRUE);
+
+		// エンドボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		// エンドボタン画像の描画
+		DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
+	}
+	else
+	{
+		// プレイボタン画像の描画
+		DrawRotaGraphF(play_x, play_y, 1.0, 0.0, play_button_img[play_img_num], TRUE);
+		// エンドボタン画像の描画
+		DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+	}
+}
+
+// ボタンとカーソルの当たり判定
+void TitleScene::ButtonHitCheck()
+{
+	if (HitBoxCircle(play_x, play_y, cursor->GetLocation(), cursor->GetRadius()) == true)
+	{
+		// プレイボタンと重なった
+		overlap_play_button_flg = true;
+
+		if (cursor->GetCanHit() == true)
 		{
-		case 0:
-			// スタートボタンを暗くする
-			// 描画輝度のセット
-			SetDrawBright(128, 128, 128);
-			// スタートボタン画像の描画
-			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
-			// 描画輝度を元に戻す
-			SetDrawBright(255, 255, 255);
-
-			// エンドボタン画像の描画
-			DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
-			break;
-
-		case 1:
-			// スタートボタン画像の描画
-			DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
-
-			// エンドボタンを暗くする
-			// 描画輝度のセット
-			SetDrawBright(128, 128, 128);
-			// エンドボタン画像の描画
-			DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
-			// 描画輝度を元に戻す
-			SetDrawBright(255, 255, 255);
-			break;
-
-		default:
-			break;
+			// プレイボタンがクリックされた
+			select = 0;
 		}
 	}
 	else
 	{
-		// スタートボタン画像の描画
-		DrawRotaGraphF(start_x, start_y, 1.0, 0.0, start_button_img[start_img_num], TRUE);
-		// エンドボタン画像の描画
-		DrawRotaGraphF(end_x, end_y, 1.0, 0.0, end_button_img[end_img_num], TRUE);
+		if (HitBoxCircle(end_x, end_y, cursor->GetLocation(), cursor->GetRadius()) == true)
+		{
+			// エンドボタンと重なった
+			overlap_end_button_flg = true;
+
+			if (cursor->GetCanHit() == true)
+			{
+				// エンドボタンがクリックされた
+				select = 1;
+			}
+		}
 	}
+}
+
+void TitleScene::MoveCloud()
+{
+	if (cloud_pos.x < -100.0f) {
+		cloud_pos.x = SCREEN_WIDTH + 100.0f;
+	}
+	cloud_pos.x -= 0.4f;
+
+	if (cloud_pos2.x > SCREEN_WIDTH + 100.0f)
+	{
+		cloud_pos2.x = -100.0f;
+	}
+	cloud_pos2.x += 0.4f;
 }
