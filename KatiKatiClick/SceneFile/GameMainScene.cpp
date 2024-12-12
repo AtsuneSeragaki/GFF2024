@@ -1266,11 +1266,26 @@ void GameMainScene::InStartUpdate()
                     {
                         //クリックされたらスタンプを押す
                         inkan_flg = true;
+
                     }
 
                     //スタンプ表示
                     if (inkan_flg == true)
                     {
+                        //左右から壁
+                        for (int i = 0; i < objects.size(); i++)
+                        {
+                            if (objects[i]->GetObjectType() != ObjectType::wall)continue;
+                            //objects[i]が壁だったら判定
+                            Wall* wall = dynamic_cast<Wall*>(objects[i]);
+                            if (wall != nullptr)
+                            {
+                                wall->SetCenter();
+                            }
+
+                        }
+
+
                         if (CheckSoundMem(stamp_se) == FALSE)
                         {
                             //スタンプ音
@@ -1306,7 +1321,7 @@ void GameMainScene::InStartUpdate()
                         for (int i = 0; i < objects.size(); i++)
                         {
                             if (objects[i]->GetObjectType() != ObjectType::wall)continue;
-                            //objects[i]がエネミーだったら判定
+                            //objects[i]が壁だったら判定
                             Wall* wall = dynamic_cast<Wall*>(objects[i]);
                             if (wall != nullptr)
                             {

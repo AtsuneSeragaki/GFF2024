@@ -10,8 +10,8 @@ PauseButton::PauseButton()
 	can_hit = true;
 	object_type = ObjectType::pausebutton;
 	shape = Shape::square;
-	width = 50.0f;
-	height = 50.0f;
+	width = 40.0f;
+	height = 40.0f;
 
 	is_pause = false;
 
@@ -228,6 +228,9 @@ void PauseButton::Draw() const
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 	}
+
+	//DrawBoxAA(location.x - height/2, location.y -width/2, location.x + width/2, location.y + height/2, 0xffffff, FALSE);
+
 }
 
 void PauseButton::HitReaction(ObjectBase* character)
