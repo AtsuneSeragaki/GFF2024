@@ -588,42 +588,42 @@ void GameMainScene::InGameUpdate()
         int i, j;
         float x, y;
 
-        for (int k = 0; k < objects.size() - 1; k++)
-        {
-            for (int m = k + 1; m < objects.size(); m++)
-            {
-                if (objects[k]->GetObjectType() == ObjectType::cursor && objects[k]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
-                {
-                    if (objects[m]->GetObjectType() == ObjectType::b_attackskill || objects[m]->GetObjectType() == ObjectType::b_slowdownskill)
-                    {
-                        //ヒットチェック
-                        if (objects[k]->HitBoxCircle(objects[m]) == true)
-                        {
-                            HitCursorBSkill(m);
-                        }
-                        else
-                        {
-                            ResetCursorBSkill(m);
-                        }
-                    }
-                }
-                else if (objects[m]->GetObjectType() == ObjectType::cursor && objects[m]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
-                {
-                    if (objects[k]->GetObjectType() == ObjectType::b_attackskill || objects[k]->GetObjectType() == ObjectType::b_slowdownskill)
-                    {
-                        //ヒットチェック
-                        if (objects[m]->HitBoxCircle(objects[k]) == true)
-                        {
-                            HitCursorBSkill(k);
-                        }
-                        else
-                        {
-                            ResetCursorBSkill(k);
-                        }
-                    }
-                }
-            }
-        }
+        //for (int k = 0; k < objects.size() - 1; k++)
+        //{
+        //    for (int m = k + 1; m < objects.size(); m++)
+        //    {
+        //        if (objects[k]->GetObjectType() == ObjectType::cursor && objects[k]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+        //        {
+        //            if (objects[m]->GetObjectType() == ObjectType::b_attackskill || objects[m]->GetObjectType() == ObjectType::b_slowdownskill)
+        //            {
+        //                //ヒットチェック
+        //                if (objects[k]->HitBoxCircle(objects[m]) == true)
+        //                {
+        //                    HitCursorBSkill(m);
+        //                }
+        //                else
+        //                {
+        //                    ResetCursorBSkill(m);
+        //                }
+        //            }
+        //        }
+        //        else if (objects[m]->GetObjectType() == ObjectType::cursor && objects[m]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+        //        {
+        //            if (objects[k]->GetObjectType() == ObjectType::b_attackskill || objects[k]->GetObjectType() == ObjectType::b_slowdownskill)
+        //            {
+        //                //ヒットチェック
+        //                if (objects[m]->HitBoxCircle(objects[k]) == true)
+        //                {
+        //                    HitCursorBSkill(k);
+        //                }
+        //                else
+        //                {
+        //                    ResetCursorBSkill(k);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
 
         // 更新処理
@@ -639,9 +639,15 @@ void GameMainScene::InGameUpdate()
 
         for (j = 0; j < objects.size(); j++)
         {
-            if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
+            if (objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
             {
                 objects[j]->Update();
+                SkillCoinUse(j, 20);
+            }
+            else if (objects[j]->GetObjectType() == ObjectType::b_attackskill)
+            {
+                objects[j]->Update();
+                SkillCoinUse(j, 40);
             }
         }
 
