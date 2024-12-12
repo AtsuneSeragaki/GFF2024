@@ -1799,7 +1799,6 @@ void GameMainScene::SkillPause(int i)
 {
     BSkillBase* b_skill = dynamic_cast<BSkillBase*>(objects[i]);
 
-    b_skill->Update();
     b_skill->SetHitCursorFlg(false);
 
     if (b_skill->GetSkillState() == BSkillState::active)

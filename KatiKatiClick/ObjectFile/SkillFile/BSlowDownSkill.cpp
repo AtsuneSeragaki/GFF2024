@@ -44,8 +44,8 @@ BSlowDownSkill::BSlowDownSkill()
 	ChangeVolumeSoundMem(150, se[0]);
 	ChangeVolumeSoundMem(200, se[2]);
 
-	effect_x = location.x;
-	effect_y = location.y - 5;
+	effect_x = (int)location.x;
+	effect_y = (int)location.y - 5;
 	effect_width = 200;
 	effect_height = 200;
 
@@ -272,7 +272,7 @@ void BSlowDownSkill::ChangeButtonSize()
 {
 	if (effect_width > 44)
 	{
-		effect_width -= 3;
-		effect_height -= 3;
+		effect_width -=7;
+		effect_height -= 7;
 	}
 }
