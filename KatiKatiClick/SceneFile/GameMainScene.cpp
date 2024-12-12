@@ -1673,10 +1673,10 @@ void GameMainScene::EnmMiniGenerate()
                 enemy->StopCreateMini();
 
                 //小さいエネミーを作る
-                EnemyBase* crack_enemy_mini = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f, objects[i]->GetLocation().y + 40.0f));
+                EnemyBase* crack_enemy_mini = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f, objects[i]->GetLocation().y + 20.0f));
                 crack_enemy_mini->SetMini(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini->SetWaitTime(5);
-                EnemyBase* crack_enemy_mini2 = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f, objects[i]->GetLocation().y + 40.0f));
+                EnemyBase* crack_enemy_mini2 = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f, objects[i]->GetLocation().y + 20.0f));
                 crack_enemy_mini2->SetMini(objects[i]->GetWidth(), objects[i]->GetHeight());
                 crack_enemy_mini2->SetWaitTime(5);
 
