@@ -78,8 +78,8 @@ void BAttackSkill::Initialize()
 	image = button_img[0];
 	effect_image = button_img[4];
 
-	effect_x = location.x;
-	effect_y = location.y - 5;
+	effect_x = (int)location.x;
+	effect_y = (int)location.y - 5;
 	effect_width = 200;
 	effect_height = 200;
 }
@@ -267,7 +267,7 @@ void BAttackSkill::ChangeButtonSize()
 {
 	if (effect_width > 44)
 	{
-		effect_width -= 3;
-		effect_height -= 3;
+		effect_width -= 7;
+		effect_height -= 7;
 	}
 }
