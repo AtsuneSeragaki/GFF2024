@@ -113,13 +113,13 @@ void BSlowDownSkill::Draw() const
 		// 暗くする
 		SetDrawBright(150, 150, 150);
 		// マークの描画
-		DrawRotaGraphF(location.x /*+ 15.0f*/ - 5.0f, location.y - 5.0f, 1, 0, button_img[1], TRUE);
+		DrawRotaGraphF(location.x /*+ 15.0f*/, location.y, 1, 0, button_img[1], TRUE);
 		SetDrawBright(255, 255, 255);
 	}
 	else
 	{
 		// マークの描画
-		DrawRotaGraphF(location.x /*+ 15.0f*/ - 5.0f, location.y - 5.0f, 1, 0, button_img[1], TRUE);
+		DrawRotaGraphF(location.x /*+ 15.0f*/, location.y, 1, 0, button_img[1], TRUE);
 	}
 
 	//if(hit_cursor==true)
@@ -150,7 +150,7 @@ void BSlowDownSkill::Draw() const
 		//DrawGraph(location.x - width / 2, location.y - height / 2, image, TRUE);
 		if (effect_width > 44)
 		{
-			DrawExtendGraphF(location.x /*+ 15.0f */- effect_width / 2.0f - 5.0f, location.y - 13.0f - effect_height / 2.0f, location.x /*+ 15.0f*/ + effect_width / 2.0f, location.y - 13.0f + effect_height / 2.0f, effect_image, TRUE);
+			DrawExtendGraphF(location.x /*+ 15.0f */- effect_width / 2.0f, location.y - 12.0f - effect_height / 2.0f, location.x /*+ 15.0f*/ + effect_width / 2.0f, location.y - 9.0f + effect_height / 2.0f, effect_image, TRUE);
 		}
 		//DrawExtendGraph(effect_x - effect_width / 2, effect_y - effect_height / 2, effect_x + effect_width / 2, effect_y + effect_height / 2, effect_image, TRUE);
 		//DrawBoxAA(location.x - BUTTON_WIDTH / 2, location.y - BUTTON_HEIGHT / 2, location.x + BUTTON_WIDTH / 2, location.y + BUTTON_HEIGHT / 2, 0xffff00, TRUE);
