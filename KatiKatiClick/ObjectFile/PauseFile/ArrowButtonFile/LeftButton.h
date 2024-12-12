@@ -11,6 +11,8 @@ private:
 	int anim_count;						// ボタン押下アニメーション
 	int button_image_num;				// ボタンの画像番号
 
+	float arrow_y;                      // 矢印のy座標
+
 public:
 	LeftButton();
 	~LeftButton();

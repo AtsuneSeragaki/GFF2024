@@ -8,6 +8,7 @@ private:
     bool is_pause;          // 一時停止か？
 
     std::vector<int> button_image;      // ボタン画像
+    std::vector<int> mark_image;        // ボタンのマーク画像
     std::vector<int> heading_image;     // "遊び方"テキスト画像
     std::vector<int> text_image;        // 説明テキスト画像
     std::vector<int> help_image;        // 説明画像
@@ -19,6 +20,10 @@ private:
     int animation_count;                // マウスのアニメーションカウント
     int button_animation_count;         // ポーズボタンのアニメーションカウント
     bool button_animation_flg;          // ポーズボタンアニメーション開始か？
+
+    float mark_y;                       // ボタンマークのy座標
+    int mark_image_num;                 // ボタンマークの画像番号
+    double angle;
 
 public:
     PauseButton();

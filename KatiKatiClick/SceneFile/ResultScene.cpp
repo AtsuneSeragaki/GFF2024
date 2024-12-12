@@ -73,7 +73,7 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	tmp = rm->GetImages("Resource/Images/Result/gameover.png");
 	game_over_img = tmp[0];
 
-	tmp = rm->GetImages("Resource/Images/Result/Num1.png",10, 10, 1, 32, 32);
+	tmp = rm->GetImages("Resource/Images/Timer/Num.png",10, 10, 1, 32, 32);
 	for (int i = 0; i < 10; i++)
 	{
 		num_img.push_back(tmp[i]);
@@ -257,6 +257,9 @@ ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coi
 	star_img_num[0] = 0;
 	star_img_num[1] = 0;
 	star_img_num[2] = 0;
+
+	overlap_retry_button_flg = false;
+	overlap_title_button_flg = false;
 }
 
 ResultScene::~ResultScene()
@@ -314,6 +317,11 @@ void ResultScene::Update()
 		}
 
 		return;
+	}
+	else
+	{
+		overlap_retry_button_flg = false;
+		overlap_title_button_flg = false;
 	}
 
 	if (black_alpha > 0)
@@ -570,6 +578,10 @@ void ResultScene::Draw() const
 	// リザルト結果表示ゾーンの描画
 	DrawGraph(30, 300 + 20, result_img, TRUE);
 
+	// 数字画像の色変更
+	// 描画輝度のセット
+	SetDrawBright(253, 236, 166);
+
 	// 倒した敵の数の描画
 	if (kill_enemy_num < 10)
 	{
@@ -636,6 +648,9 @@ void ResultScene::Draw() const
 		DrawExtendGraph(267, 445 + 20, 267 + 32, 445 + 32 + 20, num_img[score_2 % 10000 % 1000 % 100 % 10], TRUE);
 
 	}
+
+	// 描画輝度を元に戻す
+	SetDrawBright(255, 255, 255);
 
 	// ボタンの描画
 	DrawButton();
@@ -1130,18 +1145,25 @@ void ResultScene::StarBackAnim(int i)
 // ボタンとカーソルの当たり判定
 void ResultScene::ButtonHitCheck()
 {
-	if (cursor->GetPState() == P_State::attack && cursor->GetCanHit() == true)
+	if (HitBoxCircle(retry_x, retry_y, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
 	{
-		// リトライボタンをクリックしたか調べる
-		if (HitBoxCircle(retry_x, retry_y, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
+		overlap_retry_button_flg = true;
+
+		if (cursor->GetCanHit() == true)
 		{
+			// リトライボタンをクリックした
 			select = 0;
 		}
-		else
+	}
+	else
+	{
+		if (HitBoxCircle(title_x, title_y, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
 		{
-			if (HitBoxCircle(title_x, title_y, BUTTON_WIDTH, BUTTON_HEIGHT, cursor->GetLocation(), cursor->GetRadius()) == true)
+			overlap_title_button_flg = true;
+
+			if (cursor->GetCanHit() == true)
 			{
-				// タイトルボタンをクリックしたか調べる
+				// タイトルボタンをクリックした
 				select = 1;
 			}
 		}
@@ -1181,39 +1203,31 @@ void ResultScene::ButtonAnimation()
 // ボタンの描画
 void ResultScene::DrawButton() const
 {
-	if (change_wait_time > 8)
+	if (overlap_retry_button_flg == true)
 	{
-		switch (select)
-		{
-		case 0:
-			// リトライボタンを暗くする
-			// 描画輝度のセット
-			SetDrawBright(128, 128, 128);
-			// リトライボタン画像の描画
-			DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
-			// 描画輝度を元に戻す
-			SetDrawBright(255, 255, 255);
+		// リトライボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		// リトライボタン画像の描画
+		DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
 
-			// タイトルボタン画像の描画
-			DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
-			break;
+		// タイトルボタン画像の描画
+		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+	}
+	else if (overlap_title_button_flg == true)
+	{
+		// リトライボタン画像の描画
+		DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
 
-		case 1:
-			// リトライボタン画像の描画
-			DrawRotaGraphF(retry_x, retry_y, 1.0, 0.0, retry_button_img[retry_img_num], TRUE);
-
-			// タイトルボタンを暗くする
-			// 描画輝度のセット
-			SetDrawBright(128, 128, 128);
-			// タイトルボタン画像の描画
-			DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
-			// 描画輝度を元に戻す
-			SetDrawBright(255, 255, 255);
-			break;
-
-		default:
-			break;
-		}
+		// タイトルボタンを暗くする
+		// 描画輝度のセット
+		SetDrawBright(128, 128, 128);
+		// タイトルボタン画像の描画
+		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+		// 描画輝度を元に戻す
+		SetDrawBright(255, 255, 255);
 	}
 	else
 	{

@@ -129,7 +129,7 @@ GameMainScene::GameMainScene()
 
     /*スタートのピザ用*/
     pizza_pos.x = SCREEN_WIDTH / 2;
-    pizza_pos.y = 0.0f;
+    pizza_pos.y = -50.0f;
     pizza_angle = 0.0;
     anim_num = 0;
     perpar_alpha = 0;
@@ -1004,11 +1004,6 @@ void GameMainScene::InGameUpdate()
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
         if (objects[i]->GetObjectType() == ObjectType::choicebutton) continue;
 
-        if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
-        {
-            ResetEnemySpeed(i);
-        }
-
         if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
             objects[i]->Update();
@@ -1024,6 +1019,11 @@ void GameMainScene::InGameUpdate()
         else
         {
             objects[i]->Update();
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
+        {
+            ResetEnemySpeed(i);
         }
 
         //flgがtrueだったらcircleの当たり判定だけのclassを生成する
@@ -1354,7 +1354,6 @@ void GameMainScene::InStartUpdate()
                     StopSoundMem(pizza_se);
                 }
             }
-
             //ピザ落下
             if (pizza_pos.y < 700)
             {
@@ -1367,8 +1366,7 @@ void GameMainScene::InStartUpdate()
                 pizza_angle += 0.1;
 
             }
-            else
-            {
+            else {
                 //左右から壁
                 for (int i = 0; i < objects.size(); i++)
                 {
@@ -1384,9 +1382,7 @@ void GameMainScene::InStartUpdate()
                             wallmove_end_cnt++;
                         }
                     }
-
                 }
-
             }
         }
 
