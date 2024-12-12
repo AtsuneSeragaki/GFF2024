@@ -30,7 +30,7 @@ UITimer::UITimer()
 	}
 	image_minutes_num = 1;
 
-	time_bar_length = 300.0f;
+	time_bar_length = 305.0f;
 	now_time_bar_length = time_bar_length;
 
 }
@@ -68,11 +68,11 @@ void UITimer::Draw() const
 	// 描画ブレンドモードをアルファブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 	// 白色四角
-	DrawBoxAA(location.x - 20.0f, location.y - 20.0f, 350.0f, location.y + 20.0f, 0xffffff, TRUE);
+	DrawBoxAA(location.x - 20.0f, location.y - 20.0f, 355.0f, location.y + 20.0f, 0xffffff, TRUE);
 	// 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	// 黒色四角枠
-	DrawBoxAA(location.x - 20.0f, location.y - 20.0f, 350.0f, location.y + 20.0f, 0x000000, FALSE, 3.0f);
+	DrawBoxAA(location.x - 20.0f, location.y - 20.0f, 355.0f, location.y + 20.0f, 0x000000, FALSE, 3.0f);
 
 	// バーの描画
 	DrawBoxAA(50.0f, location.y - 20.0f, 50.0f + now_time_bar_length, location.y + 20.0f, 0xff0000, TRUE);
