@@ -134,6 +134,8 @@ private:
 
 	int skill_area_alpha;
 
+	bool pizza_se_flg;			 // seが流れたか？
+
 public:
 	GameMainScene();
 	~GameMainScene();
