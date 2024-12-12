@@ -1004,11 +1004,6 @@ void GameMainScene::InGameUpdate()
         if (objects[i]->GetObjectType() == ObjectType::in_pausebutton) continue;
         if (objects[i]->GetObjectType() == ObjectType::choicebutton) continue;
 
-        if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
-        {
-            ResetEnemySpeed(i);
-        }
-
         if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
         {
             objects[i]->Update();
@@ -1024,6 +1019,11 @@ void GameMainScene::InGameUpdate()
         else
         {
             objects[i]->Update();
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::enemy && slowdown_active == false)
+        {
+            ResetEnemySpeed(i);
         }
 
         //flgがtrueだったらcircleの当たり判定だけのclassを生成する
