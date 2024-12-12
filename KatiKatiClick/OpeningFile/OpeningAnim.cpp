@@ -113,6 +113,8 @@ OpeningAnim::OpeningAnim()
     left_smoke_num = 0;
 
     is_sweat_se_play = -1;
+
+    alpha = 225;
 }
 
 OpeningAnim::~OpeningAnim()
@@ -180,7 +182,6 @@ void OpeningAnim::Update()
             }
         }
 
-
         if (pizza_pos.y > 700)
         {
             se_flg = false;
@@ -189,7 +190,12 @@ void OpeningAnim::Update()
         if (pizza_pos.y > 500&& pizza_pos.y < 700)
         {
             ase_display = true;
-            
+
+            if (alpha > 0)
+            {
+                alpha -= 10;
+            }
+
             if (is_sweat_se_play == -1)
             {
                 is_sweat_se_play = 0;
@@ -247,13 +253,15 @@ void OpeningAnim::Update()
 
 void OpeningAnim::Draw() const
 {
-    if (objects.back()->GetLocation().y < 700)
-    {
-        DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, skip_img[0], TRUE);
-    }
+    // 描画ブレンドモードをアルファブレンドにする
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+    DrawRotaGraph(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 2, 0, skip_img[0], TRUE);
+    // 描画ブレンドモードをノーブレンドにする
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+    // お姫様描画
     DrawRotaGraphF(pizza_pos.x, pizza_pos.y, 0.5, 0, pizza_img[0], TRUE);
 
-    DrawRotaGraph((int)pizza_pos.x, (int)pizza_pos.y, 0.5, 0, pizza_img[0], TRUE);
     if (ase_display == true)
     {
         DrawRotaGraph((int)pizza_pos.x - 30, (int)pizza_pos.y - 50, 0.5, 0, ase_img[0], TRUE);
@@ -276,9 +284,6 @@ void OpeningAnim::Draw() const
     {
         DrawRotaGraphF(left_smoke_pos.x + 20.0f, left_smoke_pos.y - (i * 70), 2.5, 0, smoke_img[left_smoke_num], TRUE);
     }
-
-
-
 }
 
 void OpeningAnim::PizzaFall()
