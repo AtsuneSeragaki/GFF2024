@@ -129,7 +129,7 @@ GameMainScene::GameMainScene()
 
     /*スタートのピザ用*/
     pizza_pos.x = SCREEN_WIDTH / 2;
-    pizza_pos.y = 0.0f;
+    pizza_pos.y = -50.0f;
     pizza_angle = 0.0;
     anim_num = 0;
     perpar_alpha = 0;
@@ -180,8 +180,6 @@ GameMainScene::GameMainScene()
     is_skill_area_max = false;
 
     skill_area_alpha = 0;
-
-    pizza_se_flg = false;
 }
 
 GameMainScene::~GameMainScene()
@@ -1248,19 +1246,6 @@ void GameMainScene::InStartUpdate()
     switch (anim_num)
     {
     case 0:
-        //ピザ落下
-        pizza_pos.y += 5.0f;
-        pizza_angle += 0.1;
-
-        if (pizza_pos.y > 100.0f)
-        {
-            if (pizza_se_flg == false)
-            {
-                PlaySoundMem(pizza_se, DX_PLAYTYPE_BACK, TRUE);
-                pizza_se_flg = true;
-            }
-        }
-
         black_alpha -= 5;
 
         if (black_alpha < 150) {
@@ -1369,9 +1354,19 @@ void GameMainScene::InStartUpdate()
                     StopSoundMem(pizza_se);
                 }
             }
-
-            if (pizza_pos.y > 700)
+            //ピザ落下
+            if (pizza_pos.y < 700)
             {
+                if (pizza_pos.y == 0.0f)
+                {
+                    PlaySoundMem(pizza_se, DX_PLAYTYPE_BACK, TRUE);
+                }
+
+                pizza_pos.y += 5.0f;
+                pizza_angle += 0.1;
+
+            }
+            else {
                 //左右から壁
                 for (int i = 0; i < objects.size(); i++)
                 {
