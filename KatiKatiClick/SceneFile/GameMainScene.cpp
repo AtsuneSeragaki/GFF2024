@@ -259,11 +259,6 @@ void GameMainScene::Draw() const
         // 背景の太陽画像の描画
         DrawRotaGraphF(180.0f, 600.0f - background_location_y, 0.5, 0.0, background_image[1], TRUE);
     }
-
-    if (is_spos_select == true)
-    {
-        DrawSkillArea();
-    }
     
     for (int i = 0; i < objects.size(); i++)
     {
@@ -271,6 +266,11 @@ void GameMainScene::Draw() const
         {
             objects[i]->Draw();
         }
+    }
+
+    if (is_spos_select == true)
+    {
+        DrawSkillArea();
     }
 
     //敵の描画
@@ -373,12 +373,6 @@ void GameMainScene::Draw() const
             ui_coins->Draw();
         }
 
-        // コイン描画
-        for (int i = 0; i < coins.size(); i++)
-        {
-            coins[i]->Draw();
-        }
-
         //ダメージエフェクトの描画
         for (int i = 0; i < damage_effect.size(); i++)
         {
@@ -389,6 +383,12 @@ void GameMainScene::Draw() const
         {
             // タイマー描画処理
             ui_timer->Draw();
+        }
+
+        // コイン描画
+        for (int i = 0; i < coins.size(); i++)
+        {
+            coins[i]->Draw();
         }
     }    
 
@@ -421,6 +421,15 @@ void GameMainScene::Draw() const
                 }
             }
         }
+    }
+
+    if (is_spos_select)
+    {
+        // 描画ブレンドモードをアルファブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+        DrawBox(0, 560, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+        // 描画ブレンドモードをノーブレンドにする
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
     //カーソル描画
@@ -460,14 +469,6 @@ void GameMainScene::Draw() const
         fade->Draw();
     }
    
-    if (is_spos_select)
-    {
-        // 描画ブレンドモードをアルファブレンドにする
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-        DrawBox(0, 560, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
-        // 描画ブレンドモードをノーブレンドにする
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    }
 
   // DrawFormatString(30, 350, 0xffffff, "%d", bgm_volume);
    //DrawFormatString(60, 350, 0xffffff, "%d", num_2);
@@ -1070,7 +1071,7 @@ void GameMainScene::InGameUpdate()
             if (objects[j]->GetObjectType() == ObjectType::in_pausebutton) continue;
             if (objects[j]->GetObjectType() == ObjectType::choicebutton) continue;
 
-            if (objects[i]->GetObjectType() == ObjectType::cursor && objects[i]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+            if (objects[i]->GetObjectType() == ObjectType::cursor)
             {
                 if (objects[j]->GetObjectType() == ObjectType::b_attackskill || objects[j]->GetObjectType() == ObjectType::b_slowdownskill)
                 {
@@ -1085,7 +1086,7 @@ void GameMainScene::InGameUpdate()
                     }
                 }
             }
-            else if (objects[j]->GetObjectType() == ObjectType::cursor && objects[j]->GetCanHit() != true && MouseInput::GetMouseState() == eMouseInputState::eNone)
+            else if (objects[j]->GetObjectType() == ObjectType::cursor)
             {
                 if (objects[i]->GetObjectType() == ObjectType::b_attackskill || objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
                 {
