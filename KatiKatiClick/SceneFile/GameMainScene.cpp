@@ -1455,9 +1455,29 @@ void GameMainScene::InGameClearUpdate()
     for (int i = 0; i < objects.size(); i++)
     {
         // 敵のは処理を飛ばす
-        if (objects[i]->GetObjectType() == ObjectType::enemy) continue;
+        /*if (objects[i]->GetObjectType() == ObjectType::enemy) continue;
+        if (objects[i]->GetObjectType() == ObjectType::attackskill) continue;
+        if (objects[i]->GetObjectType() == ObjectType::slowdownskill) continue;*/
 
-        objects[i]->Update();
+        if (objects[i]->GetObjectType() == ObjectType::cursor)
+        {
+            objects[i]->Update();
+        }
+        
+        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
+        {
+            objects[i]->Update();
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        {
+            objects[i]->Update();
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {
+            objects[i]->Update();
+        }
     }
 
     if (gameclear_alpha == -50)
@@ -1488,9 +1508,31 @@ void GameMainScene::InGameOverUpdate()
     for (int i = 0; i < objects.size(); i++)
     {
         // 敵のは処理を飛ばす
-        if (objects[i]->GetObjectType() == ObjectType::enemy) continue;
+       /* if (objects[i]->GetObjectType() == ObjectType::enemy) continue;
+        if (objects[i]->GetObjectType() == ObjectType::attackskill) continue;
+        if (objects[i]->GetObjectType() == ObjectType::slowdownskill) continue;*/
 
-        objects[i]->Update();
+        if (objects[i]->GetObjectType() == ObjectType::cursor)
+        {
+            objects[i]->Update();
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::pausebutton)
+        {
+            objects[i]->Update();
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::b_attackskill)
+        {
+            objects[i]->Update();
+        }
+
+        if (objects[i]->GetObjectType() == ObjectType::b_slowdownskill)
+        {
+            objects[i]->Update();
+        }
+
+        /*objects[i]->Update();*/
     }
 
     for (int i = 0; i < coins.size(); i++)
