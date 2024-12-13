@@ -83,6 +83,7 @@ void BSlowDownSkill::Initialize()
 void BSlowDownSkill::Update()
 {
 	ChangeImage();
+	hit_cursor = false;
 
 	if (bskill_state == BSkillState::possible)
 	{

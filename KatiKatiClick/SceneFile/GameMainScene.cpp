@@ -1438,6 +1438,28 @@ void GameMainScene::InStartUpdate()
 
 void GameMainScene::InGameClearUpdate()
 {
+    // UIコインの更新処理
+    ui_coins->Update();
+
+    for (int i = 0; i < coins.size(); i++)
+    {
+        // コイン更新
+        coins[i]->Update();
+        //消してもOKだったらcoinsを削除
+        if (coins[i]->GetCanDeleteFlg() == true)
+        {
+            coins.erase(coins.begin() + i);
+        }
+    }
+
+    for (int i = 0; i < objects.size(); i++)
+    {
+        // 敵のは処理を飛ばす
+        if (objects[i]->GetObjectType() == ObjectType::enemy) continue;
+
+        objects[i]->Update();
+    }
+
     if (gameclear_alpha == -50)
     {
         // BGMを止める
@@ -1454,14 +1476,37 @@ void GameMainScene::InGameClearUpdate()
     {
         is_game_clear = true;
     }
-    CursorUpdate();        // カーソルのみ更新
+
+   // CursorUpdate();        // カーソルのみ更新
 }
 
 void GameMainScene::InGameOverUpdate()
 {
+    // UIコインの更新処理
+    ui_coins->Update();
+
     for (int i = 0; i < objects.size(); i++)
     {
-        if (objects[i]->GetObjectType() != ObjectType::enemy) { continue; }
+        // 敵のは処理を飛ばす
+        if (objects[i]->GetObjectType() == ObjectType::enemy) continue;
+
+        objects[i]->Update();
+    }
+
+    for (int i = 0; i < coins.size(); i++)
+    {
+        // コイン更新
+        coins[i]->Update();
+        //消してもOKだったらcoinsを削除
+        if (coins[i]->GetCanDeleteFlg() == true)
+        {
+            coins.erase(coins.begin() + i);
+        }
+    }
+
+    for (int i = 0; i < objects.size(); i++)
+    {
+        //if (objects[i]->GetObjectType() != ObjectType::enemy) { continue; }
         
             //画面内に表示されていたら
             //stateがgoalだったら
@@ -1487,7 +1532,9 @@ void GameMainScene::InGameOverUpdate()
     {
         is_game_over = true;
     }
-    CursorUpdate();        // カーソルのみ更新
+
+
+    //CursorUpdate();        // カーソルのみ更新
 }
 
 void GameMainScene::Initialize()
