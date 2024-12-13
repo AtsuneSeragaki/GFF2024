@@ -373,10 +373,13 @@ void GameMainScene::Draw() const
             ui_coins->Draw();
         }
 
-        //ダメージエフェクトの描画
-        for (int i = 0; i < damage_effect.size(); i++)
+        if (game_state != GameState::gameover)
         {
-            damage_effect[i]->Draw();
+            //ダメージエフェクトの描画
+            for (int i = 0; i < damage_effect.size(); i++)
+            {
+                damage_effect[i]->Draw();
+            }
         }
 
         if (ui_timer != nullptr)
