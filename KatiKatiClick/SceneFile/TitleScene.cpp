@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include "EndScene.h"
+#include "StageSelectScene.h"
 #include "GameMainScene.h"
 #include "../UtilityFile/ResourceManager.h"
 #include "../UtilityFile/Define.h"
@@ -312,7 +313,8 @@ AbstractScene* TitleScene::Change()
 		case 0:
 			StopSoundMem(bgm);
 			is_bgm_active = false;
-			return new GameMainScene();
+			//return new GameMainScene();
+			return new StageSelectScene();
 			break;
 
 		case 1:

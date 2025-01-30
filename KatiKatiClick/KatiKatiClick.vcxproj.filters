@@ -71,6 +71,7 @@
     <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.cpp" />
     <ClCompile Include="OpeningFile\OpeningAnim.cpp" />
     <ClCompile Include="FadeFile\Fade.cpp" />
+    <ClCompile Include="SceneFile\StageSelectScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UtilityFile\Define.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.h" />
     <ClInclude Include="OpeningFile\OpeningAnim.h" />
     <ClInclude Include="FadeFile\Fade.h" />
+    <ClInclude Include="SceneFile\StageSelectScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ソースファイル">

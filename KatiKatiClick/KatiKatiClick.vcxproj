@@ -178,6 +178,7 @@
     <ClCompile Include="OpeningFile\OpeningAnim.cpp" />
     <ClCompile Include="SceneFile\EndScene.cpp" />
     <ClCompile Include="SceneFile\ResultScene.cpp" />
+    <ClCompile Include="SceneFile\StageSelectScene.cpp" />
     <ClCompile Include="SceneFile\TitleScene.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.cpp" />
     <ClCompile Include="UtilityFile\MouseInput.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="OpeningFile\OpeningAnim.h" />
     <ClInclude Include="SceneFile\EndScene.h" />
     <ClInclude Include="SceneFile\ResultScene.h" />
+    <ClInclude Include="SceneFile\StageSelectScene.h" />
     <ClInclude Include="SceneFile\TitleScene.h" />
     <ClInclude Include="ObjectFile\PauseFile\TitleButtonFile\TitleButton.h" />
     <ClInclude Include="UtilityFile\Define.h" />
