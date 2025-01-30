@@ -1120,6 +1120,7 @@ void GameMainScene::InGameUpdate()
                 }
             }
 
+            //もしobject[i]か[j]が当たってはいけない状態なら次へ
             if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
             //もしshapeが違かったら
