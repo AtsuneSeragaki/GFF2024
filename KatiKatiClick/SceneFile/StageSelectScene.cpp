@@ -150,7 +150,7 @@ void StageSelectScene::Draw() const
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
 
 	//Draw;
-	DrawString(150, 10, "STAGE SELECT", 0xffffff);
+	DrawString(130, 30, "STAGE SELECT", 0xffffff);
 
 	if (overlap_stage1_button_flg == true)
 	{// ステージ1ボタンを選択中
@@ -174,6 +174,10 @@ void StageSelectScene::Draw() const
 
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+
+		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
+		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
+		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
 
 	}
 	else if (overlap_stage2_button_flg == true)
