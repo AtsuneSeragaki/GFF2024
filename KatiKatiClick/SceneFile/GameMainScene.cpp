@@ -8,6 +8,7 @@
 #include "../UtilityFile/MouseInput.h"
 #include "../UtilityFile/ResourceManager.h"
 #include "../ObjectFile/EnemyFile/EnemyArray.h"
+#include "../ObjectFile/EnemyFile/HardEnemy.h"
 #include "../ObjectFile/PauseFile/ArrowButtonFile/LeftButton.h"
 #include "../ObjectFile/PauseFile/ArrowButtonFile/RightButton.h"
 #include "../ObjectFile/PauseFile/TitleButtonFile/TitleButton.h"
@@ -1731,6 +1732,12 @@ void GameMainScene::EnmGenerateTimeCheck()
                             //i*60待ってから出てくる
                             snake_enemy->SetWaitTime((i * 60)+(k*40));
                         }
+                    }
+
+                    if (enemy_array[i][j] == (int)Enemys::HardEnemy)
+                    {
+                        EnemyBase* hard_enemy = CreateObject<HardEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                        hard_enemy->SetWaitTime(i * 60);
                     }
                 }
             }
