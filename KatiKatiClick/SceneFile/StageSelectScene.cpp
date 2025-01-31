@@ -203,6 +203,10 @@ void StageSelectScene::Draw() const
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
 
+		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
+		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
+		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
+
 	}
 	else if (overlap_stage3_button_flg == true)
 	{// ステージ3ボタンを選択中
@@ -227,6 +231,10 @@ void StageSelectScene::Draw() const
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
 
+		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
+		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
+		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
+
 	}
 	else if (overlap_title_button_flg == true)
 	{// タイトルボタンを選択中
@@ -250,6 +258,10 @@ void StageSelectScene::Draw() const
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
+
+		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
+		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
+		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
 	}
 	else
 	{// 何も選択されていないとき
@@ -268,6 +280,10 @@ void StageSelectScene::Draw() const
 
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
+
+		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
+		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
+		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
 	}
 
 	// カーソル描画
