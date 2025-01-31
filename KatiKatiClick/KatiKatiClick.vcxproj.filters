@@ -71,6 +71,7 @@
     <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.cpp" />
     <ClCompile Include="OpeningFile\OpeningAnim.cpp" />
     <ClCompile Include="FadeFile\Fade.cpp" />
+    <ClCompile Include="SceneFile\StageSelectScene.cpp" />
     <ClCompile Include="ObjectFile\EnemyFile\HardEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.h" />
     <ClInclude Include="OpeningFile\OpeningAnim.h" />
     <ClInclude Include="FadeFile\Fade.h" />
+    <ClInclude Include="SceneFile\StageSelectScene.h" />
     <ClInclude Include="ObjectFile\EnemyFile\HardEnemy.h" />
   </ItemGroup>
   <ItemGroup>
