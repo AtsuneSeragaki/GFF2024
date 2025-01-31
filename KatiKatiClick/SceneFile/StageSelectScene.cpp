@@ -349,7 +349,7 @@ AbstractScene* StageSelectScene::Change()
 
 		case 3:
 			//// BGMを止める
-			//StopSoundMem(bgm);
+			StopSoundMem(bgm);
 			/*TitleScene::is_bgm_active = true;*/
 			TitleScene::is_fade = true;
 
