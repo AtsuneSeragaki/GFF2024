@@ -312,7 +312,7 @@ AbstractScene* TitleScene::Change()
 		case 0:
 			StopSoundMem(bgm);
 			is_bgm_active = false;
-			return new GameMainScene();
+			return new GameMainScene(1);
 			break;
 
 		case 1:

@@ -77,9 +77,7 @@ std::vector<std::vector<int>> enemy_array =
 std::vector<std::vector<int>> enemy_array =
 {
 	//{0,1,0,1,0},
-	{0,6,6,6,0},
-	{0,0,6,0,0},
-	{0,0,0,0,0},
+	{0,1,0,1,0},
 	{0,0,6,0,0},
 	{0,0,0,0,0},
 	{4,0,0,0,4},

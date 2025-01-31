@@ -711,7 +711,7 @@ AbstractScene* ResultScene::Change()
 			is_bgm_active = false;
 
 			// ゲームメイン画面に遷移
-			return new GameMainScene();
+			return new GameMainScene(1);
 			break;
 
 		case 1:

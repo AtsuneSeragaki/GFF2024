@@ -15,7 +15,7 @@
 #include "../ObjectFile/PauseFile/ChoicesButtonFile/YesButton.h"
 #include "../ObjectFile/PauseFile/ChoicesButtonFile/NoButton.h"
 
-GameMainScene::GameMainScene()
+GameMainScene::GameMainScene(int stage_num)
 {
     //game_state = GameState::in_game;//プレイ中に設定
     game_state = GameState::start;//プレイ中に設定

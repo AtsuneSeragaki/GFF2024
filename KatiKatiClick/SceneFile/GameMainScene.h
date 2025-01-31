@@ -135,7 +135,7 @@ private:
 	int skill_area_alpha;
 
 public:
-	GameMainScene();
+	GameMainScene(int stage_num);
 	~GameMainScene();
 
 	void Update() override;
