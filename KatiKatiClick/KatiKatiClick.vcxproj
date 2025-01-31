@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FadeFile\Fade.cpp" />
+    <ClCompile Include="ObjectFile\EnemyFile\HardEnemy.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.cpp" />
     <ClCompile Include="ObjectFile\WallFile\Wall.cpp" />
     <ClCompile Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.cpp" />
@@ -196,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FadeFile\Fade.h" />
+    <ClInclude Include="ObjectFile\EnemyFile\HardEnemy.h" />
     <ClInclude Include="ObjectFile\PauseFile\ChoicesButtonFile\NoButton.h" />
     <ClInclude Include="ObjectFile\WallFile\Wall.h" />
     <ClInclude Include="ObjectFile\PauseFile\ArrowButtonFile\LeftButton.h" />

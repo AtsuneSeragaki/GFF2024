@@ -14,15 +14,6 @@ DamageEffect::DamageEffect(Vector2D set_location, unsigned int get_color)
 	pos4 = set_location;
 	pos = set_location;
 
-	//pos1.x -= 15;
-	//pos1.y -= 10;
-	//pos2.x += 5;
-	//pos2.y -= 10;
-	//pos3.x += 5;
-	//pos3.y += 10;
-	//pos4.x -= 15;
-	//pos4.y += 10;
-
 	count = 0;
 	alpha = 255;
 
@@ -69,51 +60,7 @@ void DamageEffect::Update()
 
 void DamageEffect::EnemyDamageEffect()
 {
-	/*
-	//段々大きくする
-	float num = (float)count;
-
-	switch (count)
-	{
-	case 2:
-		move = 4;
-		break;
-	case 5:
-		move = 6;
-		box_width = 4;
-		box_height = 4;
-		break;
-	case 9:
-		box_width =3;
-		box_height = 3;
-		//alpha = 240;
-		break;
-	default:
-		break;
-	}
-
-	if (count < 10)
-	{
-		pos1.x -= move;
-		pos1.y -= move;
-		pos2.x += move;
-		pos2.y -= move;
-		pos3.x += move;
-		pos3.y += move;
-		pos4.x -= move;
-		pos4.y += move;
-	}
-
-	if (count < 15) {
-		count++;
-
-	}
-	else
-	{
-		can_delete = true;
-	}
-	*/
-
+	//velにaccを加算
 	vel += acc;
 	pos1.y += vel;
 	pos2.y += vel;
@@ -125,6 +72,7 @@ void DamageEffect::EnemyDamageEffect()
 	pos3.x -= 5.0f;
 	pos4.x += 6.0f;
 
+	//700より値が大きくなったら削除する
 	if (pos1.y > 700.0f)
 	{
 		can_delete = true;
@@ -178,7 +126,7 @@ void DamageEffect::Draw() const
 		DrawBox((int)pos3.x - box_width-shift, (int)pos3.y - box_height-shift, (int)pos3.x + shift + box_width, (int)pos3.y + shift + box_height, 0x000000, TRUE);
 		DrawBox((int)pos4.x - box_width-shift, (int)pos4.y - box_height-shift, (int)pos4.x + shift + box_width, (int)pos4.y + shift + box_height, 0x000000, TRUE);
 
-
+		//四角部分
 		DrawBox((int)pos1.x-box_width, (int)pos1.y-box_height, (int)pos1.x +box_width, (int)pos1.y +box_height, color, TRUE);
 		DrawBox((int)pos2.x-box_width, (int)pos2.y - box_height, (int)pos2.x + box_width, (int)pos2.y +  box_height, color, TRUE);
 		DrawBox((int)pos3.x - box_width, (int)pos3.y - box_height, (int)pos3.x + box_width, (int)pos3.y +  box_height, color, TRUE);

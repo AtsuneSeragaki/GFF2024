@@ -8,13 +8,14 @@
 #include "../UtilityFile/MouseInput.h"
 #include "../UtilityFile/ResourceManager.h"
 #include "../ObjectFile/EnemyFile/EnemyArray.h"
+#include "../ObjectFile/EnemyFile/HardEnemy.h"
 #include "../ObjectFile/PauseFile/ArrowButtonFile/LeftButton.h"
 #include "../ObjectFile/PauseFile/ArrowButtonFile/RightButton.h"
 #include "../ObjectFile/PauseFile/TitleButtonFile/TitleButton.h"
 #include "../ObjectFile/PauseFile/ChoicesButtonFile/YesButton.h"
 #include "../ObjectFile/PauseFile/ChoicesButtonFile/NoButton.h"
 
-GameMainScene::GameMainScene()
+GameMainScene::GameMainScene(int stage_num)
 {
     //game_state = GameState::in_game;//プレイ中に設定
     game_state = GameState::start;//プレイ中に設定
@@ -1121,6 +1122,7 @@ void GameMainScene::InGameUpdate()
                 }
             }
 
+            //もしobject[i]か[j]が当たってはいけない状態なら次へ
             if (objects[i]->GetCanHit() != true || objects[j]->GetCanHit() != true)continue;
 
             //もしshapeが違かったら
@@ -1731,6 +1733,12 @@ void GameMainScene::EnmGenerateTimeCheck()
                             //i*60待ってから出てくる
                             snake_enemy->SetWaitTime((i * 60)+(k*40));
                         }
+                    }
+
+                    if (enemy_array[i][j] == (int)Enemys::HardEnemy)
+                    {
+                        EnemyBase* hard_enemy = CreateObject<HardEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                        hard_enemy->SetWaitTime(i * 60);
                     }
                 }
             }

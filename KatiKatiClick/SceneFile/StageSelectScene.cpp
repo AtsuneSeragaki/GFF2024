@@ -326,7 +326,7 @@ AbstractScene* StageSelectScene::Change()
 			is_bgm_active = false;
 
 			// ゲームメイン画面に遷移
-			return new GameMainScene();
+			return new GameMainScene(1);
 			break;
 
 		case 1:
@@ -335,7 +335,7 @@ AbstractScene* StageSelectScene::Change()
 			is_bgm_active = false;
 
 			// ゲームメイン画面に遷移
-			return new GameMainScene();
+			return new GameMainScene(2);
 			break;
 
 		case 2:
@@ -344,7 +344,7 @@ AbstractScene* StageSelectScene::Change()
 			is_bgm_active = false;
 
 			// ゲームメイン画面に遷移
-			return new GameMainScene();
+			return new GameMainScene(3);
 			break;
 
 		case 3:
