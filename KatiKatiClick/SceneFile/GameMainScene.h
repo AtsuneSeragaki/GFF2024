@@ -134,6 +134,7 @@ private:
 
 	int skill_area_alpha;
 
+	int stage_number;//ステージ番号
 public:
 	GameMainScene(int stage_num);
 	~GameMainScene();
@@ -151,9 +152,8 @@ private:
 
 private:
 	void Initialize();
-	void EnemyGenerate(int num);
 	void GameOverEnmGenerate();
-	void EnmGenerateTimeCheck();
+	void EnmGenerate();
 
 	void EnmMiniGenerate();
 	void EnmEffectGenerate();

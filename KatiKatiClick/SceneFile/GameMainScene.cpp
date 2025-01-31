@@ -17,6 +17,7 @@
 
 GameMainScene::GameMainScene(int stage_num)
 {
+    stage_number = stage_num;
     //game_state = GameState::in_game;//プレイ中に設定
     game_state = GameState::start;//プレイ中に設定
 
@@ -1203,7 +1204,7 @@ void GameMainScene::InGameUpdate()
     }
 
     //エネミーを生成
-    EnmGenerateTimeCheck();
+    EnmGenerate();
 
     //小さいSpritEnemyを生成
     EnmMiniGenerate();
@@ -1211,34 +1212,6 @@ void GameMainScene::InGameUpdate()
     //敵のEffectを生成
     EnmEffectGenerate();
 
-    /*
-    //小さいSplitEnemyを生成
-    for (int i = 0; i < objects.size(); i++)
-    {
-        if (objects[i]->GetObjectType() == ObjectType::enemy)
-        {
-            EnemyBase* enemy = dynamic_cast<EnemyBase*>(objects[i]);
-
-            if (enemy->GetCanCreateMini() == true)
-            {
-                enemy->StopCreateMini();
-
-                //小さいエネミーを作る
-                EnemyBase* crack_enemy_mini = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x - 30.0f, objects[i]->GetLocation().y + 40.0f));
-                crack_enemy_mini->SetHp(10);
-                crack_enemy_mini->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
-                crack_enemy_mini->SetWaitTime(5);
-                crack_enemy_mini->SetSpeed(2.0f);
-                EnemyBase* crack_enemy_mini2 = CreateObject<SplitEnemy>(Vector2D(objects[i]->GetLocation().x + 30.0f, objects[i]->GetLocation().y + 40.0f));
-                crack_enemy_mini2->SetHp(10);
-                crack_enemy_mini2->SetSize(objects[i]->GetWidth(), objects[i]->GetHeight());
-                crack_enemy_mini2->SetWaitTime(5);
-                crack_enemy_mini2->SetSpeed(2.0f);
-
-            }
-        }
-    }
-    */
 }
 
 void GameMainScene::InStartUpdate()
@@ -1588,42 +1561,6 @@ void GameMainScene::Initialize()
 {
 }
 
-void GameMainScene::EnemyGenerate(int num)
-{
-    
-    if (is_enm_generate == true)
-    {
-        is_enm_generate = false;
-
-        for (int i = 0; i < num; i++)
-        {
-            //ランダムで出てくる位置を決める
-            EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 1.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy->SetWaitTime(i * 60 * num);
-            EnemyBase* crack_enemy2 = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 2.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy2->SetWaitTime(i * 60 * num);
-            EnemyBase* crack_enemy3 = CreateObject<CrackEnemy>(Vector2D(((float)LANE_WIDTH * 3.0f) - (float)LANE_WIDTH_HALF, 0.0f));//エネミー生成
-            crack_enemy3->SetWaitTime(i * 60 * num);
-        }
-
-        float generate_lane = (float)SCREEN_WIDTH / 6.0f;
-        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(generate_lane * 2.0f, 0.0f));//円エネミー
-        burst_enemy->SetWaitTime(60);
-        EnemyBase* burst_enemy2 = CreateObject<BurstEnemy>(Vector2D(generate_lane * 4.0f, 0.0f));//円エネミー
-        burst_enemy2->SetWaitTime(60);
-
-
-        for (int i = 0; i < 3; i++) {
-            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(((float)LANE_WIDTH * 2.0f) - (float)LANE_WIDTH_HALF, -600.0f));//エネミー生成
-            //i*60待ってから出てくる
-            snake_enemy->SetWaitTime(i * 40);
-        }
-        CreateObject<FrogEnemy>(Vector2D(((float)LANE_WIDTH * 1.0f) - (float)LANE_WIDTH_HALF, -500.0f));//エネミー生成
-        CreateObject<FrogEnemy>(Vector2D(((float)LANE_WIDTH * 3.0f) - (float)LANE_WIDTH_HALF, -500.0f));//エネミー生成
-    }
-    
-}
-
 void GameMainScene::GameOverEnmGenerate()
 {
     int wait_time = 20;
@@ -1679,91 +1616,64 @@ void GameMainScene::GameOverEnmGenerate()
 
 }
 
-void GameMainScene::EnmGenerateTimeCheck()
+void GameMainScene::EnmGenerate()
 {
-    //10秒ごとに敵を生成
-//残り時間が少なくなっていくほど敵を多く生成
-    switch (ui_timer->GetSeconds())
+    if (is_enm_generate == true)
     {
-    case 60:
-        if (is_enm_generate == true)
+        is_enm_generate = false;
+
+        for (int i = 0; i < enemy_array[stage_number].size(); i++)
         {
-            is_enm_generate = false;
-
-            for (int i = 0; i < enemy_array.size(); i++)
+            for (int j = 0; j < enemy_array[stage_number][i].size(); j++)
             {
-                for (int j = 0; j < enemy_array[i].size(); j++)
+
+                if (enemy_array[stage_number][i][j] == 0) { continue; }
+
+                float lane = ((float)SCREEN_WIDTH / 6) * (float)j + 60.0f;
+
+                if (enemy_array[stage_number][i][j] == (int)Enemys::CrackEnemy)
                 {
+                    EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                    crack_enemy->SetWaitTime(i * 60);
+                }
 
-                    if (enemy_array[i][j] == 0) { continue; }
+                if (enemy_array[stage_number][i][j] == (int)Enemys::BurstEnemy)
+                {
+                    EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                    burst_enemy->SetWaitTime(i * 60);
+                }
 
-                    float lane = ((float)SCREEN_WIDTH / 6) * (float)j + 60.0f;
+                if (enemy_array[stage_number][i][j] == (int)Enemys::SplitEnemy)
+                {
+                    EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                    split_enemy->SetWaitTime(i * 60);
+                }
 
-                    if (enemy_array[i][j] == (int)Enemys::CrackEnemy)
+                if (enemy_array[stage_number][i][j] == (int)Enemys::FrogEnemy)
+                {
+                    EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                    frog_enemy->SetWaitTime(i * 60);
+                }
+
+
+                if (enemy_array[stage_number][i][j] == (int)Enemys::SnakeEnemy)
+                {
+                    for (int k = 0; k < 3; k++)
                     {
-                        EnemyBase* crack_enemy = CreateObject<CrackEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                        crack_enemy->SetWaitTime(i * 60);
+                        EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                        //i*60待ってから出てくる
+                        snake_enemy->SetWaitTime((i * 60)+(k*40));
                     }
+                }
 
-                    if (enemy_array[i][j] == (int)Enemys::BurstEnemy)
-                    {
-                        EnemyBase* burst_enemy = CreateObject<BurstEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                        burst_enemy->SetWaitTime(i * 60);
-                    }
-
-                    if (enemy_array[i][j] == (int)Enemys::SplitEnemy)
-                    {
-                        EnemyBase* split_enemy = CreateObject<SplitEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                        split_enemy->SetWaitTime(i * 60);
-                    }
-
-                    if (enemy_array[i][j] == (int)Enemys::FrogEnemy)
-                    {
-                        EnemyBase* frog_enemy = CreateObject<FrogEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                        frog_enemy->SetWaitTime(i * 60);
-                    }
-
-
-                    if (enemy_array[i][j] == (int)Enemys::SnakeEnemy)
-                    {
-                        for (int k = 0; k < 3; k++)
-                        {
-                            EnemyBase* snake_enemy = CreateObject<SnakeEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                            //i*60待ってから出てくる
-                            snake_enemy->SetWaitTime((i * 60)+(k*40));
-                        }
-                    }
-
-                    if (enemy_array[i][j] == (int)Enemys::HardEnemy)
-                    {
-                        EnemyBase* hard_enemy = CreateObject<HardEnemy>(Vector2D(lane, -100.0f));//エネミー生成
-                        hard_enemy->SetWaitTime(i * 60);
-                    }
+                if (enemy_array[stage_number][i][j] == (int)Enemys::HardEnemy)
+                {
+                    EnemyBase* hard_enemy = CreateObject<HardEnemy>(Vector2D(lane, -100.0f));//エネミー生成
+                    hard_enemy->SetWaitTime(i * 60);
                 }
             }
         }
-
-        break;
-    //case 50:
-    //    EnemyGenerate(2);
-    //    break;
-    //case 40:
-    //    EnemyGenerate(3);
-    //    break;
-    //case 30:
-    //    EnemyGenerate(4);
-    //    break;
-    //case 20:
-    //    EnemyGenerate(4);
-    //    break;
-    //case 10:
-    //    EnemyGenerate(3);
-    //    break;
-    default:
-        is_enm_generate = true;
-        break;
     }
-
 }
 
 void GameMainScene::EnmMiniGenerate()
