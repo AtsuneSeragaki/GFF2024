@@ -13,8 +13,7 @@ private:
 	OpeningAnim* opening_anim;
 	int select;							// プレイヤーが選んだメニュー
 	int bgm;							// BGMデータ
-	bool is_bgm_active;					// BGMが流れているか？
-
+	
 	std::vector<int> cloud_img;			//雲の画像
 	std::vector<int> titlelogo_img;		//タイトルロゴの画像
 	std::vector<int> play_button_img;	//プレイボタンの画像
@@ -59,6 +58,8 @@ public:
 	AbstractScene* Change() override;
 
 	static bool is_fade;        // フェードしてきたか？
+	static bool is_bgm_active;	// BGMが流れているか？
+
 
 private:
 	float DistanceSqrf(float box_x, float box_y, float circle_x, float circle_y);

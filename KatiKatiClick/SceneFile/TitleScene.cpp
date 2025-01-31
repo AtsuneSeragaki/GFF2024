@@ -9,6 +9,8 @@
 
 bool TitleScene::is_fade = false;
 
+bool TitleScene::is_bgm_active = false;
+
 TitleScene::TitleScene()
 {
 	cursor = new Cursor;
@@ -56,8 +58,6 @@ TitleScene::TitleScene()
 	{
 		end_button_img.push_back(tmp_img[i]);
 	}
-
-	is_bgm_active = false;
 	
 	play_img_num = 0;
 	end_img_num = 0;

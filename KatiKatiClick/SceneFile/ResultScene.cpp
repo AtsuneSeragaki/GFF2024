@@ -719,6 +719,7 @@ AbstractScene* ResultScene::Change()
 			StopSoundMem(bgm);
 			is_bgm_active = false;
 
+			TitleScene::is_bgm_active = false;
 			TitleScene::is_fade = true;
 
 			// タイトル画面に遷移

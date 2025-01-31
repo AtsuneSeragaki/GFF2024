@@ -73,6 +73,8 @@ StageSelectScene::StageSelectScene()
 	title_y = 650.0f;
 	change_screen_flg = false;
 	overlap_title_button_flg = false;
+
+	black_alpha = 255;
 }
 
 StageSelectScene::~StageSelectScene()
@@ -88,6 +90,16 @@ void StageSelectScene::Update()
 		is_bgm_active = true;
 		// BGM再生
 		PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+	}
+
+	if (black_alpha > 0)
+	{
+		black_alpha -= 5;
+
+		if (black_alpha <= 0)
+		{
+			black_alpha = 0;
+		}
 	}
 
 	// カーソル更新処理
@@ -294,6 +306,12 @@ void StageSelectScene::Draw() const
 	{
 		fade->Draw();
 	}
+
+	// 描画ブレンドモードをアルファブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, black_alpha);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+	// 描画ブレンドモードをノーブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 AbstractScene* StageSelectScene::Change()
@@ -330,10 +348,9 @@ AbstractScene* StageSelectScene::Change()
 			break;
 
 		case 3:
-			// BGMを止める
-			StopSoundMem(bgm);
-			is_bgm_active = false;
-
+			//// BGMを止める
+			//StopSoundMem(bgm);
+			/*TitleScene::is_bgm_active = true;*/
 			TitleScene::is_fade = true;
 
 			// タイトル画面に遷移

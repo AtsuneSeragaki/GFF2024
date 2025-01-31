@@ -45,7 +45,9 @@ private:
 	float stage3_x;                     // ステージ3ボタンのx座標
 	float stage3_y;                     // ステージ4ボタンのy座標
 
-	int text_img;                       // ステージ選択文字の画像               
+	int text_img;                       // ステージ選択文字の画像
+
+	int black_alpha;                    // フェードの透明度
 
 public:
 	StageSelectScene();
