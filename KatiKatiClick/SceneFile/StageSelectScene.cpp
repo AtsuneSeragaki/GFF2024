@@ -25,17 +25,19 @@ StageSelectScene::StageSelectScene()
 	bgm_volume = 200;
 	ChangeVolumeSoundMem(bgm_volume, bgm);
 
-	std::vector<int> tmp = rm->GetImages("Resource/Images/Result/TitleButton.png", 3, 3, 1, 130, 70);
-	for (int i = 0; i < 3; i++)
-	{
-		stage1_button_img.push_back(tmp[i]);
-	}
+	std::vector<int> tmp = rm->GetImages("Resource/Images/StageSelect/stage1_button.png");
+	stage1_button_img.push_back(tmp[0]);
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	stage1_button_img.push_back(tmp[i]);
+	//}
 
-	tmp = rm->GetImages("Resource/Images/Result/TitleButton.png", 3, 3, 1, 130, 70);
-	for (int i = 0; i < 3; i++)
-	{
-		stage2_button_img.push_back(tmp[i]);
-	}
+	tmp = rm->GetImages("Resource/Images/StageSelect/futuu_button.png");
+	stage2_button_img.push_back(tmp[0]);
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	stage2_button_img.push_back(tmp[i]);
+	//}
 
 	tmp = rm->GetImages("Resource/Images/Result/TitleButton.png", 3, 3, 1, 130, 70);
 	for (int i = 0; i < 3; i++)
@@ -171,14 +173,14 @@ void StageSelectScene::Draw() const
 		// 描画輝度のセット
 		SetDrawBright(128, 128, 128);
 		// ステージ1ボタン画像の描画
-		//DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[stage1_img_num], TRUE);
 		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 
 		// ステージ2ボタン画像の描画
-		//DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[stage2_img_num], TRUE);
 		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
 
 		// ステージ3ボタン画像の描画
 		//DrawRotaGraphF(stage3_x, stage3_y, 1.0, 0.0, stage3_button_img[stage3_img_num], TRUE);
@@ -196,15 +198,15 @@ void StageSelectScene::Draw() const
 	{// ステージ2ボタンを選択中
 
 		// ステージ1ボタン画像の描画
-		//DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[stage1_img_num], TRUE);
 		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
 
 		// ステージ2ボタンを暗くする
 		// 描画輝度のセット
 		SetDrawBright(128, 128, 128);
 		// ステージ2ボタン画像の描画
-		//DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[stage2_img_num], TRUE);
 		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 
@@ -224,12 +226,12 @@ void StageSelectScene::Draw() const
 	{// ステージ3ボタンを選択中
 
 		// ステージ1ボタン画像の描画
-		//DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[stage1_img_num], TRUE);
 		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
 
 		// ステージ2ボタン画像の描画
-		//DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[stage2_img_num], TRUE);
 		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
 
 		// ステージ3ボタンを暗くする
 		// 描画輝度のセット
@@ -252,12 +254,12 @@ void StageSelectScene::Draw() const
 	{// タイトルボタンを選択中
 
 		// ステージ1ボタン画像の描画
-		//DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[stage1_img_num], TRUE);
 		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
 
 		// ステージ2ボタン画像の描画
-		//DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[stage2_img_num], TRUE);
 		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
 
 		// ステージ3ボタン画像の描画
 		//DrawRotaGraphF(stage3_x, stage3_y, 1.0, 0.0, stage3_button_img[stage3_img_num], TRUE);
@@ -279,12 +281,12 @@ void StageSelectScene::Draw() const
 	{// 何も選択されていないとき
 
 		// ステージ1ボタン画像の描画
-		//DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[stage1_img_num], TRUE);
 		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
 
 		// ステージ2ボタン画像の描画
-		//DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[stage2_img_num], TRUE);
 		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
 
 		// ステージ3ボタン画像の描画
 		//DrawRotaGraphF(stage3_x, stage3_y, 1.0, 0.0, stage3_button_img[stage3_img_num], TRUE);
