@@ -7,12 +7,13 @@
 #include <math.h>
 
 
-ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coin_num)
+ResultScene::ResultScene(bool is_game_clear, int goal_num,int enemy_num, int coin_num,int stage_num)
 {
 	//x1 = 85.0f + 20.0f;
 	//x2 = 275.0f - 20.0f;
 	//y1 = 570.0f;
 	//y2 = 570.0f;
+	stage_number = stage_num;
 
 	cursor = new Cursor;
 	fade = new Fade();
@@ -711,7 +712,7 @@ AbstractScene* ResultScene::Change()
 			is_bgm_active = false;
 
 			// ゲームメイン画面に遷移
-			return new GameMainScene(1);
+			return new GameMainScene(stage_number);
 			break;
 
 		case 1:

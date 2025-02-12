@@ -114,8 +114,10 @@ private:
 	bool overlap_retry_button_flg;	// リトライボタンにカーソルが重なったか？
 	bool overlap_title_button_flg;	// タイトルボタンにカーソルが重なったか？
 
+	int stage_number;//選択されたステージの番号
+
 public:
-	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num);
+	ResultScene(bool is_game_clear,int goal_num,int enemy_num,int coin_num,int stage_num);
 	~ResultScene();
 
 	void Update() override;

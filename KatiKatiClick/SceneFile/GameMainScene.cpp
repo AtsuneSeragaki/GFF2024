@@ -504,7 +504,7 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
         //change_wait_time = 120;
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear,wall_cnt, CalculationKillEnemyNum(), get_coin_cnt);
+        return new ResultScene(is_game_clear,wall_cnt, CalculationKillEnemyNum(), get_coin_cnt,stage_number);
     }
 
     if (is_game_over == true)
@@ -514,7 +514,7 @@ AbstractScene* GameMainScene::Change()
         is_bgm_active = 0;
 
         // リザルト画面に遷移する
-        return new ResultScene(is_game_clear, wall_cnt, CalculationKillEnemyNum(),get_coin_cnt);
+        return new ResultScene(is_game_clear, wall_cnt, CalculationKillEnemyNum(),get_coin_cnt,stage_number);
     }
 
     return this;
