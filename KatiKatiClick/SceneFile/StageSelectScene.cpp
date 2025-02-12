@@ -32,18 +32,19 @@ StageSelectScene::StageSelectScene()
 	//	stage1_button_img.push_back(tmp[i]);
 	//}
 
-	tmp = rm->GetImages("Resource/Images/StageSelect/futuu_button.png");
+	tmp = rm->GetImages("Resource/Images/StageSelect/stage2_button.png");
 	stage2_button_img.push_back(tmp[0]);
 	//for (int i = 0; i < 3; i++)
 	//{
 	//	stage2_button_img.push_back(tmp[i]);
 	//}
 
-	tmp = rm->GetImages("Resource/Images/Result/TitleButton.png", 3, 3, 1, 130, 70);
-	for (int i = 0; i < 3; i++)
-	{
-		stage3_button_img.push_back(tmp[i]);
-	}
+	tmp = rm->GetImages("Resource/Images/StageSelect/stage3_button.png");
+	stage3_button_img.push_back(tmp[0]);
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	stage3_button_img.push_back(tmp[i]);
+	//}
 
 	// タイトルボタン画像の読み込み
 	tmp = rm->GetImages("Resource/Images/Result/TitleButton.png", 3, 3, 1, 130, 70);
@@ -61,18 +62,20 @@ StageSelectScene::StageSelectScene()
 	overlap_stage3_button_flg = false;
 
 	stage1_x = 180.0f;
-	stage1_y = 150.0f;
+	stage1_y = 220.0f;
 	stage2_x = 180.0f;
-	stage2_y = 150.0f + 180.0f;
+	stage2_y = 380.0f;
 	stage3_x = 180.0f;
-	stage3_y = 150.0f + 180.0f + 180.0f;
+	stage3_y = 540.0f;
 
-	//text_img;                       // ステージ選択文字の画像               
+	// ステージ選択文字の画像
+	tmp = rm->GetImages("Resource/Images/StageSelect/stage_select.png");
+	text_img.push_back(tmp[0]);
 
 	title_img_num = 0;
 	change_wait_time = 0;
 	title_x = SCREEN_WIDTH / 2.0f;
-	title_y = 650.0f;
+	title_y = 700.0f;
 	change_screen_flg = false;
 	overlap_title_button_flg = false;
 
@@ -116,7 +119,7 @@ void StageSelectScene::Update()
 			if (change_wait_time < 10)
 			{
 				// ボタン押下アニメション
-				ButtonAnimation();
+				//ButtonAnimation();
 			}
 		}
 		else
@@ -163,8 +166,13 @@ void StageSelectScene::Draw() const
 	// 背景色
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x072246, TRUE);
 
-	//Draw;
-	DrawString(130, 30, "STAGE SELECT", 0xffffff);
+	// ステージセレクトテキスト画像描画
+	DrawRotaGraphF(180.0f, 70.0f, 0.98, 0.0, text_img[0], TRUE);
+
+	// 当たり判定描画
+	//DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
+	//DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
+	//DrawBox(stage3_x - STAGE_BUTTON_WIDTH / 2, stage3_y - STAGE_BUTTON_HEIGHT / 2, stage3_x + STAGE_BUTTON_WIDTH / 2, stage3_y + STAGE_BUTTON_HEIGHT / 2, 0x0000ff, TRUE);
 
 	if (overlap_stage1_button_flg == true)
 	{// ステージ1ボタンを選択中
@@ -173,97 +181,70 @@ void StageSelectScene::Draw() const
 		// 描画輝度のセット
 		SetDrawBright(128, 128, 128);
 		// ステージ1ボタン画像の描画
-		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
-		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 0.9, 0.0, stage1_button_img[stage1_img_num], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 
 		// ステージ2ボタン画像の描画
-		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
-		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 0.9, 0.0, stage2_button_img[stage2_img_num], TRUE);
 
 		// ステージ3ボタン画像の描画
-		//DrawRotaGraphF(stage3_x, stage3_y, 1.0, 0.0, stage3_button_img[stage3_img_num], TRUE);
-		DrawBox(stage3_x - STAGE_BUTTON_WIDTH / 2, stage3_y - STAGE_BUTTON_HEIGHT / 2, stage3_x + STAGE_BUTTON_WIDTH / 2, stage3_y + STAGE_BUTTON_HEIGHT / 2, 0x0000ff, TRUE);
+		DrawRotaGraphF(stage3_x, stage3_y, 0.9, 0.0, stage3_button_img[stage3_img_num], TRUE);
 
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
-
-		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
-		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
-		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
-
 	}
 	else if (overlap_stage2_button_flg == true)
 	{// ステージ2ボタンを選択中
 
 		// ステージ1ボタン画像の描画
-		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
-		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 0.9, 0.0, stage1_button_img[stage1_img_num], TRUE);
 
 		// ステージ2ボタンを暗くする
 		// 描画輝度のセット
 		SetDrawBright(128, 128, 128);
 		// ステージ2ボタン画像の描画
-		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
-		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 0.9, 0.0, stage2_button_img[stage2_img_num], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 
 		// ステージ3ボタン画像の描画
-		//DrawRotaGraphF(stage3_x, stage3_y, 1.0, 0.0, stage3_button_img[stage3_img_num], TRUE);
-		DrawBox(stage3_x - STAGE_BUTTON_WIDTH / 2, stage3_y - STAGE_BUTTON_HEIGHT / 2, stage3_x + STAGE_BUTTON_WIDTH / 2, stage3_y + STAGE_BUTTON_HEIGHT / 2, 0x0000ff, TRUE);
+		DrawRotaGraphF(stage3_x, stage3_y, 0.9, 0.0, stage3_button_img[stage3_img_num], TRUE);
 
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
-
-		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
-		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
-		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
-
 	}
 	else if (overlap_stage3_button_flg == true)
 	{// ステージ3ボタンを選択中
 
 		// ステージ1ボタン画像の描画
-		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
-		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 0.9, 0.0, stage1_button_img[stage1_img_num], TRUE);
 
 		// ステージ2ボタン画像の描画
-		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
-		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 0.9, 0.0, stage2_button_img[stage2_img_num], TRUE);
 
 		// ステージ3ボタンを暗くする
 		// 描画輝度のセット
 		SetDrawBright(128, 128, 128);
 		// ステージ3ボタン画像の描画
-		//DrawRotaGraphF(stage3_x, stage3_y, 1.0, 0.0, stage3_button_img[stage3_img_num], TRUE);
-		DrawBox(stage3_x - STAGE_BUTTON_WIDTH / 2, stage3_y - STAGE_BUTTON_HEIGHT / 2, stage3_x + STAGE_BUTTON_WIDTH / 2, stage3_y + STAGE_BUTTON_HEIGHT / 2, 0x0000ff, TRUE);
+		DrawRotaGraphF(stage3_x, stage3_y, 0.9, 0.0, stage3_button_img[stage3_img_num], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
 
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
-
-		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
-		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
-		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
-
 	}
 	else if (overlap_title_button_flg == true)
 	{// タイトルボタンを選択中
 
 		// ステージ1ボタン画像の描画
-		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
-		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 0.9, 0.0, stage1_button_img[stage1_img_num], TRUE);
 
 		// ステージ2ボタン画像の描画
-		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
-		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 0.9, 0.0, stage2_button_img[stage2_img_num], TRUE);
 
 		// ステージ3ボタン画像の描画
-		//DrawRotaGraphF(stage3_x, stage3_y, 1.0, 0.0, stage3_button_img[stage3_img_num], TRUE);
-		DrawBox(stage3_x - STAGE_BUTTON_WIDTH / 2, stage3_y - STAGE_BUTTON_HEIGHT / 2, stage3_x + STAGE_BUTTON_WIDTH / 2, stage3_y + STAGE_BUTTON_HEIGHT / 2, 0x0000ff, TRUE);
+		DrawRotaGraphF(stage3_x, stage3_y, 0.9, 0.0, stage3_button_img[stage3_img_num], TRUE);
 
 		// タイトルボタンを暗くする
 		// 描画輝度のセット
@@ -272,32 +253,21 @@ void StageSelectScene::Draw() const
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
 		// 描画輝度を元に戻す
 		SetDrawBright(255, 255, 255);
-
-		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
-		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
-		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
 	}
 	else
 	{// 何も選択されていないとき
 
 		// ステージ1ボタン画像の描画
-		DrawBox(stage1_x - STAGE_BUTTON_WIDTH / 2, stage1_y - STAGE_BUTTON_HEIGHT / 2, stage1_x + STAGE_BUTTON_WIDTH / 2, stage1_y + STAGE_BUTTON_HEIGHT / 2, 0xff0000, TRUE);
-		DrawRotaGraphF(stage1_x, stage1_y, 1.0, 0.0, stage1_button_img[0], TRUE);
+		DrawRotaGraphF(stage1_x, stage1_y, 0.9, 0.0, stage1_button_img[stage1_img_num], TRUE);
 
 		// ステージ2ボタン画像の描画
-		DrawBox(stage2_x - STAGE_BUTTON_WIDTH / 2, stage2_y - STAGE_BUTTON_HEIGHT / 2, stage2_x + STAGE_BUTTON_WIDTH / 2, stage2_y + STAGE_BUTTON_HEIGHT / 2, 0x00ff00, TRUE);
-		DrawRotaGraphF(stage2_x, stage2_y, 1.0, 0.0, stage2_button_img[0], TRUE);
+		DrawRotaGraphF(stage2_x, stage2_y, 0.9, 0.0, stage2_button_img[stage2_img_num], TRUE);
 
 		// ステージ3ボタン画像の描画
-		//DrawRotaGraphF(stage3_x, stage3_y, 1.0, 0.0, stage3_button_img[stage3_img_num], TRUE);
-		DrawBox(stage3_x - STAGE_BUTTON_WIDTH / 2, stage3_y - STAGE_BUTTON_HEIGHT / 2, stage3_x + STAGE_BUTTON_WIDTH / 2, stage3_y + STAGE_BUTTON_HEIGHT / 2, 0x0000ff, TRUE);
+		DrawRotaGraphF(stage3_x, stage3_y, 0.9, 0.0, stage3_button_img[stage3_img_num], TRUE);
 
 		// タイトルボタン画像の描画
 		DrawRotaGraphF(title_x, title_y, 1.0, 0.0, title_button_img[title_img_num], TRUE);
-
-		DrawString(stage1_x, stage1_y, "STAGE1", 0xffffff);
-		DrawString(stage2_x, stage2_y, "STAGE2", 0xffffff);
-		DrawString(stage3_x, stage3_y, "STAGE3", 0xffffff);
 	}
 
 	// カーソル描画
