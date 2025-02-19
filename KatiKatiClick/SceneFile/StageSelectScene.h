@@ -5,8 +5,8 @@
 #include "../FadeFile/Fade.h"
 #include <vector>
 
-#define STAGE_BUTTON_WIDTH   200
-#define STAGE_BUTTON_HEIGHT  100 
+#define STAGE_BUTTON_WIDTH   300.0f * 0.8f
+#define STAGE_BUTTON_HEIGHT  150.0f * 0.8f
 
 class StageSelectScene : public AbstractScene
 {
@@ -43,9 +43,9 @@ private:
 	float stage2_x;                     // ステージ2ボタンのx座標
 	float stage2_y;                     // ステージ2ボタンのy座標
 	float stage3_x;                     // ステージ3ボタンのx座標
-	float stage3_y;                     // ステージ4ボタンのy座標
+	float stage3_y;                     // ステージ3ボタンのy座標
 
-	int text_img;                       // ステージ選択文字の画像
+	std::vector<int> text_img;          // ステージ選択文字の画像
 
 	int black_alpha;                    // フェードの透明度
 
